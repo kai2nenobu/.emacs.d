@@ -632,7 +632,25 @@ The number of line begins 0."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; print day of week in English
+;;; backup file を一箇所にまとめる
+;;; 2011-07-21 (Thu)
+;;; http://marigold.sakura.ne.jp/devel/emacs/backup_file/index.html
+(setq make-backup-files t)
+(setq backup-directory (expand-file-name "~/.bak"))
+(unless (file-directory-p backup-directory)
+  (make-directory-internal backup-directory))
+(if (and (boundp 'backup-directory)
+         (not (fboundp 'make-backup-file-name-original)))
+    (progn
+      (fset 'make-backup-file-name-original
+            (symbol-function 'make-backup-file-name))
+      (defun make-backup-file-name (filename)
+        (if (and (file-exists-p (expand-file-name backup-directory))
+                 (file-directory-p (expand-file-name backup-directory)))
+            (concat (expand-file-name backup-directory)
+                    "/" (file-name-nondirectory filename))
+          (make-backup-file-name-original filename)))))
+
 ;;; 2011-06-21 (Tue)
 (setq system-time-locale "C")
 
@@ -1159,7 +1177,7 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/simple-hatena-mode/tags/release-0.15/simple-hatena-mode.el")
 (my-safe-require 'simple-hatena-mode
   (my-safe-require 'html-helper-mode)
-  (setq simple-hatena-bin (expand-file-name "c:/Users/kai/bin/hw.pl"))
+  (setq simple-hatena-bin "hw.pl")
   (setq simple-hatena-default-id "kbkbkbkb1"))
 
 ;;; judge-indent.el
@@ -1416,9 +1434,9 @@ Creates a buffer if necessary."
 ;;; switch-window.el
 ;;; 2011-04-18 (Mon)
 ;;; (auto-install-from-url "https://github.com/dimitri/switch-window/raw/master/switch-window.el")
-;;; 視覚的なウィンドウ移動
+;;; ウィンドウの移動を番号で指定して移動する
 (my-safe-require 'switch-window)
-;; C-x o の大体としてはまあまあいいかもしれない
+;; C-x o の代替としてはまあまあいいかもしれない
 
 ;;; hatena-diary-mode.el
 ;;; 2011-04-15 (Fri)
@@ -1427,8 +1445,11 @@ Creates a buffer if necessary."
 (my-safe-require 'hatena-diary-mode
   (setq hatena-usrid "kbkbkbkb1")
   (setq hatena-twitter-flag t)
-  (setq hatena-change-day-offset 0))
-
+  (setq hatena-change-day-offset 0)
+  (setq hatena-default-coding-system 'utf-8-unix)
+  )
+;; simple-hatena-mode のほうが良さそう．ただし，simple-hatena には web から日記を
+;; ダウンロードする機能がないので，そのために hatena-diary の方を残しておく．
 
 ;;; hatenahelper-mode.el
 ;;; 2011-04-15 (Fri)
@@ -1972,10 +1993,10 @@ Creates a buffer if necessary."
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
-                        ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?)
-                        ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?)
+                        ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
+                        ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("LaTeX" . ?) ("PukiWiki" . ?)
-                        ("Shell" . ?)))
+                        ("Shell" . ?) ("hatena" . ?)))
   (setq org-log-done 'time) ; DONEの時刻を記録
   (setq org-capture-templates
         '(("m" "Today's memo" entry
@@ -1984,15 +2005,15 @@ Creates a buffer if necessary."
           ("o" "Other day's memo" entry
            (file+function nil (lambda () (my-search-org-headline t)))
            "** %?\n" :empty-lines 1)
+          ("b" "Blog" entry
+           (file+function nil my-search-org-headline)
+           "** %?\n   :PROPERTIES:\n   :PostDay: Draft\n   :END:" :empty-lines 1)
           ("a" "Article" entry
            (file+headline "article.org" "Draft")
            "** %?\n" :empty-lines 1)
           ("t" "Todo" entry
            (file+headline nil "Inbox")
            "** TODO %?\n   %i\n   %a\n   %t")
-          ("b" "Bug" entry
-           (file+headline nil "Inbox")
-           "** TODO %?   :bugp:\n   %i\n   %a\n   %t")
           ("i" "Idea" entry
            (file+headline nil "New Ideas")
            "** %?\n   %i\n   %a\n   %t")))
@@ -2150,17 +2171,21 @@ Creates a buffer if necessary."
     (goto-char (point-min))
     (while (re-search-forward section nil t)
       (replace-match "*t*\\2 \\1"))
-      ; delte trailing white spaces
-      (skip-chars-backward " \t")
-      (delete-region (point) (progn (end-of-line) (point)))
-      ; replace tag format
-      (let ((bound (point)))               ; point of end-of-line
-        (beginning-of-line)
-        (when (re-search-forward ":" bound t)
-          (replace-match "["))
-        (while (re-search-forward ":" bound t)
-          (replace-match "]["))
-        (delete-backward-char 1))
+    ; delete trailing white spaces
+    (skip-chars-backward " \t")
+    (delete-region (point) (progn (end-of-line) (point)))
+    ; replace tag format from :HOGE: to [HOGE]
+    (let ((bound (point)))               ; point of end-of-line
+      (beginning-of-line)
+      (when (re-search-forward ":" bound t)
+        (replace-match "["))
+      (while (re-search-forward ":" bound t)
+        (replace-match "]["))
+      (delete-backward-char 1)
+      (beginning-of-line)
+      ; delete [Blog] tag
+      (if (re-search-forward "\\[Blog\\]" bound t)
+          (replace-match "")))
     ;; replace subsection
     (goto-char (point-min))
     (while (re-search-forward subsection nil t)
