@@ -1864,7 +1864,7 @@ Creates a buffer if necessary."
   (key-chord-define global-map "db" 'describe-bindings)
   (key-chord-define global-map "cc" 'org-capture)
   (key-chord-define global-map "hl" 'global-hl-line-mode)
-  (key-chord-define global-map "gg" 'magit-status)
+  (key-chord-define global-map "gs" 'magit-status)
   (key-chord-define global-map "kb" '(lambda () (interactive) (kill-buffer)))
   ;; (key-chord-define global-map " 0" 'delete-window)
   ;; (key-chord-define global-map " 1" 'delete-other-windows)
