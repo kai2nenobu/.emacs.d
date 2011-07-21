@@ -108,9 +108,9 @@
 
 (easy-mmode-define-minor-mode show-char-mode
   "Toggle Show char mode."
-  t
+  nil
   (:eval (show-current-char)))
-
+;; 常に表示させるのもうざいので，初期値は nil にした．
 
 ;;; 2011-06-15 (Wed)
 ;;; http://d.hatena.ne.jp/khiker/20100721/doya
