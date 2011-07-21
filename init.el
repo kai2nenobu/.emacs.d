@@ -84,6 +84,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 2011-07-22 (Fri)
+;;; C-j と M-j の機能を統合した関数
+;; (defun my-dwim-newline-and-indent ()
+;;   "Excute newline-and-indent or indent-new-comment-line as appropriate."
+;;   (interactive)
+;;   (let (search-flag
+;;         (eol-bound (point))
+;;         (search-string (concat "^\\s *" comment-start)))
+;;     (save-excursion
+;;       (beginning-of-line)
+;;       (setq search-flag (re-search-forward search-string eol-bound t)))
+;;     (if search-flag
+;;         (indent-new-comment-line)
+;;       (newline-and-indent))))
+;; (define-key global-map (kbd "C-j") 'my-dwim-newline-and-indent)
+;; わざわざこんなん作ったけど，最初から C-j に indent-new-comment-line を
+;; 割り当てればいい話だった．
+(define-key global-map (kbd "C-j") 'indent-new-comment-line)
+
 ;;; 2011-06-28 (Tue)
 ;;; http://www.fan.gr.jp/~ring/Meadow/meadow.html
 ;;; active な region を削除する
