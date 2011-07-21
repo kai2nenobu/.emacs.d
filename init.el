@@ -2214,7 +2214,9 @@ Creates a buffer if necessary."
     ;; replace http link
     (goto-char (point-min))
     (while (re-search-forward http-link nil t)
-      (replace-match "[\\1:title=\\3]"))
+      (if (null (match-string 3))
+          (replace-match "[\\1]")
+        (replace-match "[\\1:title=\\3]")))
     ))
 
 (defun org-export-hatena-begin-to-end (notation)
