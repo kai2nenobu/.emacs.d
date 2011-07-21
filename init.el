@@ -1006,7 +1006,10 @@ The number of line begins 0."
 ;;; 2011-03-30 (Wed)
 ;;; ディレクトリ内のファイルを取得．エクスプローラ的な．
 ;; ディレクトリを先に表示
-(setq ls-lisp-dirs-first t)
+(setq ls-lisp-dirs-first t)             ; なんかどうも効果ないっぽい．この変数廃止された？
+;; set ls option
+;; Not display . and .. directories, and human readable file size.
+(setq dired-listing-switches "-lAh")
 ;; wdired.el
 ;; dired で一括リネームできる
 (my-safe-require 'wdired
@@ -1171,6 +1174,20 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; package.el
+;;; 2011-07-21 (Thu)
+;;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
+;;; elisp のパッケージ管理をする
+;;; http://sheephead.homelinux.org/2011/06/17/6724/
+;; (my-safe-require 'package
+;;   ;; リポジトリにMarmaladeを追加
+;;   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;   ;; インストールするディレクトリを指定
+;;   (setq package-user-dir (concat user-emacs-directory "vendor/elpa"))
+;;   ;; インストールしたパッケージにロードパスを通してロードする
+;;   (package-initialize))
+;; Emacs23 じゃあんま動かん感じがしますね．24になったらにしましょうか．
+
 ;;; simple-hatena-mode.el
 ;;; 2011-07-17 (Sun)
 ;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
