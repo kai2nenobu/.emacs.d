@@ -1539,7 +1539,7 @@ Creates a buffer if necessary."
 ;;; 強化版 occur。moccur をもとに改造したらしい。
 (my-safe-require 'color-moccur nil t
   (when (executable-find "cmigemo")
-    (setq moccur-use-migemo t))              ; 検索に migemo を使う
+    (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
   (define-key mode-specific-map (kbd "o") 'occur-by-moccur)
   ; moccur-edit
@@ -2674,13 +2674,14 @@ Creates a buffer if necessary."
            ;; そもそも，なぜかすべてのローマ字を正規表現に変換できない．大文字にしたりしなかったりで
            ;; 変換結果が異なる．おそらく文字コードの問題だとは思われるが詳細不明．
            ;; キャッシュが残っていて、過去の検索パターン展開が適用されてたのが原因だった
-           (setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern-sjis"))
-           (setq migemo-dictionary (expand-file-name "~/bin/cmigemo/dict/cp932/migemo-dict"))
-           (setq migemo-coding-system 'shift_jis-unix))
+           ;(setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern-sjis"))
+           (setq migemo-dictionary (expand-file-name "~/bin/cmigemo/dict/utf-8/migemo-dict"))
+           (setq migemo-coding-system 'utf-8-unix))
           ((linuxp)
-           (setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern-utf"))
+           ;(setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern-utf"))
            (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
            (setq migemo-coding-system 'utf-8-unix)))
+    (setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern"))
     (setq migemo-user-dictionary nil)
     (setq migemo-regex-dictionary nil)
     ;; キャッシュ機能を利用する
