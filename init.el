@@ -1995,33 +1995,40 @@ Creates a buffer if necessary."
                   (append japanese-holidays local-holidays other-holidays))))
 (setq mark-holidays-in-calendar t)
 ;; 祝日の設定を先にしてないといけないっぽい
-;; (my-safe-require 'calfw
-;;   ;; iCalender形式と連携
-;;   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw-ical.el")
-;;   (my-safe-require 'calfw-ical
-;;     ;(cfw:install-ical-schedules)
-;;     (cfw:open-ical-calendar "https://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics" ; g03090416
-;;                                         ;"https://www.google.com/calendar/ical/b6ufn2dbm0s5sgjdjbg3gt58ec%40group.calendar.google.com/public/basic.ics" ; B
-;;                                         ;"https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" ; M
-;;                                         ;"https://www.google.com/calendar/ical/a2qvdfsjl78ismt8rbqf7eujdk%40group.calendar.google.com/public/basic.ics" ; D
-;;                                         ;"https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" ; 研究
-;;                          )
-;;     ;(setq cfw:ical-calendar-contents-sources cfw:ical-url)
-;;     ;(setq cfw:ical-calendar-annotations-sources cfw:ical-url)
-;;     )
-;;   ;; calfw-gcal.el
-;;   ;; かるふわから google カレンダーを編集できる
-;;   ;; (auto-install-from-url "https://github.com/myuhe/calfw-gcal.el/raw/master/calfw-gcal.el")
-;;   (my-safe-require 'calfw-gcal
-;;     (define-key cfw:calendar-mode-map (kbd "a") 'cfw:gcal-main)
-;;     )
-;;   ;; 2011-06-20 (Mon)
-;;   ;; org-mode と連携
-;;   ;; (auto-install-from-url "https://raw.github.com/kiwanami/emacs-calfw/master/calfw-org.el")
-;;   (my-safe-require 'calfw-org
-;;     (cfw:install-org-schedules))
+(my-safe-require 'calfw
+  ;; iCalender形式と連携
+  ;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw-ical.el")
+  (my-safe-require 'calfw-ical)
 
-;;   )
+  ;; 2011-06-20 (Mon)
+  ;; org-mode と連携
+  ;; (auto-install-from-url "https://raw.github.com/kiwanami/emacs-calfw/master/calfw-org.el")
+  (my-safe-require 'calfw-org)
+
+  ;; calfw-gcal.el
+  ;; かるふわから google カレンダーを編集できる
+  ;; (auto-install-from-url "https://github.com/myuhe/calfw-gcal.el/raw/master/calfw-gcal.el")
+  (my-safe-require 'calfw-gcal
+    (define-key cfw:calendar-mode-map (kbd "a") 'cfw:gcal-main)
+    )
+
+  ;; カレンダーを開く関数
+  (defun my-open-calendar ()
+    (interactive)
+    (cfw:open-calendar-buffer
+     :view 'month
+     :contents-sources
+     (list
+      (cfw:org-create-source "Seagreen4") ; color
+      (cfw:ical-create-source "g03090416" "https://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics" "#2952a3")
+      (cfw:ical-create-source "Master" "https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" "Cyan"))))
+      ;; title, URL, color
+      ;"https://www.google.com/calendar/ical/b6ufn2dbm0s5sgjdjbg3gt58ec%40group.calendar.google.com/public/basic.ics" ; B
+      ;"https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" ; M
+      ;"https://www.google.com/calendar/ical/a2qvdfsjl78ismt8rbqf7eujdk%40group.calendar.google.com/public/basic.ics" ; D
+      ;"https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" ; 研究
+
+  )
 
 ;;; org-mode.el
 ;;; org-mode 自体は標準であるが非標準elispも必要そうなので
