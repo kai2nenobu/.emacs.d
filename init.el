@@ -1193,6 +1193,13 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; e2wm-vcs.el
+;;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
+;;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
+;;; e2wm で magit を操作するパースペクティブ
+;;; http://d.hatena.ne.jp/kiwanami/20110702/1309592243
+(my-safe-require 'e2wm-vcs)
+
 ;;; package.el
 ;;; 2011-07-21 (Thu)
 ;;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
@@ -1211,6 +1218,7 @@ Creates a buffer if necessary."
 ;;; 2011-07-17 (Sun)
 ;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/simple-hatena-mode/tags/release-0.15/simple-hatena-mode.el")
+;;; はてな編集用のメジャーモード．投稿機能あり．
 (my-safe-require 'simple-hatena-mode
   (my-safe-require 'html-helper-mode)
   (setq simple-hatena-bin "hw.pl")
