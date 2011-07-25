@@ -1201,6 +1201,7 @@ Creates a buffer if necessary."
 ;;; e2wm で magit を操作するパースペクティブ
 ;;; http://d.hatena.ne.jp/kiwanami/20110702/1309592243
 (my-safe-require 'e2wm-vcs)
+;; あまりうまく動いてない気がする．まあそのままの magit でいいか
 
 ;;; package.el
 ;;; 2011-07-21 (Thu)
@@ -1272,6 +1273,8 @@ Creates a buffer if necessary."
 ;;; bookmark.el の拡張
 ;;; (auto-install-from-url "http://mercurial.intuxication.org/hg/emacs-bookmark-extension/raw-file/7a874534bc63/bookmark-extensions.el")
 ;;; anything-bookmark-ext に必要なようだ．多少はブックマークが使いやすくなるのか？
+;(my-safe-require 'bookmark-extensions)
+;; 使い方がよう分からん
 
 ;;; e2wm.el
 ;;; 2011-05-31 (Tue)
@@ -1279,7 +1282,9 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
 (my-safe-require 'e2wm
-  (global-set-key (kbd "M-+") 'e2wm:start-management))
+  (define-key global-map (kbd "M-+") 'e2wm:start-management)
+  )
+;; うーん，ほかの elisp との競合が多そう．使わないほうがいいかなぁ
 
 ;;; magit.el
 ;;; 2011-05-28 (Sat)
@@ -1435,8 +1440,8 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
 ;;; yasnippet を anything で操作
 (my-safe-require 'anything-c-yasnippet
-  (setq anything-c-yas-space-match-any-greedy t) ;スペース区切りで絞り込めるようにする デフォルトは nil
-  (global-set-key (kbd "C-c y") 'anything-c-yas-complete) ;C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
+  (setq anything-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+  (global-set-key (kbd "C-c y") 'anything-c-yas-complete) ; C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
   )
 
 ;;; Inertial-scroll.el
@@ -1939,7 +1944,7 @@ Creates a buffer if necessary."
                                         ; しかも表示されるウィンドウの高さが一定でない気もする。どうしてだろう。
   (push '("*sdic*" :height 0.25 :position top :noselect t) popwin:special-display-config)
   ;(push '("*anything complete" :width 0.4 :position right) popwin:special-display-config)
-  ;(push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config)
+  ;(push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config) ; なぜか効かない
   (define-key ctl-x-map (kbd "p") 'popwin:display-last-buffer)
   )
 
