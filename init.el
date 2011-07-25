@@ -2023,13 +2023,11 @@ Creates a buffer if necessary."
      (list
       (cfw:org-create-source "Seagreen4") ; color
       (cfw:ical-create-source "g03090416" "https://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics" "#2952a3")
-      (cfw:ical-create-source "Master" "https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" "Cyan"))))
-      ;; title, URL, color
-      ;"https://www.google.com/calendar/ical/b6ufn2dbm0s5sgjdjbg3gt58ec%40group.calendar.google.com/public/basic.ics" ; B
-      ;"https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" ; M
-      ;"https://www.google.com/calendar/ical/a2qvdfsjl78ismt8rbqf7eujdk%40group.calendar.google.com/public/basic.ics" ; D
-      ;"https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" ; 研究
-
+      (cfw:ical-create-source "Bachelor" "https://www.google.com/calendar/ical/b6ufn2dbm0s5sgjdjbg3gt58ec%40group.calendar.google.com/public/basic.ics" "Brown")
+      (cfw:ical-create-source "Master" "https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" "Blue")
+      (cfw:ical-create-source "Doctor" "https://www.google.com/calendar/ical/a2qvdfsjl78ismt8rbqf7eujdk%40group.calendar.google.com/public/basic.ics" "Red")
+      (cfw:ical-create-source "Kenkyuu" "https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" "Orange")
+      )))
   )
 
 ;;; org-mode.el
