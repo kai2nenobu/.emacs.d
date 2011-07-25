@@ -121,15 +121,14 @@
 ;;; 2011-06-26 (Sun)
 ;;; https://github.com/kik/sandbox/blob/master/emacs/show-char.el
 ;;; モードラインに現在の文字の説明を表示するマイナーモード
-(defun show-current-char ()
-  (let ((ch (following-char)))
-    (format " [U+%04X %s] " ch (get-char-code-property ch 'name))))
+;; (defun show-current-char ()
+;;   (let ((ch (following-char)))
+;;     (format " [U+%04X %s] " ch (get-char-code-property ch 'name))))
 
-(easy-mmode-define-minor-mode show-char-mode
-  "Toggle Show char mode."
-  nil
-  (:eval (show-current-char)))
-;; 常に表示させるのもうざいので，初期値は nil にした．
+;; (easy-mmode-define-minor-mode show-char-mode
+;;   "Toggle Show char mode."
+;;   nil
+;;   (:eval (show-current-char)))
 
 ;;; 2011-06-15 (Wed)
 ;;; http://d.hatena.ne.jp/khiker/20100721/doya
