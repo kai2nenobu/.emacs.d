@@ -270,7 +270,9 @@
 ;;; 2011-02-13 (Sun)
 ;;; 起動時間を測定する
 ;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
-(defun my-time-lag ()
+(defvar my-elapsed-time-file (concat user-emacs-directory ".elapsed_time")
+  "The file name to write elapsed time.")
+(defun my-elapsed-time-lag ()
   (let* ((system-time-locale "C")
          (startup-time (current-time))
          (now (current-time))
@@ -280,15 +282,16 @@
                      (car (cdr (cdr my-time-zero))))
                      1000))
          (lag (+ (* 60000 min) (* 1000 sec) msec)))
-    (find-file (expand-file-name "~/.emacs.d/.elapsed_time_init_emacs"))
-    (goto-char (point-min))
-    (insert (message "%6d msec elapsed to start up emacs & load 'init.el'. " lag) ; かかった時間
-            (format (car (split-string (emacs-version) "\n"))) ; Emacs のバージョンとハードウェアの名前
-            (format-time-string " at %Y-%m-%d (%a) %H:%M:%S" startup-time nil) ; 起動した日時
-            (format " on %s@%s\n" user-login-name system-name)) ; ユーザ名とマシン名
-    (save-buffer)
-    (kill-buffer)))
-(add-hook 'after-init-hook 'my-time-lag)
+    (with-temp-buffer
+      (insert-file-contents-literally my-elapsed-time-file)
+      (goto-char (point-min))
+      (insert (format "%6d msec elapsed to start up emacs & load 'init.el'. " lag) ; かかった時間
+              (format (car (split-string (emacs-version) "\n"))) ; Emacs のバージョンとハードウェアの名前
+              (format-time-string " at %Y-%m-%d (%a) %H:%M:%S" startup-time nil) ; 起動した日時
+              (format " on %s@%s\n" user-login-name system-name)) ; ユーザ名とマシン名
+      (write-region (point-min) (point-max) my-elapsed-time-file)
+      (kill-buffer))))
+(add-hook 'after-init-hook 'my-elapsed-time-lag)
 
 ;;; 2011-02-13 (Sun)
 ;;;  sequential-mark
