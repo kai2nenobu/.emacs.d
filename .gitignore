@@ -3,4 +3,11 @@
 /EmacsIconCollections-3.0
 /auto-save-list
 /url
+/ac-dict
+/info
+/pukiwiki-save
+/auto-install
+/site-lisp
+/my-lisp
+/snippets
 *.elc
