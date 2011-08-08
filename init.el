@@ -1132,14 +1132,42 @@ Creates a buffer if necessary."
           (lambda ()
             (toggle-truncate-lines 1)))
 
+;;; 2011-08-08 (Mon)
+;;; dired ですべてのファイルにマークしたり
+(defun dired-my-mark-all-files ()
+  "Mark all files in a current dired buffer."
+  (interactive)
+  (dired-mark-files-regexp ""))
+
+(defun dired-my-mark-or-unmark-all-files ()
+  "Mark all files or unmark all marks."
+  (interactive)
+  (if (> (dired-my-get-number-of-marked-files) 0)
+        (dired-unmark-all-marks)
+      (dired-my-mark-all-files)))
+
+(defun dired-my-get-number-of-marked-files ()
+  "Get the number of marked files."
+  (interactive)
+  (let ((case-fold-search nil)
+        (mark-regexp "^\\*\\|^D")
+        (count 0))
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward mark-regexp nil t)
+        (setq count (1+ count))))
+    count))
+(define-key dired-mode-map (kbd "U") 'dired-my-mark-or-unmark-all-files)
+
 ;;; dired-details.el
 ;;; 2011-07-19 (Tue)
 ;;; dired のファイル情報の詳細表示をトグルする
 ;;; (auto-install-from-emacswiki "dired-details.el")
-(my-safe-require 'dired-details
+;;; (auto-install-from-emacswiki "dired-details+.el")
+(my-safe-require 'dired-details+
   (setq dired-details-hidden-string "")
   (setq dired-details-hide-link-targets nil)
-  (dired-details-install))
+  )
 
 ;;; generic-x.el
 ;;; 2011-03-07 (Mon)
