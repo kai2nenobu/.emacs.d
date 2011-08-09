@@ -1350,7 +1350,25 @@ Creates a buffer if necessary."
 ;;; magit.el
 ;;; 2011-05-28 (Sat)
 ;;; emacs から git を操作
-(my-safe-require 'magit)
+(my-safe-require 'magit
+  ;; face color
+  (set-face-foreground 'magit-diff-add "cyan")
+  (set-face-foreground 'magit-diff-hunk-header "yellow")
+  (set-face-foreground 'magit-diff-file-header "purple")
+  (set-face-background 'magit-item-highlight "gray20")
+
+  ;; (defun my-magit-apply-file-header-face ()
+  ;;   "Apply magit-diff-file-header."
+  ;;   (interactive)
+  ;;   (goto-char (point-min))
+  ;;   (while (re-search-forward "^diff --git" nil t)
+  ;;     (let ((min-pt (match-beginning 0)))
+  ;;       (when (re-search-forward "^\+\+\+.*$" nil t)
+  ;;         (add-text-properties min-pt (match-end 0)
+  ;;                              '(face magit-diff-file-header))))))
+  ;; (add-hook 'magit-mode-hook 'my-magit-apply-file-header-face t)
+  ;; あんま上手くいかんねー
+  )
 
 ;;; col-hilight
 ;;; 2011-05-22 (Sun)
