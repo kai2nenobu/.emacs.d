@@ -1076,7 +1076,13 @@ The number of line begins 0."
 (add-hook 'dired-mode-hook
           '(lambda ()
              (when (eq major-mode 'dired-mode)
-               (rename-buffer (concat (buffer-name) " [Dired]")))))
+               (rename-buffer (concat
+                               (buffer-name)
+                               " ["
+                               (if (winp)
+                                   (substring default-directory 0 2)
+                                 "")
+                               "Dired]")))))
 
 ;; 新しいバッファを作らないバッファ移動
 ;; http://www.bookshelf.jp/soft/meadow_25.html より
