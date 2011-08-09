@@ -930,17 +930,16 @@ The number of line begins 0."
 
 ;; M-x customize によって変更される設定
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/Dropbox/memo/memo.org")))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(safe-local-variable-values (quote ((TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (clmemo-mode . t) (TeX-master . t)))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(cfw:face-day-title ((t :background "grey10")))
  '(cfw:face-default-content ((t :foreground "green2")))
  '(cfw:face-header ((t (:foreground "maroon2" :weight bold))))
@@ -1027,7 +1026,9 @@ The number of line begins 0."
   (define-key Info-mode-map (kbd "f") 'Info-scroll-up) ; 元のコマンドの Info-follow-reference の利用価値がまだわからない
   (define-key Info-mode-map (kbd "b") 'Info-scroll-down) ; もとはただの beginning-of-buffer なので問題ない
   (define-key Info-mode-map (kbd "F") 'Info-history-forward)
-  (define-key Info-mode-map (kbd "B") 'Info-history-back))
+  (define-key Info-mode-map (kbd "B") 'Info-history-back)
+  (define-key Info-mode-map (kbd "j") 'next-line)
+  (define-key Info-mode-map (kbd "k") 'previous-line))
 
 (defun my-Info-HaH ()
   "Follow a node by hit-a-hint.
