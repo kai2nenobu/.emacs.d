@@ -84,6 +84,33 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 2011-08-08 (Mon)
+;;; ミニバッファでカーソルの左側の "/" まで文字を削除
+;;; 1つ上のディレクトリを指定するのに便利
+(defun my-minibuffer-delete-parent-directory ()
+  (interactive)
+  (let ((current-pt (point)))
+    (when (re-search-backward "/[^/]+/?" nil t)
+        (forward-char 1)
+        (delete-region (point) current-pt))))
+(define-key minibuffer-local-map (kbd "M-^") 'my-minibuffer-delete-parent-directory)
+
+;;; 2011-07-26 (Tue)
+;;; org-mode の星の可視をトグルする関数
+(defun org-my-toggle-hide-stars ()
+  "Toggle whether hide org-mode leading stars."
+  (interactive)
+  (if org-hide-leading-stars
+      (progn (setq org-hide-leading-stars nil)
+             (message "Not hide org-mode leading stars."))
+    (setq org-hide-leading-stars t)
+    (message "Hide org-mode leading stars."))
+  ;; restart font-lock-mode
+  (font-lock-mode 0)
+  (font-lock-mode 1))
+;; 作っては見たものの，org-indent-mode すると自動的に
+;; 星が不可視になるので，そっちの方が見やすいね．
+
 ;;; 2011-07-22 (Fri)
 ;;; C-j と M-j の機能を統合した関数
 ;; (defun my-dwim-newline-and-indent ()
