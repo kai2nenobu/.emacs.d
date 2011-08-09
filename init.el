@@ -1061,7 +1061,9 @@ The number of line begins 0."
 ;; wdired.el
 ;; dired で一括リネームできる
 (my-safe-require 'wdired
-  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode))
+  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
+  (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
+  )
 ;; sorter.el
 ;; 2011-03-30 (Wed)
 ;; dired のソートを拡張
@@ -1113,6 +1115,7 @@ Creates a buffer if necessary."
               (dired up))
           (dired-goto-file dir))))))
 
+(define-key dired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
 (define-key dired-mode-map (kbd "^") 'dired-my-up-directory)
 (define-key dired-mode-map (kbd "RET") 'dired-my-advertised-find-file)
 (define-key dired-mode-map (kbd "<left>") 'dired-my-up-directory)
