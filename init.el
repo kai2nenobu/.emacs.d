@@ -2617,7 +2617,7 @@ Creates a buffer if necessary."
 ;(setq wb-line-number-scroll-bar t)
 ;(wb-line-number-toggle)
 ;;; wb-line-numberは微妙だったのでlinum-modeで
-(global-linum-mode 1)
+;(global-linum-mode 1)
 
 ;;; yatex.el
 ;; yatex-mode の起動
