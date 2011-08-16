@@ -1,0 +1,3 @@
+SJIS のテキストです．これを github にあげたらどうなるか
+実験してみましょう．ついでに，magit の diff 表示もどうなるか
+みてみたい！Emacs 上で，shift_jis-dos で保存してみます．
