@@ -487,14 +487,14 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; 2011-02-06 (Sun)
 ;; my-count-lines-window が論理行を数えるため，長い行を折り返していると
 ;; 移動する行数がずれる．めんどくさいので気が向いたら修正する
-(defun my-scroll-up ()
+(defun my-scroll-up-half-window ()
   "Scroll up half of window-height putting point on line relative to the selected window."
   (interactive)
   (let ((line (my-count-lines-window)))
     (next-line (/ (window-height) 2))
     (recenter line)))
 
-(defun my-scroll-down()
+(defun my-scroll-down-half-window ()
   "Scroll down half of window-height putting point on line relative to the selected window."
   (interactive)
   (let ((line (my-count-lines-window)))
