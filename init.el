@@ -2739,12 +2739,33 @@ Creates a buffer if necessary."
 ;;;;;;;;;;;;;;;;; ポータブルにはしにくそうなやつ ;;;;;;;;;;;;;;;;
 ;;; lookup
 ;;; 2011-05-15 (Sun)
-;;; 辞書引きプログラム
-(autoload 'lookup "lookup" nil t)
-(autoload 'lookup-region "lookup" nil t)
-(autoload 'lookup-pattern "lookup" nil t)
+;;; 多機能辞書引きプログラム
+;; オートロードの設定
+;; (autoload 'lookup "lookup" nil t)
+;; (autoload 'lookup-region "lookup" nil t)
+;; (autoload 'lookup-word "lookup" nil t)
+;; (autoload 'lookup-select-dictionaries "lookup" nil t)
+;; dictionary setting
+(setq lookup-search-agents
+             '((ndeb "~/dict/EIJIRO126-epwing")
+               (ndeb "~/dict/LDOCE5")
+               (ndeb "~/dict/KOJIEN6")
+               (ndeb "~/dict/Wikip0723Lite/epwing")
+               ;(ndeb "~/.emacs.d/dict/EDICT")
+               ;(ndeb "~/.emacs.d/dict/WORDNET")
+               ;(ndeb "~/.emacs.d/dict/WEB")
+               ;(ndeb "~/.emacs.d/dict/YASOU")
+               ))
+(setq lookup-default-dictionary-options
+      '((:stemmer .  stem-english)))
+(my-safe-require 'lookup
+  ;; remove an inflected suffix
+  ;(lookup-set-dictionary-options "ndeb:~/.emacs.d/dict/WORDNET/wordnet" ':stemmer 'stem-english) ; うまくいかん？
 
-(setq lookup-search-agents '((ndtp "dserver") (ndspell)))
+  ;; key bind
+  (define-key mode-specific-map (kbd "d") 'lookup-pattern)
+  (define-key mode-specific-map (kbd "D") 'lookup-select-dictionaries)
+  )
 
 ;; ispell (スペルチェック)
 ;; コマンドの設定
