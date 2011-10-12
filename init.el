@@ -403,14 +403,27 @@
     (recenter line)))
 
 ;;; 2011-02-06 (Sun)
-;; ちなみに数える行数は論理行である
+;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
 (defun my-count-lines-window ()
-  "Return line relative to the selected window.
-The number of line begins 0."
+  "Reurn line relative to the selected window. The number of line begins 0."
   (interactive)
-  (if (equal (current-column) 0)
-      (count-lines (window-start) (point))
-    (1- (count-lines (window-start) (point)))))
+  (let* ((window-string (buffer-substring-no-properties (window-start) (point)))
+         (line-string-list (split-string window-string "\n"))
+         (width (window-width)) (line-count 0))
+    (setq line-count (1- (length line-string-list))) ; don't consider Japanese character column
+    (unless truncate-lines      ; consider folding back
+      (mapc '(lambda (str)
+               (setq line-count (+ line-count (/ (length str) width))))
+            line-string-list))
+    line-count))
+
+;; (defun my-count-lines-window ()
+;;   "Return line relative to the selected window. The number of line begins 0."
+;;   (interactive)
+;;   (if (equal (current-column) 0)
+;;       (count-lines (window-start) (point))
+;;     (1- (count-lines (window-start) (point)))))
+
 
 ;;; other-window を空気を読んで賢くする
 ;;; 2011-02-05 (Sat)
