@@ -1989,7 +1989,6 @@ Creates a buffer if necessary."
 ;;; Common Lisp 用マイナーモード
 ;;; HyperSpec という Common Lisp 用のリファレンスがあるらしいのでいつか入れよう
 (setq inferior-lisp-program "clisp")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/slime") ; ダウンロードしたSLIMEディレクトリ
 (my-safe-require 'slime
   (slime-setup)
   ;; 日本語利用
@@ -2224,7 +2223,7 @@ Creates a buffer if necessary."
         (progn
           ;; (my-search-org-level1)
           ;(forward-char)
-          ;; (goto-line (- (current-line) 2)) ; カーソルが行頭にあるときと，そうでない時で goto-line の挙動が異なるのが
+          ;; (goto-line (- (current-line) 2)) ; カーソルが行頭にあるときと，そうでない時で current-line の挙動が異なるのが
           ;;                                  ; 気になりますが，my-search-org-level1 をしたときは
           ;;                                  ; 行頭にないはずなので，大丈夫かな
           ;(beginning-of-line))
@@ -2872,7 +2871,7 @@ Creates a buffer if necessary."
 ;;; wanderlust
 ;;; 2010-11-08 (Mon)
 ;;; メーラー
-;;; 設定は ~/.wl で
+;;; 設定は .wl, .folders で
 (autoload 'wl "wl" "Wanderlust" t)
 (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
 (autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
