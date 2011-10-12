@@ -2620,15 +2620,20 @@ Creates a buffer if necessary."
   (autoload 'pukiwiki-index "pukiwiki-mode" "pukwiki-mode." t)
   (autoload 'pukiwiki-edit-url "pukiwiki-mode" "pukwiki-mode." t)
   (setq pukiwiki-site-list
-        '(("bibouroku" "http://pollmann/pukiwiki/index.php" nil utf-8-unix)
+        '(("bibouroku" "http://rubner.mydns.jp/pukiwiki/index.php" nil utf-8-unix)
           ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
+          ("minerva" "http://minerva.gavo.t.u-tokyo.ac.jp/wiki/index.php" nil utf-8-unix)
           ("disgaea4" "http://alphawiki.net/disgaea4/index.php" nil euc-jp)))
   ;; Proxy server
   ;(setq http-proxy-server "localhost")
   ;(setq http-proxy-port 1080)
   ;; ローカルにファイルを保存する
   (setq pukiwiki-directory (concat user-emacs-directory "pukiwiki-save"))
-  (setq pukiwiki-save-post-data t))
+  (setq pukiwiki-save-post-data t)
+  ;; pukiwiki-edit-mode で行を折り返さない
+  (add-hook 'pukiwiki-edit-mode '(lambda ()
+                                   (toggle-truncate-lines 1)))
+  )
 
 ;;; clmemo.el
 ;;; 2010-08-20 (Fri)
