@@ -69,21 +69,120 @@
 
 ;; add load-path
 ;; http://masutaka.net/chalow/2009-07-05-3.html 参考に
-(defconst my-elisp-directory "~/.emacs.d/site-lisp" "The directory for my elisp file.")
+(defconst my-individual-elisp-directory
+  (list (expand-file-name (concat user-emacs-directory "site-lisp"))
+	(expand-file-name (concat user-emacs-directory "my-lisp")))
+  "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
-(dolist (dir (let ((dir (expand-file-name my-elisp-directory)))
-               (list dir (format "%s%d" dir emacs-major-version))))
+(dolist (dir my-individual-elisp-directory)
   (when (and (stringp dir) (file-directory-p dir))
     (let ((default-directory dir))
-      (setq load-path (cons default-directory load-path))
+      (add-to-list 'load-path dir)
       (normal-top-level-add-subdirs-to-load-path))))
 ;; 普通に追加
-(setq load-path (cons "~/.emacs.d/auto-install" load-path))
-(setq load-path (cons "~/.emacs.d/my-lisp" load-path))
+(add-to-list 'load-path
+             (expand-file-name (concat user-emacs-directory "auto-install")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun anything-my-minibuffer-complete ()
+  ""
+  (interactive)
+  (lexical-let*
+      ((beg (field-beginning))
+       (end (field-end))
+       (string (buffer-substring beg end))
+       (comp (completion-try-completion
+		      string
+		      minibuffer-completion-table
+		      minibuffer-completion-predicate
+		      (- (point) beg))))
+    (insert (car comp)))
+  )
+(define-key minibuffer-local-map (kbd "C-s") 'anything-my-minibuffer-complete)
+
+;;; 2011-09-05 (Mon)
+;;; 数値をインクリメント，デクリメント
+;;; http://d.hatena.ne.jp/gongoZ/20091222/1261454818
+(defun my-increment-string-as-number (number)
+  "Replace progression string of the position of the cursor
+by string that added NUMBER.
+Interactively, NUMBER is the prefix arg.
+
+examle:
+At the cursor string \"12\"
+
+M-x increment-string-as-number ;; replaced by \"13\"
+C-u 10 M-x increment-string-as-number ;; replaced by \"22\"
+
+At the cursor string \"-12\"
+
+M-x increment-string-as-number ;; replaced by \"-11\"
+C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
+  (interactive "P")
+  (let ((col (current-column))
+        (p (if (integerp number) number 1)))
+    (skip-chars-backward "-0123456789")
+    (or (looking-at "-?[0123456789]+")
+        (error "No number at point"))
+      (replace-match
+       (number-to-string (+ p (string-to-number (match-string 0)))))
+    (move-to-column col)))
+(define-key global-map (kbd "M-i") 'my-increment-string-as-number)
+
+;;; 2011-08-14 (Sun)
+;;; ウィンドウを対話的にリサイズ
+;;; http://d.hatena.ne.jp/khiker/20100119/window_resize
+(defun my-window-resizer ()
+  "Control window size and position."
+  (interactive)
+  (let ((window-obj (selected-window))
+        (current-width (window-width))
+        (current-height (window-height))
+        (dx (if (= (nth 0 (window-edges)) 0) 1
+              -1))
+        (dy (if (= (nth 1 (window-edges)) 0) 1
+              -1))
+        action c)
+    (catch 'end-flag
+      (while t
+        (setq action
+              (read-key-sequence-vector (format "size[%dx%d]"
+                                                (window-width)
+                                                (window-height))))
+        (setq c (aref action 0))
+        (cond ((= c ?l)
+               (enlarge-window-horizontally dx))
+              ((= c ?h)
+               (shrink-window-horizontally dx))
+              ((= c ?j)
+               (enlarge-window dy))
+              ((= c ?k)
+               (shrink-window dy))
+              ;; otherwise
+              (t
+               (let ((last-command-char (aref action 0))
+                     (command (key-binding action)))
+                 (when command
+                   (call-interactively command)))
+               (message "Quit")
+               (throw 'end-flag t)))))))
+
+;;; 2011-08-10 (Wed)
+;;; emacsclient の focus 制御のため
+;;; http://d.hatena.ne.jp/syohex/20110127/1296141148
+(when (string-equal system-type "gnu/linux")
+  (defadvice server-start
+    (after server-start-after-write-window-id ())
+    (call-process "emacs_serverstart.pl"
+                  nil nil nil
+                  (number-to-string (emacs-pid))
+                  (if window-system
+                      "x"
+                    "nox")))
+  (ad-activate 'server-start))
+
 ;;; 2011-08-08 (Mon)
 ;;; ミニバッファでカーソルの左側の "/" まで文字を削除
 ;;; 1つ上のディレクトリを指定するのに便利
