@@ -2271,7 +2271,7 @@ Creates a buffer if necessary."
   (setq org-publish-project-alist
         '(("orgfiles"
            :base-directory "~/Dropbox/memo" ; なぜか (concat dropbox-directory "/memo") じゃだめ
-           :publishing-directory "~/Dropbox/Public"
+           :publishing-directory "~/Dropbox/memo/html"
            :base-extension "org"
            :publishing-function org-publish-org-to-html
            :headline-levels 3
@@ -2282,14 +2282,14 @@ Creates a buffer if necessary."
            :auto-preamble t
            :auto-postamble nil)
           ("images"
-          :base-directory "~/Dropbox/memo/img"
+          :base-directory "~/Dropbox/memo/html"
           :base-extension "jpg\\|jpeg\\|png"
-          :publishing-directory "~/Dropbox/Public/img"
+          :publishing-directory "~/Dropbox/memo/html/img"
           :publishing-function org-publish-attachment)
          ("others"
           :base-directory "~/Dropbox/memo"
           :base-extension "css"
-          :publishing-directory "~/Dropbox/Public"
+          :publishing-directory "~/Dropbox/memo/html"
           :publishing-function org-publish-attachment)
          ("website" :components ("orgfiles" "images" "others"))))
   ;; key bind
