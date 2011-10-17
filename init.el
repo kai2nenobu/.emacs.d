@@ -771,17 +771,15 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (define-key global-map (kbd "M-h") 'backward-kill-word)
 ;(define-key global-map (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
 (define-key global-map (kbd "C-M-;") 'comment-or-uncomment-region)
-(define-key global-map (kbd "H-j") '(lambda () (interactive) (scroll-up 1)))
-(define-key global-map (kbd "H-k") '(lambda () (interactive) (scroll-down 1)))
-(define-key global-map (kbd "H-u") 'my-scroll-down)
-(define-key global-map (kbd "H-d") 'my-scroll-up)
+(define-key global-map (kbd "H-n") '(lambda () (interactive) (scroll-up 1)))
+(define-key global-map (kbd "H-p") '(lambda () (interactive) (scroll-down 1)))
+(define-key global-map (kbd "H-u") 'my-scroll-down-half-window)
+(define-key global-map (kbd "H-d") 'my-scroll-up-half-window)
 (if (winp)
     (setq w32-apps-modifier 'hyper      ; apps キーを hyper キーにする
                                         ; nodoka でカタカナひらがなを app にしている前提
           w32-lwindow-modifier 'super)) ; 左Windows キーを super キーにする
 (define-key global-map (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
-                                                           ; Ubuntu だとこれでも無理らしい。どうしようかね
-
 
 ;; C-c keymap
 (define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
@@ -794,6 +792,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (define-key my-original-map (kbd "C-q") 'quoted-insert)
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
+(define-key my-original-map (kbd "C-w") 'my-window-resizer)
+(define-key my-original-map (kbd "r")
+  '(lambda () (interactive) (revert-buffer nil t t)))
+
 
 ;; emacsclientを使う
 (my-safe-require 'server
