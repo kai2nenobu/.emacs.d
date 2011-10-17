@@ -2996,6 +2996,10 @@ Creates a buffer if necessary."
 ;;; 2010-11-08 (Mon)
 ;;; メーラー
 ;;; 設定は .wl, .folders で
+;; SSL/TLS 用証明書ストアのパス
+;(setq ssl-certificate-directory (concat dropbox-directory "/certs"))
+(setq ssl-certificate-verification-policy 1)
+
 (autoload 'wl "wl" "Wanderlust" t)
 (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
 (autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
