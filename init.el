@@ -539,6 +539,19 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
       (other-window -1)
     (other-window 1)))
 
+;;; scroll-up, down でウィンドウに対する相対的なカーソル位置を動かさないアドバイス
+(defadvice scroll-up (around scroll-up-relative activate)
+  ""
+  (let ((line (my-count-lines-window)))
+    ad-do-it
+    (move-to-window-line line)))
+
+(defadvice scroll-down (around scroll-down-relative activate)
+  ""
+  (let ((line (my-count-lines-window)))
+    ad-do-it
+    (move-to-window-line line)))
+
 ;;; tex の表の整形
 ;;; 2011-02-05 (Sat)
 (defun my-tex-table-align ()
