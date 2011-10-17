@@ -1728,20 +1728,20 @@ Creates a buffer if necessary."
 ;;; sdic.el
 ;;; 2011-04-13 (Wed)
 ;;; 辞書をひく
-(autoload 'sdic-describe-word
-  "sdic" "英単語の意味を調べる" t nil)
-(define-key global-map  (kbd "C-c d") 'sdic-describe-word)
-(autoload 'sdic-describe-word-at-point
-  "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
-(define-key global-map (kbd "C-c D") 'sdic-describe-word-at-point)
-;; 英和検索で使用する辞書
-(setq sdic-eiwa-dictionary-list
-      '((sdicf-client "~/.emacs.d/dict/gene.sdic")))
-;; 和英検索で使用する辞書
-(setq sdic-waei-dictionary-list
-      '((sdicf-client "~/.emacs.d/dict/jedict.sdic")))
-;; 文字色
-(setq sdic-face-color "pink")
+;; (autoload 'sdic-describe-word
+;;   "sdic" "英単語の意味を調べる" t nil)
+;; (define-key global-map  (kbd "C-c d") 'sdic-describe-word)
+;; (autoload 'sdic-describe-word-at-point
+;;   "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
+;; (define-key global-map (kbd "C-c D") 'sdic-describe-word-at-point)
+;; ;; 英和検索で使用する辞書
+;; (setq sdic-eiwa-dictionary-list
+;;       '((sdicf-client "~/.emacs.d/dict/gene.sdic")))
+;; ;; 和英検索で使用する辞書
+;; (setq sdic-waei-dictionary-list
+;;       '((sdicf-client "~/.emacs.d/dict/jedict.sdic")))
+;; ;; 文字色
+;; (setq sdic-face-color "pink")
 
 
 ;;; navi2ch.el
