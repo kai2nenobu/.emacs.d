@@ -1122,7 +1122,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (setq eshell-hist-ignoredups t)
   ;; prompt文字列の変更
   (defun my-eshell-prompt ()
-    (concat (eshell/pwd) "\n→ " ))
+    (concat (eshell/pwd) "\n$ " ))
   (setq eshell-prompt-function 'my-eshell-prompt)
   ;; (setq eshell-prompt-function
   ;;       '(lambda ()
@@ -1207,6 +1207,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                (rename-buffer (concat
                                (buffer-name)
                                " ["
+                               ;; Windows の場合はドライブレターを追加
                                (if (winp)
                                    (substring default-directory 0 2)
                                  "")
@@ -1283,10 +1284,8 @@ Creates a buffer if necessary."
 (my-safe-require 'dired-isearch
   (define-key dired-mode-map (kbd "C-s") 'dired-isearch-forward)
   (define-key dired-mode-map (kbd "C-r") 'dired-isearch-backward)
-  ;; 無駄に普通の isearch と isearch-regex を分けていたので、
-  ;; 自分の手で改造。以下の2つは要らなくなった
-  ;(define-key dired-mode-map (kbd "ESC C-s") 'dired-isearch-forward-regexp)
-  ;(define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)
+  (define-key dired-mode-map (kbd "ESC C-s") 'dired-isearch-forward-regexp)
+  (define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)
   )
 
 ;; dired バッファは折り返さない
@@ -1967,8 +1966,8 @@ Creates a buffer if necessary."
       ;; ("f" . inertias-down)
       ("b" . scroll-down)
       ("f" . scroll-up)
-      ("u" . my-scroll-down)
-      ("d" . my-scroll-up)
+      ("u" . my-scroll-down-half-window)
+      ("d" . my-scroll-up-half-window)
       ("p" . ,(lambda () (interactive) (scroll-down 1)))
       ("n" . ,(lambda () (interactive) (scroll-up 1)))
       ;("y" . ,(lambda () (interactive) (scroll-down 1)))
@@ -3116,3 +3115,4 @@ Creates a buffer if necessary."
 (put 'upcase-region 'disabled nil)
 
 (put 'dired-find-alternate-file 'disabled nil)
+
