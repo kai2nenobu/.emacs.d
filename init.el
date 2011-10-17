@@ -2263,15 +2263,22 @@ Creates a buffer if necessary."
   (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
   (setq org-directory (concat dropbox-directory "/memo"))
   (setq org-default-notes-file (concat org-directory "/memo.org"))
+  (setq org-export-html-coding-system 'utf-8)
+  ;; for OrgMobile
+  (setq org-mobile-directory org-directory)
+  (setq org-mobile-inbox-for-pull (concat org-mobile-directory "/flagged.org"))
+
   (setq org-agenda-files '("~/Dropbox/memo/memo.org")); '(org-agenda-files (quote ("~/Dropbox/memo/memo.org")))
   (setq org-tag-alist '(("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
+                        ("Home" . ?h) ("Firefox" . ?)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
-                        ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
+                        ("Org-mode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("LaTeX" . ?) ("PukiWiki" . ?)
-                        ("Shell" . ?) ("hatena" . ?)))
+                        ("Shell" . ?) ("Hatena" . ?)))
+  (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done 'time) ; DONEの時刻を記録
   (setq org-capture-templates
         '(("m" "Today's memo" entry
