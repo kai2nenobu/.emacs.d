@@ -2027,49 +2027,49 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-emacswiki "one-key.el")
 ;;; (auto-install-from-emacswiki "one-key-config.el")
 ;;; (auto-install-from-emacswiki "one-key-default.el")
-(my-safe-require 'one-key
-  (my-safe-require 'one-key-default)                       ; one-key.el も一緒に読み込んでくれる
-  (my-safe-require 'one-key-config)                        ; one-key.el の基本設定をしてくれる
-  (one-key-default-setup-keys)                     ; one-key- で始まるメニュー使える様になる
-  (setq one-key-help-window-max-height 40)         ; ウィンドウの最大高さ
-                                        ; nil だとものすごい大きい *One-Key* バッファが一面に広がってしまうことがあるので。
-  (setq one-key-items-per-line nil)
-  (define-key global-map (kbd "C-S-r") 'one-key-menu-C-x-r) ; C-S-r を C-x r と同じにする
-  (define-key global-map (kbd "C-4") 'one-key-menu-C-x-4) ; C-4 を C-x 4 と同じにする
-  (define-key global-map (kbd "C-5") 'one-key-menu-C-x-5) ; C-5 を C-x 5 と同じにする
-  (define-key global-map (kbd "<C-return>") 'one-key-menu-C-x-RET) ; C-RET を C-x RET と同じにする
+;; (my-safe-require 'one-key
+;;   (my-safe-require 'one-key-default)                       ; one-key.el も一緒に読み込んでくれる
+;;   (my-safe-require 'one-key-config)                        ; one-key.el の基本設定をしてくれる
+;;   (one-key-default-setup-keys)                     ; one-key- で始まるメニュー使える様になる
+;;   (setq one-key-help-window-max-height 40)         ; ウィンドウの最大高さ
+;;                                         ; nil だとものすごい大きい *One-Key* バッファが一面に広がってしまうことがあるので。
+;;   (setq one-key-items-per-line nil)
+;;   (define-key global-map (kbd "C-S-r") 'one-key-menu-C-x-r) ; C-S-r を C-x r と同じにする
+;;   (define-key global-map (kbd "C-4") 'one-key-menu-C-x-4) ; C-4 を C-x 4 と同じにする
+;;   (define-key global-map (kbd "C-5") 'one-key-menu-C-x-5) ; C-5 を C-x 5 と同じにする
+;;   (define-key global-map (kbd "<C-return>") 'one-key-menu-C-x-RET) ; C-RET を C-x RET と同じにする
 
-  ;; (my-safe-load "one-key-menu-my-mode-specific")                   ; 自作 mode-specific キーバインド
-  ;; (add-to-list 'one-key-mode-alist '(mode-specific . one-key-menu-my-mode-specific))
-  ;; (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-mode-specific") . one-key-menu-my-mode-specific))
-  ;; (define-key global-map (kbd "C-c") 'one-key-menu-my-mode-specific)
+;;   ;; (my-safe-load "one-key-menu-my-mode-specific")                   ; 自作 mode-specific キーバインド
+;;   ;; (add-to-list 'one-key-mode-alist '(mode-specific . one-key-menu-my-mode-specific))
+;;   ;; (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-mode-specific") . one-key-menu-my-mode-specific))
+;;   ;; (define-key global-map (kbd "C-c") 'one-key-menu-my-mode-specific)
 
-  (eval-after-load "yatex"
-    '(progn
-       (my-safe-load "one-key-menu-my-YaTeX-begin")      ; 自作 yatex キーバインド表
-       (add-to-list 'one-key-mode-alist '(yatex-mode . one-key-menu-my-YaTeX-begin))
-       (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-YaTeX-begin") . one-key-menu-my-YaTeX-begin))
-       (add-hook 'yatex-mode-hook
-                 '(lambda () (YaTeX-define-key (kbd "b") 'one-key-menu-my-YaTeX-begin)))))
-  (eval-after-load "wl"
-    '(progn
-       (my-safe-load "one-key-menu-my-wl-folder") ; template wl-folder-mode 用キーバインド表
-       (add-to-list 'one-key-mode-alist '(wl-folder-mode . one-key-menu-my-wl-folder))
-       (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-folder") . one-key-menu-my-wl-folder))
-       (add-hook 'wl-folder-mode-hook
-                 '(lambda () (define-key wl-folder-mode-map (kbd "?") 'one-key-menu-my-wl-folder)))
-       (my-safe-load "one-key-menu-my-wl-summary") ; template wl-summary-mode 用キーバインド表
-       (add-to-list 'one-key-mode-alist '(wl-summary-mode . one-key-menu-my-wl-summary))
-       (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-summary") . one-key-menu-my-wl-summary))
-       (add-hook 'wl-summary-mode-hook
-                 '(lambda () (define-key wl-summary-mode-map (kbd "?") 'one-key-menu-my-wl-summary)))))
-  (eval-after-load "elscreen"
-    '(progn
-       (my-safe-load "one-key-menu-my-elscreen") ; template elscreen 用キーバインド表
-       (add-to-list 'one-key-mode-alist '(elscreen . one-key-menu-my-elscreen))
-       (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-elscreen") . one-key-menu-my-elscreen))
-       (define-key global-map (kbd "C-z") 'one-key-menu-my-elscreen)))
-  )
+;;   (eval-after-load "yatex"
+;;     '(progn
+;;        (my-safe-load "one-key-menu-my-YaTeX-begin")      ; 自作 yatex キーバインド表
+;;        (add-to-list 'one-key-mode-alist '(yatex-mode . one-key-menu-my-YaTeX-begin))
+;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-YaTeX-begin") . one-key-menu-my-YaTeX-begin))
+;;        (add-hook 'yatex-mode-hook
+;;                  '(lambda () (YaTeX-define-key (kbd "b") 'one-key-menu-my-YaTeX-begin)))))
+;;   (eval-after-load "wl"
+;;     '(progn
+;;        (my-safe-load "one-key-menu-my-wl-folder") ; template wl-folder-mode 用キーバインド表
+;;        (add-to-list 'one-key-mode-alist '(wl-folder-mode . one-key-menu-my-wl-folder))
+;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-folder") . one-key-menu-my-wl-folder))
+;;        (add-hook 'wl-folder-mode-hook
+;;                  '(lambda () (define-key wl-folder-mode-map (kbd "?") 'one-key-menu-my-wl-folder)))
+;;        (my-safe-load "one-key-menu-my-wl-summary") ; template wl-summary-mode 用キーバインド表
+;;        (add-to-list 'one-key-mode-alist '(wl-summary-mode . one-key-menu-my-wl-summary))
+;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-summary") . one-key-menu-my-wl-summary))
+;;        (add-hook 'wl-summary-mode-hook
+;;                  '(lambda () (define-key wl-summary-mode-map (kbd "?") 'one-key-menu-my-wl-summary)))))
+;;   (eval-after-load "elscreen"
+;;     '(progn
+;;        (my-safe-load "one-key-menu-my-elscreen") ; template elscreen 用キーバインド表
+;;        (add-to-list 'one-key-mode-alist '(elscreen . one-key-menu-my-elscreen))
+;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-elscreen") . one-key-menu-my-elscreen))
+;;        (define-key global-map (kbd "C-z") 'one-key-menu-my-elscreen)))
+;;   )
 
 ;;; key-chord.el
 ;;; 2011-02-05 (Sat)
