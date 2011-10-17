@@ -2180,7 +2180,20 @@ Creates a buffer if necessary."
 (my-safe-require 'twittering-mode
   ;(setq twittering-use-master-password t)
   (setq twittering-auth-method 'xauth)
-  (setq twittering-username "kbkbkbkb1"))
+  (setq twittering-username "kbkbkbkb1")
+  (setq twittering-icon-mode t)
+  (setq twittering-fill-column 50)
+  (setq twittering-status-format "%i %s / %S,  %@:\n%FOLD{%T}\n  from %f%L%r%R\n ") ; 表示のフォーマット
+
+  (setq twittering-initial-timeline-spec-string ;   最初からから開くタイムライン
+        '(":home"
+          ":search/emacs/"
+          ":search/keysnail/"))
+  ;; バッファ名に [twitter] を追加する
+  ;(defadvice twittering-start (after my-twittering-start-add-buffer-name activate)
+  ;  (rename-buffer (concat (buffer-name) " [twitter]")))
+  ; :home にしか追加されなかった．どの関数にアドバイスすればいいかわからん・・・
+  )
 
 ;;; calfw.el
 ;;; 2011-01-07 (Fri)
