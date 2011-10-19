@@ -1089,6 +1089,12 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+;;; cua-mode.el
+;;; 矩形範囲の編集を便利にする
+;;; require とかはいらない模様
+(cua-mode 1)
+(setq cua-enable-cua-keys nil)
+
 ;;; longlines.el
 ;; (autoload 'longlines-mode "longlines.el"
 ;;   "Minor mode for automatically wrapping long lines." t)
