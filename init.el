@@ -1505,10 +1505,11 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/vline.el")
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/col-highlight.el")
 ;;; hilight current column
-;; (my-safe-require 'col-highlight
-;;   (column-highlight-mode 1)
-;;   (custom-set-faces
-;;  '(col-highlight ((t (:background "gray10"))))))
+(my-safe-require 'col-highlight
+  ;(column-highlight-mode 1)
+  (custom-set-faces
+   '(col-highlight ((t (:background "gray10")))))
+  (define-key my-original-map (kbd "C-c") 'column-highlight-mode))
 ;; ちょっと重すぎるのでコメントアウト
 
 ;;; yasnippet.el
