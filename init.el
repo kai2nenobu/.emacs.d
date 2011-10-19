@@ -1188,6 +1188,19 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; dired.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (my-safe-require 'dired)
+
+;;; 2011-09-04 (Sun)
+;;; dired-dd.el
+;;; dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使える
+;;; マウスインターフェースのよう．dired-x を前提としているらしいので，ロードしておく
+;;; http://www.asahi-net.or.jp/~pi9s-nnb/dired-dd-home.html
+;; (add-hook 'dired-load-hook
+;;           (function
+;;            (lambda ()
+;;              (load "dired-x")
+;;              (if window-system (require 'dired-dd)))))
+;; 何故かうまく動かないような気がする．コレ自体の問題じゃないかもだが．
+
 ;;; 2011-03-30 (Wed)
 ;;; ディレクトリ内のファイルを取得．エクスプローラ的な．
 ;; ディレクトリを先に表示
@@ -1329,7 +1342,13 @@ Creates a buffer if necessary."
       (while (re-search-forward mark-regexp nil t)
         (setq count (1+ count))))
     count))
-(define-key dired-mode-map (kbd "U") 'dired-my-mark-or-unmark-all-files)
+
+(defadvice dired-unmark-all-marks (around dired-my-mark-all-marks-dwim activate)
+  "Mark all files or unmark all marks."
+  (if (> (dired-my-get-number-of-marked-files) 0)
+      ad-do-it
+      (dired-my-mark-all-files)))
+(define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
 
 ;;; dired-details.el
 ;;; 2011-07-19 (Tue)
