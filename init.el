@@ -29,16 +29,6 @@
 ;;; 起動時間測定のための測定開始時間を設定
 (defvar my-time-zero (current-time) "A standard time to calculate time starting emacs.")
 
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
-
 ;;; OSの判別，固有の設定
 ;;; 2010-11-08 (Mon)
 ;;; http://d.hatena.ne.jp/marcy_o/20081208/1228742294 より
@@ -71,7 +61,8 @@
 ;; http://masutaka.net/chalow/2009-07-05-3.html 参考に
 (defconst my-individual-elisp-directory
   (list (expand-file-name (concat user-emacs-directory "site-lisp"))
-	(expand-file-name (concat user-emacs-directory "my-lisp")))
+	(expand-file-name (concat user-emacs-directory "my-lisp"))
+        (expand-file-name (concat user-emacs-directory "package")))
   "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
 (dolist (dir my-individual-elisp-directory)
@@ -83,7 +74,28 @@
 (add-to-list 'load-path
              (expand-file-name (concat user-emacs-directory "auto-install")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; package.el
+;;; elisp のパッケージ管理をする
+;;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
+;;; http://tromey.com/elpa/install.html にかかれている方法でインストールすると，
+;;; 古いバージョンの package.el がインストールされる．糞だな．
+(when (load (expand-file-name "~/.emacs.d/package/package.el") t)
+  ;; directory to install packages
+  (setq package-user-dir (concat user-emacs-directory "package"))
+  ;; location to get package informations
+  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  ;; key bind
+  (define-key package-menu-mode-map (kbd "k") 'previous-line)
+  (define-key package-menu-mode-map (kbd "j") 'next-line)
+
+  ;; To mark line when cursor is not at beginning-of-line
+  (defadvice package-menu-get-status (before package-menu-get-status-modify activate)
+    (beginning-of-line))
+
+  (package-initialize))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun anything-my-minibuffer-complete ()
@@ -1437,20 +1449,6 @@ Creates a buffer if necessary."
 ;;; http://d.hatena.ne.jp/kiwanami/20110702/1309592243
 (my-safe-require 'e2wm-vcs)
 ;; あまりうまく動いてない気がする．まあそのままの magit でいいか
-
-;;; package.el
-;;; 2011-07-21 (Thu)
-;;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
-;;; elisp のパッケージ管理をする
-;;; http://sheephead.homelinux.org/2011/06/17/6724/
-;; (my-safe-require 'package
-;;   ;; リポジトリにMarmaladeを追加
-;;   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;;   ;; インストールするディレクトリを指定
-;;   (setq package-user-dir (concat user-emacs-directory "vendor/elpa"))
-;;   ;; インストールしたパッケージにロードパスを通してロードする
-;;   (package-initialize))
-;; Emacs23 じゃあんま動かん感じがしますね．24になったらにしましょうか．
 
 ;;; simple-hatena-mode.el
 ;;; 2011-07-17 (Sun)
