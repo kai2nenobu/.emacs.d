@@ -1424,7 +1424,8 @@ Creates a buffer if necessary."
 ;;; http://d.hatena.ne.jp/yascentur/20110626/1309099966
 ;;; インデントの幅やタブを操作，モードラインに表示
 (my-safe-require 'judge-indent
-  (global-judge-indent-mode t))
+  (global-judge-indent-mode t)
+  (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
 
 ;;; longlines-jp.el
 ;;; 2011-06-23 (Thu)
