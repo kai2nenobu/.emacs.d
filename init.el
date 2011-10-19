@@ -2087,6 +2087,7 @@ Creates a buffer if necessary."
   (key-chord-define global-map "dk" 'describe-key)
   (key-chord-define global-map "db" 'describe-bindings)
   (key-chord-define global-map "cc" 'org-capture)
+  (key-chord-define global-map "CC" 'org-capture)
   (key-chord-define global-map "hl" 'global-hl-line-mode)
   (key-chord-define global-map "gs" 'magit-status)
   (key-chord-define global-map "kb" '(lambda () (interactive) (kill-buffer)))
