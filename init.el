@@ -807,6 +807,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; set fill column. I fit it in Org-mode fill-column.
+(setq default-fill-column 77)
+
 ;;; backup file を一箇所にまとめる
 ;;; 2011-07-21 (Thu)
 ;;; http://marigold.sakura.ne.jp/devel/emacs/backup_file/index.html
