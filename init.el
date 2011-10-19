@@ -1324,13 +1324,6 @@ Creates a buffer if necessary."
   (interactive)
   (dired-mark-files-regexp ""))
 
-(defun dired-my-mark-or-unmark-all-files ()
-  "Mark all files or unmark all marks."
-  (interactive)
-  (if (> (dired-my-get-number-of-marked-files) 0)
-        (dired-unmark-all-marks)
-      (dired-my-mark-all-files)))
-
 (defun dired-my-get-number-of-marked-files ()
   "Get the number of marked files."
   (interactive)
