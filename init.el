@@ -1510,10 +1510,13 @@ Creates a buffer if necessary."
 ;;; 2011-05-28 (Sat)
 ;;; emacs から git を操作
 (my-safe-require 'magit
+  ;; 日本語のエンコーディングを utf-8 にする．デフォルトではマルチバイト文字が考慮されていないようで
+  ;; なにも設定されていないので文字化けしてしまう．
+  (add-to-list 'process-coding-system-alist (cons magit-git-executable 'utf-8))
   ;; face color
-  (set-face-foreground 'magit-diff-add "cyan")
+  (set-face-foreground 'magit-diff-add "green")
   (set-face-foreground 'magit-diff-hunk-header "yellow")
-  (set-face-foreground 'magit-diff-file-header "purple")
+  (set-face-foreground 'magit-diff-file-header "purple") ; 効果なし？magit.el 内で使われていない
   (set-face-background 'magit-item-highlight "gray20")
 
   ;; (defun my-magit-apply-file-header-face ()
