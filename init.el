@@ -1414,6 +1414,29 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; ya-hatena-mode.el
+;;; Emacs からはてなダイアリーに投稿する
+;;; https://github.com/takaishi/ya-hatena-mode
+(setq *yhtn:account-info-file* "~/.yhtn-account-info.el")
+(my-safe-require 'ya-hatena-mode)
+
+;;; marmalade.el
+;;; パッケージ管理サーバ（http://marmalade-repo.org/）とのやりとりをする
+(my-safe-load "marmalade")
+
+;;; kogiku.el
+;;; http://kogiku.sourceforge.jp/
+;; (my-safe-require 'kogiku
+;;   (setq kogiku-enable-once nil))
+
+;;; nyan-mode.el
+;;; (auto-install-from-url "https://raw.github.com/TeMPOraL/nyan-mode/master/nyan-mode.el")
+(my-safe-require 'nyan-mode)
+
+;;; typing.el
+;;; (auto-install-from-emacswiki "typing.el")
+(autoload 'typing-of-emacs "typing" "The Typing Of Emacs, a game." t)
+
 ;;; e2wm-vcs.el
 ;;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
