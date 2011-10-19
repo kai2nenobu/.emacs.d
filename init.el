@@ -1855,8 +1855,8 @@ Creates a buffer if necessary."
   ;; 追加設定
   (setq cacoo:img-regexp
         '("\\[img:\\(.*\\)\\][^]\n\r]*$" ; cacoo のデフォルト
-          "\\[\\[file:\\([^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\][^]\n\t]*$" ; org-mode のファイルリンクにマッチさせる
-          "\\[\\[\\(http:[^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\][^]\n\t]*$" ; org-mode の http リンクにマッチさせる
+          "\\[\\[file:\\([^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode のファイルリンクにマッチさせる
+          "\\[\\[\\(http:[^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode の http リンクにマッチさせる
           ))
   (setq cacoo:img-dir (concat user-emacs-directory ".cacoo-cache"))
   (setq cacoo:img-dir-ok t) ; 画像フォルダは確認無しで作る(my-safe-require 'cacoo
