@@ -88,6 +88,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; other-window でコマンド実行するマイナーモード
+(defun command-other-window-execute (command)
+  (with-selected-window (other-window-for-scrolling)
+    (funcall command)))
+
+(defvar command-other-window-mode-keymap (make-sparse-keymap))
+(define-key command-other-window-mode-keymap (kbd "H-j")
+  '(lambda () (interactive) (command-other-window-execute 'next-line)))
+(define-key command-other-window-mode-keymap (kbd "H-k")
+  '(lambda () (interactive) (command-other-window-execute 'previous-line)))
+
+(define-minor-mode command-other-window-mode
+  "Execute command in other window."
+  :global nil
+  :group 'command-other-window
+  :init-value nil
+  :lighter " COW"
+  :keymap command-other-window-mode-keymap)
+
+;;; どっかからとってきたはずだけど忘れた．
 (defun anything-my-minibuffer-complete ()
   ""
   (interactive)
