@@ -1460,6 +1460,10 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; keywiz.el
+;;; コマンドが割り当てられているキーバインドを答えるクイズ．
+(my-safe-require 'keywiz)
+
 ;;; highlight-80+.el
 ;;; 指定したカラムを超えているテキストに色付けする
 ;;; 日本語の考慮なし．やっぱ自分でつくるしかないか．
