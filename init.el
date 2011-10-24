@@ -1419,6 +1419,12 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; highlight-80+.el
+;;; 指定したカラムを超えているテキストに色付けする
+;;; 日本語の考慮なし．やっぱ自分でつくるしかないか．
+(my-safe-require 'highlight-80+
+  (setq highlight-80+-columns fill-column))
+
 ;;; ya-hatena-mode.el
 ;;; Emacs からはてなダイアリーに投稿する
 ;;; https://github.com/takaishi/ya-hatena-mode
