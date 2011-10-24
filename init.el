@@ -1625,19 +1625,15 @@ Creates a buffer if necessary."
     (comint-send-string (inferior-moz-process) (concat str "; "))
     (comint-send-string (inferior-moz-process)
                         (concat moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n")))
-
   (defun moz-scroll-down ()
     (interactive)
     (moz-send-line (concat "(function(){var t=" moz-scroll-time ",r=" moz-scroll-ratio " ;var i=0,w =document.documentElement,s=gBrowser.selectedBrowser.contentWindow.scrollY,e=s+w.clientHeight/(100/r),v=(e-s)/t,c=s;for(i;i<t;i++){setTimeout(function(){c+=v;content.scrollTo(0,c);},i+1)}})();")))
-
   (defun moz-scroll-up ()
     (interactive)
     (moz-send-line (concat "(function(){var t=" moz-scroll-time ",r=" moz-scroll-ratio " ;var i=0,w =document.documentElement,s=gBrowser.selectedBrowser.contentWindow.scrollY,e=s+w.clientHeight/(100/r),v=(e-s)/t,c=s;for(i;i<t;i++){setTimeout(function(){c-=v;content.scrollTo(0,c);},i+1)}})();")))
-
   (defun moz-prev-tab ()
     (interactive)
     (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(-1, true)"))
-
   (defun moz-next-tab ()
     (interactive)
     (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(1, true)"))
@@ -1646,6 +1642,42 @@ Creates a buffer if necessary."
   (define-key my-original-map (kbd "f") 'moz-scroll-down)
   (define-key my-original-map (kbd "h") 'moz-prev-tab)
   (define-key my-original-map (kbd "l") 'moz-next-tab)
+
+  ;; http://blogs.openaether.org/?p=236
+  (defun jk/moz-get (attr)
+    (comint-send-string (inferior-moz-process) attr)
+    ;; try to give the repl a chance to respond
+    (sleep-for 0 100))
+  (defun jk/moz-get-current-url ()
+    (interactive)
+    (jk/moz-get "repl._workContext.content.location.href"))
+  (defun jk/moz-get-current-title ()
+    (interactive)
+    (jk/moz-get "repl._workContext.content.document.title"))
+  (defun jk/moz-get-current (moz-fun)
+    (funcall moz-fun)
+    ;; doesn't work if repl takes too long to output string
+    (save-excursion
+      (set-buffer (process-buffer (inferior-moz-process)))
+      (goto-char (point-max))
+      (previous-line)
+      (setq jk/moz-current (buffer-substring-no-properties
+                            (+ (point-at-bol) (length moz-repl-name) 3)
+                            (- (point-at-eol) 1))))
+    (message "%s" jk/moz-current)
+    jk/moz-current)
+  (defun jk/moz-url ()
+    (interactive)
+    (jk/moz-get-current 'jk/moz-get-current-url))
+  (defun jk/moz-title ()
+    (interactive)
+    (jk/moz-get-current 'jk/moz-get-current-title))
+  ;; Firefox のページを emacs-w3m で開く
+  (defun jk/moz-url-w3m ()
+    "Open current page of Firefox on emacs-w3m."
+    (interactive)
+    (w3m-browse-url (jk/moz-url)))
+
   )
 
 
