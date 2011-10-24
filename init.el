@@ -32,26 +32,16 @@
 ;;; OSの判別，固有の設定
 ;;; 2010-11-08 (Mon)
 ;;; http://d.hatena.ne.jp/marcy_o/20081208/1228742294 より
-(defvar os-type nil)
 (defconst dropbox-directory (expand-file-name "~/Dropbox")) ; 語尾に / を含めるか含めないか悩むな
 
-(cond ((string-match "apple-darwin" system-configuration) ;; Mac
-       (setq os-type 'mac))
-      ((string-match "linux" system-configuration)        ;; Linux
-       (setq os-type 'linux))
-      ((string-match "freebsd" system-configuration)      ;; FreeBSD
-       (setq os-type 'bsd))
-      ((string-match "mingw" system-configuration)        ;; Windows
-       (setq os-type 'win)))
-
 (defun macp ()
-  (eq os-type 'mac))
+  (eq system-type 'darwin))
 (defun linuxp ()
-  (eq os-type 'linux))
+  (eq system-type 'gnu/linux))
 (defun bsdp ()
-  (eq os-type 'freebsd))
+  (eq system-type 'gnu/kfreebsd))
 (defun winp ()
-  (eq os-type 'win))
+  (eq system-type 'windows-nt))
 
 ;; なんか最新版をビルドしたやつはこれをつけたほうがいいらしい？
 ;; これがないと ispell が動かなかった。ispell に限らんかもしれんが
