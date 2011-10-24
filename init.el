@@ -2319,7 +2319,8 @@ Creates a buffer if necessary."
   (setq org-mobile-inbox-for-pull (concat org-mobile-directory "/flagged.org"))
 
   (setq org-agenda-files '("~/Dropbox/memo/memo.org")); '(org-agenda-files (quote ("~/Dropbox/memo/memo.org")))
-  (setq org-tag-alist '(("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
+  (setq org-tag-alist '(("Bookmark" . ?b)
+                        ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
                         ("Home" . ?h) ("Firefox" . ?)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
@@ -2327,28 +2328,32 @@ Creates a buffer if necessary."
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
                         ("Org-mode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("LaTeX" . ?) ("PukiWiki" . ?)
-                        ("Shell" . ?) ("Hatena" . ?)))
+                        ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done 'time) ; DONEの時刻を記録
   (setq org-capture-templates
-        '(("m" "Today's memo" entry
+        `(("m" "Today's memo" entry
            (file+function nil my-search-org-headline)
-           "** %?\n" :empty-lines 1)
+           "* %?\n" :empty-lines 1)
           ("o" "Other day's memo" entry
            (file+function nil (lambda () (my-search-org-headline t)))
            "** %?\n" :empty-lines 1)
-          ("b" "Blog" entry
+          ("b" "Bookmark" entry
            (file+function nil my-search-org-headline)
-           "** %?\n   :PROPERTIES:\n   :PostDay: Draft\n   :END:" :empty-lines 1)
+           "** %?\n%(concat \"   [[\" (jk/moz-url) \"]]\")\n   Entered on %U\n"
+           :empty-lines 1)
+          ("h" "はてな" entry
+           (file+ nil my-search-org-headline)
+           "** %?" :empty-lines 1)
           ("a" "Article" entry
            (file+headline "article.org" "Draft")
            "** %?\n" :empty-lines 1)
-          ("t" "Todo" entry
-           (file+headline nil "Inbox")
-           "** TODO %?\n   %i\n   %a\n   %t")
+          ("t" "Test" entry
+           (file+headline ,(concat org-directory "/test.org") ,(format-time-string "%Y-%m-%d (%a)"))
+           "* %?\n   %T" :empty-lines 1 :prepend t)
           ("i" "Idea" entry
            (file+headline nil "New Ideas")
-           "** %?\n   %i\n   %a\n   %t")))
+           "** %?\n   %a\n   %t")))
   ;; publish の設定
   (setq org-publish-project-alist
         `(("orgfiles"
