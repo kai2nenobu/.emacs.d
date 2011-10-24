@@ -1091,6 +1091,37 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+;;; doc-view.el
+;;; Emacs で pdf 閲覧
+(my-safe-require 'doc-view
+  (setq doc-view-continuous t)     ; move next page if execute next-line on bottom edge of image
+  (define-key doc-view-mode-map (kbd "l") 'image-forward-hscroll)
+  (define-key doc-view-mode-map (kbd "h") 'image-backward-hscroll)
+  (define-key doc-view-mode-map (kbd "j") 'doc-view-next-line-or-next-page)
+  (define-key doc-view-mode-map (kbd "k") 'doc-view-previous-line-or-previous-page)
+  (define-key doc-view-mode-map (kbd "f") 'image-scroll-up)
+  (define-key doc-view-mode-map (kbd "b") 'image-scroll-down)
+  (define-key doc-view-mode-map (kbd "C-t") nil) ; もともとのコマンドは doc-view-show-tooltip
+
+  ;; to move to next page on the edge of page
+  (defadvice image-scroll-up (around image-scroll-up-or-next-page activate)
+    (let ((vscroll (window-vscroll))
+          (hscroll (window-hscroll)))
+      ad-do-it
+      (when (and doc-view-continuous (= vscroll (window-vscroll)))
+        (doc-view-next-page)
+        (image-bob)
+        (set-window-hscroll (selected-window) hscroll))))
+  (defadvice image-scroll-down (around image-scroll-down-or-previous-page activate)
+    (let ((vscroll (window-vscroll))
+          (hscroll (window-hscroll)))
+      ad-do-it
+      (when (and doc-view-continuous (= vscroll (window-vscroll)))
+        (doc-view-previous-page)
+        (image-eob)
+        (set-window-hscroll (selected-window) hscroll))))
+  )
+
 ;;; cua-mode.el
 ;;; 矩形範囲の編集を便利にする
 ;;; require とかはいらない模様
