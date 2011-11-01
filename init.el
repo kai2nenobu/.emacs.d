@@ -1498,7 +1498,7 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
 ;;; e2wm で magit を操作するパースペクティブ
 ;;; http://d.hatena.ne.jp/kiwanami/20110702/1309592243
-(my-safe-require 'e2wm-vcs)
+; (my-safe-require 'e2wm-vcs)
 ;; あまりうまく動いてない気がする．まあそのままの magit でいいか
 
 ;;; simple-hatena-mode.el
@@ -1566,9 +1566,9 @@ Creates a buffer if necessary."
 ;;; IDE 的なウィンドウ管理とか
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
-(my-safe-require 'e2wm
-  (define-key global-map (kbd "M-+") 'e2wm:start-management)
-  )
+;; (my-safe-require 'e2wm
+;;   (define-key global-map (kbd "M-+") 'e2wm:start-management)
+;;   )
 ;; うーん，ほかの elisp との競合が多そう．使わないほうがいいかなぁ
 
 ;;; magit.el
