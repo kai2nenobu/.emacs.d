@@ -1460,6 +1460,11 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; egg.el
+;;; git クライアント
+;;; https://github.com/bogolisk/egg
+(my-safe-require 'egg)
+
 ;;; keywiz.el
 ;;; コマンドが割り当てられているキーバインドを答えるクイズ．
 (my-safe-require 'keywiz)
