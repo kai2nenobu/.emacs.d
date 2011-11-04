@@ -2506,7 +2506,8 @@ Creates a buffer if necessary."
           ;; (goto-line (- (current-line) 2)) ; カーソルが行頭にあるときと，そうでない時で current-line の挙動が異なるのが
           ;;                                  ; 気になりますが，my-search-org-level1 をしたときは
           ;;                                  ; 行頭にないはずなので，大丈夫かな
-          ;(beginning-of-line))
+          ;(beginning-of-line)
+          (forward-line 1)
           )
       ;; search where new headline is insearted
       ;; 日付(level1)が降順になっていることが前提
@@ -2515,7 +2516,7 @@ Creates a buffer if necessary."
         (re-search-forward "^\\* \\(.*\\)" nil t))
       (beginning-of-line)
       (insert (concat "* " date "\n"))
-      (backward-char)
+      ;(backward-char)
       )))
 
 ;;; rubikitch さんの例
