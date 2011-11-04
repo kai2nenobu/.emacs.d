@@ -2309,6 +2309,12 @@ Creates a buffer if necessary."
                ;(YaTeX-define-key "\C-b" 'latex-math-preview-beamer-frame)
                ))
   (setq latex-math-preview-in-math-mode-p-func 'YaTeX-in-math-mode-p) ; 数式の判断に yatex のものを使う
+  ;; 用いるパッケージ
+  (setq latex-math-preview-latex-template-header
+        "\\documentclass{article}
+\\pagestyle{empty}
+\\usepackage{amsmath,amssymb,amsthm}
+\\usepackage{bm}")
   ;; プレビューする書式を追加
   (add-to-list 'latex-math-preview-match-expression 
                '(0 . "\\\\begin{table\\(\\|\\*\\)}\\(\\(.\\|\n\\)*?\\)\\\\end{table\\(\\|\\*\\)}")) ; table 環境
