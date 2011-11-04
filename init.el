@@ -1778,6 +1778,7 @@ Creates a buffer if necessary."
   (when (executable-find "cmigemo")
     (my-safe-require 'anything-migemo))
   (define-key mode-specific-map (kbd "r") 'anything-filelist+) ; recentfile 的に使いたい
+  (define-key global-map (kbd "C-S-a") 'anything-command-map)
   )
 
 ;;; anything-c-yasnippet.el
