@@ -2274,8 +2274,7 @@ Creates a buffer if necessary."
 ;;; popwin.el
 ;;; 2011-01-21 (Fri)
 ;;; https://github.com/m2ym/popwin-el/tree/v0.2
-;;; (auto-install-from-url "https://github.com/m2ym/popwin-el/raw/ba98443621ac179be83892f0e58ca555eef7f41b/popwin.el")
-;;; (auto-install-from-url "https://github.com/m2ym/popwin-el/raw/v0.2/popwin.el")   ver. 0.2
+;;; (auto-install-from-url "https://raw.github.com/m2ym/popwin-el/master/popwin.el")
 ;;; ポップアップウィンドウインターフェースを提供
 (my-safe-require 'popwin
   (setq display-buffer-function 'popwin:display-buffer)
