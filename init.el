@@ -254,17 +254,17 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; 2011-06-28 (Tue)
 ;;; http://www.fan.gr.jp/~ring/Meadow/meadow.html
 ;;; active な region を削除する
-(defadvice delete-char
-  (around delete-region-by-delete-char activate)
-  (if (and transient-mark-mode mark-active)
-      (delete-region (region-beginning) (region-end))
-    ad-do-it))
+;; (defadvice delete-char
+;;   (around delete-region-by-delete-char activate)
+;;   (if (and transient-mark-mode mark-active)
+;;       (delete-region (region-beginning) (region-end))
+;;     ad-do-it))
 
-(defadvice delete-backward-char
-  (around delete-region-by-delete-backward-char activate)
-  (if (and transient-mark-mode mark-active)
-      (delete-region (region-beginning) (region-end))
-    ad-do-it))
+;; (defadvice delete-backward-char
+;;   (around delete-region-by-delete-backward-char activate)
+;;   (if (and transient-mark-mode mark-active)
+;;       (delete-region (region-beginning) (region-end))
+;;     ad-do-it))
 
 ;;; 2011-06-26 (Sun)
 ;;; https://github.com/kik/sandbox/blob/master/emacs/show-char.el
@@ -829,6 +829,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; replace selected region by self-insert-command
+;;; http://d.hatena.ne.jp/web7_77/20110705/1309885434
+(delete-selection-mode t)
+
 ;;; set fill column. I fit it in Org-mode fill-column.
 (setq default-fill-column 77)
 
