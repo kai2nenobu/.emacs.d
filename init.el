@@ -1467,7 +1467,7 @@ Creates a buffer if necessary."
 ;;; egg.el
 ;;; git クライアント
 ;;; https://github.com/bogolisk/egg
-(my-safe-require 'egg)
+;(my-safe-require 'egg)
 
 ;;; keywiz.el
 ;;; コマンドが割り当てられているキーバインドを答えるクイズ．
