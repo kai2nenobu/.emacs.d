@@ -2938,7 +2938,7 @@ Creates a buffer if necessary."
   ;;   (ac-config-default))
   ;; 23 でも大丈夫になったらしい 2011-06-04 (Sat)
   (ac-config-default)
-  (setq ac-auto-show-menu 0.2)       ; 補完メニュー表示の遅延時間
+  (setq ac-auto-show-menu 0.08)       ; 補完メニュー表示の遅延時間
   (setq ac-quick-help-delay 0.5)     ; help 表示の遅延時間
   (define-key my-original-map (kbd "TAB") 'auto-complete) ; あえて手動で補完したい時
   (setq ac-use-overriding-local-map t) ; ローカルマップの TAB を乗っ取る？
