@@ -1483,7 +1483,17 @@ Creates a buffer if necessary."
 ;;; Emacs からはてなダイアリーに投稿する
 ;;; https://github.com/takaishi/ya-hatena-mode
 (setq *yhtn:account-info-file* "~/.yhtn-account-info.el")
-(my-safe-require 'ya-hatena-mode)
+(my-safe-require 'ya-hatena-mode
+  ;; key bind
+  (define-key ya-hatena-mode-map "\C-cp" nil)
+  (define-key ya-hatena-mode-map "\C-cd" nil)
+  (define-key ya-hatena-mode-map "\C-cq" nil)
+  (define-key ya-hatena-mode-map "\C-cm" nil)
+  (define-key ya-hatena-mode-map (kbd "C-c C-p") 'yhtn:d:post-blog-collection-buffer)
+  (define-key ya-hatena-mode-map (kbd "C-c C-d") 'yhtn:d:post-draft-collection-buffer)
+  (define-key ya-hatena-mode-map (kbd "C-c C-q") 'yhtn:d:quit)
+  (define-key ya-hatena-mode-map (kbd "C-c C-m") 'yhtn:d:action)
+  )
 
 ;;; marmalade.el
 ;;; パッケージ管理サーバ（http://marmalade-repo.org/）とのやりとりをする
