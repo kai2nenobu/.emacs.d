@@ -2677,7 +2677,6 @@ Creates a buffer if necessary."
   (define-key global-map (kbd "C-S-p") 'elscreen-previous)
   (define-key global-map (kbd "M-n") 'elscreen-next)
   (define-key global-map (kbd "M-p") 'elscreen-previous)
-  (define-key global-map (kbd "M-0") '(lambda () (interactive) (elscreen-goto 0))) ; なんか愚直すぎるので何とかしたいですね
   (define-key global-map (kbd "M-1") '(lambda () (interactive) (elscreen-goto 1)))
   (define-key global-map (kbd "M-2") '(lambda () (interactive) (elscreen-goto 2)))
   (define-key global-map (kbd "M-3") '(lambda () (interactive) (elscreen-goto 3)))
@@ -2687,11 +2686,12 @@ Creates a buffer if necessary."
   (define-key global-map (kbd "M-7") '(lambda () (interactive) (elscreen-goto 7)))
   (define-key global-map (kbd "M-8") '(lambda () (interactive) (elscreen-goto 8)))
   (define-key global-map (kbd "M-9") '(lambda () (interactive) (elscreen-goto 9)))
+  (define-key global-map (kbd "M-0") '(lambda () (interactive) (elscreen-goto 10)))  ; なんか愚直すぎるので何とかしたいですね
 
   ;; 起動時にスクリーンを9個作っておく
   (defun my-elscreen-startup ()
     (let ((i 1))
-      (while (< i 9)
+      (while (< i 10)
         (elscreen-create)
         (setq i (1+ i)))))
   (add-hook 'after-init-hook 'my-elscreen-startup)
