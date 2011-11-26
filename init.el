@@ -2447,7 +2447,7 @@ Creates a buffer if necessary."
   (setq org-tag-alist '(("Bookmark" . ?b)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
-                        ("Home" . ?h) ("Firefox" . ?)
+                        ("Home" . ?h) ("Firefox" . ?) ("Question" . ?q) ("Vi" . ?)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
@@ -2504,6 +2504,13 @@ Creates a buffer if necessary."
           :publishing-directory ,(concat org-directory "/html")
           :publishing-function org-publish-attachment)
          ("website" :components ("orgfiles" "images" "others"))))
+  ;; Because completion string of template alist is lower case, upcase it.
+  (setq org-structure-template-alist
+        (mapcar '(lambda (elm)
+                   (cons (car elm)
+                         (cons (upcase (nth 1 elm))
+                               (cddr elm))))
+                org-structure-template-alist))
   ;; key bind
   (define-key global-map (kbd "C-c a") 'org-agenda)
   (define-key global-map (kbd "C-c b") 'org-iswitchb)
