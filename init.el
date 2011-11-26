@@ -513,30 +513,40 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   "Scroll up half of window-height putting point on line relative to the selected window."
   (interactive)
   (let ((line (my-count-lines-window)))
-    (next-line (/ (window-height) 2))
-    (recenter line)))
+    (scroll-up (/ (window-height) 2))
+    (move-to-window-line line)))
 
 (defun my-scroll-down-half-window ()
   "Scroll down half of window-height putting point on line relative to the selected window."
   (interactive)
   (let ((line (my-count-lines-window)))
-    (previous-line (/ (window-height) 2))
-    (recenter line)))
+    (scroll-down (/ (window-height) 2))
+    (move-to-window-line line)))
 
 ;;; 2011-02-06 (Sun)
 ;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
 (defun my-count-lines-window ()
   "Reurn line relative to the selected window. The number of line begins 0."
   (interactive)
-  (let* ((window-string (buffer-substring-no-properties (window-start) (point)))
+  (let* (;(deactivate-mark nil)       ; prevent to deactivate region by this command
+         (window-string (buffer-substring-no-properties (window-start) (point)))
          (line-string-list (split-string window-string "\n"))
-         (width (window-width)) (line-count 0))
-    (setq line-count (1- (length line-string-list))) ; don't consider Japanese character column
+         (line-count 0) line-count-list)
+    (setq line-count (1- (length line-string-list)))
     (unless truncate-lines      ; consider folding back
-      (mapc '(lambda (str)
-               (setq line-count (+ line-count (/ (length str) width))))
-            line-string-list))
+      ;; `line-count-list' is list of the number of physical line which each logical line has.
+      (setq line-count-list (mapcar '(lambda (str)
+                                       (/ (my-count-string-column str) (window-width)))
+                                    line-string-list))
+      (setq line-count (+ line-count (apply '+ line-count-list))))
     line-count))
+
+;; count string width (column)
+(defun my-count-string-column (str)
+  "Count column of string. The number of column is 0."
+  (with-temp-buffer
+    (insert str)
+    (current-column)))
 
 ;; (defun my-count-lines-window ()
 ;;   "Return line relative to the selected window. The number of line begins 0."
