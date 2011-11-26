@@ -1692,8 +1692,22 @@ Creates a buffer if necessary."
   ;; (setq yas/next-field-key "<tab>")   ; これが <C-tab> にならんなぁ
   ;; (setq yas/prev-field-key "<S-tab>")
   ;; (define-key yas/minor-mode-map (kbd "C-<tab>") 'yas/expand)
+  (setq yas/wrap-around-region t)
+  ;; (defadvice anything-c-yas-complete
+  ;;   (around anything-c-yas-complete-delete-region activate)
+  ;;   "If region is active, delete region before yasnippet completion."
+  ;;   (when mark-active
+  ;;     (let ((reg-beg (region-beginning))
+  ;;           (reg-end (region-end)))
+  ;;       ad-do-it
+  ;;       (delete-region reg-beg reg-end))))
+  ;(ad-deactivate-regexp "anything-c-yas-complete-delete-region")
+  ;; (eval-after-load "auto-complete.el"
+  ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
   (yas/initialize)
-  (yas/load-directory  "~/.emacs.d/snippets"))
+  (yas/load-directory  "~/.emacs.d/snippets")
+
+)
 
 ;;; cygwin-mount.el
 ;;; 2011-05-18 (Wed)
