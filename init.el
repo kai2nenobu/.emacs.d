@@ -50,9 +50,9 @@
 ;; add load-path
 ;; http://masutaka.net/chalow/2009-07-05-3.html 参考に
 (defconst my-individual-elisp-directory
-  (list (expand-file-name (concat user-emacs-directory "site-lisp"))
-	(expand-file-name (concat user-emacs-directory "my-lisp"))
-        (expand-file-name (concat user-emacs-directory "package")))
+  (list (expand-file-name "site-lisp" user-emacs-directory)
+	(expand-file-name "my-lisp" user-emacs-directory)
+	(expand-file-name "package" user-emacs-directory))
   "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
 (dolist (dir my-individual-elisp-directory)
