@@ -2313,6 +2313,7 @@ Creates a buffer if necessary."
   (push '("*sdic*" :height 0.25 :position top :noselect t) popwin:special-display-config)
   ;(push '("*anything complete" :width 0.4 :position right) popwin:special-display-config)
   (push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config) ; なぜか効かない
+  (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (define-key ctl-x-map (kbd "p") 'popwin:display-last-buffer)
   )
 
@@ -3128,8 +3129,8 @@ Creates a buffer if necessary."
       matlab-show-mlint-warnings t
       mlint-programs '("/usr/local/matlab75/bin/glnx86/mlint")
       matlab-mode-install-path (list (expand-file-name "/usr/local/matlab75/")))
-;(autoload 'mlint-minor-mode "mlint" nil t)
-;(add-hook 'matlab-mode-hook (lambda () (mlint-minor-mode 1)))
+(autoload 'mlint-minor-mode "mlint" nil t)
+(add-hook 'matlab-mode-hook (lambda () (mlint-minor-mode 1)))
 ;; mlint しようとすると， linemark.el が必要らしいが，require したらしたで
 ;; おかしいので使わないようにしよう．
 (add-hook 'matlab-mode-hook (lambda () (auto-fill-mode 0)))
@@ -3207,10 +3208,37 @@ Creates a buffer if necessary."
     (selection-face . ac-matlab-selection-face)
     ))
 
+(defvar ac-source-matlab-functions nil
+  "Souce for matlab functions.")
+(setq ac-source-matlab-functions
+      '((candidates . (list "zeros" "ones" "eye" "mean" "exp" "length" "save" "normpdf" "plot"))
+        (document . ac-matlab-function-documentation)
+        (symbol . "f")))
+
+(defun ac-matlab-function-documentation (fnc)
+  "Show document of matlab function."
+  (condition-case nil
+      (matlab-shell-collect-command-output (concat "help " fnc))
+    (error "You need to run the command `matlab-shell' to read help!")))
+
 (add-hook 'matlab-mode-hook
 	  (lambda ()
 	    (add-to-list 'ac-sources 'ac-source-matlab)
-	    (add-to-list 'ac-sources 'ac-source-yasnippet)))
+	    (add-to-list 'ac-sources 'ac-source-matlab-functions)
+            (key-chord-define matlab-mode-map "df" 'matlab-shell-describe-command)
+            (key-chord-define matlab-mode-map "dv" 'matlab-shell-describe-variable)
+            (key-chord-define matlab-mode-map "AA" 'matlab-shell-apropos)
+            ))
+
+(add-hook 'matlab-shell-mode-hook
+	  (lambda ()
+	    (add-to-list 'ac-sources 'ac-source-matlab)
+	    (add-to-list 'ac-sources 'ac-source-matlab-functions)
+            (key-chord-define matlab-shell-mode-map "df" 'matlab-shell-describe-command)
+            (key-chord-define matlab-shell-mode-map "dv" 'matlab-shell-describe-variable)
+            (key-chord-define matlab-shell-mode-map "AA" 'matlab-shell-apropos)
+            ))
+
 
 ;;; プロンプトじゃない場所から comint-previous-input を
 ;;; 実行したとき，プロンプトに移動する
