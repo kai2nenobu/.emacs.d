@@ -1536,7 +1536,8 @@ Creates a buffer if necessary."
 ;;; ya-hatena-mode.el
 ;;; Emacs からはてなダイアリーに投稿する
 ;;; https://github.com/takaishi/ya-hatena-mode
-(setq *yhtn:account-info-file* "~/.yhtn-account-info.el")
+(setq *yhtn:account-info-file* "~/.yhtn-account-info.el") ; デフォルトは .yhtn:account-~~~ だが Ubuntu 環境だと
+                                                          ; そのファイル名が認識できない？のかロードできない
 (my-safe-require 'ya-hatena-mode
   ;; key bind
   (define-key ya-hatena-mode-map "\C-cp" nil)
