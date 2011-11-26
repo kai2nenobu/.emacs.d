@@ -1417,6 +1417,43 @@ Creates a buffer if necessary."
       (dired-my-mark-all-files)))
 (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
 
+;;; dired で文字コード一括変換
+;;; http://www.bookshelf.jp/soft/meadow_25.html#SEC278
+(defvar dired-default-file-coding-system nil
+  "*Default coding system for converting file (s).")
+
+(defvar dired-file-coding-system 'no-conversion)
+
+(defun dired-convert-coding-system ()
+  (let ((file (dired-get-filename))
+        (coding-system-for-write dired-file-coding-system)
+        failure)
+    (condition-case err
+        (with-temp-buffer
+          (insert-file file)
+          (write-region (point-min) (point-max) file))
+      (error (setq failure err)))
+    (if (not failure)
+        nil
+      (dired-log "convert coding system error for %s:\n%s\n" file failure)
+      (dired-make-relative file))))
+
+(defun dired-do-convert-coding-system (coding-system &optional arg)
+  "Convert file (s) in specified coding system."
+  (interactive
+   (list (let ((default (or dired-default-file-coding-system
+                            buffer-file-coding-system)))
+           (read-coding-system
+            (format "Coding system for converting file (s) (default, %s): "
+                    default)
+            default))
+         current-prefix-arg))
+  (check-coding-system coding-system)
+  (setq dired-file-coding-system coding-system)
+  (dired-map-over-marks-check
+   (function dired-convert-coding-system) arg 'convert-coding-system t))
+(define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
+
 ;;; dired-details.el
 ;;; 2011-07-19 (Tue)
 ;;; dired のファイル情報の詳細表示をトグルする
@@ -2852,6 +2889,34 @@ Creates a buffer if necessary."
   (setq recentf-exclude '("/TAGS$" "/var/tmp/" "Temp_ExternalEditor"))
   ;(define-key mode-specific-map "r" 'recentf-open-files) ; C-c r で最近使ったファイルを開く
   ; anything-fo-files で代替できるので変更
+  ;; automatically save recentf file and supress messages
+  ;; http://masutaka.net/chalow/2011-10-30-2.html
+  (defvar my-recentf-list-prev nil)
+
+  (defadvice recentf-save-list
+    (around no-message activate)
+    "If `recentf-list' and previous recentf-list are equal,
+do nothing. And suppress the output from `message' and
+`write-file' to minibuffer."
+    (unless (equal recentf-list my-recentf-list-prev)
+      (flet ((message (format-string &rest args)
+                      (eval `(format ,format-string ,@args)))
+             (write-file (file &optional confirm)
+                         (let ((str (buffer-string)))
+                           (with-temp-file file
+                             (insert str)))))
+        ad-do-it
+        (setq my-recentf-list-prev recentf-list))))
+
+  (defadvice recentf-cleanup
+    (around no-message activate)
+    "suppress the output from `message' to minibuffer"
+    (flet ((message (format-string &rest args)
+                    (eval `(format ,format-string ,@args))))
+      ad-do-it))
+
+  (setq recentf-auto-cleanup 60)
+  (run-with-idle-timer 60 t 'recentf-save-list)
   )
 
 ;;; pukiwiki-mode
