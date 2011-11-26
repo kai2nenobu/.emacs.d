@@ -1654,8 +1654,9 @@ Creates a buffer if necessary."
   (add-to-list 'process-coding-system-alist (cons magit-git-executable 'utf-8))
   ;; face color
   (set-face-foreground 'magit-diff-add "green")
+  (set-face-foreground 'magit-diff-del "red")
   (set-face-foreground 'magit-diff-hunk-header "yellow")
-  (set-face-foreground 'magit-diff-file-header "purple") ; 効果なし？magit.el 内で使われていない
+  (set-face-foreground 'magit-diff-file-header "magenta") ; 効果なし？ version をあげたら良くなった
   (set-face-background 'magit-item-highlight "gray20")
 
   ;; (defun my-magit-apply-file-header-face ()
