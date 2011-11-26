@@ -1518,6 +1518,17 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; tree-undo.el
+;;; 編集履歴を木構造で視覚的に表示しアンドゥできる
+;;; http://www.dr-qubit.org/emacs.php
+(my-safe-require 'undo-tree
+  (global-undo-tree-mode)
+  (setq-default undo-tree-visualizer-timestamps t) ; display timestamp in visualizer
+  ;; bind redo to "C-_" because default bind "C-?" is unavailable in CUI
+  ;(define-key undo-tree-map (kbd "C-_") 'undo-tree-redo)
+  ;; "C-/" is translated "C-_" in CUI. So, I can't use undo-tree-undo on above setting.
+  )
+
 ;;; egg.el
 ;;; git クライアント
 ;;; https://github.com/bogolisk/egg
