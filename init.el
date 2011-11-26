@@ -212,8 +212,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (interactive)
   (let ((current-pt (point)))
     (when (re-search-backward "/[^/]+/?" nil t)
-        (forward-char 1)
-        (delete-region (point) current-pt))))
+      (forward-char 1)
+      (delete-region (point) current-pt))))
 (define-key minibuffer-local-map (kbd "M-^") 'my-minibuffer-delete-parent-directory)
 
 ;;; 2011-07-26 (Tue)
@@ -461,7 +461,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;     ))
 ;; (define-key global-map (kbd "C-SPC") 'my-sequential-mark)
 ;;; 2011-06-28 (Tue)
-;;; もとからこのような昨日があることに気づいた．残念すぎる
+;;; もとからこのような機能があることに気づいた．残念すぎる
 (setq set-mark-command-repeat-pop t)
 
 ;; 失敗作
