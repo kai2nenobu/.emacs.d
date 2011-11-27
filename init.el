@@ -209,6 +209,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; ミニバッファでカーソルの左側の "/" まで文字を削除
 ;;; 1つ上のディレクトリを指定するのに便利
 (defun my-minibuffer-delete-parent-directory ()
+  "Delete one level of directory path."
   (interactive)
   (let ((current-pt (point)))
     (when (re-search-backward "/[^/]+/?" nil t)
@@ -462,6 +463,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;; (define-key global-map (kbd "C-SPC") 'my-sequential-mark)
 ;;; 2011-06-28 (Tue)
 ;;; もとからこのような機能があることに気づいた．残念すぎる
+;; enable to pop mark-ring repeatedly like C-u C-SPC C-SPC ...
 (setq set-mark-command-repeat-pop t)
 
 ;; 失敗作
@@ -526,7 +528,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; 2011-02-06 (Sun)
 ;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
 (defun my-count-lines-window ()
-  "Reurn line relative to the selected window. The number of line begins 0."
+  "Count lines relative to the selected window. The number of line begins 0."
   (interactive)
   (let* (;(deactivate-mark nil)       ; prevent to deactivate region by this command
          (window-string (buffer-substring-no-properties (window-start) (point)))
@@ -536,14 +538,14 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (unless truncate-lines      ; consider folding back
       ;; `line-count-list' is list of the number of physical line which each logical line has.
       (setq line-count-list (mapcar '(lambda (str)
-                                       (/ (my-count-string-column str) (window-width)))
+                                       (/ (my-count-string-columns str) (window-width)))
                                     line-string-list))
       (setq line-count (+ line-count (apply '+ line-count-list))))
     line-count))
 
-;; count string width (column)
-(defun my-count-string-column (str)
-  "Count column of string. The number of column is 0."
+;; count string width (columns)
+(defun my-count-string-columns (str)
+  "Count columns of string. The number of column begins 0."
   (with-temp-buffer
     (insert str)
     (current-column)))
@@ -573,13 +575,13 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 
 ;;; scroll-up, down でウィンドウに対する相対的なカーソル位置を動かさないアドバイス
 (defadvice scroll-up (around scroll-up-relative activate)
-  ""
+  "Scroll up relatively without move of cursor."
   (let ((line (my-count-lines-window)))
     ad-do-it
     (move-to-window-line line)))
 
 (defadvice scroll-down (around scroll-down-relative activate)
-  ""
+  "Scroll down relatively without move of cursor."
   (let ((line (my-count-lines-window)))
     ad-do-it
     (move-to-window-line line)))
@@ -1690,10 +1692,13 @@ Creates a buffer if necessary."
 ;;; hilight current column
 (my-safe-require 'col-highlight
   ;(column-highlight-mode 1)
+  ;; 常に on にしとくのはちょっと重すぎるのでコメントアウト
   (custom-set-faces
    '(col-highlight ((t (:background "gray10")))))
-  (define-key my-original-map (kbd "C-c") 'column-highlight-mode))
-;; ちょっと重すぎるのでコメントアウト
+  (setq col-highlight-period 4)
+  (define-key global-map (kbd "C-+") 'flash-column-highlight)
+  (define-key my-original-map (kbd "C-c") 'column-highlight-mode)
+  )
 
 ;;; yasnippet.el
 (my-safe-require 'yasnippet
