@@ -2545,7 +2545,7 @@ Creates a buffer if necessary."
            "** %?\n%(concat \"   [[\" (jk/moz-url) \"]]\")\n   Entered on %U\n"
            :empty-lines 1)
           ("h" "はてな" entry
-           (file+ nil my-search-org-headline)
+           (file+headline "hatena.org" "Draft")
            "** %?" :empty-lines 1)
           ("a" "Article" entry
            (file+headline "article.org" "Draft")
