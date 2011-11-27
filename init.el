@@ -2334,7 +2334,6 @@ Creates a buffer if necessary."
   (key-chord-define global-map "@1" 'delete-other-windows)
   (key-chord-define global-map "@2" 'split-window-vertically)
   (key-chord-define global-map "@3" 'split-window-horizontally)
-  (key-chord-define global-map "MM" 'move-to-window-line-top-bottom)
   (key-chord-define global-map "bm" 'bm-toggle)
   (key-chord-define global-map "b[" 'bm-previous)
   (key-chord-define global-map "b]" 'bm-next)
