@@ -1133,6 +1133,24 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+;;; tramp.el
+;;; Edit file in remote host
+(my-safe-require 'tramp
+  (setq tramp-default-method (cond ((winp) "sshx")
+                                   (t "ssh")))
+  ;; config for using cygwin ssh on Windows. Please use "sshx" method.
+  ;; http://www.emacswiki.org/emacs/TrampMode
+  (when (winp)
+    (nconc (cadr (assq 'tramp-login-args (assoc "ssh" tramp-methods)))
+           '(("bash" "-i")))
+    (setcdr (assq 'tramp-remote-sh (assoc "ssh" tramp-methods))
+            '("bash -i")))
+  ;; multi ssh
+  (add-to-list 'tramp-default-proxies-alist
+               '("athena\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@%h:"))
+  (add-to-list 'tramp-default-proxies-alist
+               '("rubner\\(.mydns.jp\\)?" "\\`root\\'" "/kai@%h:")))
+
 ;;; doc-view.el
 ;;; Emacs で pdf 閲覧
 (my-safe-require 'doc-view
@@ -2960,7 +2978,6 @@ do nothing. And suppress the output from `message' and
 ;;; pukiwiki-mode
 ;;; 2010-09-11 (Sat)
 ;;; Meadow/Emacs memo より
-(my-safe-require 'tramp)
 (my-safe-require 'http)
 (my-safe-require 'pukiwiki-mode
   (setq pukiwiki-auto-insert t)
