@@ -1538,12 +1538,62 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
-;;; tree-undo.el
+;;; shell-history.el
+;;; シェルの履歴を履歴ファイルに書きこむ
+;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/shell-history.el")
+(my-safe-require 'shell-history
+  (setq shell-history-file "~/.zsh_history")
+
+  ;; add command in shell-mode to history file
+  (defadvice comint-send-input (before add-to-shell-history activate)
+    (when (eq major-mode 'shell-mode)
+      (add-to-shell-history (buffer-substring (point-at-bol) (point-at-eol)))))
+  )
+
+;;; cedet.el
+;;; Emacs で開発環境
+;;; http://cedet.sourceforge.net/
+;; (my-safe-load (expand-file-name "repo/cedet-1.0/common/cedet.el" dropbox-directory)
+;;   (global-ede-mode 1)                      ; Enable the Project management system
+;;   (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
+;;   (global-srecode-minor-mode 1)            ; Enable template insertion menu
+;;   )
+
+;;; open-junk-file.el
+;;; 試行錯誤用ファイルを開く
+;;; (auto-install-from-emacswiki "open-junk-file.el")
+(my-safe-require 'open-junk-file
+  (setq open-junk-file-format
+        (expand-file-name "junk/%Y/%m/%d-%H%M%S-junk." user-emacs-directory))
+  (define-key ctl-x-map (kbd "C-j") 'open-junk-file)
+  )
+
+;;; lispxmp.el
+;;; 式の評価結果を注釈する
+;;; (auto-install-from-emacswiki "lispxmp.el")
+(my-safe-require 'lispxmp
+  (define-key emacs-lisp-mode-map (kbd "C-c C-d") 'lispxmp)
+  )
+
+;;; paredit.el
+;;; 括弧の対応を保持して編集
+;;; (auto-install-from-url "http://mumble.net/~campbell/emacs/paredit.el")
+;; (my-safe-require 'paredit
+;;   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+;;   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+;;   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+;;   (add-hook 'ielm-mode-hook 'enable-paredit-mode)
+;;   )
+;; paredit.el をつけておくとファイルを開くときにメジャーモードの判定に
+;; 失敗したりする．何でかは分からんが不便なのでコメントアウトしとく
+
+;;; undo-tree.el
 ;;; 編集履歴を木構造で視覚的に表示しアンドゥできる
 ;;; http://www.dr-qubit.org/emacs.php
 (my-safe-require 'undo-tree
   (global-undo-tree-mode)
   (setq-default undo-tree-visualizer-timestamps t) ; display timestamp in visualizer
+  ;(define-key undo-tree-map (kbd "C-g") 'undo-tree-visualizer-quit)  ; unable to bind "C-g"?
   ;; bind redo to "C-_" because default bind "C-?" is unavailable in CUI
   ;(define-key undo-tree-map (kbd "C-_") 'undo-tree-redo)
   ;; "C-/" is translated "C-_" in CUI. So, I can't use undo-tree-undo on above setting.
