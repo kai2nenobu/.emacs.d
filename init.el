@@ -28,17 +28,6 @@
 
 ;;; 起動時間を測定する
 ;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
-(unless (boundp 'before-init-time)
-  (defvar before-init-time (current-time)
-    "Value of `current-time' before Emacs begins initialization."))
-
-(unless (boundp 'after-init-time)
-  (defvar after-init-time nil
-    "Value of `current-time' after loading the init files.
-This is nil during initialization.")
-  (defun my-measure-init-time-set-after ()
-    (setq after-init-time (current-time))))
-
 (defvar my-measure-init-time-file (expand-file-name ".init_time" user-emacs-directory)
   "File name to write out initialization time.")
 
@@ -58,8 +47,6 @@ This is nil during initialization.")
       (write-region (point-min) (point-max) my-measure-init-time-file)
       (kill-buffer))))
 
-(when (fboundp 'my-measure-init-time-set-after)
-  (add-hook 'after-init-hook 'my-measure-init-time-set-after t))
 (add-hook 'after-init-hook 'my-measure-init-time t)
 
 ;;; OSの判別，固有の設定
