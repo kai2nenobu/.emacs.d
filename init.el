@@ -26,8 +26,41 @@
 ;;; - dired のソート順をもっと柔軟に．ファイル名だけ列挙出来れば，speedbar みたいに使えるかな．
 ;;; - one-key の代わりに現在のキーバインドを動的に表示できる elisp
 
-;;; 起動時間測定のための測定開始時間を設定
-(defvar my-time-zero (current-time) "A standard time to calculate time starting emacs.")
+;;; 起動時間を測定する
+;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
+(unless (boundp 'before-init-time)
+  (defvar before-init-time (current-time)
+    "Value of `current-time' before Emacs begins initialization."))
+
+(unless (boundp 'after-init-time)
+  (defvar after-init-time nil
+    "Value of `current-time' after loading the init files.
+This is nil during initialization.")
+  (defun my-measure-init-time-set-after ()
+    (setq after-init-time (current-time))))
+
+(defvar my-measure-init-time-file (expand-file-name ".init_time" user-emacs-directory)
+  "File name to write out initialization time.")
+
+(defun my-measure-init-time ()
+  (let* ((system-time-locale "C")
+         (most  (- (car after-init-time) (car before-init-time)))
+         (least (- (cadr after-init-time) (cadr before-init-time)))
+         (msec  (/ (- (caddr after-init-time) (caddr before-init-time)) 1000))
+         (init-time (+ (* 65536 1000 most) (* 1000 least) msec)))
+    (with-temp-buffer
+      (insert-file-contents-literally my-measure-init-time-file)
+      (goto-char (point-min))
+      (insert (format "%6d msec elapsed to start up emacs & load 'init.el'. " init-time) ; かかった時間
+              (car (split-string (emacs-version) "\n")) ; Emacs のバージョンとハードウェアの名前
+              (format-time-string " at %Y-%m-%d (%a) %H:%M:%S" after-init-time nil) ; 起動した日時
+              (format " on %s@%s\n" user-login-name system-name)) ; ユーザ名とマシン名
+      (write-region (point-min) (point-max) my-measure-init-time-file)
+      (kill-buffer))))
+
+(when (fboundp 'my-measure-init-time-set-after)
+  (add-hook 'after-init-hook 'my-measure-init-time-set-after t))
+(add-hook 'after-init-hook 'my-measure-init-time t)
 
 ;;; OSの判別，固有の設定
 ;;; 2010-11-08 (Mon)
@@ -414,33 +447,6 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (dolist (element win:my-list value)
       (insert (concat (substring (format "%d %-100s" (car element) (cdr element)) 0 width) " ")))))
 ;; とりあえずウィンドウの番号と名前をある幅ごとに表示させることはできるようになった
-
-
-;;; 2011-02-13 (Sun)
-;;; 起動時間を測定する
-;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
-(defvar my-elapsed-time-file (concat user-emacs-directory ".elapsed_time")
-  "The file name to write elapsed time.")
-(defun my-elapsed-time-lag ()
-  (let* ((system-time-locale "C")
-         (startup-time (current-time))
-         (now (current-time))
-         (min (- (car now) (car my-time-zero)))
-         (sec (- (car (cdr now)) (car (cdr my-time-zero))))
-         (msec (/ (- (car (cdr (cdr now)))
-                     (car (cdr (cdr my-time-zero))))
-                     1000))
-         (lag (+ (* 60000 min) (* 1000 sec) msec)))
-    (with-temp-buffer
-      (insert-file-contents-literally my-elapsed-time-file)
-      (goto-char (point-min))
-      (insert (format "%6d msec elapsed to start up emacs & load 'init.el'. " lag) ; かかった時間
-              (format (car (split-string (emacs-version) "\n"))) ; Emacs のバージョンとハードウェアの名前
-              (format-time-string " at %Y-%m-%d (%a) %H:%M:%S" startup-time nil) ; 起動した日時
-              (format " on %s@%s\n" user-login-name system-name)) ; ユーザ名とマシン名
-      (write-region (point-min) (point-max) my-elapsed-time-file)
-      (kill-buffer))))
-(add-hook 'after-init-hook 'my-elapsed-time-lag)
 
 ;;; 2011-02-13 (Sun)
 ;;;  sequential-mark
