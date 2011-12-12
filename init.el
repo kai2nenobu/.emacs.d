@@ -2629,7 +2629,7 @@ Creates a buffer if necessary."
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
                         ("Org-mode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
-                        ("JobHunt" . ?j) ("MATLAB" . ?M) ("LaTeX" . ?) ("PukiWiki" . ?)
+                        ("JobHunt" . ?j) ("MATLAB" . ?M) ("TeX" . ?) ("PukiWiki" . ?)
                         ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done 'time) ; DONEの時刻を記録
@@ -2688,11 +2688,37 @@ Creates a buffer if necessary."
                          (cons (upcase (nth 1 elm))
                                (cddr elm))))
                 org-structure-template-alist))
+  ;; hook
+  (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; key bind
   (define-key global-map (kbd "C-c a") 'org-agenda)
   (define-key global-map (kbd "C-c b") 'org-iswitchb)
   (define-key global-map (kbd "C-c l") 'org-store-link)
   (define-key global-map (kbd "C-c C-SPC") 'org-mark-ring-goto)
+
+  ;; external plugin
+;;; org-tree-slide.el
+;;; (auto-install-from-url "https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el")
+  (my-safe-require 'org-tree-slide
+    (org-tree-slide-simple-profile)
+    (setq org-tree-slide-heading-emphasis t)
+    )
+
+  ;; anything source for src block
+  (defvar org-src-my-lang-candidates
+    '("asymptote" "awk" "calc" "C" "C++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
+      "gnuplot" "haskell" "java" "js" "latex" "ledger" "lisp" "lilypond" "matlab"
+      "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
+      "sass" "scheme" "screen" "sh" "sql" "sqlite")
+    "Anything command source for Org-mode src block")
+  (defvar anything-c-source-org-src-lang
+    '((name . "Available language in Org-mode src block")
+      (candidates . org-src-my-lang-candidates)
+      (action ("Return as string" . eval)
+              ("Return as symbol" . intern)
+              ("Insert string" . insert))))
+
+
   )
 
 (defun my-search-org-level1 ()
