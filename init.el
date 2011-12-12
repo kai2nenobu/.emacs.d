@@ -3413,7 +3413,17 @@ do nothing. And suppress the output from `message' and
 (defvar ac-source-matlab-functions nil
   "Souce for matlab functions.")
 (setq ac-source-matlab-functions
-      '((candidates . (list "zeros" "ones" "eye" "mean" "exp" "length" "save" "normpdf" "plot"))
+      '((candidates . (list "zeros" "ones" "eye" "mean" "exp" "length" "save" "normpdf" "plot"
+                            "size" "print" "sum" "prod" "inv" "diag" "rand" "randn" "linspace"
+                            "logspace" "length" "any" "all" "find" "reshape" "meshgrid" "char"
+                            "deblank" "double" "strcmp" "strncmp" "isletter" "isspace" "findstr"
+                            "strrep" "int2str" "num2str" "str2num" "dec2hex" "dec2bin" "hex2dec"
+                            "bin2dec" "mat2str" "eval" "tic" "toc" "figure" "hold" "subplot"
+                            "fplot" "title" "xlabel" "ylabel" "text" "gtext" "grid" "axis"
+                            "legend" "set" "get" "bar" "barh" "area" "pie" "hist" "stem"
+                            "staris" "compass" "feather" "quiver" "contour" "ginput" "drawnow"
+                            "image" "imagesc" "image" "imread" "fill" "fprintf" "fopen"
+                            "fclose" "fgetl" "feof" "fwrite" "fread"))
         (document . ac-matlab-function-documentation)
         (symbol . "f")))
 
