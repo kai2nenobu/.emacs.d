@@ -1790,8 +1790,8 @@ Creates a buffer if necessary."
 (my-safe-require 'yasnippet
   ;; キーバインドは以下を参考にした
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
-  (setq yas/trigger-key "<C-tab>")      ; TAB だと auto-complete とかぶるので変更
-  ;; (setq yas/next-field-key "<tab>")   ; これが <C-tab> にならんなぁ
+  (setq yas/trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
+  (setq yas/next-field-key (kbd "<C-tab>"))   ; これが <C-tab> にならんなぁ
   ;; (setq yas/prev-field-key "<S-tab>")
   ;; (define-key yas/minor-mode-map (kbd "C-<tab>") 'yas/expand)
   (setq yas/wrap-around-region t)
@@ -3155,24 +3155,27 @@ do nothing. And suppress the output from `message' and
   (setq ac-quick-help-delay 0.5)     ; help 表示の遅延時間
   (define-key my-original-map (kbd "TAB") 'auto-complete) ; あえて手動で補完したい時
   (setq ac-use-overriding-local-map t) ; ローカルマップの TAB を乗っ取る？
-                                       ; おもに org-mode で使いたいので付けとく．
-                                       ; 本来の org-mode の TAB がどれほど使えなくなるのかが心配
+                                        ; おもに org-mode で使いたいので付けとく．
+                                        ; 本来の org-mode の TAB がどれほど使えなくなるのかが心配
 
   ;; デフォルトの情報源
   (setq-default ac-sources
-                '(ac-source-filename ac-source-features 
-                  ac-source-functions ac-source-yasnippet 
-                  ac-source-variables ac-source-symbols 
+                '(ac-source-filename ac-source-features
+                  ac-source-functions ac-source-yasnippet
+                  ac-source-variables ac-source-symbols
                   ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   ;; auto-complete を有効にするモード
   (setq ac-modes (append
-                  '(yatex-mode matlab-mode matlab-shell-mode ruby-mode
-                               org-mode)
+                  '(yatex-mode matlab-mode matlab-shell-mode ruby-mode org-mode)
                   ac-modes))
   (add-hook 'sh-mode-hook
             (lambda ()
-                   (add-to-list 'ac-sources 'ac-source-yasnippet))))
+                   (add-to-list 'ac-sources 'ac-source-yasnippet)))
+  ;; key bind
+  (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand)
+  )
 
+(my-measure-message-time "Non-standard elisp setting.")
 ;;;;;;;;;;;;;;;;; 外部プログラムが必要そうなやつ ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;; ポータブルにはしにくそうなやつ ;;;;;;;;;;;;;;;;
 ;;; lookup
