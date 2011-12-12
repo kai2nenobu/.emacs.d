@@ -3332,9 +3332,15 @@ do nothing. And suppress the output from `message' and
       mlint-programs '("/usr/local/matlab75/bin/glnx86/mlint")
       matlab-mode-install-path (list (expand-file-name "/usr/local/matlab75/")))
 (autoload 'mlint-minor-mode "mlint" nil t)
-(add-hook 'matlab-mode-hook (lambda () (mlint-minor-mode 1)))
+(add-hook 'matlab-mode-hook (lambda ()
+                              (mlint-minor-mode 1)
+                              ;; config about face for mlint
+                              (set-face-background 'linemark-go-face "gray50")
+                              (set-face-background 'linemark-funny-face "red")
+                              ))
 ;; mlint しようとすると， linemark.el が必要らしいが，require したらしたで
 ;; おかしいので使わないようにしよう．
+;; cedet から linemark.el だけコピーしてロードしたら何とか動くようだ．
 (add-hook 'matlab-mode-hook (lambda () (auto-fill-mode 0)))
 (add-hook 'matlab-shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'matlab-shell-mode-hook
