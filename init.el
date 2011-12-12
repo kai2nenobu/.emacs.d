@@ -96,8 +96,15 @@ PRE time needs to be before CUR time."
       (add-to-list 'load-path dir)
       (normal-top-level-add-subdirs-to-load-path))))
 ;; 普通に追加
-(add-to-list 'load-path
-             (expand-file-name (concat user-emacs-directory "auto-install")))
+(add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
+
+;;; setting PATH in Windows
+(when (winp)
+  (setenv "PATH" (concat (expand-file-name "c:/cygwin/bin") ";"
+                         (getenv "PATH")))
+  (add-to-list 'exec-path "c:/cygwin/bin")
+  )
+
 
 ;;; package.el
 ;;; elisp のパッケージ管理をする
