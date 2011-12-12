@@ -3145,7 +3145,8 @@ do nothing. And suppress the output from `message' and
 ;;; ポップアップメニューで自動補完
 (my-safe-require 'auto-complete-config
   ;; メジャーモードに関する辞書
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  (add-to-list 'ac-dictionary-directories
+               (expand-file-name "ac-dict" user-emacs-directory))
   ;; (if (and (linuxp) (= emacs-major-version 23))
   ;;     nil
   ;;   (ac-config-default))
