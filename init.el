@@ -845,7 +845,6 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (define-key my-original-map (kbd "C-r")
   '(lambda () (interactive) (revert-buffer nil t t)))
 
-
 ;; emacsclientを使う
 (my-safe-require 'server
   (cond ((not (server-running-p))
@@ -897,11 +896,13 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
        (:background "gray90" t))     ; 背景を ForestGreen に.
       (t (:bold t)))
     "hl-line's my face")
+
   (setq hl-line-face 'my-hl-line-face)
   )
 
 ;;; backtrace when debugging
 ;(setq debug-on-error t)
+;(setq debug-on-error nil)
 
 ;;; max-specpdl-size
 (setq max-specpdl-size 6000)
@@ -1114,16 +1115,16 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 
 ;; M-x customize によって変更される設定
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values (quote ((TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (clmemo-mode . t) (TeX-master . t)))))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(cfw:face-day-title ((t :background "grey10")))
  '(cfw:face-default-content ((t :foreground "green2")))
  '(cfw:face-header ((t (:foreground "maroon2" :weight bold))))
@@ -2803,7 +2804,7 @@ Creates a buffer if necessary."
 ;;; http://web.archive.org/web/19981202211943/www.is.s.u-tokyo.ac.jp/~tama/source.html より
 ;;; (auto-install-from-url "http://chasen.org/~daiti-m/dist/postit.el")
 ;;; ファイルにポストイット
-(my-safe-require 'postit)
+;(my-safe-require 'postit)
 ;; 今のところあまりつかっていない
 
 ;;; text-adjust.el
@@ -3415,6 +3416,7 @@ do nothing. And suppress the output from `message' and
       (matlab-shell-collect-command-output (concat "help " fnc))
     (error "You need to run the command `matlab-shell' to read help!")))
 
+
 (add-hook 'matlab-mode-hook
 	  (lambda ()
 	    (add-to-list 'ac-sources 'ac-source-matlab)
@@ -3432,6 +3434,8 @@ do nothing. And suppress the output from `message' and
             (key-chord-define matlab-shell-mode-map "dv" 'matlab-shell-describe-variable)
             (key-chord-define matlab-shell-mode-map "AA" 'matlab-shell-apropos)
             ))
+
+
 
 
 ;;; プロンプトじゃない場所から comint-previous-input を
