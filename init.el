@@ -1143,14 +1143,29 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
  '(cfw:face-title ((t (:foreground "darkgoldenrod3" :weight bold :height 2.0 :inherit variable-pitch))))
  '(cfw:face-today ((t :foreground: "cyan" :weight bold)))
  '(cfw:face-today-title ((t :background "red4" :weight bold)))
+ '(col-highlight ((t (:background "gray10"))))
  '(linum ((t (:inherit (shadow default) :background "gray50" :foreground "yellow"))))
  '(scroll-bar ((t :foreground "magenta")))
  '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
 
+(my-measure-message-time "Customize variable.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+(my-safe-require 'outline
+  ;; make outline-level buffer local variable
+  (make-variable-buffer-local 'outline-level)
+  (setq-default outline-level 'outline-level)
+  (make-variable-buffer-local 'outline-regexp-alist)
+  (define-key my-original-map (kbd "C-n") 'outline-next-visible-heading)
+  (define-key my-original-map (kbd "C-p") 'outline-previous-visible-heading)
+  (defadvice outline-next-visible-heading (after recenter-after activate)
+    (recenter))
+  (defadvice outline-previous-visible-heading (after recenter-after activate)
+    (recenter))
+  )
+
 ;;; tramp.el
 ;;; Edit file in remote host
 (my-safe-require 'tramp
@@ -3100,26 +3115,104 @@ do nothing. And suppress the output from `message' and
 
 ;;; yatex.el
 ;; yatex-mode の起動
+
 (setq auto-mode-alist
       (cons (cons "\\.tex\\'" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-(setq tex-command "latexmk"       ; latexmk は複数回のコンパイル支援
-      makeindex-command "mendex"
-      dviprint-command-format "dvipdfmx %s"
-      dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
-                                          ; このコマンドはエイリアスを見てくれないようなので直接指定する
-      YaTeX-kanji-code 4  ;; 文章作成時の日本語文字コード
-                          ;; 0: no-converion
-                          ;; 1: Shift JIS (windows & dos default)
-                          ;; 2: ISO-2022-JP (other default)
-                          ;; 3: EUC
-                          ;; 4: UTF-8
-      );YaTeX-prefix (kbd "C-t"))   ; prefix キーを C-t に変更
-(setq YaTeX-inhibit-prefix-letter t)
-(add-hook 'yatex-mode-hook '(lambda () (auto-fill-mode 0))) ; auto-fill-mode を無効にする
-(add-hook 'yatex-mode-hook 'flyspell-mode)
+(eval-after-load "yatex"
+  (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
+        makeindex-command "mendex"
+        bibtex-command "pbibtex"
+        dviprint-command-format "dvipdfmx %s"
+        dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
+                                        ; このコマンドはエイリアスを見てくれないようなので直接指定する
+        YaTeX-kanji-code 4  ;; 文章作成時の日本語文字コード
+        ;; 0: no-converion
+        ;; 1: Shift JIS (windows & dos default)
+        ;; 2: ISO-2022-JP (other default)
+        ;; 3: EUC
+        ;; 4: UTF-8
+        );YaTeX-prefix (kbd "C-t"))   ; prefix キーを C-t に変更
+  (setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-t にする
+  ;; (setq YaTeX-sectioning-indent 2)
+  ;; (setq YaTeX-environment-indent 2)
+  (set-face-background YaTeX-sectioning-1 "#1c27ee")
+  (set-face-background YaTeX-sectioning-3 "#7874cc")
+  (set-face-background YaTeX-sectioning-4 "#d66abb")
+  (add-hook 'yatex-mode-hook
+            '(lambda ()
+               (auto-fill-mode 0)         ; auto-fill-mode disabled
+               (reftex-mode 1)            ; reftex-mode enabled
+               (flyspell-mode 1)          ; flyspell-mode enabled
+               ;; setting for outline-minor-mode
+               (outline-minor-mode 1)
+               (setq outline-level 'latex-outline-level)
+               (setq outline-regexp-alist
+                     '(("documentclass" . -2)
+                       ("part" . -1)
+                       ("chapter" . 0)
+                       ("section" . 1)
+                       ("subsection" . 2)
+                       ("subsubsection" . 3)
+                       ("paragraph" . 4)
+                       ("subparagraph" . 5)
+                       ("appendix" . 0)))
+               (setq outline-regexp
+                     (concat "[ \t]*\\\\\\("
+                             (mapconcat 'car outline-regexp-alist "\\|")
+                             "\\)\\*?[ \t]*[[{]"))
+               (define-key YaTeX-mode-map (kbd "<backtab>") 'outline-my-global-cycle)
+               ))
+  )
+;; function to find hierarchy for LaTeX
+(defun latex-outline-level ()
+  (save-excursion
+    (looking-at outline-regexp)
+    (let* ((title (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
+      (if (assoc title outline-regexp-alist)
+          (assoc-default title outline-regexp-alist)
+        (length title)))))
 
+;; cycle outline level
+(defun outline-my-cycle-level ()
+  (interactive)
+  (when (outline-on-heading-p)
+    (beginning-of-line)
+    (let* ((eol (save-excursion (move-end-of-line nil) (point)))
+           (eos (save-excursion (outline-end-of-subtree) (point)))
+           (cur-level (funcall outline-level))
+           (next-level (save-excursion (outline-next-heading)
+                                       (funcall outline-level)))
+           (has-children (not (= cur-level next-level))))
+      (if (eq eol eos)
+          (progn
+            (show-children)
+            (show-entry)
+            (message (if has-children "CHILDREN" "SUBTREE (NO CHILDREN)")))
+        (if (and has-children
+                 (save-excursion (outline-next-heading)
+                                 (= (next-overlay-change (point)) (point-at-eol))))
+            (progn (show-subtree)
+                   (message "SUBTREE"))
+          (hide-subtree)
+          (message "FOLDED")
+          )))
+    ;(hide-leaves)
+    ;(outline-end-of-heading)
+    ;(outline-end-of-subtree)
+    ))
+(defadvice YaTeX-indent-line (around cycle-heading activate)
+  "If cursor is on outline heading, cycle heading. Otherwise indent line."
+  (if (outline-on-heading-p)
+      (outline-my-cycle-level)
+    ad-do-it))
 
+(defun outline-my-global-cycle ()
+  (interactive)
+  (if (eq last-command 'outline-my-global-cycle)
+        (hide-sublevels 1000)
+    (hide-sublevels 1))
+  )
 ;; Use Emacs23's eldoc
 (my-safe-require 'eldoc
   ;; (auto-install-from-emacswiki "eldoc-extension.el")
