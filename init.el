@@ -2968,6 +2968,8 @@ Creates a buffer if necessary."
     (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
     ;; Use C-\ for ibus-toggle
     (define-key global-map (kbd "C-\\") 'ibus-toggle)
+    ;; `ibus-common-function-key-list' に ibus で使いたいキーを追加する？
+    (add-to-list 'ibus-common-function-key-list '(meta "v"))
     ))
 
 ;;; session.el
