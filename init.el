@@ -6,48 +6,63 @@
 ;;; - xdvi-search でのフォーカス操作。defadvice で前置引数を使いたい
 ;;;   現在のところ，フォーカスを移動するのは wmctrl でできるが，毎回移動するのはめんどい
 ;;; - 正規表現に一致する行に bm
-;;; - C-u SPC を何回も押すのはめんどくさいので sequential で何とかできんもんか
 ;;; - 起動時間測定をもっと賢くする
 ;;; - init.el 分割
 ;;; - 折り返しする column をハイライトするようなモード。折り返しの大体の目安がほしい
 ;;; - UWSC のメジャーモードを作る．generic じゃコントロールできん．
-;;; - 辞書を引けるようにする。sdic? 英辞郎? sary?
-;;;   DONE sdic はいれた．が，もう少し詳しい辞書やポップアップするようにしてもいいかも．
-;;; - org-mode と org-remember をつかってメモを取りたいですね
-;;;   DONE org-capture で Change Log 的にメモが取れるようになった
 ;;; - org-mode のタグをつける際に，
-;;; - wanderlust を設定しよう。本気でメールを Emacs で使いたくなってきた
-;;;   DONE とりあえず，gavo のメールの受信送信はできる
-;;; - そろそろ anything 導入が必要ですね。
-;;;   DONE とりあえず導入．M-x でコマンドが絞り込めるのがいい．
 ;;; - windows.el が使えた。少々改良できたらいいな。タブとか、*---* なバッファの復元とか
 ;;; - IME の ON/OFF に連動してカーソル色を変えたりを、自作したほうがいい気がする
-;;; - はてな用のメジャーモード？というかシンタックスハイライト出来ればいいか．
-;;; - dired のソート順をもっと柔軟に．ファイル名だけ列挙出来れば，speedbar みたいに使えるかな．
 ;;; - one-key の代わりに現在のキーバインドを動的に表示できる elisp
 
 ;;; 起動時間を測定する
 ;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
+;;; http://ubulog.blogspot.com/2009/08/emacs.html
 (defvar my-measure-init-time-file (expand-file-name ".init_time" user-emacs-directory)
   "File name to write out initialization time.")
 
+(defvar my-measure-previous-time before-init-time "Time at previous point.")
+(defvar my-measure-current-time before-init-time "Time at current point.")
+
+(defun my-measure-between-time (pre cur)
+  "Return time between two points in msec.
+
+PRE time needs to be before CUR time."
+  (let* ((most  (- (nth 0 cur) (nth 0 pre)))
+         (least (- (nth 1 cur) (nth 1 pre)))
+         (msec  (/ (- (nth 2 cur) (nth 2 pre)) 1000)))
+    (+ (* 65536 1000 most) (* 1000 least) msec)))
+
+(defun my-measure-message-time (message)
+  ""
+  (setq my-measure-previous-time my-measure-current-time)
+  (setq my-measure-current-time (current-time))
+  (let ((between-time (my-measure-between-time my-measure-previous-time
+                                               my-measure-current-time)))
+    (with-current-buffer (get-buffer-create " *measure time*")
+      (insert (format "%d msec. %s\n" between-time message)))))
+
 (defun my-measure-init-time ()
   (let* ((system-time-locale "C")
-         (most  (- (car after-init-time) (car before-init-time)))
-         (least (- (cadr after-init-time) (cadr before-init-time)))
-         (msec  (/ (- (caddr after-init-time) (caddr before-init-time)) 1000))
-         (init-time (+ (* 65536 1000 most) (* 1000 least) msec)))
+         (init-time (my-measure-between-time before-init-time after-init-time)))
     (with-temp-buffer
-      (insert-file-contents-literally my-measure-init-time-file)
-      (goto-char (point-min))
-      (insert (format "%6d msec elapsed to start up emacs & load 'init.el'. " init-time) ; かかった時間
+      (when (file-exists-p my-measure-init-time-file)
+        (insert-file-contents-literally my-measure-init-time-file)
+        (goto-char (point-min)))
+      (insert (format "%6d msec elapsed to initialize. " init-time) ; かかった時間
               (car (split-string (emacs-version) "\n")) ; Emacs のバージョンとハードウェアの名前
               (format-time-string " at %Y-%m-%d (%a) %H:%M:%S" after-init-time nil) ; 起動した日時
               (format " on %s@%s\n" user-login-name system-name)) ; ユーザ名とマシン名
       (write-region (point-min) (point-max) my-measure-init-time-file)
       (kill-buffer))))
 
-(add-hook 'after-init-hook 'my-measure-init-time t)
+; より正確を期すため `after-init-hook' 中に `after-init-time' をはかる
+(add-hook 'after-init-hook
+          '(lambda ()
+             (setq after-init-time (current-time))
+             (my-measure-message-time "after-init-hook.")
+             (my-measure-init-time))
+          t)
 
 ;;; OSの判別，固有の設定
 ;;; 2010-11-08 (Mon)
