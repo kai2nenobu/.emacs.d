@@ -679,6 +679,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;     (recenter -1)))
 ;; 残念ながらすでに同じ目的の関数がありました
 
+(my-measure-message-time "My original function.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 見た目とか ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -852,6 +853,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
         ((eq (server-running-p) :other)
          (server-start))))
 
+(my-measure-message-time "Looks and key bind.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -3446,3 +3448,5 @@ do nothing. And suppress the output from `message' and
 (put 'upcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+
+(my-measure-message-time "Big elisp setting.")
