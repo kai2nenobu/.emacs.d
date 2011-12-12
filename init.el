@@ -3097,9 +3097,11 @@ do nothing. And suppress the output from `message' and
 ;; google search
 (my-safe-load "google")
 
-;;shell-command
-;(my-safe-require 'shell-command)
-;(shell-command-completion-mode)
+;;; shell-command.el
+;;; シェルの強化
+;;; (auto-install-from-url "http://namazu.org/~tsuchiya/elisp/shell-command.el")
+(my-safe-require 'shell-command
+  (shell-command-completion-mode))
 
 ;; display-deadline.el
 ;(my-safe-require 'display-deadline)
