@@ -2681,6 +2681,33 @@ Creates a buffer if necessary."
           :publishing-directory ,(concat org-directory "/html")
           :publishing-function org-publish-attachment)
          ("website" :components ("orgfiles" "images" "others"))))
+  ;; config about latex exporting
+  (setq org-export-latex-coding-system 'utf-8-unix)
+  (setq org-latex-to-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
+  (setq org-export-latex-date-format "%Y-%m-%d")
+  (setq org-export-latex-default-class "jsarticle")
+  (setq org-export-latex-classes nil)
+  (add-to-list 'org-export-latex-classes
+               '("jsarticle"
+                 "\\documentclass[a4j]{jsarticle}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+                 ))
+  (setcar (member '("" "graphicx" t) org-export-latex-default-packages-alist)
+          '("dvipdfmx" "graphicx" t))   ; add option to graphicx package
+  ; default package
+  (setcar (member '("" "hyperref" nil) org-export-latex-default-packages-alist)
+          '("dvipdfmx,%\n%colorlinks=true,%\nbookmarks=true,%\nbookmarksnumbered=false,%\nbookmarkstype=toc,%\npdftitle={},%\npdfsubject={},%\npdfauthor={},%\npdfkeywords={},%\n"
+            "hyperref" nil))
+  (add-to-list 'org-export-latex-default-packages-alist
+               '("dvipdfmx" "color" nil)
+               t)
+  (add-to-list 'org-export-latex-default-packages-alist
+               "\\AtBeginDvi{\\special{pdf:tounicode EUC-UCS2}} % prevent mojibake of bookmark in pdf"
+               t)
   ;; Because completion string of template alist is lower case, upcase it.
   (setq org-structure-template-alist
         (mapcar '(lambda (elm)
