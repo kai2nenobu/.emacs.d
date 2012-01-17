@@ -127,9 +127,18 @@ PRE time needs to be before CUR time."
 
   (package-initialize))
 
+(my-measure-message-time "Basic setting.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; find-file 時にバッファ名に補助的な文字列を追加する
+(defadvice find-file (after find-file-rename activate)
+  ;; when open snippet file, append [snippet]
+  (when (string-match "/snippets/" (or (buffer-file-name) ""))
+    (rename-buffer (concat (buffer-name) " [snippet]")))
+  )
+
+
 ;;; other-window でコマンド実行するマイナーモード
 (defun command-other-window-execute (command)
   (with-selected-window (other-window-for-scrolling)
