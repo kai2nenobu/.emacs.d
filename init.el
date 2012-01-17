@@ -2206,6 +2206,7 @@ Creates a buffer if necessary."
           "\\[\\[file:\\([^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode のファイルリンクにマッチさせる
           "\\[\\[\\(http:[^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode の http リンクにマッチさせる
           ))
+  (setq cacoo:external-viewer nil)
   (setq cacoo:img-dir (concat user-emacs-directory ".cacoo-cache"))
   (setq cacoo:img-dir-ok t) ; 画像フォルダは確認無しで作る(my-safe-require 'cacoo
   (define-key global-map (kbd "M-c") 'toggle-cacoo-minor-mode)
