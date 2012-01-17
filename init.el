@@ -2136,27 +2136,28 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-emacswiki "pos-tip.el")
 ;;; (auto-install-from-emacswiki "popup-kill-ring.el")
 ;;; キルリングをポップアップで表示
-(my-safe-require 'popup)
-(when (null window-system)
-  (my-safe-require 'pos-tip))           ; terminal のときは pos-tip は使えないため．
-(my-safe-require 'popup-kill-ring
-  (global-set-key "\M-y" 'popup-kill-ring)
-  (setq pos-tip-background-color "red")
-  (setq popup-kill-ring-item-size-max 2000) ; サイズが 2000 以上の項目については、2000 までに切り捨てる。
-  (setq popup-kill-ring-timeout 0.1)        ; tooltip 表示までの delay
-  ;; Windows でも tooltip を表示するように defadvice
-  ;; Windows の時の window-system が考慮されていなかったのでそれを追加しただけ。
-  (defadvice popup-kill-ring-pos-tip-show (after popup-kill-ring-pos-tip-show-on-windows activate)
-    (when (eq window-system 'w32)
-      (pos-tip-show str popup-kill-ring-pos-tip-color pos nil 0 nil nil nil 0)))
-  ;; M-n, M-p で候補選択
-  (define-key popup-kill-ring-keymap (kbd "M-n") 'popup-kill-ring-next)
-  (define-key popup-kill-ring-keymap (kbd "M-p") 'popup-kill-ring-previous)
-  ;; yank の直後の場合は yank した文字列を消す
-  (defadvice popup-kill-ring (before popup-kill-ring-after-yank activate)
-    (when (eq last-command 'yank)
-      (undo)))     ; undo はすこし安直すぎるかもしれない
-)
+;; (my-safe-require 'popup)
+;; (when (null window-system)
+;;   (my-safe-require 'pos-tip))           ; terminal のときは pos-tip は使えないため．
+;; (my-safe-require 'popup-kill-ring
+;;   (global-set-key "\M-y" 'popup-kill-ring)
+;;   (setq pos-tip-background-color "red")
+;;   (setq popup-kill-ring-item-size-max 2000) ; サイズが 2000 以上の項目については、2000 までに切り捨てる。
+;;   (setq popup-kill-ring-timeout 0.1)        ; tooltip 表示までの delay
+;;   ;; Windows でも tooltip を表示するように defadvice
+;;   ;; Windows の時の window-system が考慮されていなかったのでそれを追加しただけ。
+;;   (defadvice popup-kill-ring-pos-tip-show (after popup-kill-ring-pos-tip-show-on-windows activate)
+;;     (when (eq window-system 'w32)
+;;       (pos-tip-show str popup-kill-ring-pos-tip-color pos nil 0 nil nil nil 0)))
+;;   ;; M-n, M-p で候補選択
+;;   (define-key popup-kill-ring-keymap (kbd "M-n") 'popup-kill-ring-next)
+;;   (define-key popup-kill-ring-keymap (kbd "M-p") 'popup-kill-ring-previous)
+;;   ;; yank の直後の場合は yank した文字列を消す
+;;   (defadvice popup-kill-ring (before popup-kill-ring-after-yank activate)
+;;     (when (eq last-command 'yank)
+;;       (undo)))     ; undo はすこし安直すぎるかもしれない
+;; )
+;; これの代わりに anything-show-kill-ring を使うことにした
 
 ;;; drill-instructor.el
 ;;; (auto-install-from-emacswiki "drill-instructor.el")
