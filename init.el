@@ -3502,7 +3502,7 @@ do nothing. And suppress the output from `message' and
 (add-hook 'matlab-mode-hook (lambda ()
                               (mlint-minor-mode 1)
                               ;; config about face for mlint
-                              (set-face-background 'linemark-go-face "gray50")
+                              (set-face-background 'linemark-go-face "gray40")
                               (set-face-background 'linemark-funny-face "red")
                               ))
 ;; mlint しようとすると， linemark.el が必要らしいが，require したらしたで
