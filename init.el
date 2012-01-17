@@ -2096,6 +2096,14 @@ Creates a buffer if necessary."
 ;;; navi2ch.el
 ;;; 2011-04-11 (Mon)
 (autoload 'navi2ch "navi2ch" "Navigator for 2ch for Emacs" t)
+(eval-after-load "navi2ch"
+  (progn
+    (defadvice navi2ch-article-next-message (after recenter-after activate)
+      (recenter))
+    (defadvice navi2ch-article-previous-message (after recenter-after activate)
+      (recenter)))
+  )
+
 
 ;;; color-moccur.el
 ;;; 2011-04-11 (Mon)
