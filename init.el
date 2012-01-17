@@ -2434,6 +2434,7 @@ Creates a buffer if necessary."
   (key-chord-define global-map "dv" 'describe-variable)
   (key-chord-define global-map "dk" 'describe-key)
   (key-chord-define global-map "db" 'describe-bindings)
+  (key-chord-define global-map "dm" 'describe-mode)
   (key-chord-define global-map "AA" 'anything-apropos)
   (key-chord-define global-map "cc" 'org-capture)
   ;; (key-chord-define global-map "CC" 'org-capture)
