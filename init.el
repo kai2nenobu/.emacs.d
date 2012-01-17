@@ -2734,6 +2734,14 @@ Creates a buffer if necessary."
   (define-key global-map (kbd "C-c l") 'org-store-link)
   (define-key global-map (kbd "C-c C-SPC") 'org-mark-ring-goto)
 
+  ;; from info
+  (defun org-summary-todo (n-done n-not-done)
+    "すべてのサブツリーが終了するとDONEに切り替えます。その他の場合は、TODOに
+なります。"
+    (let (org-log-done org-log-states)   ; 記録「logging」を終了
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
   ;; external plugin
 ;;; org-tree-slide.el
 ;;; (auto-install-from-url "https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el")
