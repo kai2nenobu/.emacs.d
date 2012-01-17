@@ -3189,50 +3189,58 @@ do nothing. And suppress the output from `message' and
       (cons (cons "\\.tex\\'" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 (eval-after-load "yatex"
-  (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
-        makeindex-command "mendex"
-        bibtex-command "pbibtex"
-        dviprint-command-format "dvipdfmx %s"
-        dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
+  (progn
+    (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
+          makeindex-command "mendex"
+          bibtex-command "pbibtex"
+          dviprint-command-format "dvipdfmx %s"
+          dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
                                         ; このコマンドはエイリアスを見てくれないようなので直接指定する
-        YaTeX-kanji-code 4  ;; 文章作成時の日本語文字コード
-        ;; 0: no-converion
-        ;; 1: Shift JIS (windows & dos default)
-        ;; 2: ISO-2022-JP (other default)
-        ;; 3: EUC
-        ;; 4: UTF-8
-        );YaTeX-prefix (kbd "C-t"))   ; prefix キーを C-t に変更
-  (setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-t にする
-  ;; (setq YaTeX-sectioning-indent 2)
-  ;; (setq YaTeX-environment-indent 2)
-  (set-face-background YaTeX-sectioning-1 "#1c27ee")
-  (set-face-background YaTeX-sectioning-3 "#7874cc")
-  (set-face-background YaTeX-sectioning-4 "#d66abb")
-  (add-hook 'yatex-mode-hook
-            '(lambda ()
-               (auto-fill-mode 0)         ; auto-fill-mode disabled
-               (reftex-mode 1)            ; reftex-mode enabled
-               (flyspell-mode 1)          ; flyspell-mode enabled
-               ;; setting for outline-minor-mode
-               (outline-minor-mode 1)
-               (setq outline-level 'latex-outline-level)
-               (setq outline-regexp-alist
-                     '(("documentclass" . -2)
-                       ("part" . -1)
-                       ("chapter" . 0)
-                       ("section" . 1)
-                       ("subsection" . 2)
-                       ("subsubsection" . 3)
-                       ("paragraph" . 4)
-                       ("subparagraph" . 5)
-                       ("appendix" . 0)))
-               (setq outline-regexp
-                     (concat "[ \t]*\\\\\\("
-                             (mapconcat 'car outline-regexp-alist "\\|")
-                             "\\)\\*?[ \t]*[[{]"))
-               (define-key YaTeX-mode-map (kbd "<backtab>") 'outline-my-global-cycle)
-               ))
-  )
+          YaTeX-kanji-code 4  ;; 文章作成時の日本語文字コード
+          ;; 0: no-converion
+          ;; 1: Shift JIS (windows & dos default)
+          ;; 2: ISO-2022-JP (other default)
+          ;; 3: EUC
+          ;; 4: UTF-8
+          )
+    (setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-t にする
+    ;; (setq YaTeX-sectioning-indent 2)
+    ;; (setq YaTeX-environment-indent 2)
+    (add-hook 'yatex-mode-hook          ; every time hook when yatex-mode is executed
+              '(lambda ()
+                 (auto-fill-mode 1)         ; auto-fill-mode enabled
+                 (reftex-mode 1)            ; reftex-mode enabled
+                 (flyspell-mode 1)          ; flyspell-mode enabled
+                 (outline-minor-mode 1)
+                 ;; setting for outline-minor-mode
+                 (setq outline-level 'latex-outline-level)
+                 (setq outline-regexp-alist
+                       '(("documentclass" . -2)
+                         ("part" . -1)
+                         ("chapter" . 0)
+                         ("section" . 1)
+                         ("subsection" . 2)
+                         ("subsubsection" . 3)
+                         ("paragraph" . 4)
+                         ("subparagraph" . 5)
+                         ("appendix" . 0)))
+                 (setq outline-regexp
+                       (concat "[ \t]*\\\\\\("
+                               (mapconcat 'car outline-regexp-alist "\\|")
+                               "\\)\\*?[ \t]*[[{]"))
+                 ))
+    (add-hook 'yatex-mode-load-hook     ; one time hook when yatex.el is loaded
+              '(lambda ()
+                 (define-key YaTeX-mode-map (kbd "<backtab>") 'outline-my-global-cycle)
+                 (YaTeX-my-set-sectioning-face)
+                 ))
+    ))
+
+(defun YaTeX-my-set-sectioning-face ()
+    (set-face-background 'YaTeX-sectioning-1 "#1c27ee")
+    (set-face-background 'YaTeX-sectioning-3 "#7874cc")
+    (set-face-background 'YaTeX-sectioning-4 "#d66abb"))
+
 ;; function to find hierarchy for LaTeX
 (defun latex-outline-level ()
   (save-excursion
