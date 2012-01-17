@@ -1835,14 +1835,27 @@ Creates a buffer if necessary."
   (yas/initialize)
   (yas/load-directory  "~/.emacs.d/snippets")
 
+  ;; original function
+  (defun yas/c-format-count (str)
+    "Return comma according to c format string"
+    (save-match-data
+      (set-match-data nil)
+      (let ((result ""))
+        (when (string-match "%[^%]" str)
+          (setq result ", ")
+          (while (string-match "%[^%]" str (match-end 0))
+            (setq result (concat result ", "))))
+        result)))
+
 )
 
 ;;; cygwin-mount.el
 ;;; 2011-05-18 (Wed)
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 ;;; cygwin のパスを使えるようにする
-;; (my-safe-require 'cygwin-mount
-;;   (cygwin-mount-activate))
+;; (when (winp)
+;;   (my-safe-require 'cygwin-mount
+;;     (cygwin-mount-activate)))
 ;; 一部しかして欲しくないパスの展開を全部やっちゃうので却下
 
 
