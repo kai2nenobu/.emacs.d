@@ -2621,17 +2621,19 @@ Creates a buffer if necessary."
 ;;; org-mode 自体は標準であるが非標準elispも必要そうなので
 ;;; ここに書いておく
 (my-safe-require 'org-install
+  (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
   (setq org-startup-truncated nil)
   (setq org-return-follows-link t)
   (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-  (setq org-directory (concat dropbox-directory "/memo"))
-  (setq org-default-notes-file (concat org-directory "/memo.org"))
+  (setq org-directory (expand-file-name "memo"  dropbox-directory))
+  (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-html-coding-system 'utf-8)
   ;; for OrgMobile
-  (setq org-mobile-directory org-directory)
-  (setq org-mobile-inbox-for-pull (concat org-mobile-directory "/flagged.org"))
+  (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
+  (setq org-mobile-inbox-for-pull (expand-file-name "flagged.org" org-directory))
 
-  (setq org-agenda-files '("~/Dropbox/memo/memo.org")); '(org-agenda-files (quote ("~/Dropbox/memo/memo.org")))
+  (setq org-agenda-files `(,org-default-notes-file
+                           ,(expand-file-name "task.org" org-directory)))
   (setq org-tag-alist '(("Bookmark" . ?b)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
@@ -2639,7 +2641,7 @@ Creates a buffer if necessary."
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
-                        ("Org-mode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
+                        ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("TeX" . ?) ("PukiWiki" . ?)
                         ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
