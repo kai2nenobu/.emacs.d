@@ -1814,6 +1814,7 @@ Creates a buffer if necessary."
 
 ;;; yasnippet.el
 (my-safe-require 'yasnippet
+  (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
   ;; キーバインドは以下を参考にした
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
   (setq yas/trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
