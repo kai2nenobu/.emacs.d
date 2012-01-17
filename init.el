@@ -2003,8 +2003,29 @@ Creates a buffer if necessary."
 (my-safe-require 'anything-startup
   (when (executable-find "cmigemo")
     (my-safe-require 'anything-migemo))
-  (define-key mode-specific-map (kbd "r") 'anything-filelist+) ; recentfile 的に使いたい
+
   (define-key global-map (kbd "C-S-a") 'anything-command-map)
+  (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
+  (add-to-list 'anything-c-source-buffers+ '(migemo))
+
+  ;; for filelist
+  ;; (when (linuxp)
+  ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
+  ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+  ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
+  ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
+  (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+
+  ;; anything-show-kill-ring
+  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+  (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+
+  ;;;; external elisp
+
+  ;;; anything-orgcard.el
+  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
+  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+  (my-safe-require 'anything-orgcard)
   )
 
 ;;; anything-c-yasnippet.el
@@ -2474,6 +2495,9 @@ Creates a buffer if necessary."
   (key-chord-define global-map "bm" 'bm-toggle)
   (key-chord-define global-map "b[" 'bm-previous)
   (key-chord-define global-map "b]" 'bm-next)
+  ;; (eval-after-load "org"
+  ;;   (eval-after-load "anything-orgcard"
+  ;;     '(key-chord-define org-mode-map "dm" 'aoc:anything-orgcard)))
   )
 
 ;;; slime
