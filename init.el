@@ -2796,6 +2796,7 @@ Creates a buffer if necessary."
       (beginning-of-line)
       (insert (concat "* " date "\n"))
       ;(backward-char)
+
       )))
 
 ;;; rubikitch さんの例
