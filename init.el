@@ -3146,7 +3146,8 @@ do nothing. And suppress the output from `message' and
   (setq pukiwiki-save-post-data t)
   ;; pukiwiki-edit-mode で行を折り返さない
   (add-hook 'pukiwiki-edit-mode '(lambda ()
-                                   (toggle-truncate-lines 1)))
+                                   (toggle-truncate-lines 1)
+                                   (orgtbl-mode 1)))
   )
 
 ;;; clmemo.el
