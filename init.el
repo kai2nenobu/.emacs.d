@@ -1581,7 +1581,91 @@ Creates a buffer if necessary."
 ;; ;; 新しいバッファを作成するときにいちいち聞いてこない
 ;; (setq iswitchb-prompt-newbuffer nil)
 
+(my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; expand-region.el
+;;; https://github.com/magnars/expand-region.el
+(my-safe-require 'expand-region
+  ;; (define-key global-map (kbd "M-@") 'er/expand-region)
+  (define-key global-map (kbd "C-@") 'er/expand-region))
+
+;;; auto-save-buffers.el
+;;; アイドル時に自動保存
+;;; (auto-install-from-url "http://homepage3.nifty.com/oatu/emacs/archives/auto-save-buffers.el")
+(my-safe-require 'auto-save-buffers
+  (run-with-idle-timer 2 t 'auto-save-buffers))
+
+;;; smartrep.el
+;;; 連続入力を支援
+;;; http://sheephead.homelinux.org/2011/12/19/6930/ Marmalade よりインストール
+(my-safe-require 'smartrep
+
+  (smartrep-define-key
+   global-map "C-x" '(("{" . (lambda () (enlarge-window-horizontally -1)))
+                      ("}" . (lambda () (enlarge-window-horizontally 1)))))
+
+  (define-key global-map (kbd "C-M-v") nil)
+  (smartrep-define-key
+   global-map "C-M-v" '(("j" . (lambda () (scroll-other-window 1)))
+                        ("k" . (lambda () (scroll-other-window -1)))
+                        ("J" . (lambda () (scroll-other-window 4)))
+                        ("K" . (lambda () (scroll-other-window -4)))
+                        ("d" . (lambda () (scroll-other-window (/ (window-height) 2))))
+                        ("u" . (lambda () (scroll-other-window (- (/ (window-height) 2)))))
+                        ("f" . 'scroll-other-window)
+                        ("b" . (lambda () (scroll-other-window '-)))
+                        ("g" . (lambda () (beginning-of-buffer-other-window 0)))
+                        ("G" . (lambda () (end-of-buffer-other-window 0)))))
+
+  (eval-after-load "org"
+    '(progn
+       (smartrep-define-key
+        org-mode-map "C-c" '(("C-n" . (lambda ()
+                                        (outline-next-visible-heading 1)))
+                             ("C-p" . (lambda ()
+                                        (outline-previous-visible-heading 1)))
+                             ("C-f" . (lambda ()
+                                        (org-forward-same-level 1)))
+                             ("C-b" . (lambda ()
+                                        (org-backward-same-level 1)))))
+       ))
+
+  (eval-after-load "yatex"
+    '(progn
+       (smartrep-define-key
+        YaTeX-mode-map "C-c" '(("C-n" . (lambda ()
+                                          (outline-next-visible-heading 1)))
+                               ("C-p" . (lambda ()
+                                          (outline-previous-visible-heading 1)))))
+       ))
+  )
+
+
+;;; quickrun.el
+;;; ワンタッチでスクリプト実行
+;;; (auto-install-from-url "https://raw.github.com/syohex/emacs-quickrun/master/quickrun.el")
+(my-safe-require 'quickrun
+  (define-key global-map (kbd "<f8>") 'quickrun)
+  )
+
+;;; cycle-buffer.el
+;;; バッファを環状に訪問
+;;; (auto-install-from-emacswiki "cycle-buffer.el")
+(my-safe-require 'cycle-buffer
+  (define-key global-map (kbd "C-.") 'cycle-buffer)
+  (define-key global-map (kbd "C-,") 'cycle-buffer-backward)
+  )
+
+;;; anything-advent-calendar.el
+;;; advent calendar を anything で選んで閲覧
+;;; http://gongo.hatenablog.com/entry/2011/12/12/000301
+(my-safe-require 'anything-advent-calendar)
+
+;;; sunrise-commander.el
+;;; 2ペインファイラー？
+;;; installed by package.el from "SC"
+(my-safe-require 'sunrise-commander)
+
 ;;; shell-history.el
 ;;; シェルの履歴を履歴ファイルに書きこむ
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/shell-history.el")
