@@ -2241,8 +2241,8 @@ Creates a buffer if necessary."
 ;;; xdoc2txt.el
 ;;; http://www.bookshelf.jp/soft/meadow_23.html#SEC238 より
 ;;; pdf や word のテキスト部分を抽出して表示する
-(when (winp)
-  (my-safe-load "xdoc2txt.el"))
+;; (when (winp)
+;;   (my-safe-load "xdoc2txt.el"))
 ;; Windows 専用
 
 ;;; mcomplete.el
