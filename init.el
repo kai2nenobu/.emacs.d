@@ -1165,6 +1165,28 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+(my-safe-require 'cl)
+
+(my-safe-require 'align
+  (add-to-list 'align-rules-list
+               '(latex-table-alignment
+                 (regexp . "\\([ \t]*\\)&")
+                 (repeat . t)
+                 (modes . '(yatex-mode))))
+
+  (add-to-list 'align-rules-list
+               '(pukiwiki-table-alignment
+                 (regexp . "\\([ \t]*\\)|")
+                 (spacing . 0)
+                 (repeat . t)
+                 (modes . '(pukiwiki-edit-mode))))
+  )
+
+(my-safe-require 'flyspell
+  (define-key flyspell-mode-map (kbd "C-.") nil) ; available cycle-buffer
+  (define-key flyspell-mode-map (kbd "C-,") nil)
+  )
+
 (my-safe-require 'outline
   ;; make outline-level buffer local variable
   (make-variable-buffer-local 'outline-level)
