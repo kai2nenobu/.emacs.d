@@ -117,6 +117,7 @@ PRE time needs to be before CUR time."
   ;; location to get package informations
   (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/"))
   ;; key bind
   (define-key package-menu-mode-map (kbd "k") 'previous-line)
   (define-key package-menu-mode-map (kbd "j") 'next-line)
