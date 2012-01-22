@@ -875,6 +875,12 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; kill whole line by `kill-line'
+(setq kill-whole-line t)
+
+;;; max length of log
+(setq messages-buffer-max-lines 1000)
+
 ;;; replace selected region by self-insert-command
 ;;; http://d.hatena.ne.jp/web7_77/20110705/1309885434
 (delete-selection-mode t)
