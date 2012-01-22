@@ -766,6 +766,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;use UTF-8
 (set-default-coding-systems 'utf-8)
 (coding-system-put 'utf-8 'category 'utf-8)
+(prefer-coding-system 'utf-8)
 ; Windows でフォルダ名が文字化けするので場合分け
 ; 条件が偽の場合が Windows の時だが特に設定しなくてもいいらしい
 (if (linuxp)
