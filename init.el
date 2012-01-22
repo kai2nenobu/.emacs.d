@@ -1420,7 +1420,7 @@ Creates a buffer if necessary."
   "Type '\\[my-dired-start]': start the current line's file."
   (interactive)
   (when (eq major-mode 'dired-mode)
-      (let ((fname (dired-get-filename))
+      (let ((fname (concat "'" (dired-get-filename) "'"))
             (coding-system-for-read 'utf-8-unix)     ; この2行がないと日本語名の
             (coding-system-for-write 'utf-8-unix))   ; ファイルが開けないので設定しとく
         (cond ((winp) (w32-shell-execute "open" fname))
