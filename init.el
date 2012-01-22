@@ -1124,9 +1124,23 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ; インデントにタブを使わない設定
 (setq-default indent-tabs-mode nil)
 
-;; isearch
+;;; isearch
 (define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
 (define-key isearch-mode-map (kbd "M-@") 'isearch-yank-word)   ; C-w と同じ働き
+;; リージョンが有効な場合，選択中のリージョンで isearch する
+;; http://dev.ariel-networks.com/articles/emacs/part5/
+(defadvice isearch-mode (around isearch-mode-default-string
+                                (forward &optional regexp op-fun recursive-edit word-p) activate)
+  (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
+      (progn
+        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+        (deactivate-mark)
+        ad-do-it
+        (if (not forward)
+            (isearch-repeat-backward)
+          (goto-char (mark))
+          (isearch-repeat-forward)))
+    ad-do-it))
 
 ;; ChangeLog-modeの設定
 (setq user-full-name "KAI Tsunenobu")
@@ -3267,6 +3281,8 @@ Creates a buffer if necessary."
     (define-key global-map (kbd "C-\\") 'ibus-toggle)
     ;; `ibus-common-function-key-list' に ibus で使いたいキーを追加する？
     (add-to-list 'ibus-common-function-key-list '(meta "v"))
+    ;; isearch で ibus を無効にする
+    (ibus-disable-isearch)
     ))
 
 ;;; session.el
