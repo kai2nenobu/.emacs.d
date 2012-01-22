@@ -1045,8 +1045,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;; ツールバーを非表示
 (tool-bar-mode 0)
 
-;; メニューバーを非表示
-(menu-bar-mode 0)
+;; メニューバーを非表示 をやめた
+(menu-bar-mode 1)
 
 ;; 編集中マウスカーソルを右上に
 (mouse-avoidance-mode 'banish)
