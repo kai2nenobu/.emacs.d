@@ -246,7 +246,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; 2011-08-10 (Wed)
 ;;; emacsclient の focus 制御のため
 ;;; http://d.hatena.ne.jp/syohex/20110127/1296141148
-(when (string-equal system-type "gnu/linux")
+(when (and (linuxp) (executable-find "emacs_server_start.pl"))
   (defadvice server-start
     (after server-start-after-write-window-id ())
     (call-process "emacs_serverstart.pl"
