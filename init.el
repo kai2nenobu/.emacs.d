@@ -2762,17 +2762,23 @@ Creates a buffer if necessary."
   (setq org-directory (expand-file-name "memo"  dropbox-directory))
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-html-coding-system 'utf-8)
-  ;; for OrgMobile
+  ;; for MobileOrg
   (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
-  (setq org-mobile-inbox-for-pull (expand-file-name "flagged.org" org-directory))
-
+  (setq org-mobile-inbox-for-pull
+        (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
+  ;; org-mobile-files の評価値が (org-agenda-files) なので MobileOrg で同期される
   (setq org-agenda-files `(,org-default-notes-file
-                           ,(expand-file-name "task.org" org-directory)))
+                           ,(expand-file-name "task.org" org-directory)
+                           ,(expand-file-name "contract.org" org-directory)
+                           ,(expand-file-name "english.org" org-directory)
+                           ,org-mobile-inbox-for-pull))
+
   (setq org-tag-alist '(("Bookmark" . ?b)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
                         ("Home" . ?h) ("Firefox" . ?) ("Question" . ?q) ("Vi" . ?)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
+                        ("Apple" . ?A) ("Later" . ?L)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
                         ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
