@@ -1114,7 +1114,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (setq-default indent-tabs-mode nil)
 
 ;; isearch
-(define-key isearch-mode-map "\C-h" 'isearch-delete-char) ; isearch中の検索語の文字削除
+(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
+(define-key isearch-mode-map (kbd "M-@") 'isearch-yank-word)   ; C-w と同じ働き
 
 ;; ChangeLog-modeの設定
 (setq user-full-name "KAI Tsunenobu")
