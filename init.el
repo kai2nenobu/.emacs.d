@@ -613,30 +613,30 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 
 ;;; tex の表の整形
 ;;; 2011-02-05 (Sat)
-(defun my-tex-table-align ()
-  (interactive)
-  (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)&" 1 1 t))
-(add-hook 'yatex-mode-hook
-          '(lambda ()
-             (YaTeX-define-key (kbd "C-a") 'my-tex-table-align)))
+;; (defun my-tex-table-align ()
+;;   (interactive)
+;;   (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)&" 1 1 t))
+;; (add-hook 'yatex-mode-hook
+;;           '(lambda ()
+;;              (YaTeX-define-key (kbd "C-a") 'my-tex-table-align)))
 
 ;;; uwsc-mode
 ;;; generic は簡単にメジャーモードを作ってくれる
 ;;; 2011-01-23 (Sun)
 (define-generic-mode uwsc-generic-mode
   ;; コメントになる文字列の指定
-  '("88")
+  '("//")
   ;; キーワードの指定
   '("DIM" "PUBLIC" "CONST" "IF" "THEN" "ELSE" "IFB" "ELSEIF" "ENDIF" "SELECT" "CASE" "DEFAULT" "SELEND" "FOR"
-    "NEXT" "TO" "STEP" "WHILE" "WEND" "REPEAT" "UNTIL" "CALL" "BREAK" "CONTINUE" "EXIT" "PRINT" "AND" "OR" "XOR"
+    "NEXT" "TO" "STEP" "WHILE" "WEND" "REPEAT" "UNTIL" "CALL" "BREAK" "CONTINUE" "EXIT" "EXITEXIT" "PRINT" "AND" "OR" "XOR"
     "MOD" "PROCEDURE" "FUNCTION" "FEND" "RESULT" "VAR" "DEF" "DLL" "OPTION" "THREAD" "CLASS" "ENDCLASS"
     "THIS" "GLOBAL" "WITH" "ENDWITH" "TEXTBLOCK" "ENDTEXTBLOCK" "HASHTBL" "TRY" "ENDTRY" "EXCEPT" "FINALLY"
     "dim" "public" "const" "if" "then" "else" "ifb" "elseif" "endif" "select" "case" "default" "selend" "for"
-    "next" "to" "step" "while" "wend" "repeat" "until" "call" "break" "continue" "exit" "print" "and" "or" "xor"
+    "next" "to" "step" "while" "wend" "repeat" "until" "call" "break" "continue" "exit" "exitexit" "print" "and" "or" "xor"
     "mod" "procedure" "function" "fend" "result" "var" "def" "dll" "option" "thread" "class" "endclass"
     "this" "global" "with" "endwith" "textblock" "endtextblock" "hashtbl" "try" "endtry" "except" "finally"
     "Dim" "Public" "Const" "If" "Then" "Else" "Ifb" "Elseif" "Endif" "Select" "Case" "Default" "Selend" "For"
-    "Next" "To" "Step" "While" "Wend" "Repeat" "Until" "Call" "Break" "Continue" "Exit" "Print" "And" "Or" "Xor"
+    "Next" "To" "Step" "While" "Wend" "Repeat" "Until" "Call" "Break" "Continue" "Exit" "Exitexit"  "Print" "And" "Or" "Xor"
     "Mod" "Procedure" "Function" "Fend" "Result" "Var" "Def" "Dll" "Option" "Thread" "Class" "Endclass"
     "This" "Global" "With" "Endwith" "Textblock" "Endtextblock" "Hashtbl" "Try" "Endtry" "Except" "Finally")
   ;; もうちょっと難しいキーワードの指定
