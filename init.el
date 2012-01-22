@@ -1519,6 +1519,22 @@ Creates a buffer if necessary."
    (function dired-convert-coding-system) arg 'convert-coding-system t))
 (define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
 
+;;; 本日変更のファイルを色付け
+;;; http://homepage1.nifty.com/blankspace/emacs/dired.html
+(defface my-face-f-2 '((t (:foreground "GreenYellow"))) nil)
+(defvar my-face-f-2 'my-face-f-2)
+(defun my-dired-today-search (arg)
+  "Fontlock search function for dired."
+  (search-forward-regexp (concat (format-time-string "%Y-%m-%d" (current-time))
+                                 " [0-9][0-9]:[0-9][0-9]") arg t))
+(add-hook 'dired-mode-hook
+          '(lambda ()
+             (font-lock-add-keywords
+              major-mode
+              (list
+               '(my-dired-today-search . my-face-f-2)
+            ))))
+
 ;;; dired-details.el
 ;;; 2011-07-19 (Tue)
 ;;; dired のファイル情報の詳細表示をトグルする
