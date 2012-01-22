@@ -779,26 +779,30 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (setq default-buffer-file-coding-system 'utf-8)
 (add-hook 'shell-mode-hook (lambda () (set-buffer-process-coding-system 'utf-8 'utf-8)))
 ;; よく分からんけど Ubuntu で「合計 8」とかが文字化けするのはこれで解決した
-;; (add-hook 'dired-before-readin-hook
+; (add-hook 'dired-before-readin-hook
 ;;                         (lambda ()
 ;;                             (set (make-local-variable 'coding-system-for-read) 'utf-8)))
 
 ; frame configure
 (setq default-frame-alist
       (append (list
+               ;color
+               '(background-color . "black") ; 背景の色
+               '(foreground-color . "gainsboro") ; 文字の色
+               '(cursor-color . "yellow")     ; カーソルの色
                ;size & position
                '(width . 150)   ; 一行の字数
                '(height . 54)  ; 行数
                '(top . 0)    ; ディスプレイのx座標(ピクセル)
                '(left . 0)   ; ディスプレイのy座標(ピクセル)
                '(alpha . (95 85 60 40)) ; 不透明度
-               ;color
-               '(background-color . "Black") ; 背景の色
-               '(foreground-color . "gainsboro") ; 文字の色
-               '(cursor-color . "Yellow")     ; カーソルの色
                )
               default-frame-alist))
 ;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
+
+;; process coding system
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+
 
 ;タブ，全角スペース，半角スペースに色付け
 ;;(defface my-face-r-1 '((t (:background "gray15"))) nil)
