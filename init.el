@@ -2640,6 +2640,7 @@ Creates a buffer if necessary."
                                         ; しかも表示されるウィンドウの高さが一定でない気もする。どうしてだろう。
   (push '("*sdic*" :height 0.25 :position top :noselect t) popwin:special-display-config)
   ;(push '("*anything complete" :width 0.4 :position right) popwin:special-display-config)
+  (add-to-list 'popwin:special-display-config '("*quickrun*"))
   (push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config) ; なぜか効かない
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (define-key ctl-x-map (kbd "p") 'popwin:display-last-buffer)
