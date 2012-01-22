@@ -1529,6 +1529,14 @@ Creates a buffer if necessary."
   (setq dired-details-hide-link-targets nil)
   )
 
+(defun anything-dired-file ()
+  "Anything command in dired buffer."
+  (interactive)
+  (anything-other-buffer
+   '(anything-c-source-files-in-current-dir+)
+   "*anything dired:"))
+(define-key dired-mode-map (kbd "/") 'anything-dired-file)
+
 ;;; generic-x.el
 ;;; 2011-03-07 (Mon)
 ;;; 予め定義されている generic
