@@ -146,9 +146,9 @@ With prefix arugument, `anything-pattern' is migemo-ized, otherwise normal `anyt
     (anything-mp-3-search-base migemo-forward migemo-forward bol eol))
   (defun anything-mp-3migemo-search-backward (pattern &rest ignore)
     (anything-mp-3-search-base migemo-backward migemo-backward eol bol)))
-;; (anything-string-match-with-migemo "æ—¥æœ¬èªå…¥åŠ›" "nihongo")
-;; (anything-string-match-with-migemo "æ—¥æœ¬èªå…¥åŠ›" "nyuuryoku")
-;; (anything-mp-3migemo-match "æ—¥æœ¬èªå…¥åŠ›" "nihongo nyuuryoku")
+;; (anything-string-match-with-migemo "æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›" "nihongo")
+;; (anything-string-match-with-migemo "æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›" "nyuuryoku")
+;; (anything-mp-3migemo-match "æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›" "nihongo nyuuryoku")
 (defun anything-compile-source--migemo (source)
   (if (not (featurep 'migemo))
       source
@@ -197,41 +197,41 @@ Bind `anything-use-migemo' = t in COMMAND."
   (when (fboundp 'expectations)
     (expectations
       (desc "match")
-      (expect '(("TEST" ("æ—¥æœ¬èª")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ª")))
         (let ((anything-use-migemo t))
           (anything-test-candidates
            '(((name . "TEST")
-              (candidates "æ—¥æœ¬èª")))
+              (candidates "æ—ãƒ¦œõ€‘‘ª")))
            "nihongo"
            '(anything-compile-source--migemo))))
       (desc "candidates buffer")
-      (expect '(("TEST" ("æ—¥æœ¬èª")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ª")))
         (let ((anything-use-migemo t))
           (anything-test-candidates
            '(((name . "TEST")
               (init
                . (lambda () (with-current-buffer (anything-candidate-buffer 'global)
-                              (insert "æ—¥æœ¬èª\n"))))
+                              (insert "æ—ãƒ¦œõ€‘‘ª\n"))))
               (candidates-in-buffer)))
            "nihongo"
            '(anything-compile-source--candidates-in-buffer
              anything-compile-source--migemo))))
       (desc "migemo attribute")
-      (expect '(("TEST" ("æ—¥æœ¬èª")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ª")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates
            '(((name . "TEST")
-              (candidates "æ—¥æœ¬èª")
+              (candidates "æ—ãƒ¦œõ€‘‘ª")
               (migemo)))
            "nihongo"
            '(anything-compile-source--migemo))))
-      (expect '(("TEST" ("æ—¥æœ¬èª")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ª")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates
            '(((name . "TEST")
               (init
                . (lambda () (with-current-buffer (anything-candidate-buffer 'global)
-                              (insert "æ—¥æœ¬èª\n"))))
+                              (insert "æ—ãƒ¦œõ€‘‘ª\n"))))
               (candidates-in-buffer)
               (migemo)))
            "nihongo"
@@ -239,26 +239,26 @@ Bind `anything-use-migemo' = t in COMMAND."
              anything-compile-source--migemo))))
       (desc "search-from-end attribute")
       
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›" "æ—¥æœ¬èªä¼šè©±")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›" "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)
                                        (migemo)
                                        (search-from-end)))
                                     "nihongo"
                                     '(anything-compile-source--candidates-in-buffer
                                       anything-compile-source--migemo))))
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›" "æ—¥æœ¬èªä¼šè©±")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›" "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±")))
         (let ((anything-use-migemo t))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)
                                        (search-from-end)))
                                     "nihongo"
@@ -266,38 +266,38 @@ Bind `anything-use-migemo' = t in COMMAND."
                                       anything-compile-source--migemo))))
       (desc "with anything-match-plugin")
       
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)
                                        (migemo)))
                                     "nihongo nyuuryoku"
                                     '(anything-compile-source--candidates-in-buffer
                                       anything-compile-source--match-plugin
                                       anything-compile-source--migemo))))
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo t))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)))
                                     "nihongo nyuuryoku"
                                     '(anything-compile-source--candidates-in-buffer
                                       anything-compile-source--match-plugin
                                       anything-compile-source--migemo))))
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)
                                        (search-from-end)
                                        (migemo)))
@@ -305,32 +305,32 @@ Bind `anything-use-migemo' = t in COMMAND."
                                     '(anything-compile-source--candidates-in-buffer
                                       anything-compile-source--match-plugin
                                       anything-compile-source--migemo))))
-      (expect '(("FOO" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("FOO" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo t))
           (anything-test-candidates '(((name . "FOO")
                                        (init
                                         . (lambda ()
                                             (with-current-buffer (anything-candidate-buffer 'global)
-                                              (insert "æ—¥æœ¬èªä¼šè©±\næ—¥æœ¬èªå…¥åŠ›\n"))))
+                                              (insert "æ—ãƒ¦œõ€‘‘ªç¯Œšè…±\næ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›\n"))))
                                        (candidates-in-buffer)
                                        (search-from-end)))
                                     "nihongo nyuuryoku"
                                     '(anything-compile-source--candidates-in-buffer
                                       anything-compile-source--match-plugin
                                       anything-compile-source--migemo))))
-      (expect '(("TEST" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo nil))
           (anything-test-candidates
            '(((name . "TEST")
               (migemo)
-              (candidates "æ—¥æœ¬èªå…¥åŠ›")))
+              (candidates "æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
            "nihongo nyuuryoku"
            '(anything-compile-source--match-plugin anything-compile-source--migemo))))
-      (expect '(("TEST" ("æ—¥æœ¬èªå…¥åŠ›")))
+      (expect '(("TEST" ("æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
         (let ((anything-use-migemo t))
           (anything-test-candidates
            '(((name . "TEST")
-              (candidates "æ—¥æœ¬èªå…¥åŠ›")))
+              (candidates "æ—ãƒ¦œõ€‘‘ªå…ãƒ¥Š›")))
            "nihongo nyuuryoku"
            '(anything-compile-source--match-plugin anything-compile-source--migemo))))
       )))
