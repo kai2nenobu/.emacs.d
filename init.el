@@ -3282,6 +3282,7 @@ do nothing. And suppress the output from `message' and
         '(("bibouroku" "http://rubner.mydns.jp/pukiwiki/index.php" nil utf-8-unix)
           ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
           ("minerva" "http://minerva.gavo.t.u-tokyo.ac.jp/wiki/index.php" nil utf-8-unix)
+          ("eeic09" "http://eeic09.dip.jp/index.php" nil utf-8-unix)
           ("disgaea4" "http://alphawiki.net/disgaea4/index.php" nil euc-jp)))
   ;; Proxy server
   ;(setq http-proxy-server "localhost")
