@@ -1869,6 +1869,13 @@ Creates a buffer if necessary."
   (set-face-foreground 'magit-diff-file-header "magenta") ; 効果なし？ version をあげたら良くなった
   (set-face-background 'magit-item-highlight "gray20")
 
+  (defun magit-view-item-other-window ()
+    "View item in other window."
+    (interactive)
+    (magit-visit-item t)
+    (other-window -1))
+
+  (define-key magit-mode-map (kbd "C-o") 'magit-view-item-other-window)
   ;; (defun my-magit-apply-file-header-face ()
   ;;   "Apply magit-diff-file-header."
   ;;   (interactive)
