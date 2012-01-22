@@ -3348,7 +3348,9 @@ do nothing. And suppress the output from `message' and
           ;; 3: EUC
           ;; 4: UTF-8
           )
-    (setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-t にする
+    (setq YaTeX-inhibit-prefix-letter 1)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
+    (setq YaTeX-use-AMS-LaTeX t)            ; ams パッケージの補完を可能にする
+
     ;; (setq YaTeX-sectioning-indent 2)
     ;; (setq YaTeX-environment-indent 2)
     (add-hook 'yatex-mode-hook          ; every time hook when yatex-mode is executed
