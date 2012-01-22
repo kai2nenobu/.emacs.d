@@ -1933,7 +1933,7 @@ Creates a buffer if necessary."
             (setq result (concat result ", "))))
         result)))
 
-)
+  )
 
 ;;; cygwin-mount.el
 ;;; 2011-05-18 (Wed)
@@ -1951,23 +1951,17 @@ Creates a buffer if necessary."
 ;;; ミニバッファでの補完を zsh ライクにする
 (my-safe-require 'zlc
   (let ((map minibuffer-local-map))
-  ;;; like menu select
-  (define-key map (kbd "<down>")  'zlc-select-next-vertical)
-  (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
-  (define-key map (kbd "<right>") 'zlc-select-next)
-  (define-key map (kbd "<left>")  'zlc-select-previous)
+    ;; like menu select
+    (define-key map (kbd "<down>")  'zlc-select-next-vertical)
+    (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
+    (define-key map (kbd "<right>") 'zlc-select-next)
+    (define-key map (kbd "<left>")  'zlc-select-previous)
 
-  (define-key map (kbd "H-n")  'zlc-select-next-vertical)
-  (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
-  (define-key map (kbd "H-f") 'zlc-select-next)
-  (define-key map (kbd "H-b")  'zlc-select-previous)
-
-  ;;; reset selection
-  ;(define-key map (kbd "C-c") 'zlc-reset)
-  ;; これを有効にすると anything で
-  ;; (error "Key sequence C-c C-d starts with non-prefix key C-c")
-  ;; と怒られる。なぜだろう。
-  ))
+    (define-key map (kbd "H-n")  'zlc-select-next-vertical)
+    (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
+    (define-key map (kbd "H-f") 'zlc-select-next)
+    (define-key map (kbd "H-b")  'zlc-select-previous)
+    ))
 
 ;;; moz.el
 ;;; 2011-05-03 (Tue)
