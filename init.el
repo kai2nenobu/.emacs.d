@@ -2229,7 +2229,7 @@ Creates a buffer if necessary."
 ;;; 2011-04-11 (Mon)
 ;;; (auto-install-from-url "http://www.bookshelf.jp/elc/color-moccur.el")
 ;;; 強化版 occur。moccur をもとに改造したらしい。
-(my-safe-require 'color-moccur nil t
+(my-safe-require 'color-moccur
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
