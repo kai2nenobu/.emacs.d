@@ -146,9 +146,9 @@
 (defun shell-add-to-history ()
   "Add this command line to shell history in `shell-mode'."
   (interactive)
-  (beginning-of-line)
-  (add-to-shell-history (buffer-substring (point) (point-at-eol)))
-  (delete-region (point) (point-at-eol))
+  ;(beginning-of-line)
+  (add-to-shell-history (buffer-substring (point-at-bol) (point-at-eol)))
+  ;(delete-region (point) (point-at-eol))
   (message "Added to shell history"))
 
 ;;;; Bug report
