@@ -3377,6 +3377,8 @@ do nothing. And suppress the output from `message' and
     (add-hook 'yatex-mode-load-hook     ; one time hook when yatex.el is loaded
               '(lambda ()
                  (define-key YaTeX-mode-map (kbd "<backtab>") 'outline-my-global-cycle)
+                 (define-key YaTeX-mode-map (kbd "C-c C-p") 'outline-previous-visible-heading)
+                 (define-key YaTeX-mode-map (kbd "C-c C-n") 'outline-next-visible-heading)
                  (YaTeX-my-set-sectioning-face)
                  ))
     ))
