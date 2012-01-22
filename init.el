@@ -1829,7 +1829,22 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/thing-opt.el")
 ;;; http://dev.ariel-networks.com/articles/emacs/part5/
 (my-safe-require 'thing-opt
-  (define-thing-commands))
+  (define-thing-commands)
+  (eval-after-load "key-chord"
+    '(progn
+       (key-chord-define-global "dw" 'kill-word*)
+       (key-chord-define-global "yw" 'copy-word)
+       (key-chord-define-global "vw" 'mark-word*)
+       (key-chord-define-global "ds" 'kill-sexp*)
+       (key-chord-define-global "ys" 'copy-sexp)
+       (key-chord-define-global "vs" 'mark-sexp*)
+       (key-chord-define-global "dq" 'kill-string)
+       (key-chord-define-global "yq" 'copy-string)
+       (key-chord-define-global "vq" 'mark-string)
+       (key-chord-define-global "dl" 'kill-up-list)
+       (key-chord-define-global "yl" 'copy-up-list)
+       (key-chord-define-global "vl" 'mark-up-list)))
+  )
 
 ;;; nav.el
 ;;; 2011-06-05 (Sun)
