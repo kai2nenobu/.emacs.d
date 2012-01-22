@@ -2855,6 +2855,12 @@ Creates a buffer if necessary."
   (add-to-list 'org-export-latex-default-packages-alist
                "\\AtBeginDvi{\\special{pdf:tounicode EUC-UCS2}} % prevent mojibake of bookmark in pdf"
                t)
+  ;; config about beamer export
+  (add-to-list 'org-export-latex-classes
+               '("beamer"
+                 "\\documentclass[compress,dvipdfmx]{beamer}"
+                 org-beamer-sectioning
+                 ))
   ;; Because completion string of template alist is lower case, upcase it.
   (setq org-structure-template-alist
         (mapcar '(lambda (elm)
