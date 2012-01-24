@@ -1666,7 +1666,8 @@ Creates a buffer if necessary."
 ;;; アイドル時に自動保存
 ;;; (auto-install-from-url "http://homepage3.nifty.com/oatu/emacs/archives/auto-save-buffers.el")
 (my-safe-require 'auto-save-buffers
-  (run-with-idle-timer 2 t 'auto-save-buffers))
+  (run-with-idle-timer 2 t 'auto-save-buffers)
+  (setq auto-save-buffers-exclude-regexp "init.el"))
 
 ;;; smartrep.el
 ;;; 連続入力を支援
