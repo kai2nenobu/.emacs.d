@@ -1375,6 +1375,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (my-safe-require 'dired)
 
+;;; dired+.el
+;;; (auto-install-from-emacswiki "dired+.el")
+;;; dired.el, dired-x.el, dired-aux.el の拡張
+(my-safe-require 'dired+)
+
 ;;; 2011-09-04 (Sun)
 ;;; dired-dd.el
 ;;; dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使える
