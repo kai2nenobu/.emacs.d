@@ -1661,6 +1661,15 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; rsense.el
+;;; ruby の開発援助ツール．コード補完や型検査ができる
+;;; http://cx4a.org/software/rsense/index.ja.html
+(setq rsense-home (getenv "RSENSE_HOME"))
+(my-safe-require 'rsense)
+
+;;; bashdb.el
+(autoload 'bashdb "bashdb" "BASH Debugger mode via GUD and bashdb" t)
+
 ;;; expand-region.el
 ;;; https://github.com/magnars/expand-region.el
 (my-safe-require 'expand-region
