@@ -1661,6 +1661,12 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; yspel.el
+;;; 日本語校正支援
+;;; git clone git://github.com/yama-natuki/yspel
+;;; http://ubulog.blogspot.com/2010/09/emacs.html
+(my-safe-require 'yspel)
+
 ;;; rsense.el
 ;;; ruby の開発援助ツール．コード補完や型検査ができる
 ;;; http://cx4a.org/software/rsense/index.ja.html
