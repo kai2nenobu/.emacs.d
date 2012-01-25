@@ -2215,6 +2215,17 @@ Creates a buffer if necessary."
   ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
   ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
   (my-safe-require 'anything-orgcard)
+
+  ;; anything-bibtex
+  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
+  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+  (my-safe-require 'anything-bibtex
+    (defun anything-bibtex-cite ()
+      "Anything command to cite bibliography."
+      (interactive)
+      (anything-other-buffer
+       '(anything-c-source-bibtex)
+       "*anything bibtex:")))
   )
 
 ;;; anything-c-yasnippet.el
