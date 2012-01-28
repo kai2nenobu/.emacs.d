@@ -2894,6 +2894,7 @@ Creates a buffer if necessary."
                            ,(expand-file-name "task.org" org-directory)
                            ,(expand-file-name "contract.org" org-directory)
                            ,(expand-file-name "english.org" org-directory)
+                           ,(expand-file-name "jobhunt.org" org-directory)
                            ,org-mobile-inbox-for-pull))
 
   (setq org-tag-alist '(("Bookmark" . ?b)
