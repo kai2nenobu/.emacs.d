@@ -1231,6 +1231,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (my-safe-require 'tramp
   (setq tramp-default-method (cond ((winp) "sshx")
                                    (t "ssh")))
+  ;; password
+  (setq tramp-password-prompt-regexp "Password: ? *")
+
   ;; config for using cygwin ssh on Windows. Please use "sshx" method.
   ;; http://www.emacswiki.org/emacs/TrampMode
   (when (winp)
