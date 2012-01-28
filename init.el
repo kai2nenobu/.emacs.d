@@ -2035,7 +2035,8 @@ Creates a buffer if necessary."
   ;; (eval-after-load "auto-complete.el"
   ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
   (yas/initialize)
-  (yas/load-directory  "~/.emacs.d/snippets")
+  (yas/load-directory (expand-file-name "snippets" user-emacs-directory))
+  (yas/global-mode 1)
 
   ;; original function
   (defun yas/c-format-count (str)
