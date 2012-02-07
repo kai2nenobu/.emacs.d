@@ -1664,6 +1664,15 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; wrap-region.el
+;;; リージョンを特定文字で囲む
+;;; (auto-install-from-url "https://raw.github.com/rejeep/wrap-region/master/wrap-region.el")
+(my-safe-require 'wrap-region
+  (wrap-region-global-mode t)
+  (wrap-region-add-wrapper "`" "'")
+  (wrap-region-add-wrapper "$" "$" nil 'yatex-mode))
+
+
 ;;; yspel.el
 ;;; 日本語校正支援
 ;;; git clone git://github.com/yama-natuki/yspel
