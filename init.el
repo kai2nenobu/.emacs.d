@@ -1698,42 +1698,36 @@ Creates a buffer if necessary."
 (my-safe-require 'smartrep
 
   (smartrep-define-key
-   global-map "C-x" '(("{" . (lambda () (enlarge-window-horizontally -1)))
-                      ("}" . (lambda () (enlarge-window-horizontally 1)))))
+   global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
+                      ("}" . (enlarge-window-horizontally 1))))
 
   (define-key global-map (kbd "C-M-v") nil)
   (smartrep-define-key
-   global-map "C-M-v" '(("j" . (lambda () (scroll-other-window 1)))
-                        ("k" . (lambda () (scroll-other-window -1)))
-                        ("J" . (lambda () (scroll-other-window 4)))
-                        ("K" . (lambda () (scroll-other-window -4)))
-                        ("d" . (lambda () (scroll-other-window (/ (window-height) 2))))
-                        ("u" . (lambda () (scroll-other-window (- (/ (window-height) 2)))))
+   global-map "C-M-v" '(("j" . (scroll-other-window 1))
+                        ("k" . (scroll-other-window -1))
+                        ("J" . (scroll-other-window 4))
+                        ("K" . (scroll-other-window -4))
+                        ("d" . (scroll-other-window (/ (window-height) 2)))
+                        ("u" . (scroll-other-window (- (/ (window-height) 2))))
                         ("f" . 'scroll-other-window)
-                        ("b" . (lambda () (scroll-other-window '-)))
-                        ("g" . (lambda () (beginning-of-buffer-other-window 0)))
-                        ("G" . (lambda () (end-of-buffer-other-window 0)))))
+                        ("b" . (scroll-other-window '-))
+                        ("g" . (beginning-of-buffer-other-window 0))
+                        ("G" . (end-of-buffer-other-window 0))))
 
   (eval-after-load "org"
     '(progn
        (smartrep-define-key
-        org-mode-map "C-c" '(("C-n" . (lambda ()
-                                        (outline-next-visible-heading 1)))
-                             ("C-p" . (lambda ()
-                                        (outline-previous-visible-heading 1)))
-                             ("C-f" . (lambda ()
-                                        (org-forward-same-level 1)))
-                             ("C-b" . (lambda ()
-                                        (org-backward-same-level 1)))))
+        org-mode-map "C-c" '(("C-n" . (outline-next-visible-heading 1))
+                             ("C-p" . (outline-previous-visible-heading 1))
+                             ("C-f" . (org-forward-same-level 1))
+                             ("C-b" .  (org-backward-same-level 1))))
        ))
 
   (eval-after-load "yatex"
     '(progn
        (smartrep-define-key
-        YaTeX-mode-map "C-c" '(("C-n" . (lambda ()
-                                          (outline-next-visible-heading 1)))
-                               ("C-p" . (lambda ()
-                                          (outline-previous-visible-heading 1)))))
+        YaTeX-mode-map "C-c" '(("C-n" . (outline-next-visible-heading 1))
+                               ("C-p" . (outline-previous-visible-heading 1))))
        ))
   )
 
