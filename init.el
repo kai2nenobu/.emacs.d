@@ -1672,7 +1672,6 @@ Creates a buffer if necessary."
   (wrap-region-add-wrapper "`" "'")
   (wrap-region-add-wrapper "$" "$" nil 'yatex-mode))
 
-
 ;;; yspel.el
 ;;; 日本語校正支援
 ;;; git clone git://github.com/yama-natuki/yspel
