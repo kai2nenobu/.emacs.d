@@ -1706,6 +1706,14 @@ Creates a buffer if necessary."
 (my-safe-require 'smartrep
 
   (smartrep-define-key
+      global-map "C-q" '(("[" . (backward-paragraph))
+                         ("]" . (forward-paragraph))
+                         ("b" . 'moz-scroll-up)
+                         ("f" . 'moz-scroll-down)
+                         ("h" . 'moz-prev-tab)
+                         ("l" . 'moz-next-tab)))
+
+  (smartrep-define-key
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
                       ("}" . (enlarge-window-horizontally 1))))
 
@@ -2114,11 +2122,6 @@ Creates a buffer if necessary."
   (defun moz-next-tab ()
     (interactive)
     (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(1, true)"))
-
-  (define-key my-original-map (kbd "b") 'moz-scroll-up)
-  (define-key my-original-map (kbd "f") 'moz-scroll-down)
-  (define-key my-original-map (kbd "h") 'moz-prev-tab)
-  (define-key my-original-map (kbd "l") 'moz-next-tab)
 
   ;; http://blogs.openaether.org/?p=236
   (defun jk/moz-get (attr)
