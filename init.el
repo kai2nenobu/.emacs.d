@@ -1144,8 +1144,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     ad-do-it))
 
 ;; ChangeLog-modeの設定
-(setq user-full-name "KAI Tsunenobu")
-(setq user-mail-address "kai@gavo.t.u-tokyo.ac.jp")
+(setq user-full-name "Tsunenobu Kai")
+(setq user-mail-address "kbkbkbkb1@gmail.com")
 
 ;; Add personal info directory
 ;; ここに追加したディレクトリの texinfo が読めるようになる
