@@ -537,19 +537,19 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; 2011-02-06 (Sun)
 ;; my-count-lines-window が論理行を数えるため，長い行を折り返していると
 ;; 移動する行数がずれる．めんどくさいので気が向いたら修正する
-(defun my-scroll-up-half-window ()
-  "Scroll up half of window-height putting point on line relative to the selected window."
-  (interactive)
-  (let ((line (my-count-lines-window)))
-    (scroll-up (/ (window-height) 2))
-    (move-to-window-line line)))
+;; (defun my-scroll-up-half-window ()
+;;   "Scroll up half of window-height putting point on line relative to the selected window."
+;;   (interactive)
+;;   (let ((line (my-count-lines-window)))
+;;     (scroll-up (/ (window-height) 2))
+;;     (move-to-window-line line)))
 
-(defun my-scroll-down-half-window ()
-  "Scroll down half of window-height putting point on line relative to the selected window."
-  (interactive)
-  (let ((line (my-count-lines-window)))
-    (scroll-down (/ (window-height) 2))
-    (move-to-window-line line)))
+;; (defun my-scroll-down-half-window ()
+;;   "Scroll down half of window-height putting point on line relative to the selected window."
+;;   (interactive)
+;;   (let ((line (my-count-lines-window)))
+;;     (scroll-down (/ (window-height) 2))
+;;     (move-to-window-line line)))
 
 ;;; 2011-02-06 (Sun)
 ;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
@@ -600,17 +600,17 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (other-window 1)))
 
 ;;; scroll-up, down でウィンドウに対する相対的なカーソル位置を動かさないアドバイス
-(defadvice scroll-up (around scroll-up-relative activate)
-  "Scroll up relatively without move of cursor."
-  (let ((line (my-count-lines-window)))
-    ad-do-it
-    (move-to-window-line line)))
+;; (defadvice scroll-up (around scroll-up-relative activate)
+;;   "Scroll up relatively without move of cursor."
+;;   (let ((line (my-count-lines-window)))
+;;     ad-do-it
+;;     (move-to-window-line line)))
 
-(defadvice scroll-down (around scroll-down-relative activate)
-  "Scroll down relatively without move of cursor."
-  (let ((line (my-count-lines-window)))
-    ad-do-it
-    (move-to-window-line line)))
+;; (defadvice scroll-down (around scroll-down-relative activate)
+;;   "Scroll down relatively without move of cursor."
+;;   (let ((line (my-count-lines-window)))
+;;     ad-do-it
+;;     (move-to-window-line line)))
 
 ;;; tex の表の整形
 ;;; 2011-02-05 (Sat)
@@ -881,6 +881,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; preserver cursor position when scroll
+(setq scroll-preserve-screen-position 'always)
+
 ;;; kill whole line by `kill-line'
 (setq kill-whole-line t)
 
