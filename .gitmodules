@@ -10,3 +10,6 @@
 [submodule "site-lisp/yspel"]
 	path = site-lisp/yspel
 	url = git://github.com/yama-natuki/yspel
+[submodule "my-lisp/guide-key"]
+	path = my-lisp/guide-key
+	url = git@github.com:kbkbkbkb1/guide-key.git
