@@ -1668,6 +1668,12 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; save-load-path.el
+;;; (auto-install-from-emacswiki "save-load-path.el")
+(when (linuxp)
+  (my-safe-require 'save-load-path
+    (save-load-path-initialize)))
+
 ;;; wrap-region.el
 ;;; リージョンを特定文字で囲む
 ;;; (auto-install-from-url "https://raw.github.com/rejeep/wrap-region/master/wrap-region.el")
