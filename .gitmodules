@@ -13,3 +13,6 @@
 [submodule "my-lisp/guide-key"]
 	path = my-lisp/guide-key
 	url = git@github.com:kbkbkbkb1/guide-key.git
+[submodule "site-lisp/popwin"]
+	path = site-lisp/popwin
+	url = https://github.com/m2ym/popwin-el.git
