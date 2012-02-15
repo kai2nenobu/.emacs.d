@@ -1064,7 +1064,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (menu-bar-mode 1)
 
 ;; 編集中マウスカーソルを右上に
-(mouse-avoidance-mode 'banish)
+(mouse-avoidance-mode 'jump)
 
 ;; 直感バッファ移動(shift+カーソルキー)
 (windmove-default-keybindings)
