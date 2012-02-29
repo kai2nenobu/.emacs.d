@@ -3504,15 +3504,28 @@ do nothing. And suppress the output from `message' and
           dviprint-command-format "dvipdfmx %s"
           dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
                                         ; このコマンドはエイリアスを見てくれないようなので直接指定する
-          YaTeX-kanji-code 4  ;; 文章作成時の日本語文字コード
+          YaTeX-kanji-code nil  ;; 文章作成時の日本語文字コード
           ;; 0: no-converion
           ;; 1: Shift JIS (windows & dos default)
           ;; 2: ISO-2022-JP (other default)
           ;; 3: EUC
           ;; 4: UTF-8
+          ;; nil: automatic
           )
     (setq YaTeX-inhibit-prefix-letter 1)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
     (setq YaTeX-use-AMS-LaTeX t)            ; ams パッケージの補完を可能にする
+    (setq YaTeX-skip-default-reader t)      ; setction 型の命令の引数指定をスキップする
+
+    ;; auto-complete-latex.el
+    ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
+    ;; https://bitbucket.org/tequilasunset/auto-complete-latex/src
+    ;; (my-safe-require 'auto-complete-latex
+    ;;   (setq ac-l-dict-directory
+    ;;         (expand-file-name "ac-l-dict"
+    ;;                           (file-name-directory (locate-library "auto-complete-latex"))))
+    ;;   (add-hook 'yatex-mode-hook 'ac-l-setup))
+    ;; 少々重すぎる
+
 
     ;; (setq YaTeX-sectioning-indent 2)
     ;; (setq YaTeX-environment-indent 2)
