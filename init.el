@@ -140,7 +140,6 @@ PRE time needs to be before CUR time."
     (rename-buffer (concat (buffer-name) " [snippet]")))
   )
 
-
 ;;; other-window でコマンド実行するマイナーモード
 (defun command-other-window-execute (command)
   (with-selected-window (other-window-for-scrolling)
