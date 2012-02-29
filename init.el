@@ -1671,6 +1671,27 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; guide-key.el
+;;; キーバインドを自動的に表示
+(my-safe-require 'guide-key
+  (setq guide-key:show-key-sequence
+        '("C-x 8" "C-x 8 ^" "C-q" "C-x r" "C-S-r" "C-x 4" "C-4"))
+  (setq guide-key:highlight-command-regexp "rectangle\\|ffap")
+  (setq guide-key:popup-window-position 'right)
+  (defun guide-key:my-hook-function-for-org-mode ()
+    (dolist (key '("C-c" "C-c C-v" "C-c C-x"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "\\|org-")
+    (guide-key-mode 1))
+  (add-hook 'org-mode-hook 'guide-key:my-hook-function-for-org-mode)
+  (defun guide-key:my-hook-function-for-yatex-mode ()
+    (dolist (key '("C-c" "C-c 5" "C-c 4"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "\\|yatex-")
+    (guide-key-mode 1))
+  (add-hook 'yatex-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
+  )
+
 ;;; save-load-path.el
 ;;; (auto-install-from-emacswiki "save-load-path.el")
 (when (linuxp)
