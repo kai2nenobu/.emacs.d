@@ -2788,6 +2788,7 @@ Creates a buffer if necessary."
     '(progn
        (my-safe-require 'popwin-yatex
          (push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config))))
+  (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (define-key ctl-x-map (kbd "p") 'popwin:display-last-buffer)
   )
@@ -2802,11 +2803,11 @@ Creates a buffer if necessary."
   (autoload 'latex-math-preview-beamer-frame "latex-math-preview" nil t)
   (add-hook 'yatex-mode-hook
             '(lambda ()
-               (YaTeX-define-key "p" 'latex-math-preview-expression)
-               (YaTeX-define-key "\C-p" 'latex-math-preview-save-image-file)
-               (YaTeX-define-key "j" 'latex-math-preview-insert-symbol)
-               (YaTeX-define-key "\C-j" 'latex-math-preview-last-symbol-again)
-               ;(YaTeX-define-key "\C-b" 'latex-math-preview-beamer-frame)
+               (YaTeX-define-key "\C-p" 'latex-math-preview-expression)
+               ;; (YaTeX-define-key "\C-p" 'latex-math-preview-save-image-file)
+               ;; (YaTeX-define-key "j" 'latex-math-preview-insert-symbol)
+               ;; (YaTeX-define-key "\C-j" 'latex-math-preview-last-symbol-again)
+               (YaTeX-define-key "\C-f" 'latex-math-preview-beamer-frame)
                ))
   (setq latex-math-preview-in-math-mode-p-func 'YaTeX-in-math-mode-p) ; 数式の判断に yatex のものを使う
   ;; 用いるパッケージ
@@ -2827,7 +2828,8 @@ Creates a buffer if necessary."
   (setq latex-math-preview-tex-to-ps-for-save '(platex dvips-to-ps))
   (setq latex-math-preview-beamer-to-png '(platex dvipdfmx gs-to-png))
 
-  (add-to-list 'latex-math-preview-command-option-alist '(gs-to-png "-q" "-dSAFER" "-dNOPAUSE" "-dBATCH" "-sDEVICE=png16m" "-dEPSCrop" "-r600")))
+  ;; (add-to-list 'latex-math-preview-command-option-alist '(gs-to-png "-q" "-dSAFER" "-dNOPAUSE" "-dBATCH" "-sDEVICE=png16m" "-dEPSCrop" "-r600"))
+  )
 
 ;;; twittering-mode.el
 ;;; 2011-01-17 (Mon)
