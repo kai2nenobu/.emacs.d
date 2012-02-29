@@ -1700,8 +1700,7 @@ Creates a buffer if necessary."
 ;;; expand-region.el
 ;;; https://github.com/magnars/expand-region.el
 (my-safe-require 'expand-region
-  ;; (define-key global-map (kbd "M-@") 'er/expand-region)
-  (define-key global-map (kbd "C-@") 'er/expand-region))
+  (define-key global-map (kbd "M-@") 'er/expand-region))
 
 ;;; auto-save-buffers.el
 ;;; アイドル時に自動保存
