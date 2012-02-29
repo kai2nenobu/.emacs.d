@@ -1140,13 +1140,13 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                                 (forward &optional regexp op-fun recursive-edit word-p) activate)
   (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
       (progn
-        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+        (isearch-update-ring (buffer-substring-no-properties (region-beginning) (region-end)))
         (deactivate-mark)
-        ad-do-it
-        (if (not forward)
-            (isearch-repeat-backward)
-          (goto-char (mark))
-          (isearch-repeat-forward)))
+        ad-do-it)
+        ;; (if (not forward)
+        ;;     (isearch-repeat-backward)
+        ;;   (goto-char (mark))
+        ;;   (isearch-repeat-forward)))
     ad-do-it))
 
 ;; ChangeLog-modeの設定
