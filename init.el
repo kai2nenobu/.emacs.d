@@ -867,8 +867,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
 (define-key my-original-map (kbd "C-w") 'my-window-resizer)
-(define-key my-original-map (kbd "C-r")
-  '(lambda () (interactive) (revert-buffer nil t t)))
+(defun my-revert-buffer-noconfirm ()
+  (interactive)
+  (revert-buffer nil t t)
+  (message (format "Revert %S" (current-buffer))))
+(define-key my-original-map (kbd "C-r") 'my-revert-buffer-noconfirm)
 
 ;; emacsclientを使う
 (my-safe-require 'server
