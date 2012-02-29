@@ -733,9 +733,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
       (setq size-list (cdr size-list))
       (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
   ;; 発音記号のフォント
-  (set-fontset-font "fontset-default"
-                    '#xf0
-                    (font-spec :family "SILDoulos IPA93")) ; うまくいかん
+  (set-fontset-font "fontset-myfont"
+                    'ipa
+                    (font-spec :family "Charis SIL")) ; うまくいかん
   ;; (set-fontset-font "fontset-default"
   ;;                  'japanese-jisx0208
   ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
