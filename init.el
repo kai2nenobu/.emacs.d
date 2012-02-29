@@ -3537,7 +3537,7 @@ do nothing. And suppress the output from `message' and
                  (setq outline-regexp
                        (concat "[ \t]*\\\\\\("
                                (mapconcat 'car outline-regexp-alist "\\|")
-                               "\\)\\*?[ \t]*[[{]"))
+                               "\\)\\*?"))
                  ))
     (add-hook 'yatex-mode-load-hook     ; one time hook when yatex.el is loaded
               '(lambda ()
