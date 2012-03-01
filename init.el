@@ -871,6 +871,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (revert-buffer nil t t)
   (message (format "Revert %S" (current-buffer))))
 (define-key my-original-map (kbd "C-r") 'my-revert-buffer-noconfirm)
+(defun my-kill-buffer-and-close-window ()
+  (interactive)
+  (kill-buffer)
+  (delete-window))
+(define-key my-original-map (kbd "C-k") 'my-kill-buffer-and-close-window)
 
 ;; emacsclientを使う
 (my-safe-require 'server
