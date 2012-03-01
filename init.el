@@ -1677,6 +1677,8 @@ Creates a buffer if necessary."
         '("C-x 8" "C-x 8 ^" "C-q" "C-x r" "C-S-r" "C-x 4" "C-4"))
   (setq guide-key:highlight-command-regexp "rectangle\\|ffap")
   (setq guide-key:popup-window-position 'right)
+  (global-guide-key-mode 1)
+  ;; mode specific setting
   (defun guide-key:my-hook-function-for-org-mode ()
     (dolist (key '("C-c" "C-c C-v" "C-c C-x"))
       (guide-key:add-local-show-key-sequence key))
