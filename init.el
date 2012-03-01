@@ -1670,6 +1670,15 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; vimpulse.el
+;;; vim エミュレータ
+;;; (auto-install-from-emacswiki "vimpulse.el")
+;;; http://sites.google.com/site/fudist/Home/vimpulse
+;; (my-safe-require 'vimpulse
+;;   (viper-go-away)
+;;   (define-key global-map (kbd "<M-delete>") 'toggle-viper-mode)
+;;   )
+
 ;;; guide-key.el
 ;;; キーバインドを自動的に表示
 (my-safe-require 'guide-key
