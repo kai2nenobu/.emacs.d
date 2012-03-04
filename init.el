@@ -2844,7 +2844,7 @@ Creates a buffer if necessary."
          (push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
-  (define-key ctl-x-map (kbd "p") 'popwin:display-last-buffer)
+  (define-key mode-specific-map (kbd "p") popwin:keymap)
   )
 
 ;;; latex-math-preview.el
