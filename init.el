@@ -3428,7 +3428,8 @@ Creates a buffer if necessary."
 ;;; elispインストーラ
 ;; auto-installによってインストールされるEmacs Lispをロードパスに加える
 ;; デフォルトは ~/.emacs.d/auto-install/
-(my-safe-require 'auto-install
+(lazyload (auto-install-from-url auto-install-from-emacswiki
+           auto-install-from-gist auto-install-batch) "auto-install"
   ;; 起動時にEmacsWikiのページ名を補完候補に加える
   (auto-install-update-emacswiki-package-name t)
   ;; install-elisp.el互換モードのにする
