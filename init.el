@@ -447,6 +447,16 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
          ,@body)
      (message "Load error: %s" ,name)))
 
+;;; 安全な autoload
+;;; http://e-arrows.sakura.ne.jp/2010/03/macros-in-emacs-el.html
+(defmacro lazyload (func lib &rest body)
+  (declare (indent 2))
+  `(when (locate-library ,lib)
+     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
+     (eval-after-load ,lib
+       '(progn
+          ,@body))))
+
 ;;; 2011-02-27 (Sun)
 ;;; windows.el のタブを作りたい！
 (defvar win:my-list nil nil)
