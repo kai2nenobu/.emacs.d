@@ -1770,10 +1770,11 @@ Creates a buffer if necessary."
                          ("f" . 'moz-scroll-down)
                          ("h" . 'moz-prev-tab)
                          ("l" . 'moz-next-tab)
-                         ("C-n" . (outline-next-visible-heading 1))
-                         ("C-p" . (outline-previous-visible-heading 1))
-                         ("C-f" . (org-forward-same-level 1))
-                         ("C-b" .  (org-backward-same-level 1))))
+                         ("C-n" . 'outline-next-visible-heading)
+                         ("C-p" . 'outline-previous-visible-heading)
+                         ("C-f" . 'org-forward-same-level)
+                         ("C-b" . 'org-backward-same-level)
+                         ("C-u" . 'outline-up-heading)))
 
   (smartrep-define-key
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
@@ -1792,11 +1793,15 @@ Creates a buffer if necessary."
                         ("g" . (beginning-of-buffer-other-window 0))
                         ("G" . (end-of-buffer-other-window 0))))
 
-  ;; (eval-after-load "org"
-  ;;   '(progn
-  ;;      (smartrep-define-key
-  ;;       org-mode-map "C-c" '(
-  ;;      ))
+  (eval-after-load "org"
+    '(progn
+       (smartrep-define-key
+           org-mode-map "C-c" '(("C-n" . 'outline-next-visible-heading)
+                                ("C-p" . 'outline-previous-visible-heading)
+                                ("C-f" . 'org-forward-same-level)
+                                ("C-b" . 'org-backward-same-level)
+                                ("C-u" . 'outline-up-heading)))
+       ))
 
   ;; (eval-after-load "yatex"
   ;;   '(progn
