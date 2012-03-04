@@ -2965,6 +2965,7 @@ Creates a buffer if necessary."
   (setq org-directory (expand-file-name "memo"  dropbox-directory))
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-html-coding-system 'utf-8)
+  (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   ;; for MobileOrg
   (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
   (setq org-mobile-inbox-for-pull
