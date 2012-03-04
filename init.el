@@ -2091,7 +2091,7 @@ Creates a buffer if necessary."
   )
 
 ;;; yasnippet.el
-(my-safe-require 'yasnippet
+(lazyload (yas/expand yas/minor-mode anything-c-yas-complete) "yasnippet"
   (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
   ;; キーバインドは以下を参考にした
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
@@ -2127,7 +2127,16 @@ Creates a buffer if necessary."
             (setq result (concat result ", "))))
         result)))
 
+;;; anything-c-yasnippet.el
+;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
+;;; yasnippet を anything で操作
+  (eval-after-load "anything"
+    '(progn
+       (my-safe-require 'anything-c-yasnippet
+         (setq anything-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+         )))
   )
+(global-set-key (kbd "C-c y") 'anything-c-yas-complete) ; C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
 
 ;;; cygwin-mount.el
 ;;; 2011-05-18 (Wed)
@@ -2305,14 +2314,6 @@ Creates a buffer if necessary."
       (anything-other-buffer
        '(anything-c-source-bibtex)
        "*anything bibtex:")))
-  )
-
-;;; anything-c-yasnippet.el
-;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
-;;; yasnippet を anything で操作
-(my-safe-require 'anything-c-yasnippet
-  (setq anything-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
-  (global-set-key (kbd "C-c y") 'anything-c-yas-complete) ; C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
   )
 
 ;;; Inertial-scroll.el
