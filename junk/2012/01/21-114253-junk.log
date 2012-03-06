@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.1415926-p3.2-110415-2.3 (utf8.sjis) (Web2C 2011) (format=platex 2012.1.21)  21 JAN 2012 12:43
+This is e-pTeX, Version 3.1415926-p3.2-110415-2.3 (utf8.sjis) (Web2C 2011) (format=platex 2012.1.25)  11 FEB 2012 12:34
 entering extended mode
  restricted \write18 enabled.
  Source specials enabled.
@@ -243,4 +243,4 @@ Here is how much of TeX's memory you used:
  750 hyphenation exceptions out of 8191
  27i,7n,24p,267b,267s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 21-114253-junk.dvi (1 page, 1196 bytes).
+Output written on 21-114253-junk.dvi (1 page, 1200 bytes).
