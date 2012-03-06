@@ -1701,6 +1701,15 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; dokuwiki.el
+;;; dokuwiki フロントエンド
+;;; (auto-install-from-url "http://alexott.net/common/emacs/dokuwiki.el")
+;;; 要 simple-wiki.el
+(my-safe-require 'dokuwiki
+  (setq dokuwiki-username "kai"
+        dokuwiki-password "password"
+        dokuwiki-base-url "http://"))
+
 ;;; vimpulse.el
 ;;; vim エミュレータ
 ;;; (auto-install-from-emacswiki "vimpulse.el")
