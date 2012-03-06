@@ -2594,10 +2594,14 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-emacswiki "color-theme.el")
 ;;; 用意されているカラーテーマを使える
 (my-safe-require 'color-theme)
+;; Clarity and Beauty ; dark 系でわりかし見やすい．自分設定とあまり変わらないかも
+                      ; しかし，モードラインの文字色だけは見にくい．
 
-;;; 自作カラーテーマ
+;;; pink-bliss.el
+;;; ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる
 ;;; (auto-install-from-emacswiki "pink-bliss.el")
-(my-safe-require 'pink-bliss)
+;; (my-safe-require 'pink-bliss
+;;   (pink-bliss))
 
 ;;; viewer.el
 ;;; 2011-02-05 (Sat)
