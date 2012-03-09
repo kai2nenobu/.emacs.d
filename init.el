@@ -2996,6 +2996,8 @@ Creates a buffer if necessary."
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
+  ;; リンクが日本語で残念な感じにならないように
+  (setq org-activate-links '(date bracket radio tag date footnote angle))
   ;; for MobileOrg
   (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
   (setq org-mobile-inbox-for-pull
