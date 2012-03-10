@@ -15,6 +15,7 @@
 ;;; - windows.el が使えた。少々改良できたらいいな。タブとか、*---* なバッファの復元とか
 ;;; - IME の ON/OFF に連動してカーソル色を変えたりを、自作したほうがいい気がする
 ;;; - one-key の代わりに現在のキーバインドを動的に表示できる elisp
+;;; - yatex のキー割り当てが ??? なのを修正する
 
 ;;; 起動時間を測定する
 ;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
