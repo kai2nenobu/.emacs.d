@@ -1649,7 +1649,7 @@ Creates a buffer if necessary."
 ;;; generic-x.el
 ;;; 2011-03-07 (Mon)
 ;;; 予め定義されている generic
-(my-safe-require 'generic-x)
+;; (my-safe-require 'generic-x)
 
 ;;; filecache.el
 ;;; 2011-02-21 (Mon)
