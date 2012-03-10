@@ -1701,6 +1701,18 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+(my-safe-require 'evernote-mode
+  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
+  (setq evernote-username "g03090416")
+  (global-set-key "\C-c\C-ec" 'evernote-create-note)
+  (global-set-key "\C-c\C-eo" 'evernote-open-note)
+  (global-set-key "\C-c\C-es" 'evernote-search-notes)
+  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
+  (global-set-key "\C-c\C-ew" 'evernote-write-note)
+  (global-set-key "\C-c\C-ep" 'evernote-post-region)
+  (global-set-key "\C-c\C-eb" 'evernote-browser)
+  )
+
 ;;; dokuwiki.el
 ;;; dokuwiki フロントエンド
 ;;; (auto-install-from-url "http://alexott.net/common/emacs/dokuwiki.el")
@@ -2168,9 +2180,9 @@ Creates a buffer if necessary."
 ;;; 2011-05-18 (Wed)
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 ;;; cygwin のパスを使えるようにする
-;; (when (winp)
-;;   (my-safe-require 'cygwin-mount
-;;     (cygwin-mount-activate)))
+(when (winp)
+  (my-safe-require 'cygwin-mount
+    (cygwin-mount-activate)))
 ;; 一部しかして欲しくないパスの展開を全部やっちゃうので却下
 
 
