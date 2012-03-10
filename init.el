@@ -1723,9 +1723,10 @@ Creates a buffer if necessary."
 ;;; キーバインドを自動的に表示
 (my-safe-require 'guide-key
   (setq guide-key:show-key-sequence
-        '("C-x 8" "C-x 8 ^" "C-q" "C-x r" "C-S-r" "C-x 4" "C-4"))
+        '("C-c C-e" "C-x v" "C-c p" "C-x 8" "C-x 8 ^" "C-q" "C-x r" "C-S-r" "C-x 4" "C-4"))
   ;; (setq guide-key:highlight-command-regexp "rectangle\\|ffap")
-  (setq guide-key:popup-window-position 'right)
+  (setq guide-key:popup-window-position 'right
+        guide-key:polling-time 0.5)
   (global-guide-key-mode 1)
   ;; mode specific setting
   (defun guide-key:my-hook-function-for-org-mode ()
