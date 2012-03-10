@@ -1618,7 +1618,7 @@ Creates a buffer if necessary."
             (progn
               (kill-buffer (current-buffer))
               (dired up))
-          (dired-goto-file dir))))))
+            (dired-goto-file dir))))))
 
 (define-key dired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
 (define-key dired-mode-map (kbd "^") 'dired-my-up-directory)
@@ -1636,12 +1636,12 @@ Creates a buffer if necessary."
   "Type '\\[my-dired-start]': start the current line's file."
   (interactive)
   (when (eq major-mode 'dired-mode)
-      (let ((fname (concat "'" (dired-get-filename) "'"))
-            (coding-system-for-read 'utf-8-unix)     ; この2行がないと日本語名の
-            (coding-system-for-write 'utf-8-unix))   ; ファイルが開けないので設定しとく
-        (cond ((winp) (w32-shell-execute "open" fname))
-              ((linuxp) (call-process-shell-command "gnome-open" nil nil nil fname)))
-        (message "started %s" fname))))
+    (let ((fname (concat "'" (dired-get-filename) "'"))
+          (coding-system-for-read 'utf-8-unix)     ; この2行がないと日本語名の
+          (coding-system-for-write 'utf-8-unix))   ; ファイルが開けないので設定しとく
+      (cond ((winp) (w32-shell-execute "open" fname))
+            ((linuxp) (call-process-shell-command "gnome-open" nil nil nil fname)))
+      (message "started %s" fname))))
 (add-hook 'dired-mode-hook
           (lambda ()
             (define-key dired-mode-map "z" 'my-dired-start))) ;;; 関連付け
@@ -1695,7 +1695,7 @@ Creates a buffer if necessary."
   "Mark all files or unmark all marks."
   (if (> (dired-my-get-number-of-marked-files) 0)
       ad-do-it
-      (dired-my-mark-all-files)))
+    (dired-my-mark-all-files)))
 (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
 
 ;;; dired で文字コード一括変換
@@ -1749,7 +1749,7 @@ Creates a buffer if necessary."
               major-mode
               (list
                '(my-dired-today-search . my-face-f-2)
-            ))))
+               ))))
 
 ;;; dired-details.el
 ;;; 2011-07-19 (Tue)
