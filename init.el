@@ -3558,11 +3558,8 @@ do nothing. And suppress the output from `message' and
 ;;; 2010-09-11 (Sat)
 ;;; Meadow/Emacs memo より
 (my-safe-require 'http)
-(my-safe-require 'pukiwiki-mode
+(lazyload (pukiwiki-edit pukiwiki-index pukiwki-edit-url) "pukiwiki-mode"
   (setq pukiwiki-auto-insert t)
-  (autoload 'pukiwiki-edit "pukiwiki-mode" "pukwiki-mode." t)
-  (autoload 'pukiwiki-index "pukiwiki-mode" "pukwiki-mode." t)
-  (autoload 'pukiwiki-edit-url "pukiwiki-mode" "pukwiki-mode." t)
   (setq pukiwiki-site-list
         '(("bibouroku" "http://rubner.mydns.jp/pukiwiki/index.php" nil utf-8-unix)
           ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
@@ -3579,13 +3576,13 @@ do nothing. And suppress the output from `message' and
     (setq http-proxy-server nil)
     (setq http-proxy-port nil))
   ;; ローカルにファイルを保存する
-  (setq pukiwiki-directory (concat user-emacs-directory "pukiwiki-save"))
+  (setq pukiwiki-directory (expand-file-name "pukiwiki-save" user-emacs-directory))
   (setq pukiwiki-save-post-data t)
   ;; pukiwiki-edit-mode で行を折り返さない
-  (add-hook 'pukiwiki-edit-mode '(lambda ()
-                                   (toggle-truncate-lines 1)
-                                   (orgtbl-mode 1)))
   )
+(add-hook 'pukiwiki-edit-mode '(lambda ()
+                                 (toggle-truncate-lines 1)
+                                 (orgtbl-mode 1)))
 
 ;;; clmemo.el
 ;;; 2010-08-20 (Fri)
