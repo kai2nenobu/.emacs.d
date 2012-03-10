@@ -3537,8 +3537,14 @@ do nothing. And suppress the output from `message' and
           ("eeic09" "http://eeic09.dip.jp/index.php" nil utf-8-unix)
           ("disgaea4" "http://alphawiki.net/disgaea4/index.php" nil euc-jp)))
   ;; Proxy server
-  ;(setq http-proxy-server "localhost")
-  ;(setq http-proxy-port 1080)
+  (defun my-http-proxy-enable ()
+    (interactive)
+    (setq http-proxy-server "localhost")
+    (setq http-proxy-port 18080))
+  (defun my-http-proxy-disable ()
+    (interactive)
+    (setq http-proxy-server nil)
+    (setq http-proxy-port nil))
   ;; ローカルにファイルを保存する
   (setq pukiwiki-directory (concat user-emacs-directory "pukiwiki-save"))
   (setq pukiwiki-save-post-data t)
