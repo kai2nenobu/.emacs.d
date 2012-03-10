@@ -133,6 +133,26 @@ PRE time needs to be before CUR time."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; pdf と Emacs の相互参照
+;;; http://skalldan.wordpress.com/2011/10/07/tex-%E7%B5%B1%E5%90%88%E7%92%B0%E5%A2%83%E3%81%A7-synctex-%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/
+;; (require 'dbus)
+
+;; (defun my-evince-inverse-sync (file linecol)
+;;   (let ((buf (get-buffer (file-name-nondirectory file)))
+;;         (line (car linecol))
+;;         (col (cadr linecol)))
+;;     (if (null buf)
+;;         (message "Sorry, %s is not opened..." file)
+;;       (switch-to-buffer buf)
+;;       (goto-line (car linecol))
+;;       (unless (= col -1)
+;;         (move-to-column col)))))
+
+;; (dbus-register-signal
+;;  :session nil "/org/gnome/evince/Window/0"
+;;  "org.gnome.evince.Window" "SyncSource"
+;;        'my-evince-inverse-sync)
+
 ;;; find-file 時にバッファ名に補助的な文字列を追加する
 (defadvice find-file (after find-file-rename activate)
   ;; when open snippet file, append [snippet]
