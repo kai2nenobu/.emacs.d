@@ -4062,9 +4062,9 @@ do nothing. And suppress the output from `message' and
            ;(setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern-utf"))
            (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
            (setq migemo-coding-system 'utf-8-unix)))
-    (setq migemo-pattern-alist-file (concat user-emacs-directory ".migemo-pattern"))
-    (setq migemo-user-dictionary nil)
-    (setq migemo-regex-dictionary nil)
+    (setq migemo-pattern-alist-file (expand-file-name ".migemo-pattern" user-emacs-directory))
+    (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
+    (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
     ;; キャッシュ機能を利用する
     (setq migemo-use-pattern-alist t)
     (setq migemo-use-frequent-pattern-alist t)
