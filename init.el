@@ -137,6 +137,14 @@ PRE time needs to be before CUR time."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; リンクを org-mode から pukiwiki 形式に変換
+(defun my-convert-link-org2pukiwiki ()
+  "Convert link expression from org-mode to pukiwiki."
+  (interactive)
+  (goto-char (point-min))
+  (while (re-search-forward "\\[\\[\\(https?://[^]]+\\)\\]\\[\\([^]]+\\)\\]\\]" nil t)
+    (replace-match "[\\1:\\2]")))
+
 ;;; pdf と Emacs の相互参照
 ;;; http://skalldan.wordpress.com/2011/10/07/tex-%E7%B5%B1%E5%90%88%E7%92%B0%E5%A2%83%E3%81%A7-synctex-%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/
 ;; (require 'dbus)
