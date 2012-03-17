@@ -922,6 +922,18 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; H-数字 を digit-argument にバインド
+(define-key global-map (kbd "H-0") 'digit-argument)
+(define-key global-map (kbd "H-1") 'digit-argument)
+(define-key global-map (kbd "H-2") 'digit-argument)
+(define-key global-map (kbd "H-3") 'digit-argument)
+(define-key global-map (kbd "H-4") 'digit-argument)
+(define-key global-map (kbd "H-5") 'digit-argument)
+(define-key global-map (kbd "H-6") 'digit-argument)
+(define-key global-map (kbd "H-7") 'digit-argument)
+(define-key global-map (kbd "H-8") 'digit-argument)
+(define-key global-map (kbd "H-9") 'digit-argument)
+
 ;;; Power Line
 ;;; モードラインを矢印風に装飾
 ;;; http://www.emacswiki.org/emacs-en/PowerLine
