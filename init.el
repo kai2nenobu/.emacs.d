@@ -3762,6 +3762,7 @@ do nothing. And suppress the output from `message' and
           ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
           ("minerva" "http://minerva.gavo.t.u-tokyo.ac.jp/wiki/index.php" nil utf-8-unix)
           ("eeic09" "http://eeic09.dip.jp/index.php" nil utf-8-unix)
+          ("WebPhantom" "http://ningyokan.nisfan.net/wiki/webpb/index.php" nil euc-jp)
           ("disgaea4" "http://alphawiki.net/disgaea4/index.php" nil euc-jp)))
   ;; Proxy server
   (defun my-http-proxy-enable ()
