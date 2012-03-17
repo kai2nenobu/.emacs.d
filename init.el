@@ -17,6 +17,9 @@
 ;;; - one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ;;; - yatex のキー割り当てが ??? なのを修正する
 
+(eval-when-compile
+  (require 'cl))
+
 ;;; 起動時間を測定する
 ;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
 ;;; http://ubulog.blogspot.com/2009/08/emacs.html
