@@ -1081,9 +1081,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (global-hl-line-mode t)
   (defface my-hl-line-face
     '((((class color) (background dark))  ; カラーかつ, 背景が dark ならば,
-       (:background "gray10" t))   ; 背景を黒に.
+       (:background "gray10" t))          ; 背景を黒に.
       (((class color) (background light)) ; カラーかつ, 背景が light ならば,
-       (:background "gray90" t))     ; 背景を ForestGreen に.
+       (:background "gray90" t))          ; 背景を ForestGreen に.
       (t (:bold t)))
     "hl-line's my face")
 
