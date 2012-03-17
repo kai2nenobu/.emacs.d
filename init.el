@@ -1493,8 +1493,90 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   ;; 変更したprompt文字列に合う形でpromptの初まりを指定(C-aで"$ "の次にカーソルがくるようにする)
   ;; これの設定を上手くしとかないとタブ補完も効かなくなるっぽい
   (setq eshell-prompt-regexp "^[^#$]*[$#] ")
+
+  ;; eshell のコマンドライン上の挙動を変更する（るびきちメルマガ）
+  (defun eshell-in-command-line-p ()
+    (<= eshell-last-output-end (point)))
+  (defmacro defun-eshell-cmdline (key &rest body)
+    (let ((cmd (intern (format "eshell-cmdline/%s" key))))
+      `(progn
+         (add-hook 'eshell-mode-hook
+                   (lambda () (define-key eshell-mode-map (read-kbd-macro ,key) ',cmd)))
+         (defun ,cmd ()
+           (interactive)
+           (if (not (eshell-in-command-line-p))
+               (call-interactively (lookup-key (current-global-map) (read-kbd-macro ,key)))
+             ,@body)))))
+  (defun eshell-history-and-bol (func)
+    (delete-region eshell-last-output-end (point-max))
+    (funcall func 1)
+    (goto-char eshell-last-output-end))
+  ;; コマンドライン上の挙動変更
+  (defun-eshell-cmdline "C-p"
+    (let ((last-command 'eshell-previous-matching-input-from-input))
+      (eshell-history-and-bol 'eshell-previous-matching-input-from-input)))
+  (defun-eshell-cmdline "C-n"
+    (let ((last-command 'eshell-previous-matching-input-from-input))
+      (eshell-history-and-bol 'eshell-next-input)))
+  (defun-eshell-cmdline "C-w"
+    (delete-region (eshell-bol) (point-max)))
+  (defun-eshell-cmdline "M-^"
+    (my-minibuffer-delete-parent-directory))
+  ;; 1回1回履歴のアクセスをリセットする
+  (defadvice eshell-send-input (after history-position activate)
+    (setq eshell-history-index -1))
+
+  ;; eev と協調
+  (defun eeeshell (s &optional e)
+    (interactive "r")
+    (eev s e)
+    (eepitch-eshell)
+    (eepitch-line ". $EE"))
+  (setq eepitch-code '(eshell))
+  (setq eeb-defaults '(eeeshell ee-delimiter-hash nil t t))
+  (eeb-define 'eeeshell-bounded 'eeeshell 'ee-delimiter-hash nil t t)
+  (global-set-key (kbd "<f8>") 'eepitch-this-line)
+  ;; 文字列入力関数
+  (defun eshell/readstr (varname &optional default)
+    "文字列を入力させて変数VARNAMEに記憶する。デフォルト値も指定できる。"
+    (set (intern varname)
+         (read-string (format "%s%s: " varname
+                              (if default (format " (default: %s)" default) ""))
+                      nil nil default)))
+  (defun eshell/readfncd (varname)
+    "ファイル名を入力させて変数VARNAMEに記憶し、そのディレクトリに移動する。"
+    (let ((fn (read-file-name (format "%s: " varname))))
+      (eshell/pushd (file-name-directory fn))
+      (set (intern varname) (file-name-nondirectory fn))))
+  (defun eshell/readfn (varname)
+    "ファイル名を入力させて変数VARNAMEに記憶する。"
+    (set (intern varname)
+         (file-relative-name (read-file-name (format "%s: " varname)))))
+  (defun eshell/readdir (varname)
+    "ディレクトリ名を入力させて変数VARNAMEに記憶する。"
+    (set (intern varname) (read-directory-name (format "%s: " varname))))
+  ;; escript
+  (eval-after-load "anything"
+    '(progn
+       (defvar anything-c-escript-file-name
+         (expand-file-name "memo/escript.org" dropbox-directory))
+       (defvar anything-c-source-search-escript
+         '((name . "E-script search")
+           (candidates-file anything-c-escript-file-name update)
+           (target-file . anything-c-escript-file-name)
+           (get-line . anything-c-occur-get-line)
+           (recenter)
+           (requires-pattern . 3)
+           (migemo)
+           (type . line)))
+
+       (defun anything-escript-search ()
+         (interactive)
+         (anything :sources 'anything-c-source-search-escript
+                   :buffer "*anything-escript-search*"
+                   :follow-mode t))
+       ))
   )
-;; あまりうまく動きませんね．なんでやねん
 
 ;;; socks.el
 ;; (setq socks-override-functions 1)
@@ -1824,6 +1906,13 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; eev （るびきちメルマガ）
+;;; Emacs ハイパーリンク作戦
+(add-to-list 'load-path "~/eev-current/")
+(my-safe-require 'eev-all
+  (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
+  (global-set-key (kbd "M-k") 'kill-this-buffer))
+
 (my-safe-require 'evernote-mode
   (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
   (setq evernote-username "g03090416")
