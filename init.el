@@ -1405,6 +1405,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (add-to-list 'tramp-default-proxies-alist
                '("athena\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@%h:"))
   (add-to-list 'tramp-default-proxies-alist
+               '("demeter\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
+  (add-to-list 'tramp-default-proxies-alist
                '("rubner\\(.mydns.jp\\)?" "\\`root\\'" "/kai@%h:")))
 
 ;;; doc-view.el
