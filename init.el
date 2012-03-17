@@ -1022,14 +1022,14 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;; (add-hook 'after-init-hook 'set-power-line)
 
 ;;; shorten display name of minor mode
-(add-hook 'after-init-hook
-          '(lambda ()
-             (dolist (elm '((isearch-mode . "")
-                            (ibus-mode . "")
-                            (undo-tree-mode . " Utree")))
-               ;; (eval-after-load (nth 1 elm)
-               ;;   `(setcar (cdr (assq ,(nth 0 elm) minor-mode-alist)) ,(nth 2 elm))))
-               (setcar (cdr (assq (car elm) minor-mode-alist)) (cdr elm)))))
+;; (add-hook 'after-init-hook
+;;           '(lambda ()
+;;              (dolist (elm '((isearch-mode . "")
+;;                             (ibus-mode . "")
+;;                             (undo-tree-mode . " Utree")))
+;;                ;; (eval-after-load (nth 1 elm)
+;;                ;;   `(setcar (cdr (assq ,(nth 0 elm) minor-mode-alist)) ,(nth 2 elm))))
+;;                (setcar (cdr (assq (car elm) minor-mode-alist)) (cdr elm)))))
 
 ;;; shorten display name of major mode
 (dolist (elm '((emacs-lisp-mode . "Elisp")
