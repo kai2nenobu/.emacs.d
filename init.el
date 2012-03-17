@@ -1469,7 +1469,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; eshell.el
 ;;; 2011-04-25 (Mon)
 ;;; Emacs lisp によるシェル
-(my-safe-require 'eshell
+(lazyload (eshell) "eshell"
   ;; 補完時に大文字小文字を区別しない
   (setq eshell-cmpl-ignore-case t)
   ;; 確認なしでヒストリ保存
