@@ -1931,9 +1931,14 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; highlight-indentation.el
+(lazyload (highlight-indentation-mode
+           highlight-indentation-current-column-mode) "highlight-indentation"
+  )
+
 ;;; eev （るびきちメルマガ）
 ;;; Emacs ハイパーリンク作戦
-(add-to-list 'load-path "~/eev-current/")
+;; (add-to-list 'load-path "~/eev-current/")
 (my-safe-require 'eev-all
   (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
   (global-set-key (kbd "M-k") 'kill-this-buffer))
