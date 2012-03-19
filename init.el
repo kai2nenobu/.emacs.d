@@ -1560,7 +1560,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (setq eepitch-code '(eshell))
   (setq eeb-defaults '(eeeshell ee-delimiter-hash nil t t))
   (eeb-define 'eeeshell-bounded 'eeeshell 'ee-delimiter-hash nil t t)
-  (global-set-key (kbd "<f8>") 'eepitch-this-line)
+  (global-set-key (kbd "<f6>") 'eepitch-this-line)
   ;; 文字列入力関数
   (defun eshell/readstr (varname &optional default)
     "文字列を入力させて変数VARNAMEに記憶する。デフォルト値も指定できる。"
