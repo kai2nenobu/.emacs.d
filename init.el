@@ -1931,6 +1931,12 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; menu-tree.el
+;;; メニューバーを日本語化
+;;; http://www11.atwiki.jp/s-irie/pages/13.html
+(setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
+(my-safe-require 'menu-tree)
+
 ;;; emoji.el
 ;;; https://github.com/imakado/emoji
 (lazyload (emoji-complete-pictogram) "emoji"
