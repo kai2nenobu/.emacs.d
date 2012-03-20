@@ -3884,6 +3884,8 @@ do nothing. And suppress the output from `message' and
     (setq YaTeX-skip-default-reader t)      ; setction 型の命令の引数指定をスキップする
     (setq YaTeX-help-file
           (expand-file-name "YATEXHLP.jp" (file-name-directory (locate-library "yatex"))))
+    (setq YaTeX-help-file-private
+          (expand-file-name "YATEXHLP-private.jp" user-emacs-directory))
 
     ;; auto-complete-latex.el
     ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
