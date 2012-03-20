@@ -3141,8 +3141,8 @@ Creates a buffer if necessary."
   (eval-after-load "yatex"
     '(progn
        (my-safe-require 'popwin-yatex
-         (push '("*YaTeX-typesetting*" :position bottom :height 15 :noselect t) popwin:special-display-config)
-         (push '("** YaTeX HELP **" :position bottom :height 15 :noselect t) popwin:special-display-config))))
+         (push '("*YaTeX-typesetting*" :position right :width 80 :noselect t) popwin:special-display-config)
+         (push '("** YaTeX HELP **" :position right :width 80 :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (define-key mode-specific-map (kbd "p") popwin:keymap)
@@ -3897,6 +3897,18 @@ do nothing. And suppress the output from `message' and
     ;;   (add-hook 'yatex-mode-hook 'ac-l-setup))
     ;; 少々重すぎる
 
+    ;; popwin との協調
+    (eval-after-load "popwin"
+      '(progn
+         (defadvice YaTeX-help (around YaTeX-help-no-select activate)
+           (let (cbuffer (current-buffer))
+             ad-do-it
+             (switch-to-buffer cbuffer)
+             (and (get-buffer-window YaTeX-help-buffer)
+                  (select-window (get-buffer-window YaTeX-help-buffer)))))
+         (defadvice YaTeX-apropos (after YaTeX-apropos-no-select activate)
+           (and (get-buffer-window YaTeX-help-buffer)
+                (select-window (get-buffer-window YaTeX-help-buffer))))))
 
     ;; (setq YaTeX-sectioning-indent 2)
     ;; (setq YaTeX-environment-indent 2)
@@ -3904,6 +3916,7 @@ do nothing. And suppress the output from `message' and
               '(lambda ()
                  (auto-fill-mode 1)         ; auto-fill-mode enabled
                  (reftex-mode 1)            ; reftex-mode enabled
+                 (define-key reftex-mode-map (kbd "C-c /") nil) ; enable `yatex-apropos'
                  (flyspell-mode 1)          ; flyspell-mode enabled
                  (outline-minor-mode 1)
                  ;; setting for outline-minor-mode
