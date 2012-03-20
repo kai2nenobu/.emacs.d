@@ -19,3 +19,9 @@
 [submodule "site-lisp/calfw"]
 	path = site-lisp/calfw
 	url = https://github.com/kiwanami/emacs-calfw.git
+[submodule "site-lisp/highlight-indentation"]
+	path = site-lisp/highlight-indentation
+	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
+[submodule "site-lisp/emoji"]
+	path = site-lisp/emoji
+	url = git://github.com/imakado/emoji.git

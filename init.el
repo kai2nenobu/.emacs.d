@@ -1931,6 +1931,15 @@ Creates a buffer if necessary."
 
 (my-measure-message-time "Standard elisp setting.")
 ;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+;;; emoji.el
+;;; https://github.com/imakado/emoji
+(lazyload (emoji-complete-pictogram) "emoji"
+  (defvar emoji-my-carrier "ezweb" "My carrier for emoji")
+  (defadvice emoji-complete-pictogram (after display-image-buffer activate)
+    (emoji-display-images-buffer emoji-my-carrier))
+  )
+(define-key global-map (kbd "C-x 8 e") 'emoji-complete-pictogram)
+
 ;;; highlight-indentation.el
 (lazyload (highlight-indentation-mode
            highlight-indentation-current-column-mode) "highlight-indentation"
