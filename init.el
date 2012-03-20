@@ -3135,7 +3135,8 @@ Creates a buffer if necessary."
   (eval-after-load "yatex"
     '(progn
        (my-safe-require 'popwin-yatex
-         (push '("*YaTeX-typesetting*" :height 15 :position bottom :noselect t) popwin:special-display-config))))
+         (push '("*YaTeX-typesetting*" :position bottom :height 15 :noselect t) popwin:special-display-config)
+         (push '("** YaTeX HELP **" :position bottom :height 15 :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (define-key mode-specific-map (kbd "p") popwin:keymap)
@@ -3873,6 +3874,8 @@ do nothing. And suppress the output from `message' and
     (setq YaTeX-inhibit-prefix-letter 1)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
     (setq YaTeX-use-AMS-LaTeX t)            ; ams パッケージの補完を可能にする
     (setq YaTeX-skip-default-reader t)      ; setction 型の命令の引数指定をスキップする
+    (setq YaTeX-help-file
+          (expand-file-name "YATEXHLP.jp" (file-name-directory (locate-library "yatex"))))
 
     ;; auto-complete-latex.el
     ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
