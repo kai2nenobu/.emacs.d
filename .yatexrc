@@ -1,0 +1,31 @@
+(setq user-env-table '(
+("block")
+("beamerboxesrounded")
+("align")
+("colorbox")
+("figure*")
+("gather")
+("beamercolorbox")
+("eqnarray*")
+("frame")
+))
+
+(setq user-section-table '(
+("block")
+("alert")
+("frametitle")
+("hspace")
+))
+
+(setq user-fontsize-table '(
+("centering")
+("bm")
+))
+
+(setq YaTeX:documentclasses-private '(
+("jsarticle")
+))
+(setq user-singlecmd-table '(
+("centering")
+("baselineskip")
+))

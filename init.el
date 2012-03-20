@@ -3863,6 +3863,8 @@ do nothing. And suppress the output from `message' and
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 (eval-after-load "yatex"
   (progn
+    (setq YaTeX-user-completion-table
+          (expand-file-name ".yatexrc" user-emacs-directory))
     (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
           makeindex-command "mendex"
           bibtex-command "pbibtex"
