@@ -3862,7 +3862,7 @@ do nothing. And suppress the output from `message' and
       (cons (cons "\\.tex\\'" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 (eval-after-load "yatex"
-  (progn
+  '(progn
     (setq YaTeX-user-completion-table
           (expand-file-name ".yatexrc" user-emacs-directory))
     (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
