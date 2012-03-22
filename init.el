@@ -1474,6 +1474,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;; require とかはいらない模様
 (cua-mode 1)
 (setq cua-enable-cua-keys nil)
+(defun cua-my-dec-rectangle (decriment)
+  "Decrement each line of CUA rectangle by prefix amount."
+  (interactive "p")
+  (cua-incr-rectangle (- decriment)))
+(define-key cua--rectangle-keymap (kbd "M-d") 'cua-my-dec-rectangle)
 
 ;;; longlines.el
 ;; (autoload 'longlines-mode "longlines.el"
