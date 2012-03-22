@@ -2012,7 +2012,7 @@ Creates a buffer if necessary."
   (add-hook 'org-mode-hook 'guide-key:my-hook-function-for-org-mode)
 
   (defun guide-key:my-hook-function-for-yatex-mode ()
-    (dolist (key '("C-c" "C-c 5" "C-c 4"))
+    (dolist (key '("C-c C-b" "C-c" "C-c 5" "C-c 4"))
       (guide-key:add-local-show-key-sequence key))
     (guide-key:add-local-highlight-command-regexp "yatex-")
     (guide-key-mode 1))
