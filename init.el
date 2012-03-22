@@ -2010,12 +2010,20 @@ Creates a buffer if necessary."
     (guide-key:add-local-highlight-command-regexp "org-")
     (guide-key-mode 1))
   (add-hook 'org-mode-hook 'guide-key:my-hook-function-for-org-mode)
+
   (defun guide-key:my-hook-function-for-yatex-mode ()
     (dolist (key '("C-c" "C-c 5" "C-c 4"))
       (guide-key:add-local-show-key-sequence key))
     (guide-key:add-local-highlight-command-regexp "yatex-")
     (guide-key-mode 1))
   (add-hook 'yatex-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
+
+  (defun guide-key:my-hook-function-for-outline-minor-mode ()
+    (dolist (key '("C-c @"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "outline-")
+    (guide-key-mode 1))
+  (add-hook 'outline-minor-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
   )
 
 ;;; save-load-path.el
