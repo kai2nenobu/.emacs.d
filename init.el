@@ -1332,7 +1332,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     ad-do-it))
 
 ;; ChangeLog-modeの設定
-(setq user-full-name "Tsunenobu Kai")
+(setq user-full-name "kbkbkbkb1")
 (setq user-mail-address "kbkbkbkb1@gmail.com")
 
 ;; Add personal info directory
