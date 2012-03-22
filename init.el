@@ -3919,6 +3919,17 @@ do nothing. And suppress the output from `message' and
     ;;   (add-hook 'yatex-mode-hook 'ac-l-setup))
     ;; 少々重すぎる
 
+    ;; begin 型の命令を関数で割り当て
+    (defmacro YaTeX-define-begend-key-normal-macro (key env &optional map)
+      "Define short cut YaTeX-make-begin-end key."
+      (let ((func (intern (concat "YaTeX-make-begin-end-" (eval env)))))
+        `(progn
+           (defun ,func (arg)
+             ,(format "Make LaTeX environment command of \\begin{%s} ... \\end{%s}." env env)
+             (interactive "P")
+             (YaTeX-insert-begin-end ,env arg))
+           (YaTeX-define-key ,key (quote ,func) ,map))))
+
     ;; popwin との協調
     (eval-after-load "popwin"
       '(progn
