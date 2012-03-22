@@ -3228,7 +3228,8 @@ Creates a buffer if necessary."
                   (append japanese-holidays local-holidays other-holidays))))
 (setq mark-holidays-in-calendar t)
 ;; 祝日の設定を先にしてないといけないっぽい
-(my-safe-require 'calfw
+;; (lazyload (my-open-calendar) "calfw"
+(lazyload (my-open-calendar) "calfw"
   ;; iCalender形式と連携
   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw-ical.el")
   (my-safe-require 'calfw-ical)
@@ -3264,7 +3265,8 @@ Creates a buffer if necessary."
 ;;; org-mode.el
 ;;; org-mode 自体は標準であるが非標準elispも必要そうなので
 ;;; ここに書いておく
-(my-safe-require 'org-install
+(my-safe-require 'org-install)
+(my-safe-require 'org-mode
   (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
   (setq org-startup-truncated nil)
   (setq org-return-follows-link t)
