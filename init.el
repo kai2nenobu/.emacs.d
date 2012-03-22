@@ -1045,6 +1045,12 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;; (add-hook 'after-init-hook 'set-power-line)
 
 ;;; shorten display name of minor mode
+(loop for (mode file lighter)
+      in '((isearch-mode "isearch" "")
+           (ibus-mode "ibus" "")
+           (undo-tree-mode "undo-tree" " Utree"))
+      do  (eval-after-load file
+            `(setcar (cdr (assq (quote ,mode) minor-mode-alist)) ,lighter)))
 ;; (add-hook 'after-init-hook
 ;;           '(lambda ()
 ;;              (dolist (elm '((isearch-mode . "")
