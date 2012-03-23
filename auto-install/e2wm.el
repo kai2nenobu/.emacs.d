@@ -21,33 +21,92 @@
 
 ;;; Commentary:
 
-;; EmacsにWindow管理を入れたコンセプト実装。
-;; ・バッファの表示履歴の管理
-;; ・ポップアップ場所の固定
-;; ・EclipseのPerspectiveみたいなイメージ
-;; ・プラグインによる拡張
-;;
-;; パースペクティブ
-;; ・メインコーディング画面
-;; ・２画面比較画面
-;; ・ドキュメント参照画面
-;; 　・followモード
-;; ・バッファ一覧画面
-;; 　・機能バッファも含めるかどうか
-;; 　・バッファ選択したらパースペクティブを選択
+;; This is an demonstration implementation of introducing window management to Emacs.
+;; * Management of list of editable buffers
+;; * Assignment of windows for pop-up buffers
+;; * Switching window layout like the perspective in eclipse
+;; * Plug-in extension 
 
-;; ○インストール
-;; 1) e2wm.el, window-layout.el をロードパスに置く。
-;; 2) 以下を .emacs に書く
+;; The current implementation has following perspectives:
+;; * code      : main coding layout
+;; * two       : side by side layout
+;; * doc       : reading documentation layout
+;; * dashboard : showing plug-ins like dashboard in Mac OSX
+;; * array     : selecting buffers like expose in Mac OSX
+
+;;; Installation:
+
+;; (1) Put e2wm.el and window-layout.el in load-path.
+;; (2) Put the following code in your .emacs file,
 ;;    (require 'e2wm)
-;; 3) M-x e2wm:start-management で開始。
-;;    ※止めるには (prefix) C-q か、 M-x e2wm:stop-management で終了。
+;; (3) M-x e2wm:start-management to start e2wm.
+;; To stop e2wm, M-x e2wm:stop-management or [C-c ; Q].
 
-;; ○開発方針
-;; とりあえずやりたいこと（Window管理、パースペクティブ、プラグイン）を
-;; 実装してみて、整理・汎用化を後で考えてみる。
 
-;; このプログラムを実行して入ってしまうアドバイスやフック
+;;; Customization
+
+;; * Layout recipe (`e2wm:c-PST-NAME-recipe'):
+
+;; Layout recipe RECIPE (e.g., `e2wm:c-code-recipe') is a recursive
+;; tree-like structure defined as follows:
+
+;; (SPLIT-TYPE [SPLIT-OPTION]
+;;             WINDOW-or-RECIPE    ; left or upper side
+;;             WINDOW-or-RECIPE)   ; right or lower side
+
+;; WINDOW is a name (symbol) of the window. This is used in the
+;; `:name' property of the window information list (winfo, see the
+;; next section).
+
+;; Split types (SPLIT-TYPE):
+
+;;   - : split vertically
+;;   | : split horizontally
+
+;; Split option list SPLIT-OPTION is a plist with the following
+;; properties. (the prefix 'left' can be replaced by 'right', 'upper'
+;; and 'lower'.):
+
+;;   :left-size        : (column or row number) window size
+;;   :left-max-size    : (column or row number) if window size is larger
+;;                     : than this value, the window is shrunken.
+;;   :left-size-ratio  : (0.0 - 1.0) window size ratio. the size of
+;;                     : the other side is the rest.
+;;
+;; Note:
+;; The split option can be omitted.
+;; The size parameters, :size, :max-size and :size-ratio, are mutually
+;; exclusive.  The size of a window is related with one of the other
+;; side window. So, if both side windows set size parameters, the
+;; window size may not be adjusted as you write.
+
+;; * Window information  (`e2wm:c-PST-NAME-winfo'):
+
+;; Window information (e.g., `e2wm:c-code-winfo') is a list of window
+;; options (plist).  Besides the options defined in window-layout.el,
+;; `:name' (mandatory), `:buffer', `:default-hide' and `:fix-size',
+;; e2wm has additional options.
+
+;;   :name      [*] : the window name.
+;;   :buffer        : A buffer name or a buffer object to show the window.
+;;                  : If nil or omitted, the current buffer remains.
+;;   :default-hide  : If t, the window is hided initially.
+;;                  : (type: t or nil, default: nil)
+;;   :fix-size      : If t, when the windows are laid out again, the
+;;                  : window size is remained.
+;;                  : (type: t or nil, default: nil)
+;;   :plugin        : Plug-in name.
+;;                  : (type: symbol)
+;;   :plugin-args   : Arguments for the plug-in.  See each plug-in
+;;                  : documentation for use of this option.
+;;                  : (type: any lisp objecct)
+
+;;; Development memo:
+
+;; See readme for further documentation.
+
+;; ** Side effects
+;; 
 ;; * advice 
 ;;  - buffer系
 ;;     switch-to-buffer, pop-to-buffer
@@ -65,48 +124,29 @@
 ;; * override variable
 ;;     special-display-function
 
-;; ○略語、表記など
-;; pst          : perspective
-;; e2wm:c-       : カスタマイズ変数
-;; e2wm:$        : 構造体定義
+;; ** Local words
+;; pst     : Perspective
+;; e2wm:c- : Configuration variables
+;; e2wm:$  : Structure functions
 
-;; ○ソース構成
-;; 全体カスタマイズ / e2wm:c-
-;; 基本関数
-;; 履歴管理 / e2wm:history-
-;; パースペクティブフレームワーク / e2wm:pst-
-;; パースペクティブセット / e2wm:pstset-
-;; アドバイス（switch-to-buffer, pop-to-bufferなど）
-;; プラグインフレームワーク / e2wm:plugin-
-;; メニュー / e2wm:menu-
-;; プラグイン定義 / e2wm:def-plugin-
-;; パースペクティブ定義 / e2wm:dp-
+;; ** Source code layout
+
+;; Configurations  / e2wm:c-
+;; Fundamental functions
+;; Buffer history management / e2wm:history-
+;; Framework for perspectives / e2wm:pst-
+;; Framework for perspective set / e2wm:pstset-
+;; Advices and hooks (switch-to-buffer, pop-to-buffer and so on)
+;; Framework for plug-ins / e2wm:plugin-
+;; Menu definition / e2wm:menu-
+;; Plug-in definitions / e2wm:def-plugin-
+;; Perspective definitions / e2wm:dp-
 ;;   code  / e2wm:dp-code-
 ;;   doc   / e2wm:dp-doc-
 ;;   two   / e2wm:dp-two-
 ;;   dashboard / e2wm:dp-dashboard-
 ;;   array / e2wm:dp-array-
-;; 全体制御
-
-;;; 更新履歴
-
-;; Revision 1.2  2011/01/28  sakurai
-;; elscreen対応, e2wm開始・終了時のウインドウ保存改善
-;; subウインドウがたまに残ってしまう問題の改善と動作速度改善
-;; faceのバグ修正など
-;; 
-;; Revision 1.1  2010/06/07  sakurai
-;; 名前の変更 (ewm.el -> e2wm.el)
-;; 未宣言の変数のバグ修正
-;; 管理開始、終了用hook追加
-;; filesのソートでキャレットが頭にくるように修正
-;; filesのfaceを自前で用意するように修正
-;; twoでバッファ一覧から左右に並べられる機能追加
-;; 複数フレーム対応
-;; twoの機能強化
-;;
-;; Revision 1.0  2010/05/28  sakurai
-;; 初回リリース
+;; Start-up and exit e2wm
 
 ;;; Code:
 
@@ -121,16 +161,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ### Customize
-(defvar e2wm:c-max-history-num 20 "Number of buffer history.")   ; 履歴の保存数
-(defvar e2wm:c-recordable-buffer-p  ; 履歴として記録したいBuffer
+(defvar e2wm:c-max-history-num 20 "Number of buffer history.")
+(defvar e2wm:c-recordable-buffer-p
   (lambda (buf)
     (buffer-local-value 'buffer-file-name buf))
-  "Return non-nil, if the buffer is an editable buffer.") ; ファイル名に関連ついてるもの
+  "Return non-nil, if the buffer is an editable buffer.")
 (defvar e2wm:c-document-buffer-p ; 
   (lambda (buf)
     (string-match "\\*\\(Help\\|info\\|w3m\\|WoMan\\)" (buffer-name buf)))
-  "Retrun non-nil, if the buffer is a document buffer.") ; ドキュメント的に扱いたいバッファ
-(defvar e2wm:c-blank-buffer         ; 白紙バッファ
+  "Retrun non-nil, if the buffer is a document buffer.")
+(defvar e2wm:c-blank-buffer
       (let ((buf (get-buffer-create " *e2wm:blank*")))
         (with-current-buffer buf
           (setq buffer-read-only nil)
@@ -146,22 +186,26 @@
 ;;; ### Macro / Utilities
 
 (defmacro e2wm:aif (test-form then-form &rest else-forms)
+  "Anaphoric IF."
   (declare (debug (form form &rest form)))
   `(let ((it ,test-form))
      (if it ,then-form ,@else-forms)))
 (put 'e2wm:aif 'lisp-indent-function 2)
 
 (defmacro e2wm:aand (test &rest rest)
+  "Anaphoric AND."
   (declare (debug (form &rest form)))
   `(let ((it ,test))
      (if it ,(if rest (macroexpand-all `(e2wm:aand ,@rest)) 'it))))
 
 (defmacro e2wm:not-minibuffer (&rest body)
+  "Evaluate a body form when the minibuffer is not active."
   (declare (debug (&rest form)))
   `(when (= 0 (minibuffer-depth))
      ,@body))
 
 (defmacro e2wm:safe-call (method object &rest args)
+  "Safely method calling."
   (let ((sym (gensym)))
     `(let ((,sym (,method ,object)))
        (if ,sym
@@ -170,11 +214,14 @@
 ;; for a list of structure
 
 (defun e2wm:find (name name-func seq)
+  "Return the element that the return value of the NAME-FUNC
+equals to NAME in the given sequence SEQ."
   (loop for i in seq
         if (eq name (funcall name-func i))
         return i))
 
 (defmacro e2wm:delete! (name name-func seq)
+  "Destructively delete the element."
   `(setq ,seq 
          (delete-if 
           (lambda (i) (eq ,name (funcall ',name-func i)))
@@ -187,6 +234,7 @@
 (defvar e2wm:debug-count 0 "[internal] Debug output counter.") ; debug
 
 (defmacro e2wm:message (&rest args) ; debug
+  "Output a message into the debug buffer: *e2wm:debug*."
   (when e2wm:debug
     `(progn 
        (with-current-buffer (get-buffer-create "*e2wm:debug*")
@@ -196,6 +244,7 @@
        (incf e2wm:debug-count))))
 
 (defun e2wm:message-mark () ; debug
+  "Output a mark text into the debug buffer: *e2wm:debug*."
   (interactive)
   (e2wm:message "==================== mark ==== %s" 
                (format-time-string "%H:%M:%S" (current-time))))
@@ -203,6 +252,9 @@
 ;; keymap
 
 (defun e2wm:define-keymap (keymap-list &optional prefix)
+  "[utility] Return a keymap object with given keymap definitions
+that is a list of cons cells ([keyboard macro string]
+. [function])."
   (let ((map (make-sparse-keymap)))
     (mapc 
      (lambda (i)
@@ -218,6 +270,7 @@
     map))
 
 (defun e2wm:add-keymap (keymap keymap-list &optional prefix)
+  "[utility] Add given keymap definitions to KEYMAP."
   (mapc 
    (lambda (i)
      (define-key keymap
@@ -233,13 +286,15 @@
 
 ;; window overriding
 
-(defvar e2wm:ad-now-overriding nil "[internal] Recursive execution flag.") ; 乗っ取り中なら t → 元の関数を実行
+(defvar e2wm:ad-now-overriding nil
+  "[internal] Recursive execution flag. If e2wm is evaluating
+overriding functions, this variable is set t.")
 
 (defmacro e2wm:with-advice (&rest body)
+  "[internal] Avoid infinite recursion in the overriding
+functions, such as `switch-to-buffer' and `pop-to-buffer'.
+If the original function should be called, use this macro."
   (declare (debug (&rest form)))
-  ;;switch-to-buffer, pop-to-bufferが無限ループにならないようにするマクロ。
-  ;;ユーザーのアクションではなくて、内部の動作なのでこれらの関数を
-  ;;本来の動きにしたい場合はこのマクロで囲む。
   `(let ((e2wm:ad-now-overriding t))
      ,@body))
 
@@ -259,6 +314,7 @@ from the given string."
      "")))
 
 (defun e2wm:strtime (time)
+  "[utility] Format time object."
   (if (equal (cdddr (decode-time time))
              (cdddr (decode-time (current-time))))
       (format-time-string "Today  %H:%M:%S" time)
@@ -274,8 +330,10 @@ from the given string."
   :group 'e2wm)
 
 (defface e2wm:face-subtitle
-  '((((class color))
-     :foreground "Gray10" :height 1.2 :inherit variable-pitch)
+  '((((class color) (background light))
+     (:foreground "Gray10" :height 1.2 :inherit variable-pitch))
+    (((class color) (background dark))
+     (:foreground "Gray90" :height 1.2 :inherit variable-pitch))
     (t :height 1.2 :inherit variable-pitch))
   "Face for e2wm titles at level 2."
   :group 'e2wm)
@@ -286,10 +344,13 @@ from the given string."
   :group 'e2wm)
 
 (defun e2wm:rt (text face)
+  "[utility] Put the face property to TEXT."
   (unless (stringp text) (setq text (format "%s" text)))
   (put-text-property 0 (length text) 'face face text) text)
 
 (defun e2wm:rt-format (text &rest args)
+  "[utility] Format strings with faces. TEXT is format
+string. ARGS is a list of cons cell, ([string] . [face name])."
   (apply 'format (e2wm:rt text 'e2wm:face-item)
          (loop for i in args
                if (consp i)
@@ -298,11 +359,13 @@ from the given string."
                collect (e2wm:rt i 'e2wm:face-subtitle))))
 
 (defun e2wm:tp (text prop value)
+  "[utility] Put a text property to the first character of TEXT."
   (if (< 0 (length text))
-    (put-text-property 0 1 prop value text))
+      (put-text-property 0 1 prop value text))
   text)
 
 (defun e2wm:format-byte-unit (size)
+  "[utility] Format a number with the human readable unit."
   (cond ((null size) "NA")
         ((> size (* 1048576 4))
          (format "%s Mb" (e2wm:num (round (/ size 1048576)))))
@@ -312,6 +375,7 @@ from the given string."
          (format "%s bytes" (e2wm:num size)))))
 
 (defun e2wm:num (number)
+  "[utility] Format a number."
   (let ((base (format "%s" number)))
     (flet 
         ((rec (str len)
@@ -322,6 +386,8 @@ from the given string."
       (rec base (length base)))))
 
 (defun e2wm:max-length (rows)
+  "[utility] Return the max length of string in the given
+sequence. ROWS is a list of string."
   (loop for i in rows
         with lmax = 0
         for ln = (if i (length i) 0)
@@ -333,43 +399,63 @@ from the given string."
 ;;; ### Base API / History Management
 
 (defun e2wm:frame-param-get (name &optional frame)
+  "[internal] Return a value from frame properties."
   (frame-parameter (or frame (selected-frame)) name))
 
 (defun e2wm:frame-param-set (name val &optional frame)
+  "[internal] Set a frame property."
   (set-frame-parameter (or frame (selected-frame)) name val))
 
 (defun e2wm:document-buffer-p (buffer)
+  "If BUFFER is document, return t. See the variable `e2wm:c-document-buffer-p'."
   (if (and buffer (buffer-live-p buffer))
       (funcall e2wm:c-document-buffer-p buffer)))
 
+;; History data structure
+;; 
+;;           1: buffer a  |
+;;           2: buffer b  | history-backup
+;; currently displayed
+;;        -> 3: buffer c  | 
+;;           4: buffer d  | 
+;;           5: buffer e  | history
+;; 
+
 (defun e2wm:history-get ()
+  "Return a list of buffer history from the current frame."
   (e2wm:frame-param-get 'e2wm:buffer-history))
 
 (defun e2wm:history-save (buffer-history)
+  "Save the given list as buffer history in the current frame."
   (e2wm:frame-param-set
    'e2wm:buffer-history buffer-history)
   buffer-history)
 
 (defun e2wm:history-get-backup ()
-  ;; history back undoキュー
+  "Return a list of buffer backup-history."
   (e2wm:frame-param-get
    'e2wm:buffer-history-backup))
 
 (defun e2wm:history-save-backup (buffer-history-backup)
+  "Save the given list as buffer backup-history."
   (e2wm:frame-param-set 
    'e2wm:buffer-history-backup
    buffer-history-backup)
   buffer-history-backup)
 
 (defun e2wm:history-recordable-p (buffer)
+  "If BUFFER should be record in buffer history, return t.
+See the variable `e2wm:c-recordable-buffer-p'."
   (if (and buffer (buffer-live-p buffer))
       (funcall e2wm:c-recordable-buffer-p buffer)))
 
 (defun e2wm:history-add (buffer)
-  ;; 死んでるバッファのクリア
-  ;; undoキューのクリア（LRU）
-  ;; 履歴に追加、後ろを削除
-  ;; フレームパラメーターに保存
+  "Add BUFFER to buffer history.
+This function does following jobs:
+* clear all dead buffers
+* sort the list of buffer history by LRU
+* add a buffer and truncate the tail element
+* save the buffer history."
   (e2wm:message "#HISTORY-ADD : %s" buffer)
   (e2wm:aif (get-buffer buffer)
       (let* ((prev-history (e2wm:history-get))
@@ -401,8 +487,7 @@ from the given string."
           (e2wm:history-save history)))))
 
 (defun e2wm:history-back ()
-  ;;undoキューに突っ込んでhistoryから一つ戻す
-  ;;表示の更新は自前で。
+  "Move backward in the buffer history. This function does not update windows."
   (let ((history (e2wm:history-get))
         (history-backup (e2wm:history-get-backup)))
     (when (and history (cdr history))
@@ -411,8 +496,7 @@ from the given string."
     (e2wm:history-save-backup history-backup)))
 
 (defun e2wm:history-forward ()
-  ;;undoキューから一つ戻してhistoryに入れる
-  ;;表示の更新は自前で
+  "Move forward in the buffer history. This function does not update windows."
   (let ((history (e2wm:history-get))
         (history-backup (e2wm:history-get-backup)))
     (when history-backup
@@ -421,8 +505,7 @@ from the given string."
     (e2wm:history-save-backup history-backup)))
 
 (defun e2wm:history-delete (buffer)
-  ;;kill-buffer-hook等から履歴から削除するために呼ぶ
-  ;;表示の更新は自前で
+  "Delete BUFFER from the buffer history. This function does not update windows."
   (let ((history (e2wm:history-get))
         (history-backup (e2wm:history-get-backup)))
     (setq history (remove buffer history))
@@ -433,8 +516,8 @@ from the given string."
     (e2wm:history-save-backup history-backup)))
 
 (defun e2wm:history-get-next (buffer)
-  ;;history-backup, history から引数のバッファの次のバッファを取ってくる
-  ;;次が見つからなかったりhistoryが空なら引数のbufferを返す
+  "Return the buffer that is previous to BUFFER in the buffer history.
+If no buffer is found, return BUFFER."
   (let* ((history (append (reverse (e2wm:history-get-backup))
                           (e2wm:history-get))))
     (or (loop for i in history
@@ -446,8 +529,8 @@ from the given string."
         buffer)))
 
 (defun e2wm:history-get-prev (buffer)
-  ;;history-backup, history から引数のバッファの前のバッファを取ってくる
-  ;;前が見つからなかったりhistoryが空なら引数のbufferを返す
+  "Return the buffer that is next to BUFFER in the buffer history.
+If no buffer is found, return BUFFER."
   (let* ((history (append (reverse (e2wm:history-get-backup))
                           (e2wm:history-get))))
     (or (loop for i in history
@@ -459,17 +542,18 @@ from the given string."
         buffer)))
 
 (defun e2wm:history-get-main-buffer ()
-  ;;現在編集中のバッファ（＝履歴の最新という前提）
+  "Return the main buffer that should be display as the current
+editing buffer."
   (e2wm:aif (e2wm:history-get)
       (car it) e2wm:c-blank-buffer))
 
 (defun e2wm:managed-p (&optional frame)
-  ;;このフレームがWMで管理対象かどうか
+  "Return t, if e2wm manages the current frame."
   (e2wm:pst-get-instance frame))
 
 (defun e2wm:internal-buffer-p (buf)
-  ;;e2wmの管理バッファかどうか
-  ;;TODO: できれば何か印をつけておきたい
+  "Return t, if BUF is internal buffer created by e2wm.
+The current implementation check the buffer name. TODO: improve the internal sign."
   (e2wm:aand buf (string-match "\\*WM:" (buffer-name it))))
 
 
@@ -479,40 +563,44 @@ from the given string."
 (defvar e2wm:pst-list nil "[internal] Perspective class registory.")
 (setq e2wm:pst-list nil)
 
-;; e2wm:$pst-class 構造体
-;;   →この構造体でパースペクティブの定義を行う
-;;     (*)は必須（name以外は継承元にあればよい）
-;; name    : (*)このパースペクティブの名前、シンボル
-;; extend  : このパースペクティブの継承元名。以下のものでこのクラスの定義が nil だったら継承元を呼ぶ。
-;;         : もしくは、(e2wm:$pst-class-super) （ダイナミックバインド関数）を呼ぶ。
-;; init    : (*)このパースペクティブのコンストラクタ
-;;         : 継承元を呼ぶ場合は (e2wm:$pst-class-super) （ダイナミックバインド関数）を呼ぶ。
-;;         : 返値として wset 構造体を返す。
-;;         : 基本的に wset 構造体だけを返すようにして、レイアウトや
-;;         : 必要なフックなどのセットアップが必要であれば下のstartで行う。
-;;         : init,start で使える dynamic bind 変数 : prev-selected-buffer
-;; title   : (*)このパースペクティブのタイトル（人が読む用）
-;; main    : wlfのウインドウレイアウトのうち、デフォルトでフォーカスを当てるべき場所の名前
-;;         : nilなら適当に選ぶ。
-;; start   : レイアウトや必要なフックなどのセットアップを行う。引数：wm。
-;;         : この関数がnilなら何もしない。
-;;         : （leaveで一時中断して後で再度startが呼ばれることがある。）
-;; update  : wlfの各windowを更新する際に呼ばれる関数。引数：wm。
-;;         : この関数がnilなら何もしない。
-;;         : 各Windowのプラグインの更新が行われる前に呼ばれる。
-;;         : ウインドウの構成の変更や履歴を戻ったりするたびに呼ばれる。
-;; switch  : switch-to-bufferを乗っ取る関数。引数：buffer。
-;;         : この関数がnilなら何もしない。返値でnilを返すと本来の動作、
-;;         : それ以外なら動作を乗っ取ったものとみなしてそのまま終了する。
-;;         : プラグインの更新などが必要であればe2wm:pst-update-windowsを呼ぶこと。
-;; popup   : pop-to-buffer, special-display-func を乗っ取る関数。引数：buffer。
-;;         : この関数がnilなら何もしない。返値でnilを返すと本来の動作、
-;;         : それ以外なら動作を乗っ取ったものとみなしてそのまま終了する。
-;;         : プラグインの更新などが必要であればe2wm:pst-update-windowsを呼ぶこと。
-;; leave   : このパースペクティブを終了する際に呼ばれる関数。引数：wm。
-;;         : この関数がnilなら何もしない。
-;; keymap  : このパースペクティブで有効にするキーマップのシンボル。nilだと何も設定しない。
-;; save    : after-save-hook で呼ばれる。選択されているパースペクティブだけ作用。nilだと何もしない。
+;; structure  [ e2wm:$pst-class ]
+;;
+;;   This structure defines a perspective.
+;;   The symbol (*) means the slot must be defined.
+;;
+;; name    : (*) The identifier symbol for this perspective
+;; extend  : A symbol for the base perspective class.
+;;         : If the functions described below are set nil, the functions of the base class are called.
+;;         : Note that the functions can call the dynamically bound function `e2wm:$pst-class-super' to
+;;         : evaluate the base class ones.
+;; init    : (*) The constructor function for this perspective. (Arguments: none)
+;;         : This function just set up the wset structure object and return it.
+;;         : Actual laying out and setting up hooks should be done in the `start' function.
+;;         : The dynamically bound variable `prev-selected-buffer' can be used at the 
+;;         : functions `init' and `start'.
+;; title   : (*) A string for the title of this perspective.
+;; main    : A symbol for the window name which is selected initially.
+;;         : If this slot is nil, the e2wm doesn't care of window focus.
+;; start   : This function lays out windows and set up buffers and some variables for this perspective.
+;;         : (Arguments: `wm')
+;;         : If this slot is nil, the e2wm does nothing at the beginning of the perspective.
+;;         : This function may be called again, after the evaluating `leave' and
+;;         : suspending the e2wm management.
+;; update  : This function updates the windows and plug-ins. (Arguments: `wm')
+;;         : If this slow it nil, the e2wm just refreshes the windows and plug-ins.
+;; switch  : This function overrides `switch-to-buffer'. (Arguments: `buffer')
+;;         : If this slot is nil or this function returns nil, 
+;;         : the original function `switch-to-buffer' is evaluated.
+;;         : If this function returns non-nil, the original function `switch-to-buffer' is not evaluated.
+;;         : If the plug-ins need to be updated, this function should call the 
+;;         : `e2wm:pst-update-windows' to update the plug-ins.
+;; popup   : This function overrides `pop-to-buffer' and `special-display-func'. (Arguments: `buffer')
+;;         : See the `switch' spec for detail.
+;; leave   : This function cleans up buffers and some variables for leaving the perspective.
+;;         : (Arguments: `wm')
+;;         : If this slot is nil, the e2wm does nothing during leaving the perspective.
+;; keymap  : A symbol for the key map of this perspective.
+;; save    : This function is called by the hook `after-save-hook' when this perspective is active.
 
 (defstruct e2wm:$pst-class 
   name title extend
@@ -520,16 +608,19 @@ from the given string."
   keymap save)
 
 (defun e2wm:pst-class-register (pst-class)
-  ;;パースペクティブクラスの登録
+  "Register a perspective class. If the class which name is
+ the same as PST-CLASS has been already registered, the given class
+overrides the previous one."
   (when (e2wm:aand (e2wm:$pst-class-extend pst-class)
                   (symbolp it))
-    ;;継承元がシンボルだったらオブジェクトに入れ替える
+    ;; A symbol for the super class is replaced by the class object.
     (setf (e2wm:$pst-class-extend pst-class)
           (e2wm:pst-class-get (e2wm:$pst-class-extend pst-class))))
   (e2wm:pst-class-remove pst-class)
   (push pst-class e2wm:pst-list))
 
 (defun e2wm:pst-class-remove (pst-class)
+  "Remove the class from the perspective class registry."
   (setq e2wm:pst-list
         (loop with name = (e2wm:$pst-class-name pst-class)
               for i in e2wm:pst-list
@@ -537,54 +628,72 @@ from the given string."
               collect i)))
 
 (defun e2wm:pst-class-get (name)
-  ;;パースペクティブクラスの取得
+  "Return the class object which name is NAME."
   (e2wm:find name 'e2wm:$pst-class-name e2wm:pst-list))
 
-;;e2wm:$pst(perspective) インスタンス構造体
-;; name    : このパースペクティブの名前、シンボル
-;; wm      : wlfレイアウトオブジェクト
-;; type    : class オブジェクトへの参照
+(defun e2wm:pst-class-abstract-p (pst-class)
+  "Return non-`nil' when PST-CLASS does not have all mandatory
+slots (i.e., `:init' and `:title')."
+  (and pst-class
+       (not (e2wm:$pst-class-init pst-class))
+       (not (e2wm:$pst-class-title pst-class))))
+
+
+;; structure [e2wm:$pst] 
+;;
+;;   This structure represents an instance of the perspective.
+;;
+;; name    : A symbol for this perspective
+;; wm      : wlf layout object
+;; type    : A reference to the perspective class object
 
 (defstruct e2wm:$pst name wm type)
 
-(defmacro e2wm:$pst-get-prop (name pst)
-  ;;現在のクラスが値を持ってなかったら、継承元クラスの値を返す
-  (let ((method-name (intern (format "e2wm:$pst-class-%s" name))))
-    `(or (,method-name (e2wm:$pst-type ,pst))
-         (and (e2wm:$pst-super ,pst) 
-              (,method-name (e2wm:$pst-super ,pst))))))
+(defun e2wm:$pst-get-prop (name pst)
+  "[internal] Return the value of this perspective."
+  (let ((slot-name (intern (format "e2wm:$pst-class-%s" name))))
+    (e2wm:$pst-class-get-prop-gen slot-name (e2wm:$pst-type pst))))
 
-(defun e2wm:method-call (method-name class super-class on-nil &rest args)
-  ;;Java的OOPな継承によるオーバーライドを実現
-  ;;とりあえず継承は１段階のみ
-  (lexical-let ((method (funcall method-name class))
-                (super-method (and super-class
-                                   (funcall method-name super-class)))
+(defun e2wm:$pst-class-get-prop-gen (slot-name pst-class)
+  "[internal] Return the slot value of this perspective class."
+  (or (funcall slot-name pst-class)
+      (e2wm:aif (e2wm:$pst-class-extend pst-class)
+          (e2wm:$pst-class-get-prop-gen slot-name it))))
+
+(defun e2wm:method-call (method-name class error-on-nil &rest args)
+  "[internal] Call the method which belongs to the perspective class.
+If ERROR-ON-NIL is non-nil and the CLASS has no value at the slot, 
+raise the error signal with ERROR-ON-NIL."
+  (lexical-let ((method (e2wm:$pst-class-get-prop-gen method-name class))
+                (super-class (e2wm:$pst-class-extend class))
+                ;; put all arguments in lexical scope to use it in
+                ;; `e2wm:$pst-class-super':
+                (method-name method-name)
+                (class class)
+                (error-on-nil error-on-nil)
                 (args args))
     (cond
-     ((and (null method) (null super-method))
-      (if on-nil (error on-nil) nil))
-     ((and method (null super-method))
-      (apply method args))
-     ((and (null method) super-method)
-      (apply super-method args))
+     ((null method)
+      (if error-on-nil (error error-on-nil) nil))
      (t
-      (flet ((e2wm:$pst-class-super () (apply super-method args)))
+      (flet ((e2wm:$pst-class-super () (apply
+                                        #'e2wm:method-call
+                                        method-name super-class
+                                        error-on-nil args)))
         (apply method args))))))
 
 (defmacro e2wm:pst-method-call (method-name pst-instance &rest args)
-  ;;pst用のショートカット
+  "[internal] Short cut macro. (pst-instance -> pst-class)"
   `(e2wm:method-call 
     ',method-name 
-    (e2wm:$pst-type ,pst-instance)
-    (e2wm:$pst-super ,pst-instance) nil ,@args))
+    (e2wm:$pst-type ,pst-instance) nil ,@args))
 
 (defun e2wm:$pst-title (pst)
-  (e2wm:$pst-get-prop title pst))
+  (e2wm:$pst-get-prop 'title pst))
 (defun e2wm:$pst-main (pst)
-  (e2wm:$pst-get-prop main pst))
+  (e2wm:$pst-get-prop 'main pst))
 (defun e2wm:$pst-keymap (pst)
-  (e2wm:aif (e2wm:$pst-get-prop keymap pst)
+  (e2wm:aif (e2wm:$pst-get-prop 'keymap pst)
       (symbol-value it) nil))
 
 (defun e2wm:$pst-start (pst)
@@ -613,6 +722,7 @@ from the given string."
   (e2wm:frame-param-set 'e2wm:prev-pst pst-name))
 
 (defun e2wm:pst-copy-instance ()
+  "[internal] Copy the current perspective instance."
   (let ((i (e2wm:pst-get-instance)))
     (make-e2wm:$pst
      :name   (e2wm:$pst-name   i)
@@ -620,10 +730,13 @@ from the given string."
      :type   (e2wm:$pst-type   i))))
 
 (defun e2wm:pst-get-wm ()
+  "Return the window layout object of the current perspective."
   (e2wm:$pst-wm (e2wm:pst-get-instance)))
 
 (defun e2wm:pst-update-windows (&optional rebuild-windows)
-  ;;全ウインドウを更新する。rebuild-windowがnon-nilであればウインドウの再構築を行う。
+  "Update all buffers of the windows and plug-ins.  If
+REBUILD-WINDOWS is non-nil, windows are destroyed and new windows
+are created."
   (e2wm:message "#PST-UPDATE")
   (e2wm:with-advice
    (let* ((instance (e2wm:pst-get-instance))
@@ -637,33 +750,31 @@ from the given string."
        (wlf:refresh wm)
        (e2wm:aif (e2wm:$pst-main instance)
            (wlf:select wm it)))
-     ;;パースペクティブ固有の処理
+     ;; Update task for the current perspective
+     ;; (Plug-ins are updated by `e2wm:dp-base-update')
      (e2wm:pst-method-call e2wm:$pst-class-update instance wm)
-     ;;プラグイン更新実行
-     (e2wm:plugin-exec-update (selected-frame) wm)
      )) t)
 
 (defun e2wm:pst-switch-to-buffer (buf)
+  "[internal] Delegate the `switch' function of the current perspective."
   (e2wm:message "#PST-SWITCH %s" buf)
-  ;;switch-to-bufferを乗っ取ってパースペクティブ側に委譲する
   (e2wm:pst-method-call e2wm:$pst-class-switch (e2wm:pst-get-instance) buf))
 
 (defun e2wm:pst-pop-to-buffer (buf)
+  "[internal] Delegate the `popup' function of the current perspective."
   (e2wm:message "#PST-POPUP %s" buf)
-  ;;pop-to-bufferを乗っ取ってパースペクティブ側に委譲する
   (e2wm:pst-method-call e2wm:$pst-class-popup (e2wm:pst-get-instance) buf))
 
 (defun e2wm:pst-change (next-pst-name)
+  "Leave the current perspective and start the new perspective."
   (e2wm:message "#PST-CHANGE %s" next-pst-name)
-  ;;パースペクティブを変更する
-  ;;前のパースペクティブの終了処理と、新しい方の開始処理など
   (let ((prev-pst-instance (e2wm:pst-get-instance))
         (next-pst-class (e2wm:pst-class-get next-pst-name))
         (prev-selected-buffer (current-buffer)))
     (when (e2wm:internal-buffer-p prev-selected-buffer)
       (setq prev-selected-buffer nil))
     (cond
-     ((null next-pst-name)
+     ((null next-pst-class)
       (error "Perspective [%s] is not found." next-pst-name))
      (t
       (e2wm:aif prev-pst-instance
@@ -671,12 +782,9 @@ from the given string."
             (e2wm:pst-method-call e2wm:$pst-class-leave it (e2wm:$pst-wm it))
             (unless (eql next-pst-name (e2wm:$pst-name it))
               (e2wm:pst-set-prev-pst (e2wm:$pst-name it)))))
-      (let* ((next-pst-super-class
-              (e2wm:$pst-class-extend next-pst-class))
-             (next-pst-wm
+      (let* ((next-pst-wm
               (e2wm:method-call 'e2wm:$pst-class-init 
-                               next-pst-class 
-                               next-pst-super-class 
+                               next-pst-class
                                (format "[%s] init method is nil!" next-pst-name)))
              (next-pst-instance 
               (make-e2wm:$pst :name next-pst-name
@@ -689,14 +797,12 @@ from the given string."
     (e2wm:pst-update-windows t)))
 
 (defun e2wm:pst-change-prev ()
-  ;;前のパースペクティブに変える
+  "[internal] Change to the previous perspective."
   (e2wm:aif (e2wm:pst-get-prev-pst)
       (progn
         (e2wm:message "#PREV-PST : %s" it)
         (e2wm:pst-change it))))
 
-;;全パースペクティブに共通なキーマップ定義
-;;各パースペクティブで指定したkeymapがこのkeymapのparentに置き換わる (e2wm:pst-change)
 (defvar e2wm:pst-minor-mode-keymap
       (e2wm:define-keymap
        '(("prefix Q"   . e2wm:stop-management)
@@ -704,9 +810,11 @@ from the given string."
          ("prefix n"   . e2wm:pst-history-down-command)
          ("prefix p"   . e2wm:pst-history-up-command)
          ("prefix <DEL>" . e2wm:pst-change-prev-pst-command)
-         ) e2wm:prefix-key))
+         ) e2wm:prefix-key)
+      "Common key map for all perspectives. (See `e2wm:pst-change-keymap')")
 
 (defun e2wm:pst-change-keymap (new-keymap)
+  "[internal] Add the perspective key map to the common key map."
   (let ((map (copy-keymap
               (or new-keymap e2wm:pst-minor-mode-keymap))))
     (when new-keymap
@@ -715,17 +823,19 @@ from the given string."
         (setf (cdr it) map))))
 
 (defun e2wm:pst-resume (pst-instance)
+  "[internal] Resume the perspective which is suspended by the function `e2wm:pst-finish'."
   (e2wm:message "#PST-RESUME %s" pst-instance)
-  ;;パースペクティブのインスタンスを戻してstartを呼ぶ
-  ;;set-window-configurationでウインドウは元に戻っている仮定
+  ;; This function assumes that the window configuration is 
+  ;; restored by `set-window-configuration'.
   (e2wm:pst-set-instance pst-instance)
   (e2wm:pst-change-keymap (e2wm:$pst-keymap pst-instance))
   (e2wm:pst-method-call e2wm:$pst-class-start pst-instance (e2wm:$pst-wm pst-instance)))
 
 (defun e2wm:pst-finish ()
+  "[internal] Suspend the current perspective for finishing e2wm or
+switching the window configuration to the non-e2wm frame during
+the other application calling `set-window-configuration'."
   (e2wm:message "#PST-FINISH")
-  ;;パースペクティブの終了処理のみ。全体の終了処理や
-  ;;set-window-configurationで非管理対象画面に切り替えたときなど。
   (let ((prev-pst-instance (e2wm:pst-get-instance)))
     (when prev-pst-instance
       (e2wm:pst-method-call e2wm:$pst-class-leave prev-pst-instance 
@@ -733,28 +843,30 @@ from the given string."
     (e2wm:pst-set-instance nil)))
 
 (defun e2wm:pst-window-option-get (wm window-name)
-  ;;指定したウインドウのオプション用plistを取ってくる
+  "Return a plist of the plug-in option at the WINDOW-NAME window."
   (wlf:window-options 
    (wlf:get-winfo window-name (wlf:wset-winfo-list wm))))
 
 (defun e2wm:pst-window-plugin-get (wm window-name)
-  ;;指定したウインドウのプラグイン名を取ってくる
+  "Return a symbol of the plug-in at the WINDOW-NAME window. "
   (plist-get (e2wm:pst-window-option-get wm window-name)
              ':plugin))
 
 (defun e2wm:pst-window-plugin-set (wm window-name plugin-name)
-  ;;指定したウインドウにプラグインを設定する
+  "Set the plug-in at the WINDOW-NAME window."
   (plist-put (e2wm:pst-window-option-get wm window-name)
              ':plugin plugin-name))
 
 (defun e2wm:pst-buffer-get (window-name)
-  ;;指定したウインドウのバッファを取ってくる
+  "Return the buffer object at the WINDOW-NAME window."
   (let ((wm (e2wm:pst-get-wm)))
     (when (wlf:window-name-p wm window-name)
       (wlf:get-buffer wm window-name))))
 
 (defun e2wm:pst-buffer-set (window-name buffer &optional showp selectp)
-  ;;指定したウインドウにバッファをセットする
+  "Set the given BUFFER at the WINDOW-NAME window.
+If SHOWP is non-nil, the hided window is displayed.
+If SELECTP is non-nil, the window is selected."
   (let ((wm (e2wm:pst-get-wm)))
     (when (wlf:window-name-p wm window-name)
       (when (and showp (not (wlf:get-window wm window-name)))
@@ -766,32 +878,35 @@ from the given string."
          (with-current-buffer buffer (point)))))))
 
 (defun e2wm:pst-window-select (window-name)
-  ;;指定したウインドウを選択する
+  "Select the WINDOW-NAME window."
   (let ((wm (e2wm:pst-get-wm)))
     (when (wlf:window-name-p wm window-name)
       (wlf:select wm window-name))))
 
 (defun e2wm:pst-window-select-main ()
-  ;;パースペクティブのデフォルトウインドウを選択する
-  ;;main スロットが nil なら何もしない
+  "Select the `main' window which is defined by the perspective.
+If the perspective has no `main' window, this function does nothing."
   (let ((main (e2wm:$pst-main (e2wm:pst-get-instance)))
         (wm (e2wm:pst-get-wm)))
     (when (and main (wlf:window-name-p wm main))
       (wlf:select wm main))))
 
 (defun e2wm:pst-window-toggle (window-name &optional selectp next-window)
-  ;;指定したウインドウの表示をトグルする
+  "Toggle visibility of the window specified by WINDOW-NAME.
+If SELECTP is non-nil, it selects that window when opening it.
+NEXT-WINDOW specifies the window to select when closing the
+WINDOW-NAME window.  This function returns the name of the
+selected window, or nil if none is selected."
   (let ((wm (e2wm:pst-get-wm)))
     (when (wlf:window-name-p wm window-name)
       (wlf:toggle wm window-name)
       (if (wlf:window-displayed-p wm window-name)
-          (and selectp (wlf:select wm window-name))
-        (and next-window (wlf:select wm next-window))))))
+          (when selectp (wlf:select wm window-name) window-name)
+        (when next-window (wlf:select wm next-window) next-window)))))
 
 (defun e2wm:pst-show-history-main ()
-  ;;パースペクティブの「メイン」ウインドウ（もしあれば）に履歴のトップ
-  ;;のバッファを表示して e2wm:pst-update-windows する。
-  ;;履歴移動系のコマンドやバッファ切り替え乗っ取り系から呼ばれる。
+  "Display the history top buffer at the `main' window which is
+defined by the perspective."
   (e2wm:with-advice
    (let* ((instance (e2wm:pst-get-instance))
           (wm (e2wm:$pst-wm instance)))
@@ -800,9 +915,12 @@ from the given string."
      (e2wm:pst-update-windows))))
 
 (defun e2wm:pst-after-save-hook ()
-  (e2wm:message "$$ AFTER SAVE HOOK")
-  (e2wm:pst-method-call e2wm:$pst-class-save (e2wm:pst-get-instance))
-  (e2wm:pst-update-windows))
+  "[internal] Hook for `after-save-hook'."
+  (e2wm:message "$$ AFTER SAVE HOOK %S" this-command)
+  ;; Ignore save events those are triggered by timers.
+  (when this-command
+    (e2wm:pst-method-call e2wm:$pst-class-save (e2wm:pst-get-instance))
+    (e2wm:pst-update-windows)))
 
 ;;; Commands / Key bindings / Minor Mode
 ;;;--------------------------------------------------
@@ -951,11 +1069,12 @@ from the given string."
 ;; 好みのパースペクティブのセットを作って選べるようにする
 
 (defun e2wm:pstset-defaults()
-  ;;array以外を全部つっこむ
+  ;;abstract classとarray以外を全部つっこむ
   (e2wm:pstset-define
    (nreverse
     (loop for i in e2wm:pst-list
-          unless (eq (e2wm:$pst-class-name i) 'array)
+          unless (or (memq (e2wm:$pst-class-name i) '(array))
+                     (e2wm:pst-class-abstract-p i))
           collect (e2wm:$pst-class-name i)))))
 
 (defun e2wm:pstset-define (names)
@@ -1007,7 +1126,7 @@ from the given string."
     (if overrided
         (progn
           (set-buffer buf)
-          (setq ad-return-value buf))
+          (setq ad-return-value (get-buffer-create buf)))
       ad-do-it))) ; それ以外はもとの関数へ（画面更新はしないので必要な場合は自分でする）
 
 (defadvice pop-to-buffer (around 
@@ -1025,7 +1144,7 @@ from the given string."
     (if overrided
         (progn 
           (set-buffer buf)
-          (setq ad-return-value buf))
+          (setq ad-return-value (get-buffer-create buf)))
       ad-do-it))) ; それ以外はもとの関数へ（画面更新はしないので必要な場合は自分でする）
 
 (defun e2wm:override-special-display-function (buf &optional args)
@@ -1058,12 +1177,26 @@ from the given string."
       )))
 
 (defun e2wm:kill-buffer-hook ()
+  "[internal] Update windows which showed the killed buffer.
+Called via `kill-buffer-hook'."
   (e2wm:message "#KILL HOOK")
   (when (and (e2wm:history-recordable-p (current-buffer))
              (e2wm:managed-p))
-    ;; killされたら履歴からも消す
-    (e2wm:history-delete (current-buffer))
-    (e2wm:pst-show-history-main)))
+    ;; If kill is *not* called by command, don't change windows
+    (when this-command
+      ;; search through the existing windows which show the killed buffer
+      (loop with wm = (e2wm:pst-get-wm)
+            with killedbuf = (current-buffer)
+            with nextbuf = (current-buffer)
+            for winfo in (wlf:wset-winfo-list wm)
+            for wname = (wlf:window-name winfo)
+            when (equal (wlf:get-buffer wm wname) killedbuf)
+            do (progn
+                 (setq nextbuf (e2wm:history-get-next nextbuf))
+                 (wlf:set-buffer wm wname nextbuf)))
+      (e2wm:pst-update-windows))
+    ;; remove it from the history list
+    (e2wm:history-delete (current-buffer))))
 
 ;; delete-other-windows対策
 
@@ -1407,6 +1540,7 @@ management. For window-layout.el.")
       (with-current-buffer buf
         (e2wm:def-plugin-history-list-mode)
         (setq buffer-read-only t)
+        (setq truncate-lines t)
         (buffer-disable-undo buf)
         (hl-line-mode 1)))
     (with-current-buffer buf
@@ -1515,6 +1649,7 @@ management. For window-layout.el.")
       (with-current-buffer buf
         (e2wm:def-plugin-history-list2-mode)
         (setq buffer-read-only t)
+        (setq truncate-lines t)
         (buffer-disable-undo buf)
         (hl-line-mode 1)))
     (with-current-buffer buf
@@ -1656,6 +1791,7 @@ management. For window-layout.el.")
       (with-current-buffer buf
         (e2wm:def-plugin-imenu-mode)
         (setq buffer-read-only t)
+        (setq truncate-lines t)
         (buffer-disable-undo buf)
         (hl-line-mode 1))
       (e2wm:def-plugin-imenu-start-timer))
@@ -1869,7 +2005,7 @@ string object to insert the imenu buffer."
         (buffer-disable-undo buf)))
     (let (proc)
       (condition-case err
-          (setq proc (start-process "WM:top" tmpbuf "top" "-b -n 1"))
+          (setq proc (start-process "WM:top" tmpbuf "top" "-b" "-n" "1"))
         (nil 
          (with-current-buffer buf
            (erase-buffer)
@@ -2113,6 +2249,7 @@ string object to insert the imenu buffer."
         (set (make-local-variable 'e2wm:def-plugin-files-sort-key) opt-sort-key)
         (set (make-local-variable 'e2wm:def-plugin-files-hide-hidden-files) opt-hide-hidden)
         (setq buffer-read-only t)
+        (setq truncate-lines t)
         (buffer-disable-undo dbuf)
         (setq pos (point-min))
         (hl-line-mode 1)))
@@ -2465,6 +2602,19 @@ string object to insert the imenu buffer."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ### Perspective Definition
 
+;;; base / A base class for perspectives
+;;;--------------------------------------------------
+
+(e2wm:pst-class-register
+  (make-e2wm:$pst-class
+   :name   'base
+   :update 'e2wm:dp-base-update))
+
+(defun e2wm:dp-base-update (wm)
+  ;;プラグイン更新実行
+  (e2wm:plugin-exec-update (selected-frame) wm))
+
+
 ;;; code / Code editing perspective
 ;;;--------------------------------------------------
 
@@ -2491,6 +2641,7 @@ string object to insert the imenu buffer."
 (e2wm:pst-class-register 
   (make-e2wm:$pst-class
    :name   'code
+   :extend 'base
    :title  "Coding"
    :init   'e2wm:dp-code-init
    :main   'main
@@ -2627,6 +2778,7 @@ string object to insert the imenu buffer."
 (e2wm:pst-class-register
   (make-e2wm:$pst-class
    :name   'two
+   :extend 'base
    :title  "Two Columns"
    :init   'e2wm:dp-two-init
    :main   'left
@@ -2783,7 +2935,7 @@ string object to insert the imenu buffer."
 ;;; htwo / Horizontal split editing perspective
 ;;;--------------------------------------------------
 
-(setq e2wm:c-htwo-recipe
+(defvar e2wm:c-htwo-recipe
       '(| (:left-size-ratio 0.55)
           (| (:left-max-size 30)
              (- (:upper-size-ratio 0.7)
@@ -2825,6 +2977,11 @@ string object to insert the imenu buffer."
 
     htwo-wm))
 
+(defun e2wm:dp-htwo ()
+  (interactive)
+  (e2wm:pst-change 'htwo))
+
+
 ;;; document / Document view perspective
 ;;;--------------------------------------------------
 
@@ -2841,6 +2998,7 @@ string object to insert the imenu buffer."
 (e2wm:pst-class-register 
   (make-e2wm:$pst-class
    :name   'doc
+   :extend 'base
    :init   'e2wm:dp-doc-init
    :title  "Document"
    :main   'left
@@ -2878,6 +3036,7 @@ string object to insert the imenu buffer."
 
 (defun e2wm:dp-doc-update (wm)
   (e2wm:message "#DP DOC update")
+  (e2wm:$pst-class-super)
   ;;左右を同じにする
   (let ((leftbuf  (wlf:get-buffer wm 'left))
         (rightbuf (wlf:get-buffer wm 'right)))
@@ -2975,6 +3134,7 @@ string object to insert the imenu buffer."
 (e2wm:pst-class-register
  (make-e2wm:$pst-class
      :name   'dashboard
+     :extend 'base
      :title  "Dashboard"
      :main   'w-1-1
      :init   'e2wm:dp-dashboard-init
@@ -3196,6 +3356,7 @@ string object to insert the imenu buffer."
 (e2wm:pst-class-register 
  (make-e2wm:$pst-class
      :name   'array
+     :extend 'base
      :title  "Buffer Array"
      :main   'w-1-1
      :init   'e2wm:dp-array-init
@@ -3217,7 +3378,7 @@ string object to insert the imenu buffer."
 (defun e2wm:dp-array-start (wm)
   (e2wm:message "#ARRAY START")
   (setq e2wm:dp-array-backup-globalmap global-map)
-  (use-global-map (make-keymap)) ; 強引
+  (use-global-map e2wm:dp-array-minor-mode-map) ; 強引
   (setq overriding-terminal-local-map e2wm:dp-array-minor-mode-map)
   (e2wm:dp-array-decrease-fontsize)
   (e2wm:dp-array-update-summary))
@@ -3436,16 +3597,17 @@ string object to insert the imenu buffer."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ### Setup
 
-(e2wm:add-keymap 
+(e2wm:add-keymap
  e2wm:pst-minor-mode-keymap
  '(("prefix 1" . e2wm:dp-code)
-   ("prefix 2" . e2wm:dp-two) 
+   ("prefix 2" . e2wm:dp-two)
    ("prefix 3" . e2wm:dp-doc)
    ("prefix 4" . e2wm:dp-array)
    ("prefix 5" . e2wm:dp-dashboard))
  e2wm:prefix-key)
 
 (defun e2wm:history-add-loaded-buffers ()
+  "Put all recordable buffers in the history list."
   (interactive)
   (loop for b in (buffer-list)
         for bo = (get-buffer b)
@@ -3455,9 +3617,16 @@ string object to insert the imenu buffer."
 (defvar e2wm:pre-start-hook nil "")
 (defvar e2wm:post-start-hook nil "")
 
-(defun e2wm:start-management (&optional pstset)
-  ;;現在のフレームの管理を開始
+(defun e2wm:start-management (&optional pstset force-restart)
+  "e2wm window management for the current frame.
+
+To force restart use the universal prefix argument (C-u) or
+specify non-nil for FORCE-STOP when calling as a lisp function."
   (interactive)
+
+  (when (or force-restart current-prefix-arg)
+    (e2wm:stop-management t)
+    (message "Restarting e2wm..."))
 
   (cond
    (e2wm:pst-minor-mode
@@ -3465,11 +3634,11 @@ string object to insert the imenu buffer."
    (t
     (run-hooks 'e2wm:pre-start-hook)
 
-    (e2wm:frame-param-set 
-     'e2wm-save-window-configuration 
+    (e2wm:frame-param-set
+     'e2wm-save-window-configuration
      (current-window-configuration))
 
-    (e2wm:history-add-loaded-buffers) ; 全部つっこむ
+    (e2wm:history-add-loaded-buffers)
     (e2wm:history-save-backup nil)
 
     (e2wm:pst-minor-mode 1)
@@ -3477,29 +3646,37 @@ string object to insert the imenu buffer."
 
     (if pstset
         (e2wm:pstset-define pstset)
-      (e2wm:pstset-defaults)) ; 全部使う
+      (e2wm:pstset-defaults)) ; use all registered perspectives
     (e2wm:pst-set-prev-pst nil)
-    (e2wm:pst-change (car (e2wm:pstset-get-current-pstset))) ; 先頭をメインとする
+    ;; show the first perspective in the perspective set
+    (e2wm:pst-change (car (e2wm:pstset-get-current-pstset)))
     (e2wm:menu-define)
 
-    (run-hooks 'e2wm:post-start-hook))))
+    (run-hooks 'e2wm:post-start-hook)
+    (message "E2wm is started."))))
 
 (defvar e2wm:post-stop-hook nil "")
 
-(defun e2wm:stop-management ()
-  ;;現在のフレームの管理を終了
+(defun e2wm:stop-management (&optional force-stop)
+  "Stop e2wm window management for the current frame.
+
+To force stop, use the universal prefix argument (C-u) or
+specify non-nil for FORCE-STOP when calling as a lisp function."
   (interactive)
-  (when (e2wm:managed-p)
+  (setq force-stop (or current-prefix-arg force-stop))
+  (when (or force-stop (e2wm:managed-p))
     (e2wm:pst-finish)
     (e2wm:pst-minor-mode -1)
     (e2wm:pst-set-prev-pst nil)
 
     (ad-deactivate-regexp "^e2wm:ad-debug") ; debug
 
-    (e2wm:aif (e2wm:frame-param-get 
+    (e2wm:aif (e2wm:frame-param-get
                'e2wm-save-window-configuration)
         (set-window-configuration it))
-    (run-hooks 'e2wm:post-stop-hook)))
+    (run-hooks 'e2wm:post-stop-hook))
+  (when force-stop
+    (message "E2wm is stopped forcefully.")))
 
 ;; for dev
 ;; (progn (setq e2wm:debug t) (toggle-debug-on-error))
