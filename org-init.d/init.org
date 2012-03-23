@@ -2152,27 +2152,24 @@ Creates a buffer if necessary."
   ;; (setq guide-key:highlight-command-regexp "rectangle\\|ffap")
   (setq guide-key:popup-window-position 'right
         guide-key:polling-time 0.5)
-  (global-guide-key-mode 1)
+  (guide-key-mode 1)
   ;; mode specific setting
   (defun guide-key:my-hook-function-for-org-mode ()
     (dolist (key '("C-c" "C-c C-v" "C-c C-x"))
       (guide-key:add-local-show-key-sequence key))
-    (guide-key:add-local-highlight-command-regexp "org-")
-    (guide-key-mode 1))
+    (guide-key:add-local-highlight-command-regexp "org-"))
   (add-hook 'org-mode-hook 'guide-key:my-hook-function-for-org-mode)
 
   (defun guide-key:my-hook-function-for-yatex-mode ()
     (dolist (key '("C-c C-b" "C-c" "C-c 5" "C-c 4"))
       (guide-key:add-local-show-key-sequence key))
-    (guide-key:add-local-highlight-command-regexp "yatex-")
-    (guide-key-mode 1))
+    (guide-key:add-local-highlight-command-regexp "yatex-"))
   (add-hook 'yatex-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
 
   (defun guide-key:my-hook-function-for-outline-minor-mode ()
     (dolist (key '("C-c @"))
       (guide-key:add-local-show-key-sequence key))
-    (guide-key:add-local-highlight-command-regexp "outline-")
-    (guide-key-mode 1))
+    (guide-key:add-local-highlight-command-regexp "outline-"))
   (add-hook 'outline-minor-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
   )
 #+END_SRC
