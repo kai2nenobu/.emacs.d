@@ -3931,6 +3931,35 @@ do nothing. And suppress the output from `message' and
            (YaTeX-define-key ,key (quote ,func) ,map))))
     ;; (defalias 'YaTeX-define-begend-key-normal 'YaTeX-define-begend-key-normal-macro)
     ;; できればエイリアスしたかったが不可能のよう．マクロにはエイリアスできない？
+        ;; (loop for (key env)
+    ;;       in '(("bc" "center") ("bd" "document") ("bD" "description") ("be" "enumerate")
+    ;;            ("bE" "equation") ("bi" "itemize") ("bl" "flushleft") ("bm" "minipage")
+    ;;            ("bt" "tabbing") ("bT" "tabular") ("b\^t" "table") ("bp" "picture")
+    ;;            ("bq" "quote") ("bQ" "quotation") ("br" "flushright") ("bv" "verbatim")
+    ;;            ("bV" "verse"))
+    ;;       do
+    ;;       (YaTeX-define-begend-key-normal-macro key env))
+    ;; 何故かこのマクロだと動かないどうして？質問するか
+    (YaTeX-define-begend-key-normal-macro "bc" "center")
+    (YaTeX-define-begend-key-normal-macro "bd" "document")
+    (YaTeX-define-begend-key-normal-macro "bD" "description")
+    (YaTeX-define-begend-key-normal-macro "be" "enumerate")
+    (YaTeX-define-begend-key-normal-macro "bE" "equation")
+    (YaTeX-define-begend-key-normal-macro "bi" "itemize")
+    (YaTeX-define-begend-key-normal-macro "bl" "flushleft")
+    (YaTeX-define-begend-key-normal-macro "bm" "minipage")
+    (YaTeX-define-begend-key-normal-macro "bt" "tabbing")
+    (YaTeX-define-begend-key-normal-macro "bT" "tabular")
+    (YaTeX-define-begend-key-normal-macro "b\^t" "table")
+    (YaTeX-define-begend-key-normal-macro "bp" "picture")
+    (YaTeX-define-begend-key-normal-macro "bq" "quote")
+    (YaTeX-define-begend-key-normal-macro "bQ" "quotation")
+    (YaTeX-define-begend-key-normal-macro "br" "flushright")
+    (YaTeX-define-begend-key-normal-macro "bv" "verbatim")
+    (YaTeX-define-begend-key-normal-macro "bV" "verse")
+    (YaTeX-define-begend-key-normal-macro "ba" "align")
+    (YaTeX-define-begend-key-normal-macro "bg" "gather")
+    (YaTeX-define-begend-key-normal-macro "bf" "frame")
 
     ;; popwin との協調
     (eval-after-load "popwin"
