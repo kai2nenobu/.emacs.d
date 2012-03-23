@@ -19,8 +19,7 @@ defadvice で前置引数を使いたい現在のところ，フォーカスを�
 ** one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ** yatex のキー割り当てが ??? なのを修正する
 
-* 設定
-** 最初に設定しないといけないもの
+* 最初に設定しないといけないもの
 #+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
 (eval-when-compile
@@ -142,7 +141,7 @@ PRE time needs to be before CUR time."
 (my-measure-message-time "Basic setting.")
 #+END_SRC
 
-** 自作関数
+* 自作関数
 #+BEGIN_SRC emacs-lisp
 ;;; リンクを org-mode から pukiwiki 形式に変換
 (defun my-convert-link-org2pukiwiki ()
@@ -749,7 +748,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (my-measure-message-time "My original function.")
 #+END_SRC
 
-** 見た目の設定など
+* 見た目の設定など
 #+BEGIN_SRC emacs-lisp
 ;;; rotate-thema.el
 ;;; フォント設定を順番に切り替えられる
@@ -938,7 +937,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 
-** その他一般的な動作設定
+* その他一般的な動作設定
 #+BEGIN_SRC emacs-lisp
 ;;; H-数字 を digit-argument にバインド
 (define-key global-map (kbd "H-0") 'digit-argument)
@@ -1388,8 +1387,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 
-** ライブラリの準備，設定
-*** 標準ライブラリ
+* ライブラリの準備，設定
+** 標準ライブラリ
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'cl)
 
@@ -1952,7 +1951,7 @@ Creates a buffer if necessary."
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 
-*** 非標準ライブラリ
+** 非標準ライブラリ
 #+BEGIN_SRC emacs-lisp
 ;;; menu-tree.el
 ;;; メニューバーを日本語化
@@ -4071,7 +4070,7 @@ do nothing. And suppress the output from `message' and
 
 #+END_SRC
 
-*** 外部プログラムが必要そうなやつ
+** 外部プログラムが必要そうなやつ
 ポータブルにはしにくそうなやつ
 #+BEGIN_SRC emacs-lisp
 ;;; lookup
