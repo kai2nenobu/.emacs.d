@@ -1,0 +1,12 @@
+#+TITLE: Emacs の初期設定
+#+OPTIONS: toc:2 num:nil ^:nil
+
+* 参考サイト
+- [[http://uwabami.junkhub.org/log/?date=201112][平衡点 -- equilibrium point --(2011-12)]]
+- [[https://github.com/eschulte/emacs-starter-kit][eschulte/emacs-starter-kit]]
+
+* 初期化
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+
