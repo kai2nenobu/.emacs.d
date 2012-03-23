@@ -2139,9 +2139,12 @@ Creates a buffer if necessary."
 ;;   (viper-go-away)
 ;;   (define-key global-map (kbd "<M-delete>") 'toggle-viper-mode)
 ;;   )
+#+END_SRC
 
-;;; guide-key.el
-;;; キーバインドを自動的に表示
+*** guide-key.el
+#+BEGIN_SRC emacs-lisp
+;; guide-key.el
+;; キーバインドを自動的に表示
 (my-safe-require 'guide-key
   (setq guide-key:show-key-sequence
         '("C-c C-e" "C-x v" "C-c p" "C-x RET" "C-x 8" "C-x 8 ^"
@@ -2172,7 +2175,10 @@ Creates a buffer if necessary."
     (guide-key-mode 1))
   (add-hook 'outline-minor-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
   )
+#+END_SRC
 
+*** 
+#+BEGIN_SRC emacs-lisp
 ;;; save-load-path.el
 ;;; (auto-install-from-emacswiki "save-load-path.el")
 (when (linuxp)
