@@ -3912,7 +3912,7 @@ do nothing. And suppress the output from `message' and
     (setq YaTeX-help-file
           (expand-file-name "YATEXHLP.jp" (file-name-directory (locate-library "yatex"))))
     (setq YaTeX-help-file-private
-          (expand-file-name "YATEXHLP-private.jp" user-emacs-directory))
+          (expand-file-name "doc/YATEXHLP-private.jp" user-emacs-directory))
 
     ;; auto-complete-latex.el
     ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
