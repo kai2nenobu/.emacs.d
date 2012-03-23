@@ -19,6 +19,7 @@ defadvice で前置引数を使いたい現在のところ，フォーカスを�
 ** yatex のキー割り当てが ??? なのを修正する
 
 * 設定
+** 最初に設定しないといけないもの
 #+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
 (eval-when-compile
@@ -138,9 +139,10 @@ PRE time needs to be before CUR time."
   (package-initialize))
 
 (my-measure-message-time "Basic setting.")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;; 自作関数 ;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+#+END_SRC
+
+** 自作関数
+#+BEGIN_SRC emacs-lisp
 ;;; リンクを org-mode から pukiwiki 形式に変換
 (defun my-convert-link-org2pukiwiki ()
   "Convert link expression from org-mode to pukiwiki."
@@ -744,9 +746,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;; 残念ながらすでに同じ目的の関数がありました
 
 (my-measure-message-time "My original function.")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;; 見た目とか ;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+#+END_SRC
+
+** 見た目の設定など
+#+BEGIN_SRC emacs-lisp
 ;;; rotate-thema.el
 ;;; フォント設定を順番に切り替えられる
 ;;; http://nintos.blogspot.com/2010/02/emacs.html
@@ -932,9 +935,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
          (server-start))))
 
 (my-measure-message-time "Looks and key bind.")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;; 動作設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+#+END_SRC
+
+** その他一般的な動作設定
+#+BEGIN_SRC emacs-lisp
 ;;; H-数字 を digit-argument にバインド
 (define-key global-map (kbd "H-0") 'digit-argument)
 (define-key global-map (kbd "H-1") 'digit-argument)
@@ -1381,10 +1385,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
  '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
 
 (my-measure-message-time "Customize variable.")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;; elispの準備，設定 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;; 標準elisp ;;;;;;;;;;;;;;;;
+#+END_SRC
+
+** ライブラリの準備，設定
+*** 標準ライブラリ
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'cl)
 
 (my-safe-require 'align
@@ -1944,7 +1949,10 @@ Creates a buffer if necessary."
 ;; (setq iswitchb-prompt-newbuffer nil)
 
 (my-measure-message-time "Standard elisp setting.")
-;;;;;;;;;;;;;;;; 非標準elisp ;;;;;;;;;;;;;;;;
+#+END_SRC
+
+*** 非標準ライブラリ
+#+BEGIN_SRC emacs-lisp
 ;;; menu-tree.el
 ;;; メニューバーを日本語化
 ;;; http://www11.atwiki.jp/s-irie/pages/13.html
@@ -4124,8 +4132,12 @@ do nothing. And suppress the output from `message' and
   )
 
 (my-measure-message-time "Non-standard elisp setting.")
-;;;;;;;;;;;;;;;;; 外部プログラムが必要そうなやつ ;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;; ポータブルにはしにくそうなやつ ;;;;;;;;;;;;;;;;
+
+#+END_SRC
+
+*** 外部プログラムが必要そうなやつ
+ポータブルにはしにくそうなやつ
+#+BEGIN_SRC emacs-lisp
 ;;; lookup
 ;;; 2011-05-15 (Sun)
 ;;; 多機能辞書引きプログラム
