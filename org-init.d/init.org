@@ -3301,6 +3301,7 @@ Creates a buffer if necessary."
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
+  (setq org-edit-src-content-indentation 0) ; Indentation for the content of a source code block
   ;; リンクが日本語で残念な感じにならないように
   (setq org-activate-links '(date bracket radio tag date footnote angle))
   ;; for MobileOrg
