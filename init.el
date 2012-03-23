@@ -487,7 +487,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
      ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
      (eval-after-load ,lib
        '(progn
-          ,@body))))
+          ,@body
+          (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
 
 ;;; 2011-02-27 (Sun)
 ;;; windows.el のタブを作りたい！
