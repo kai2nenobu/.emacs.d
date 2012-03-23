@@ -2370,14 +2370,15 @@ Creates a buffer if necessary."
 *** e2wm.el
 IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
 ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
+- [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
+  （旧名称 ewm.el） - 技術日記＠kiwanami]]
 #+BEGIN_SRC emacs-lisp
 ;;; e2wm.el
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
-;; (my-safe-require 'e2wm
-;;   (define-key global-map (kbd "M-+") 'e2wm:start-management)
-;;   )
-;; うーん，ほかの elisp との競合が多そう．使わないほうがいいかなぁ
+(setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
+(define-key global-map (kbd "M-+") 'e2wm:start-management)
+(lazyload (e2wm:start-management) "e2wm")
 #+END_SRC
 
 *** 
