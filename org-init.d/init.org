@@ -1,5 +1,6 @@
 ## -*- coding: utf-8-unix -*-
 #+TITLE: Emacs の初期設定
+#+STYLE: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work
