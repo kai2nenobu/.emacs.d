@@ -1339,11 +1339,16 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
         ;;   (goto-char (mark))
         ;;   (isearch-repeat-forward)))
     ad-do-it))
+#+END_SRC
 
-;; ChangeLog-modeの設定
+** COMMENT 名前，メールの設定
+#+BEGIN_SRC emacs-lisp
 (setq user-full-name "kbkbkbkb1")
 (setq user-mail-address "kbkbkbkb1@gmail.com")
+#+END_SRC
 
+** 
+#+BEGIN_SRC emacs-lisp
 ;; Add personal info directory
 ;; ここに追加したディレクトリの texinfo が読めるようになる
 (setq Info-default-directory-list
