@@ -4110,10 +4110,8 @@ do nothing. And suppress the output from `message' and
                   ac-source-variables ac-source-symbols
                   ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   ;; auto-complete を有効にするモード
-  (setq ac-modes (append
-                  '(yatex-mode matlab-mode matlab-shell-mode ruby-mode org-mode
-                               ruby-mode)
-                  ac-modes))
+  (dolist (library '(yatex-mode matlab-mode matlab-shell-mode ruby-mode org-mode))
+    (add-to-list 'ac-modes library))
   (add-hook 'sh-mode-hook
             (lambda ()
                    (add-to-list 'ac-sources 'ac-source-yasnippet)))
