@@ -1,3 +1,9 @@
+## -*- coding: utf-8-unix -*-
+#+TITLE: Emacs の初期設定
+#+OPTIONS: toc:2 num:nil ^:nil
+
+* 設定
+#+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
 ;;; Emacs TO DO
 ;;; - thing-opt でカーソル周りのオブジェクトを選択できるようになったので，
@@ -4428,3 +4434,4 @@ do nothing. And suppress the output from `message' and
 (put 'narrow-to-region 'disabled nil)
 
 (my-measure-message-time "Big elisp setting.")
+#+END_SRC
