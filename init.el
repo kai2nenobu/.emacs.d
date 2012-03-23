@@ -3929,6 +3929,8 @@ do nothing. And suppress the output from `message' and
              (interactive "P")
              (YaTeX-insert-begin-end ,env arg))
            (YaTeX-define-key ,key (quote ,func) ,map))))
+    ;; (defalias 'YaTeX-define-begend-key-normal 'YaTeX-define-begend-key-normal-macro)
+    ;; できればエイリアスしたかったが不可能のよう．マクロにはエイリアスできない？
 
     ;; popwin との協調
     (eval-after-load "popwin"
