@@ -19,6 +19,11 @@ defadvice で前置引数を使いたい現在のところ，フォーカスを�
 ** one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ** yatex のキー割り当てが ??? なのを修正する
 
+* 参考URL
+org-babel を使って init.el を書く際に参考にしたサイト．
+- [[http://www.gfd-dennou.org/member/uwabami/cc-env/EmacsBasic.html][cc-env - Emacs の基本設定]]
+- [[http://ameblo.jp/concello/entry-10786074455.html][ORG-Babel + init.el = ??｜くらいまーず はい]]
+
 * 最初に設定しないといけないもの
 #+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
