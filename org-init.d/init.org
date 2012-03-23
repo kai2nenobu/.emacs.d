@@ -938,6 +938,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 #+END_SRC
 
 * その他一般的な動作設定
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; H-数字 を digit-argument にバインド
 (define-key global-map (kbd "H-0") 'digit-argument)
@@ -1957,13 +1958,16 @@ Creates a buffer if necessary."
 #+END_SRC
 
 ** 非標準ライブラリ
+*** menu-tree.el
+- [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
+メニューバーを日本語化する．
 #+BEGIN_SRC emacs-lisp
-;;; menu-tree.el
-;;; メニューバーを日本語化
-;;; http://www11.atwiki.jp/s-irie/pages/13.html
 (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
 (my-safe-require 'menu-tree)
+#+END_SRC
 
+*** 
+#+BEGIN_SRC emacs-lisp
 ;;; emoji.el
 ;;; https://github.com/imakado/emoji
 (lazyload (emoji-complete-pictogram) "emoji"
