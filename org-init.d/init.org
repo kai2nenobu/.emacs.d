@@ -2288,14 +2288,6 @@ Creates a buffer if necessary."
 ;;; (auto-install-from-emacswiki "typing.el")
 (autoload 'typing-of-emacs "typing" "The Typing Of Emacs, a game." t)
 
-;;; e2wm-vcs.el
-;;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
-;;; e2wm で magit を操作するパースペクティブ
-;;; http://d.hatena.ne.jp/kiwanami/20110702/1309592243
-; (my-safe-require 'e2wm-vcs)
-;; あまりうまく動いてない気がする．まあそのままの magit でいいか
-
 ;;; simple-hatena-mode.el
 ;;; 2011-07-17 (Sun)
 ;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
@@ -2383,7 +2375,18 @@ IDE的なウィンドウ管理をしてくれるライブラリ．設定され�
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
 (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
 (define-key global-map (kbd "M-+") 'e2wm:start-management)
-(lazyload (e2wm:start-management) "e2wm")
+(lazyload (e2wm:start-management) "e2wm"
+#+END_SRC
+**** e2wm-vcs.el
+magit 用のパースペクティブ．
+- [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
+#+BEGIN_SRC emacs-lisp
+;;; e2wm-vcs.el
+;;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
+;;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
+(my-safe-require 'e2wm-vcs)
+
+)
 #+END_SRC
 
 *** 
