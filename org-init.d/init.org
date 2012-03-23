@@ -147,6 +147,122 @@ PRE time needs to be before CUR time."
 #+END_SRC
 
 * 自作関数
+** リージョン全体に対する org-edit-src-code
+#+BEGIN_SRC emacs-lisp
+(defvar org-my-edit-src-info-list nil)
+(defvar org-my-edit-src-marker nil)
+(defvar org-my-edit-src-buffer "*org-my-edit-src*")
+
+(defvar org-my-src-mode-map (make-sparse-keymap))
+(define-key org-my-src-mode-map (kbd "C-c '") 'org-my-edit-src-exit)
+(define-key org-my-src-mode-map (kbd "C-x C-s") 'org-my-edit-src-save)
+
+(define-minor-mode org-my-src-mode
+  ""
+  :init-value nil
+  :keymap org-my-src-mode-map
+  )
+
+(defun org-my-edit-src-block-sep (&optional buffer)
+  "Return separator string according to BUFFER."
+  (let ((com-str (if buffer (with-temp-buffer buffer comment-start)
+                   comment-start)))
+    (unless com-str (setq com-str "#"))                ; default separator
+    (format "%s%s%s-------------------------------------------------------------"
+            com-str com-str com-str)))
+
+(defun org-my-edit-src-code (&optional beg end)
+  ""
+  (interactive "r")
+  (if (and beg end
+           (region-active-p)
+           (not org-my-edit-src-info-list))
+      (let ((pt (point))
+            (org-buf (current-buffer))
+            lang block-sep)
+        (goto-char beg)
+        (setq org-my-edit-src-marker (point-marker))
+        ;; get src block
+        (while (re-search-forward "#\\+begin_src" end t)
+          (forward-line)
+          (add-to-list 'org-my-edit-src-info-list
+                       (org-edit-src-find-region-and-lang)))
+        (setq org-my-edit-src-info-list (nreverse org-my-edit-src-info-list))
+        (goto-char pt)
+        ;; extract contents of src block and insert them to edit buffer
+        (switch-to-buffer-other-window
+         (get-buffer-create org-my-edit-src-buffer))
+        ;; set major-mode and minor-mode
+        (setq lang (or (cdr (assoc (nth 2 (car org-my-edit-src-info-list)) org-src-lang-modes))
+                       (nth 2 (car org-my-edit-src-info-list))))
+        (funcall (intern (concat lang "-mode")))
+        (org-my-src-mode 1)
+
+        (setq block-sep (org-my-edit-src-block-sep))
+        (dolist (info org-my-edit-src-info-list)
+          (insert
+           block-sep "\n"
+           (with-current-buffer org-buf
+             (buffer-substring-no-properties (nth 0 info) (nth 1 info)))
+           "\n"))
+        (insert block-sep "\n")
+        ;; make separator read-only
+        (goto-char (point-min))
+        (while (re-search-forward block-sep nil t)
+          (put-text-property (match-beginning 0) (match-end 0) 'read-only t))
+        (set-buffer-modified-p nil)
+        )
+    (org-edit-src-code)
+    (message "No region")))
+
+(defun org-my-edit-src-exit (&optional context)
+  ""
+  (interactive)
+  (when (and (buffer-modified-p)
+             org-my-edit-src-info-list
+             org-my-edit-src-marker)
+    (let ((org-buf (marker-buffer org-my-edit-src-marker))
+          (block-sep (org-my-edit-src-block-sep))
+          org-pt block-beg block-end block-str)
+      (goto-char (point-min))
+      (re-search-forward (concat block-sep "\n") nil t)
+      (setq org-pt (marker-position org-my-edit-src-marker))
+      (dolist (info org-my-edit-src-info-list)
+        (setq block-beg (point)
+              block-end (progn (re-search-forward (concat block-sep "\n") nil t)
+                               (match-beginning 0))
+              block-str (buffer-substring-no-properties
+                         block-beg (match-beginning 0)))
+        (with-current-buffer org-buf
+          (goto-char org-pt)
+          (delete-region (progn
+                           (re-search-forward "#\\+begin_src" nil t)
+                           (forward-line)
+                           (point-at-bol))
+                         (progn
+                           (re-search-forward "#\\+end_src" nil t)
+                           (forward-line 0)
+                           (point)))
+          (insert block-str)
+          (setq org-pt (point))))
+      (set-buffer-modified-p nil)
+      (with-current-buffer org-buf (save-buffer))))
+  (when (not (eq context 'save))
+    (kill-buffer (current-buffer))
+    (delete-window)
+    (goto-char org-my-edit-src-marker)
+    (setq org-my-edit-src-info-list nil
+          org-my-edit-src-marker nil)))
+
+(defun org-my-edit-src-save ()
+  ""
+  (interactive)
+  (org-my-edit-src-exit 'save))
+
+(eval-after-load "org"
+  '(define-key org-mode-map (kbd "C-c '") 'org-my-edit-src-code))
+#+END_SRC
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; リンクを org-mode から pukiwiki 形式に変換
 (defun my-convert-link-org2pukiwiki ()
