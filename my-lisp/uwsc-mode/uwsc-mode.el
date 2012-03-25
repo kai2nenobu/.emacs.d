@@ -1,0 +1,1 @@
+;;; uwsc-mode.el
