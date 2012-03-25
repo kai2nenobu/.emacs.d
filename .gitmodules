@@ -22,3 +22,6 @@
 [submodule "site-lisp/emoji"]
 	path = site-lisp/emoji
 	url = git://github.com/imakado/emoji.git
+[submodule "my-lisp/uwsc-mode"]
+	path = my-lisp/uwsc-mode
+	url = ./my-lisp/uwsc-mode
