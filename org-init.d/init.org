@@ -147,6 +147,29 @@ PRE time needs to be before CUR time."
 #+END_SRC
 
 * 自作関数
+** カーソル位置の行を複製するコマンド
+- [[http://d.hatena.ne.jp/syohex/20120325/1332641491][Re: Emacsに現在行や選択範囲を複製する機能を付けたら思いのほか作業効率が上がった - Life is very short]]
+カーソル位置の行を複製する．リージョンがあったらその範囲を複製する．最初見た時
+は，そんなに役に立たんだろと思ったけど，ためしにつかってみよう．
+#+BEGIN_SRC emacs-lisp
+;; カーソル位置の行を複製するコマンド
+(defun my-duplicate-thing (n)
+  (interactive "p")
+  (let (start end)
+    (save-excursion
+      (cond (mark-active
+             (setq start (region-beginning) end (region-end)))
+            (t
+             (beginning-of-line)
+             (setq start (point))
+             (forward-line)
+             (setq end (point))))
+      (kill-ring-save start end))
+    (goto-char end)
+    (dotimes (i (or n 1))
+      (yank))))
+(define-key global-map (kbd "H-y") 'my-duplicate-thing)
+#+END_SRC
 ** リージョン全体に対する org-edit-src-code
 #+BEGIN_SRC emacs-lisp
 (defvar org-my-edit-src-info-list nil)
