@@ -2194,6 +2194,12 @@ Creates a buffer if necessary."
       (guide-key:add-local-show-key-sequence key))
     (guide-key:add-local-highlight-command-regexp "outline-"))
   (add-hook 'outline-minor-mode-hook 'guide-key:my-hook-function-for-yatex-mode)
+
+  (defun guide-key:my-hook-function-for-dired-mode ()
+    (dolist (key '("*"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "dired-"))
+  (add-hook 'dired-mode-hook 'guide-key:my-hook-function-for-dired-mode)
   )
 #+END_SRC
 
