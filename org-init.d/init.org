@@ -2505,11 +2505,10 @@ magit 用のパースペクティブ．
   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
   (my-safe-require 'e2wm-vcs))
 #+END_SRC
-
-*** 
+*** magit.el
+Emacs から git を操作する．
 #+BEGIN_SRC emacs-lisp
 ;;; magit.el
-;;; 2011-05-28 (Sat)
 ;;; emacs から git を操作
 (my-safe-require 'magit
   ;; 日本語のエンコーディングを utf-8 にする．デフォルトではマルチバイト文字が考慮されていないようで
@@ -2541,7 +2540,9 @@ magit 用のパースペクティブ．
   ;; (add-hook 'magit-mode-hook 'my-magit-apply-file-header-face t)
   ;; あんま上手くいかんねー
   )
-
+#+END_SRC
+*** 
+#+BEGIN_SRC emacs-lisp
 ;;; col-hilight
 ;;; 2011-05-22 (Sun)
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/vline.el")
