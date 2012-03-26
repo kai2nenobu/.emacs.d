@@ -2548,6 +2548,12 @@ diff が見やすくなるように各フェイスの色を設定．
   ;;                              '(face magit-diff-file-header))))))
   ;; (add-hook 'magit-mode-hook 'my-magit-apply-file-header-face t)
   ;; あんま上手くいかんねー
+#+END_SRC
+**** フック
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'magit-log-edit-mode-hook
+            (lambda ()
+              (set-fill-column 72)))
   )
 #+END_SRC
 *** 
