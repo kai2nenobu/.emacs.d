@@ -22,3 +22,6 @@
 [submodule "site-lisp/emoji"]
 	path = site-lisp/emoji
 	url = git://github.com/imakado/emoji.git
+[submodule "site-lisp/color-theme-solarized"]
+	path = site-lisp/color-theme-solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
