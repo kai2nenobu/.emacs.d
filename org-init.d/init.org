@@ -3111,7 +3111,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+BEGIN_SRC emacs-lisp
 ;;; color-theme.el
 ;;; (auto-install-from-emacswiki "color-theme.el")
-(my-safe-require 'color-theme
+(lazyload (color-theme-select) "color-theme"
   (color-theme-initialize)
 #+END_SRC
 **** color-theme-solarized.el
