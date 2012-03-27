@@ -3119,10 +3119,12 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ライトでも，ダークでもいい感じのコントラストのテーマで人気らしい．
 #+BEGIN_SRC emacs-lisp
   ;; color-theme-solarized
-  (my-safe-require 'color-theme-solarized
-    (color-theme-solarized-light))
+  ;; (my-safe-require 'color-theme-solarized
+  ;;   (color-theme-solarized-dark))
   )
 #+END_SRC
+背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
+にくいので使うのはやめた．
 *** 
 #+BEGIN_SRC emacs-lisp
 ;;; pink-bliss.el
