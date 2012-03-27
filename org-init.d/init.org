@@ -1538,6 +1538,37 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 #+END_SRC
 
 * ライブラリの準備，設定
+** ruby 関連
+*** ruby-mode.el
+#+BEGIN_SRC emacs-lisp
+;; ruby-mode
+(my-safe-require 'ruby-mode
+  (my-safe-require 'ruby-electric
+    (add-hook 'ruby-mode-hook
+              (lambda () (ruby-electric-mode t))))
+#+END_SRC
+*** RSense
+- 公式 [[http://cx4a.org/software/rsense/index.ja.html][RSense - EmacsやVimなどに特化したRubyのための優れた開発援助ツール]]
+コード補完，型検査，定義元ジャンプなどができる Ruby のための開発援助ツール．
+#+BEGIN_SRC emacs-lisp
+  ;; rsense.el
+  (setq rsense-home (expand-file-name "site-lisp/rsense-0.3" user-emacs-directory))
+  (setq rsense-rurema-home (expand-file-name "doc/ruby-refm-1.9.2" rsense-home))
+  (my-safe-require 'rsense
+    (add-hook 'ruby-mode-hook
+              (lambda ()
+                ;; 余計な ac-source を除去
+                (dolist (source '(ac-source-features ac-source-functions
+                                                     ac-source-variables ac-source-symbols))
+                  (setq ac-sources (delq source ac-sources)))
+                ;; rsense の ac-source を追加
+                (add-to-list 'ac-sources 'ac-source-rsense-method)
+                (add-to-list 'ac-sources 'ac-source-rsense-constant))))
+  )
+#+END_SRC
+**** 参考URL
+- 導入の仕方など [[http://mitukiii.jp/2010/10/29/install-rsense-to-mac/][mitukiii.jp | Emacs/Vimなどに特化したRubyのための開発補助ツー
+  ルRsenseをMac に入れてみた]]
 ** 標準ライブラリ
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'cl)
@@ -2224,12 +2255,6 @@ Creates a buffer if necessary."
 ;;; git clone git://github.com/yama-natuki/yspel
 ;;; http://ubulog.blogspot.com/2010/09/emacs.html
 (my-safe-require 'yspel)
-
-;;; rsense.el
-;;; ruby の開発援助ツール．コード補完や型検査ができる
-;;; http://cx4a.org/software/rsense/index.ja.html
-(setq rsense-home (getenv "RSENSE_HOME"))
-(my-safe-require 'rsense)
 
 ;;; bashdb.el
 (autoload 'bashdb "bashdb" "BASH Debugger mode via GUD and bashdb" t)
