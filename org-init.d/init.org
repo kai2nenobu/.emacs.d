@@ -3101,14 +3101,20 @@ diff が見やすくなるように各フェイスの色を設定．
    cacoo-my-map-alist)
   (define-key cacoo-minor-mode-keymap (kbd "M-c") 'cacoo-my-minor-mode-keymap)
   )
+#+END_SRC
 
-;;; color-thema.el
+*** color-theme.el
+Emacs の色付けをいろいろなテーマから選べる．
+#+BEGIN_SRC emacs-lisp
+;;; color-theme.el
 ;;; (auto-install-from-emacswiki "color-theme.el")
-;;; 用意されているカラーテーマを使える
 (my-safe-require 'color-theme)
-;; Clarity and Beauty ; dark 系でわりかし見やすい．自分設定とあまり変わらないかも
-                      ; しかし，モードラインの文字色だけは見にくい．
-
+#+END_SRC
+組み込みのカラーテーマでなかなかいいのは，
+- Clarity and Beauty :: dark 系でわりかし見やすい．自分設定とあまり変わらないか
+  も．しかし，モードラインの文字色だけは見にくい．
+*** 
+#+BEGIN_SRC emacs-lisp
 ;;; pink-bliss.el
 ;;; ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる
 ;;; (auto-install-from-emacswiki "pink-bliss.el")
