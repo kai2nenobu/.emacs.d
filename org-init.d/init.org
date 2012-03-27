@@ -3104,15 +3104,25 @@ diff が見やすくなるように各フェイスの色を設定．
 #+END_SRC
 
 *** color-theme.el
-Emacs の色付けをいろいろなテーマから選べる．
+Emacs の色付けをいろいろなテーマから選べる． 組み込みのカラーテーマでなかなか
+いいのは，
+- Clarity and Beauty :: dark 系でわりかし見やすい．自分設定とあまり変わらないか
+  も．しかし，モードラインの文字色だけは見にくい．
 #+BEGIN_SRC emacs-lisp
 ;;; color-theme.el
 ;;; (auto-install-from-emacswiki "color-theme.el")
-(my-safe-require 'color-theme)
+(my-safe-require 'color-theme
+  (color-theme-initialize)
 #+END_SRC
-組み込みのカラーテーマでなかなかいいのは，
-- Clarity and Beauty :: dark 系でわりかし見やすい．自分設定とあまり変わらないか
-  も．しかし，モードラインの文字色だけは見にくい．
+**** color-theme-solarized.el
+- [[https://github.com/sellout/emacs-color-theme-solarized][sellout/emacs-color-theme-solarized]]
+ライトでも，ダークでもいい感じのコントラストのテーマで人気らしい．
+#+BEGIN_SRC emacs-lisp
+  ;; color-theme-solarized
+  (my-safe-require 'color-theme-solarized
+    (color-theme-solarized-light))
+  )
+#+END_SRC
 *** 
 #+BEGIN_SRC emacs-lisp
 ;;; pink-bliss.el
