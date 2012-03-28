@@ -2133,6 +2133,13 @@ Creates a buffer if necessary."
 #+END_SRC
 
 ** 非標準ライブラリ
+*** key-combo.el
+- [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないよ
+  うにしました - むしゃくしゃしてやった]]
+記号入力の補助．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'key-combo)
+#+END_SRC
 *** menu-tree.el
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
 メニューバーを日本語化する．
