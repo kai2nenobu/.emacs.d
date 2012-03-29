@@ -1735,7 +1735,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (defun eshell-history-and-bol (func)
     (delete-region eshell-last-output-end (point-max))
     (funcall func 1)
-    (goto-char eshell-last-output-end))
+    (goto-char (point-max)));eshell-last-output-end))
   ;; コマンドライン上の挙動変更
   (defun-eshell-cmdline "C-p"
     (let ((last-command 'eshell-previous-matching-input-from-input))
