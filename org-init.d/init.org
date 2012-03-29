@@ -195,8 +195,9 @@ PRE time needs to be before CUR time."
   (let ((com-str (if buffer (with-temp-buffer buffer comment-start)
                    comment-start)))
     (unless com-str (setq com-str "#"))                ; default separator
-    (format "%s%s%s-------------------------------------------------------------"
-            com-str com-str com-str)))
+    (propertize (format "%s%s%s-------------------------------------------------------------\n"
+                        com-str com-str com-str)
+                'read-only t 'rear-nonsticky t 'front-sticky t)))
 
 (defun org-my-edit-src-code (&optional beg end)
   ""
@@ -228,15 +229,15 @@ PRE time needs to be before CUR time."
         (setq block-sep (org-my-edit-src-block-sep))
         (dolist (info org-my-edit-src-info-list)
           (insert
-           block-sep "\n"
+           block-sep
            (with-current-buffer org-buf
              (buffer-substring-no-properties (nth 0 info) (nth 1 info)))
            "\n"))
         (insert block-sep "\n")
         ;; make separator read-only
-        (goto-char (point-min))
-        (while (re-search-forward block-sep nil t)
-          (put-text-property (match-beginning 0) (match-end 0) 'read-only t))
+        ;; (goto-char (point-min))
+        ;; (while (re-search-forward block-sep nil t)
+        ;;   (put-text-property (match-beginning 0) (match-end 0) 'read-only t))
         (set-buffer-modified-p nil)
         )
     (org-edit-src-code)
@@ -252,11 +253,11 @@ PRE time needs to be before CUR time."
           (block-sep (org-my-edit-src-block-sep))
           org-pt block-beg block-end block-str)
       (goto-char (point-min))
-      (re-search-forward (concat block-sep "\n") nil t)
+      (re-search-forward block-sep nil t)
       (setq org-pt (marker-position org-my-edit-src-marker))
       (dolist (info org-my-edit-src-info-list)
         (setq block-beg (point)
-              block-end (progn (re-search-forward (concat block-sep "\n") nil t)
+              block-end (progn (re-search-forward block-sep nil t)
                                (match-beginning 0))
               block-str (buffer-substring-no-properties
                          block-beg (match-beginning 0)))
