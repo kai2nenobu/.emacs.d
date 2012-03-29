@@ -1827,8 +1827,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 リファレンス以外の部分も jaunte の候補が出てしまうので
 改良の余地有り"
   (interactive)
-  (jaunte)
-  (Info-follow-nearest-node))
+  (condition-case nil
+      (progn
+        (jaunte)
+        (Info-follow-nearest-node))
+    (quit nil)))
 (define-key Info-mode-map (kbd "e") 'my-Info-HaH)
 
 
@@ -3745,15 +3748,35 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=google-maps.el;hb=HEAD")
 ;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=org-location-google-maps.el;hb=HEAD")
 (my-safe-require 'google-maps)
-
+#+END_SRC
+*** jaunte.el
+- [[http://kawaguchi.posterous.com/emacshit-a-hint][EmacsでHit a Hint(改) - Leave Me In Emacs]]
+Hit a Hint でカーソル移動するライブラリ．
+#+BEGIN_SRC emacs-lisp
 ;;; jaunte.el
-;;; 2010-12-31 (Fri)
 ;;; (auto-install-from-url "https://raw.github.com/kawaguchi/jaunte.el/master/jaunte.el")
-;;; http://kawaguchi.posterous.com/emacshit-a-hint
-;;; Hit a Hint でカーソル移動
 (my-safe-require 'jaunte
-  (define-key mode-specific-map "e" 'jaunte)) ; C-c e で Hit a Hint 移動
+  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
+  (setq jaunte-hint-unit 'symbol)
+  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
 
+  ;; info では参照のみを対象とする
+  (defun my-jaunte-forward-word ()
+    "Move to beginning of a forward word, and return point."
+    (interactive)
+    (if (eq major-mode 'Info-mode)
+        (progn
+          (Info-next-reference)
+          (point))
+      (if (looking-at "\\w")
+          (forward-thing jaunte-hint-unit))
+      (if (re-search-forward "\\w" nil 'eob)
+          (backward-char))
+      (point)))
+  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
+  )
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
 ;;; postit.el
 ;;; 2010-12-16 (Thu)
 ;;; http://web.archive.org/web/19981202211943/www.is.s.u-tokyo.ac.jp/~tama/source.html より
