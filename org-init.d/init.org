@@ -1569,11 +1569,43 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                 ;; rsense の ac-source を追加
                 (add-to-list 'ac-sources 'ac-source-rsense-method)
                 (add-to-list 'ac-sources 'ac-source-rsense-constant))))
+#+END_SRC
+*** るりまを anything で検索
+- [[http://d.hatena.ne.jp/rubikitch/20091223/rurima][Rubyリファレンスマニュアル刷新計画（るりま）をanything.elで検索して生産性を
+  向上する - (rubikitch loves (Emacs Ruby CUI Books))]]
+結構使えるが，anything で選ぶ所の日本語が文字化けしているのと，ヘルプファイル
+が少し見にくいのが気になる．リファレンス全体から探したい時は anything で探し
+て，実際のメソッドの説明などは rsense の方がいいかもしれない．
+#+BEGIN_SRC emacs-lisp
+  ;; anything-rurima
+  ;; (auto-install-from-emacswiki "anything-rurima.el")
+  (eval-after-load "anything"
+    '(progn
+       (my-safe-require 'anything-rurima
+         (setq anything-rurima-index-file (expand-file-name "~/repo/rurima/rubydoc/rurima.e")))))
+#+END_SRC
+*** key-combo の設定
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "key-combo"
+    '(progn
+       (key-combo-define ruby-mode-map (kbd "=") '(" = " " == " " === "))
+       (key-combo-define ruby-mode-map (kbd "=~") " =~ ")
+       (key-combo-define ruby-mode-map (kbd "=>") " => ")
+       (key-combo-define ruby-mode-map (kbd "<=") " <= ")
+       (key-combo-define ruby-mode-map (kbd ",") ", ")
+       (key-combo-define ruby-mode-map (kbd "!=") " != ")
+       (key-combo-define ruby-mode-map (kbd "<") '(" < " " << " " <= "))
+       (key-combo-define ruby-mode-map (kbd ">") '(" > " " >> " " >= "))
+       (key-combo-define ruby-mode-map (kbd "/") '("/" "/`!!'/")) ; どうも ac-source-filename のオムニ補完と競合してるっぽい
+       ))
+  (add-hook 'ruby-mode-hook (lambda () (key-combo-mode t)))
   )
 #+END_SRC
 **** 参考URL
-- 導入の仕方など [[http://mitukiii.jp/2010/10/29/install-rsense-to-mac/][mitukiii.jp | Emacs/Vimなどに特化したRubyのための開発補助ツー
+- Rsense の導入の仕方など [[http://mitukiii.jp/2010/10/29/install-rsense-to-mac/][mitukiii.jp | Emacs/Vimなどに特化したRubyのための開発補助ツー
   ルRsenseをMac に入れてみた]]
+- かなり多くの ruby 関連の設定が書いてある [[http://d.hatena.ne.jp/eiel/20101106][Rubyに関するEmacsの設定を晒してみ
+  る - そんなこと覚えてるわけがない。]]
 ** 標準ライブラリ
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'cl)
