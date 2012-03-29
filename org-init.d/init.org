@@ -2136,6 +2136,14 @@ Creates a buffer if necessary."
 #+END_SRC
 
 ** 非標準ライブラリ
+*** editable-help.el
+- [[http://d.hatena.ne.jp/meech/searchdiary?word=%2A%5BEmacs%5D][Emacs - Emacs ひきこもり生活]]
+みんなで編集可能な *Help* バッファ．id:meech さんのサーバにファイルを使っている．
+#+BEGIN_SRC emacs-lisp
+;; editable-help.el
+;; (auto-install-from-url "https://raw.github.com/gist/614195/dcdf01bcfa3fbd03c38957058e513687c7f3b4ab/editable-help.el")
+(my-safe-load "editable-help")
+#+END_SRC
 *** key-combo.el
 - [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないよ
   うにしました - むしゃくしゃしてやった]]
