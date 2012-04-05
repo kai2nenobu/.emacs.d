@@ -2681,7 +2681,10 @@ diff が見やすくなるように各フェイスの色を設定．
   (define-key global-map (kbd "C-+") 'flash-column-highlight)
   (define-key my-original-map (kbd "C-c") 'column-highlight-mode)
   )
-
+#+END_SRC
+*** yasnippet.el
+テンプレート挿入ライブラリ．柔軟性が高すぎて設定に困る．
+#+BEGIN_SRC emacs-lisp
 ;;; yasnippet.el
 (lazyload (yas/expand yas/minor-mode anything-c-yas-complete) "yasnippet"
   (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
@@ -2689,6 +2692,7 @@ diff が見やすくなるように各フェイスの色を設定．
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
   (setq yas/trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
   (setq yas/next-field-key (kbd "<C-tab>"))   ; これが <C-tab> にならんなぁ
+  (define-key my-original-map (kbd "C-e") 'yas/expand)
   ;; (setq yas/prev-field-key "<S-tab>")
   ;; (define-key yas/minor-mode-map (kbd "C-<tab>") 'yas/expand)
   (setq yas/wrap-around-region t)
@@ -2718,7 +2722,8 @@ diff が見やすくなるように各フェイスの色を設定．
           (while (string-match "%[^%]" str (match-end 0))
             (setq result (concat result ", "))))
         result)))
-
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
 ;;; anything-c-yasnippet.el
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
 ;;; yasnippet を anything で操作
