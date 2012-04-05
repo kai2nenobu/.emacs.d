@@ -161,21 +161,20 @@ PRE time needs to be before CUR time."
 は，そんなに役に立たんだろと思ったけど，ためしにつかってみよう．
 #+BEGIN_SRC emacs-lisp
 ;; カーソル位置の行を複製するコマンド
-(defun my-duplicate-thing (n)
-  (interactive "p")
-  (let (start end)
-    (save-excursion
-      (cond (mark-active
-             (setq start (region-beginning) end (region-end)))
-            (t
-             (beginning-of-line)
-             (setq start (point))
-             (forward-line)
-             (setq end (point))))
-      (kill-ring-save start end))
-    (goto-char end)
-    (dotimes (i (or n 1))
-      (yank))))
+(defun my-duplicate-thing (n &optional beg end)
+  (interactive "p\nr")
+  (let ((pos (- (point-max) (point)))
+        str)
+    (if mark-active
+        nil
+      (setq beg (point-at-bol)
+            end (point-at-eol)))
+    (setq str (buffer-substring-no-properties beg end))
+    (if (not (= (progn (goto-char end) (preceding-char)) ?\n))
+        (setq str (concat "\n" str)))
+    (dotimes (i n)
+      (insert str))
+    (goto-char (- (point-max) pos))))
 (define-key global-map (kbd "H-y") 'my-duplicate-thing)
 #+END_SRC
 ** リージョン全体に対する org-edit-src-code
