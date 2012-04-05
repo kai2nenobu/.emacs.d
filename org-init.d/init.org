@@ -1507,7 +1507,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     ad-do-it))
 #+END_SRC
 
-** COMMENT 名前，メールの設定
+** 名前，メールの設定                                              :noexport:
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "kbkbkbkb1")
 (setq user-mail-address "kbkbkbkb1@gmail.com")
