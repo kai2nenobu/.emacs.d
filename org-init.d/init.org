@@ -155,6 +155,26 @@ PRE time needs to be before CUR time."
 #+END_SRC
 
 * 自作関数
+** 空白を削除する `fixup-whitespace' を修正
+`delete-indentation' で日本語文字の間にスペースが入るのが嫌だったので修正．
+`delete-indentation' を追うと空白の削除は `fixup-whitespace' でやっていた．
+前後の文字が日本語文字だった場合，スペースを挿入しないように条件を追加した．
+#+BEGIN_SRC emacs-lisp
+(defun my-fixup-whitespace ()
+  "Fixup white space between objects around point.
+Leave one space or none, according to the context."
+  (interactive "*")
+  (save-excursion
+    (delete-horizontal-space)
+    (if (or (looking-at "^\\|\\s)")
+            (save-excursion (forward-char -1)
+                            (looking-at "$\\|\\s(\\|\\s'"))
+            (and (> (preceding-char) 255)
+                 (> (following-char) 255)))  ; 前後が両方共 ascii ではない場合
+        nil
+      (insert ?\s))))
+(defalias 'fixup-whitespace 'my-fixup-whitespace)
+#+END_SRC
 ** カーソル位置の行を複製するコマンド
 - [[http://d.hatena.ne.jp/syohex/20120325/1332641491][Re: Emacsに現在行や選択範囲を複製する機能を付けたら思いのほか作業効率が上がった - Life is very short]]
 カーソル位置の行を複製する．リージョンがあったらその範囲を複製する．最初見た時
