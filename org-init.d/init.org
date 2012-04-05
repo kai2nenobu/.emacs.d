@@ -24,9 +24,13 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ** yatex のキー割り当てが ??? なのを修正する
 
 * 参考URL
+** org-babel
 org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://www.gfd-dennou.org/member/uwabami/cc-env/EmacsBasic.html][cc-env - Emacs の基本設定]]
 - [[http://ameblo.jp/concello/entry-10786074455.html][ORG-Babel + init.el = ??｜くらいまーず はい]]
+** Emacs から解像度を調べる
+- [[http://d.hatena.ne.jp/zqwell-ss/20091123/1258989596][EmacsのFontがでかい - Secondary Storage]]
+`x-scree
 
 * 最初に設定しないといけないもの
 #+BEGIN_SRC emacs-lisp
