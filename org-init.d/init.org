@@ -1087,6 +1087,19 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 #+END_SRC
 
 * その他一般的な動作設定
+** 右クリックメニューを有効にする
+- [[http://blogs.yahoo.co.jp/rakuten200802/31224692.html][Windows環境でEmacsを活用しよう　Part2　～.emacsのいくつかの設定～ - Webメディア開発日記 - Yahoo!ブログ]]
+意外と右クリックメニューは使える気がする．
+#+BEGIN_SRC emacs-lisp
+(when window-system
+  ;; 右ボタンの割り当て(押しながらの操作)をはずす。
+  (global-unset-key [down-mouse-3])
+  ;; マウスの右クリックメニューを出す(押して、離したときにだけメニューが出る)
+  (defun bingalls-edit-menu (event)
+    (interactive "e")
+    (popup-menu menu-bar-edit-menu))
+  (global-set-key [mouse-3] 'bingalls-edit-menu))
+#+END_SRC
 ** 
 #+BEGIN_SRC emacs-lisp
 ;;; H-数字 を digit-argument にバインド
