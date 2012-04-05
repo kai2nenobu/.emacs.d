@@ -4130,6 +4130,7 @@ do nothing. And suppress the output from `message' and
 ;;; yatex.el
 ;; yatex-mode の起動
 
+(setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
 (setq auto-mode-alist
       (cons (cons "\\.tex\\'" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
@@ -4151,7 +4152,6 @@ do nothing. And suppress the output from `message' and
           ;; 4: UTF-8
           ;; nil: automatic
           )
-    (setq YaTeX-inhibit-prefix-letter 1)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
     (setq YaTeX-use-AMS-LaTeX t)            ; ams パッケージの補完を可能にする
     (setq YaTeX-skip-default-reader t)      ; setction 型の命令の引数指定をスキップする
     (setq YaTeX-help-file
