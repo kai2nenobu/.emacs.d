@@ -155,6 +155,34 @@ PRE time needs to be before CUR time."
 #+END_SRC
 
 * 自作関数
+** 直前のバッファに切り替える
+- [[http://d.hatena.ne.jp/rubikitch/20111211/smalldisplay][集中力5倍！小よく大を制するミニマリストEmacs - (rubikitch loves (Emacs Ruby CUI Books))]]
+#+BEGIN_SRC emacs-lisp
+;;; last-buffer
+(defvar last-buffer-saved nil)
+;; last-bufferで選択しないバッファを設定
+(defvar last-buffer-exclude-name-regexp
+  (rx (or "*mplayer*" "*Completions*"
+          (regexp "^*Org")
+          (regexp "^*anything")
+          (regexp "^ "))))
+(defun record-last-buffer ()
+  (when (and ;; (one-window-p)
+             (not (eq (window-buffer) (car last-buffer-saved)))
+             (not (string-match last-buffer-exclude-name-regexp
+                                (buffer-name (window-buffer)))))
+    (setq last-buffer-saved
+          (cons (window-buffer) (car last-buffer-saved)))))
+(add-hook 'window-configuration-change-hook 'record-last-buffer)
+(defun switch-to-last-buffer ()
+  (interactive)
+  (condition-case nil
+      (switch-to-buffer (cdr last-buffer-saved))
+    (error (switch-to-buffer (other-buffer)))))
+(define-key global-map (kbd "C-^") 'switch-to-last-buffer)
+#+END_SRC
+あまりうまく動かない．なぜか *scratch* バッファがラストバッファに記録されてし
+まう．
 ** 空白を削除する `fixup-whitespace' を修正
 `delete-indentation' で日本語文字の間にスペースが入るのが嫌だったので修正．
 `delete-indentation' を追うと空白の削除は `fixup-whitespace' でやっていた．
