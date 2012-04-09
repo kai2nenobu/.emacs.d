@@ -45,7 +45,7 @@
 ;;; [[ 個人情報の設定 ]]
 
 ;; From: の設定
-(setq wl-from "Tsunenobu Kai")
+(setq wl-from "Tsunenobu Kai <kai@gavo.t.u-tokyo.ac.jp>")
 (setq wl-message-id-domain "gavo.t.u-tokyo.ac.jp")
 
 ;; BCC に自分を自動追加
@@ -54,6 +54,7 @@
 ;; (system-name) が FQDN を返さない場合、
 ;; `wl-local-domain' にホスト名を除いたドメイン名を設定してください。
 ;(setq wl-local-domain "example.com")
+(setq wl-local-domain "gavo.t.u-tokyo.ac.jp")
 
 ;; 自分のメールアドレスのリスト
 ;(setq wl-user-mail-address-list
