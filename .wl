@@ -9,6 +9,7 @@
 ;; 自動折り返しと折り返し文字数
 (add-hook 'wl-draft-mode-hook '(lambda ()
                                  (auto-fill-mode 1)
+                                 (flyspell-mode 1)
                                  (setq fill-column 60)))
 
 ;; [[ 動作に必要な設定 ]]
