@@ -86,8 +86,15 @@
 
 ;;; POP サーバの設定
 ;(setq elmo-pop3-default-server "localhost")
+
 ;;; SMTP サーバの設定
-;(setq wl-smtp-posting-server "smtps.gavo.t.u-tokyo.ac.jp")
+(setq wl-smtp-posting-user "kai"
+      wl-smtp-posting-server "smtps.gavo.t.u-tokyo.ac.jp"
+      wl-smtp-posting-port 465
+      wl-smtp-authenticate-type "login"
+      wl-smtp-connection-type 'ssl
+      )
+
 ;;; ニュースサーバの設定
 ;(setq elmo-nntp-default-server "localhost")
 ;;; 投稿先のニュースサーバ
