@@ -1,5 +1,13 @@
 ;;; dot.wl -- sample setting file for Wanderlust        -*- emacs-lisp -*-
 
+;; キーバインド
+;; enable C-t
+(define-key wl-summary-mode-map (kbd "C-t") nil)
+(define-key wl-summary-mode-map (kbd "t") 'wl-plugged-change)
+(define-key wl-folder-mode-map (kbd "C-t") nil)
+(define-key wl-folder-mode-map (kbd "t") 'wl-plugged-change)
+(define-key wl-plugged-mode-map (kbd "t") 'wl-plugged-exit)
+
 ;; [[ 自作 ]]
 (defvar wl-message-my-split-horizontal t
   "If non-nil, split summary window horizontally and display message.")
