@@ -116,6 +116,7 @@
 
 ;; Folder Carbon Copy
 ;(setq wl-fcc "+outbox")
+(setq wl-fcc "%INBOX.Sent")
 
 ;; 終了時に確認する
 (setq wl-interactive-exit t)
@@ -142,6 +143,9 @@
 
 ;; メールを書くときは見出し画面を残して、フル画面にする
 (setq wl-draft-reply-buffer-style 'full)
+
+;; ドラフト用フォルダ
+(setq wl-draft-folder "%INBOX.Drafts")
 
 ;; 長い行を切り縮める
 ;(setq wl-message-truncate-lines t)
