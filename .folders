@@ -1,0 +1,137 @@
+#
+#  ~/.folders フォルダ定義ファイルサンプル
+#
+# 個々のフォルダの書式については Info の Folders セクションを参照のこと。
+#
+# '#' で始まる行はコメント。
+# 空行は無視される。
+# 
+
+## IMAP ユーザのメールボックス
+## IMAP のサブディレクトリは / ではなく . で区切るらしいよ
+Lab{
+%INBOX			"受信トレイ"
+
+#% /
+# これでサーバ上のフォルダ一覧を持ってきてくれるらしいが、
+# フォルダのソートとかができないので普通に設定することにした
+
+## ゴミ箱・草稿・送信箱
+%INBOX.Drafts	"下書き"
+%INBOX.Sent	"送信済み"
+%INBOX.Trash	"ごみ箱"
+
+%INBOX.admin		"admin"
+%INBOX.notice		"notice"
+%INBOX.onsei-mail	"onsei-mail"
+%INBOX.research		"research"
+%INBOX.schedule		"scedule"
+%INBOX.software1	"software1"
+%INBOX.TODO		"TODO"
+}
+
+# google mail
+Gmail{
+#  g03090416{
+#    %INBOX:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
+#    %INBOX/googleカレンダー通知:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"googleカレンダー通知"
+#    %INBOX/OnlineStorage:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"OnlineStorage"
+#    %INBOX/TG:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"TG"
+#    %INBOX/todai-orch-90th:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"todai-orch-90th"
+#    %INBOX/WebService:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"WebService"
+#    %INBOX/トリックスター:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"トリックスター"
+#  }
+#  kbkbkbkb1{
+  %INBOX:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
+  振り分け{
+    %INBOX/Amazon:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Amazon"
+    %INBOX/BOOKOFF:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"BOOKOFF"
+    %INBOX/Delivery:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Delivery"
+    %INBOX/ESL:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"ESL"
+    mailing-list{
+      %INBOX/mailing-list/emacs-orgmode:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"emacs-orgmode"
+    }
+    %INBOX/misc:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"misc"
+    %INBOX/mydns:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"mydns"
+    %INBOX/OnlineShop:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"OnlineShop"
+    %INBOX/PS:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"PS"
+    %INBOX/rubikitch:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"rubikitch"
+    %INBOX/TSUTAYA:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"TSUTAYA"
+    %INBOX/TSUTAYA購入:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"TSUTAYA購入"
+    %INBOX/WebService:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"WebService"
+    %INBOX/のどか:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"のどか"
+    %INBOX/リクナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"リクナビ"
+    %INBOX/運送:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"運送"
+    %INBOX/外資就活ドットコム:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"外資就活ドットコム"
+    %INBOX/就職活動:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"就職活動"
+    %INBOX/日経就職ナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"日経就職ナビ"
+    %INBOX/理系ナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"理系ナビ"
+  }
+  %[Gmail]/下書き:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"下書き"
+  %[Gmail]/送信済みメール:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"送信済みメール"
+  %[Gmail]/すべてのメール:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"すべてのメール"
+  %[Gmail]/ゴミ箱:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"ゴミ箱"
+
+
+}
+%INBOX:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
+au{
+  受信トレイ{
+    %INBOX:"giovanni-franz@auone.jp"/clear@imap.googlemail.com:993	"受信トレイ"
+    %INBOX/au:"giovanni-franz@auone.jp"/clear@imap.googlemail.com:993	"au"
+    %INBOX/todaiorch_17:"giovanni-franz@auone.jp"/clear@imap.googlemail.com:993	"todaiorch_17"
+  }
+}
+
+## POP ユーザのメールボックス
+# &USERNAME@POPSERVER.EXAMPLE.COM
+
+## [ POP ユーザにはパイプフォルダが役に立ちます ]
+## [ パイプフォルダを使えば、メールを取り込むことが可能です ]
+# |&USERNAME@POPSERVER.EXAMPLE.COM|+inbox
+
+
+## 重要マーク `$' のついたメッセージをまとめる
+# 'flag/important
+
+## MH フォルダ
+# +inbox
+
+## IMAP フォルダ
+# %inbox.emacs.wl
+# %inbox.emacs.apel-ja
+
+## IMAP サーバ越しに MH folder にアクセス
+# %#mh/inbox
+
+## NNTP フォルダ
+# -fj.os.bsd.freebsd
+# -fj.mail.reader.mew
+# -fj.news.reader.gnus
+
+## [ 他の NNTP サーバ上のニューズグループ ]
+# -jlug.ml.users@NEWS.EXAMPLE.NET
+# -emacs.auc-tex@NEWS.EXAMPLE.ORG
+# -ring.openlab.skk@NEWS.EXAMPLE.COM
+
+
+## グループの定義
+## [ フォルダを波括弧でくくってグループにする ]
+# Emacsen{
+#	+to/wl
+#	+to/mew-dist
+#	+to/apel-ja
+## [ グループの入れ子も可能 ]
+#	XEmacs{
+#		+to/xemacs-beta
+#		+to/xemacs-beta-ja
+#		+to/xemacs-mule
+#	}
+# }
+
+## アクセスグループ
+## [ 行末に '/' がつくと、そのフォルダに含まれるサブフォルダ全てが ]
+## [ ひとつのグループとなる。]
+## [ `C-u RET' でアクセスグループを開くと更新できる。 ]
+# + /
+
