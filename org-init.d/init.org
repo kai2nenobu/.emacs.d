@@ -4479,10 +4479,11 @@ do nothing. And suppress the output from `message' and
 ;; ispell (スペルチェック)
 ;; コマンドの設定
 (my-safe-require 'ispell
-  (setq ispell-program-name "ispell")
+  (setq ispell-program-name "aspell")
   (setq ispell-grep-command "grep") ; デフォルトの egrep が Cygwin ではシンボリックリンク
                                         ; なので，Meadow から起動できない
-  (setq ispell-personal-dictionary "~/.ispell_default") ; 個人用辞書
+  (setq ispell-personal-dictionary "~/.aspell.en.pws") ; 個人用辞書
+  (setq ispell-silently-savep t) ; 確認なしに辞書に保存する
   ;; 日本語ファイル中の英単語スペルチェックを可能にする
   (eval-after-load "ispell"
     '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]")))
