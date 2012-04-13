@@ -352,6 +352,9 @@
 
 ;;; [[ 返信時の設定 ]]
 
+;; To: , CC: から自分のアドレスを除去する（返信時の CC: 自分のアドレス を防ぐ）
+(setq wl-draft-always-delete-myself t)
+
 ;; 返信時のウィンドウを広くする
 ;(setq wl-draft-reply-buffer-style 'full)
 
