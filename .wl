@@ -546,4 +546,7 @@
 (add-to-list 'wl-summary-sort-specs 'reply-date)
 (wl-summary-define-sort-command)
 
+;; デフォルトソート
+(setq wl-summary-default-sort-spec 'reply-date)
+
 ;;; dot.wl ends here
