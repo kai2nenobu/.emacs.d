@@ -510,4 +510,8 @@
 (define-key wl-folder-mode-map (kbd "t") 'wl-plugged-change)
 (define-key wl-plugged-mode-map (kbd "t") 'wl-plugged-exit)
 
+;; アイコンディレクトリ
+(setq wl-icon-directory
+      (expand-file-name "icons" (file-name-directory (locate-library "wl.el"))))
+
 ;;; dot.wl ends here
