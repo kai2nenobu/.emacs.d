@@ -502,4 +502,12 @@
 (add-to-list 'wl-summary-line-format-spec-alist '((?@ (wl-summary-line-attached))))
 (setq wl-summary-line-format "%n%T%P%1@%Y/%M/%D (%W) %h:%m %t%[%17(%c %f%) %] %#%~%s")
 
+;; キーバインド
+;; enable C-t
+(define-key wl-summary-mode-map (kbd "C-t") nil)
+(define-key wl-summary-mode-map (kbd "t") 'wl-plugged-change)
+(define-key wl-folder-mode-map (kbd "C-t") nil)
+(define-key wl-folder-mode-map (kbd "t") 'wl-plugged-change)
+(define-key wl-plugged-mode-map (kbd "t") 'wl-plugged-exit)
+
 ;;; dot.wl ends here
