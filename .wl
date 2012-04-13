@@ -156,7 +156,7 @@
 (setq wl-summary-width nil)
 
 ;; サマリバッファの表示形式
-(setq wl-summary-line-format "%n%T%P%Y-%M-%D (%W) %h:%m %t%[%17(%c %f%) %] %#%~%s")
+;; (setq wl-summary-line-format "%n%T%P%Y-%M-%D (%W) %h:%m %t%[%17(%c %f%) %] %#%~%s")
 ;; サマリモードで日時を英語表示
 (setq wl-summary-weekday-name-lang 'en)
 
@@ -268,7 +268,7 @@
 
 ;; ML のメッセージであれば，サマリの Subject 表示に
 ;; ML名 や MLにおけるメッセージ番号も表示する
-(setq wl-summary-line-format "%n%T%P%M/%D(%W)%h:%m %t%[%17(%c %f%) %] %#%~%s")
+;; (setq wl-summary-line-format "%n%T%P%M/%D(%W)%h:%m %t%[%17(%c %f%) %] %#%~%s")
 ;; フォルダ毎にサマリの表示形式を変える設定
 ;(setq wl-folder-summary-line-format-alist
 ;      '(("^%inbox\\.emacs\\.wl$" .
@@ -495,5 +495,11 @@
                                  (auto-fill-mode 1)
                                  (flyspell-mode 1)
                                  (setq fill-column 60)))
+
+;; 添付ファイルの有無をマーク
+;; http://blog.clouder.jp/archives/000032.html
+(add-to-list 'elmo-msgdb-extra-fields "content-type")
+(add-to-list 'wl-summary-line-format-spec-alist '((?@ (wl-summary-line-attached))))
+(setq wl-summary-line-format "%n%T%P%1@%Y/%M/%D (%W) %h:%m %t%[%17(%c %f%) %] %#%~%s")
 
 ;;; dot.wl ends here
