@@ -514,4 +514,36 @@
 (setq wl-icon-directory
       (expand-file-name "icons" (file-name-directory (locate-library "wl.el"))))
 
+;; 新着レス順でソート
+;; http://d.hatena.ne.jp/mtbr/20090723/emacswanderlustGMail
+(defun wl-summary-overview-entity-compare-by-reply-date (a b)
+  "Compare entity X and Y by latest date of replies."
+  (flet ((string-max2
+          (x y)
+          (cond ((string< x y) y)
+                ('t x)))
+         (elmo-entity-to-number
+          (x)
+          (elt (cdr (cdr x)) 0))
+         (thread-number-get-date
+          (x)
+          (timezone-make-date-sortable (elmo-msgdb-overview-entity-get-date (elmo-message-entity wl-summary-buffer-elmo-folder x))))
+         (thread-get-family
+          (x)
+          (cons x (wl-thread-entity-get-descendant (wl-thread-get-entity x))))
+         (max-reply-date
+          (x)
+          (cond ((eq 'nil x)
+                 'nil)
+                ((eq 'nil (cdr x))
+                 (thread-number-get-date (car x)))
+                ('t
+                 (string-max2 (thread-number-get-date (car x))
+                              (max-reply-date (cdr x)))))))
+    (string<
+     (max-reply-date (thread-get-family (elmo-entity-to-number a)))
+     (max-reply-date (thread-get-family (elmo-entity-to-number b))))))
+(add-to-list 'wl-summary-sort-specs 'reply-date)
+(wl-summary-define-sort-command)
+
 ;;; dot.wl ends here
