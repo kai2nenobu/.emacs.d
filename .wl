@@ -1,25 +1,5 @@
 ;;; dot.wl -- sample setting file for Wanderlust        -*- emacs-lisp -*-
 
-;; キーバインド
-;; enable C-t
-(define-key wl-summary-mode-map (kbd "C-t") nil)
-(define-key wl-summary-mode-map (kbd "t") 'wl-plugged-change)
-(define-key wl-folder-mode-map (kbd "C-t") nil)
-(define-key wl-folder-mode-map (kbd "t") 'wl-plugged-change)
-(define-key wl-plugged-mode-map (kbd "t") 'wl-plugged-exit)
-
-;; [[ 自作 ]]
-(defvar wl-message-my-split-horizontal t
-  "If non-nil, split summary window horizontally and display message.")
-(defvar wl-message-my-window-width 100
-  "Message window width when split horizontally.")
-
-;; 自動折り返しと折り返し文字数
-(add-hook 'wl-draft-mode-hook '(lambda ()
-                                 (auto-fill-mode 1)
-                                 (flyspell-mode 1)
-                                 (setq fill-column 60)))
-
 ;; [[ 動作に必要な設定 ]]
 
 ;; まず、次の設定を ~/.emacs などに書いてください。
@@ -503,5 +483,17 @@
 ;;   (after wl-foloder-jump-to-curren-entity-goto-beginning activate)
 ;;   (beginning-of-buffer))
 ;; 新規メールが日付の降順にならないので，やめよう．
+
+;; [[ 自作 ]]
+(defvar wl-message-my-split-horizontal t
+  "If non-nil, split summary window horizontally and display message.")
+(defvar wl-message-my-window-width 100
+  "Message window width when split horizontally.")
+
+;; 自動折り返しと折り返し文字数
+(add-hook 'wl-draft-mode-hook '(lambda ()
+                                 (auto-fill-mode 1)
+                                 (flyspell-mode 1)
+                                 (setq fill-column 60)))
 
 ;;; dot.wl ends here
