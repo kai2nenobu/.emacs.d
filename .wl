@@ -105,6 +105,31 @@
       wl-smtp-connection-type 'ssl
       )
 
+;;; select smtp servers by from address
+(setq wl-draft-config-alist
+      '(
+        ;; for kbkbkbkb1 gmail
+        (;(string-match "kbkbkbkb1@gmail\\.com" wl-draft-parent-folder) うまく動かない
+         reply
+         "^To: kbkbkbkb1@gmail\\.com"
+         (wl-from . "Tsunenobu Kai <kbkbkbkb1@gmail.com>")
+         ("From"  . wl-from))
+        ("^From: .*kbkbkbkb1@gmail\\.com"
+         (wl-from . "Tsunenobu Kai <kbkbkbkb1@gmail.com>")
+         ;; smtp サーバーを切り替え
+         (wl-smtp-connection-type   . 'ssl)
+         (wl-smtp-posting-port      . 465)
+         (wl-smtp-authenticate-type . "login")
+         (wl-smtp-posting-user      . "kbkbkbkb1@gmail.com")
+         (wl-smtp-posting-server    . "smtp.googlemail.com")
+         (wl-local-domain           . "gmail.com")
+         ;; 送信控え先を変更
+         ("Bcc" . wl-from)
+         ("Fcc" . "%[Gmail]/送信済みメール:\"kbkbkbkb1@gmail.com\"/clear@imap.googlemail.com:993")
+         ;; 下書き保存先フォルダを書き換える（うまくうごかない）
+         (wl-draft-folder . "%[Gmail]/下書き:\"kbkbkbkb1@gmail.com\"/clear@imap.googlemail.com:993"))
+        ))
+
 ;;; ニュースサーバの設定
 ;(setq elmo-nntp-default-server "localhost")
 ;;; 投稿先のニュースサーバ
