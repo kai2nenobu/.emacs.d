@@ -3916,7 +3916,7 @@ Hit a Hint でカーソル移動するライブラリ．
 ;;; (auto-install-from-url "http://taiyaki.org/elisp/mell/src/mell.el")
 ;;; (auto-install-from-url "http://taiyaki.org/elisp/text-adjust/src/text-adjust.el")
 ;;; テキストの細かいところを修正し，統一する
-(my-safe-require 'text-adjust)
+;; (my-safe-require 'text-adjust)
 ;; ファイル保存時に自動的に text-adjust を起動する
 ;; (defun text-adjust-before-save-if-needed ()
 ;;   (when (memq major-mode
