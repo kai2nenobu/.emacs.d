@@ -4097,14 +4097,14 @@ Hit a Hint でカーソル移動するライブラリ．
 ;;; elispインストーラ
 ;; auto-installによってインストールされるEmacs Lispをロードパスに加える
 ;; デフォルトは ~/.emacs.d/auto-install/
-(lazyload (auto-install-from-url auto-install-from-emacswiki
-           auto-install-from-gist auto-install-batch) "auto-install"
-  ;; 起動時にEmacsWikiのページ名を補完候補に加える
-  (auto-install-update-emacswiki-package-name t)
-  ;; install-elisp.el互換モードのにする
-  (auto-install-compatibility-setup)
-  ;; ediff関連のバッファを１つのフレームにまとめる
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+;; (lazyload (auto-install-from-url auto-install-from-emacswiki
+;;            auto-install-from-gist auto-install-batch) "auto-install"
+;;   ;; 起動時にEmacsWikiのページ名を補完候補に加える
+;;   (auto-install-update-emacswiki-package-name t)
+;;   ;; install-elisp.el互換モードのにする
+;;   (auto-install-compatibility-setup)
+;;   ;; ediff関連のバッファを１つのフレームにまとめる
+;;   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;;; auto-async-byte-compile.el
 ;;; 2010-11-06 (Sat)
