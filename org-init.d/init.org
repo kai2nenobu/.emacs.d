@@ -4054,6 +4054,8 @@ Hit a Hint でカーソル移動するライブラリ．
     (add-to-list 'ibus-common-function-key-list '(meta "v"))
     ;; isearch で ibus を無効にする
     (ibus-disable-isearch)
+    ;; isearch 中はカーソル形状変更
+    (setq ibus-isearch-cursor-type 'hollow)
     ))
 
 ;;; session.el
