@@ -1465,6 +1465,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;(setq visible-bell t)    ; ビープ音の変わりに画面がフラッシュ
 (setq ring-bell-function 'ignore)    ; エラー時に何も起こらなくなる
 
+(defun my-beep-force ()
+  (let ((visible-bell nil)
+        (ring-bell-function nil))
+    (ding)))
+
 ;; ツールバーを非表示
 (tool-bar-mode 0)
 

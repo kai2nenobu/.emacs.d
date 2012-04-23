@@ -207,8 +207,6 @@
 
 ;; 着信通知の設定
 (setq wl-biff-check-folder-list '("%INBOX"))
-(setq wl-biff-notify-hook '(ding))
-
 
 ;;; [[ ネットワーク ]]
 
@@ -548,5 +546,11 @@
 
 ;; デフォルトソート
 (setq wl-summary-default-sort-spec 'reply-date)
+
+(defun wl-my-notify-new-mail ()
+  (my-beep-force)
+  (message "Wanderlust: Recieve new mail!"))
+(add-to-list 'wl-biff-notify-hook 'wl-my-notify-new-mail)
+
 
 ;;; dot.wl ends here
