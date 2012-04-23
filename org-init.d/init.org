@@ -2355,6 +2355,12 @@ Creates a buffer if necessary."
       (guide-key:add-local-show-key-sequence key))
     (guide-key:add-local-highlight-command-regexp "dired-"))
   (add-hook 'dired-mode-hook 'guide-key:my-hook-function-for-dired-mode)
+
+  (defun guide-key:my-hook-function-for-wl-draft-mode ()
+    (dolist (key '("C-c" "C-c C-x" "C-c RET"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "wl-draft-"))
+  (add-hook 'wl-draft-mode-hook 'guide-key:my-hook-function-for-wl-draft-mode)
   )
 #+END_SRC
 
