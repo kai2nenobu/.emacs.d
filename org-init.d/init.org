@@ -3901,6 +3901,7 @@ Hit a Hint でカーソル移動するライブラリ．
   (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
   )
 #+END_SRC
+*** 
 #+BEGIN_SRC emacs-lisp
 ;;; postit.el
 ;;; 2010-12-16 (Thu)
