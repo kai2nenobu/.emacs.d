@@ -155,6 +155,18 @@ PRE time needs to be before CUR time."
 #+END_SRC
 
 * 自作関数
+** mecab で段落を形態素解析
+#+BEGIN_SRC emacs-lisp
+(defun mecab-paragraph (start end)
+  (interactive "r")
+  (let ((str (buffer-substring-no-properties start end)))
+    (with-temp-buffer
+      (insert str)
+      (goto-char (point-min))
+      (while (re-search-forward "\n[ \t]" nil t)
+        (replace-match ""))
+      (shell-command-on-region (point-min) (point-max) "mecab"))))
+#+END_SRC
 ** 直前のバッファに切り替える
 - [[http://d.hatena.ne.jp/rubikitch/20111211/smalldisplay][集中力5倍！小よく大を制するミニマリストEmacs - (rubikitch loves (Emacs Ruby CUI Books))]]
 #+BEGIN_SRC emacs-lisp
