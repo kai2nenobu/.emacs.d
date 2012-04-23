@@ -3525,7 +3525,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   ;(setq special-display-function 'popwin:special-display-popup-window)   ; display-buffer-function を変更したくない場合こっち
   (push '("*Buffer List*" :position right :width 0.5) popwin:special-display-config)
   (push '("*nav-help*" :height 0.5) popwin:special-display-config)
-  (push '("*Shell Command Output*" :height 0.5 :noselect t) popwin:special-display-config)
+  (push '("*Shell Command Output*" :height 0.5) popwin:special-display-config)
   (push '("*Apropos*" :height 0.5) popwin:special-display-config)
   (push '(" *auto-async-byte-compile*" :height 0.4 :position bottom :noselect t) popwin:special-display-config)
   (push '("*One-Key*" :position bottom :noselect t) popwin:special-display-config) ; ウィンドウが多いと表示されるのが遅い気がする。
