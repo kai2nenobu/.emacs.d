@@ -1870,6 +1870,8 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (delete-region (eshell-bol) (point-max)))
   (defun-eshell-cmdline "M-^"
     (my-minibuffer-delete-parent-directory))
+  (defun-eshell-cmdline "C-r"
+    (anything-eshell-history))
   ;; 1回1回履歴のアクセスをリセットする
   (defadvice eshell-send-input (after history-position activate)
     (setq eshell-history-index -1))
