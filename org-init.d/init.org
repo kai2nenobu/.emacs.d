@@ -163,7 +163,7 @@ PRE time needs to be before CUR time."
     (with-temp-buffer
       (insert str)
       (goto-char (point-min))
-      (while (re-search-forward "\n[ \t]" nil t)
+      (while (re-search-forward "\n[ \t]*" nil t)
         (replace-match ""))
       (shell-command-on-region (point-min) (point-max) "mecab"))))
 #+END_SRC
