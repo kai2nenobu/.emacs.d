@@ -1739,11 +1739,16 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
             '("bash -i")))
   ;; multi ssh
   (add-to-list 'tramp-default-proxies-alist
-               '("athena\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@%h:"))
+               '("athena" "\\`root\\'" "/kai@%h:"))
   (add-to-list 'tramp-default-proxies-alist
                '("demeter\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
   (add-to-list 'tramp-default-proxies-alist
-               '("rubner\\(.mydns.jp\\)?" "\\`root\\'" "/kai@%h:")))
+               '("poseidon\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
+  (add-to-list 'tramp-default-proxies-alist
+               '("rubner" "\\`root\\'" "/kai@%h:"))
+  (add-to-list 'tramp-default-proxies-alist
+               '("rubner-\\(dns\\|web\\)\\(.kaichan.mydns.jp\\)?" nil "/kai@rubner:"))
+  )
 
 ;;; doc-view.el
 ;;; Emacs で pdf 閲覧
