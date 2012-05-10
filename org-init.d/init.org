@@ -1116,7 +1116,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 
 ;; C-c keymap
 (define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
-(define-key mode-specific-map (kbd "s") 'shell)        ; C-c s でshell一発起動
+(define-key mode-specific-map (kbd "s") 'eshell)
 (define-key mode-specific-map (kbd "A") 'align)
 
 ;; original key map (bind to C-q)
