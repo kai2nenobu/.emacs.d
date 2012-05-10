@@ -1058,7 +1058,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                '(height . 54)  ; 行数
                '(top . 0)    ; ディスプレイのx座標(ピクセル)
                '(left . 0)   ; ディスプレイのy座標(ピクセル)
-               '(alpha . (95 85 60 40)) ; 不透明度
+               '(alpha . (85 70 60 40)) ; 不透明度
                )
               default-frame-alist))
 ;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
