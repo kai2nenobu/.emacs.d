@@ -1150,6 +1150,12 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 #+END_SRC
 
 * その他一般的な動作設定
+** タイムスタンプ
+ファイルに Time-stamp: <> があれば自動的にタイムスタンプを追加する
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'write-file-hooks 'time-stamp)
+(setq time-stamp-format "%3a %3b %2d %02H:%02M:%02S %Z %:y") ; equivalent for date command
+#+END_SRC
 ** 右クリックメニューを有効にする
 - [[http://blogs.yahoo.co.jp/rakuten200802/31224692.html][Windows環境でEmacsを活用しよう　Part2　～.emacsのいくつかの設定～ - Webメディア開発日記 - Yahoo!ブログ]]
 意外と右クリックメニューは使える気がする．
