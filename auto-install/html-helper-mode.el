@@ -53,7 +53,7 @@
 ;;   with the package or is at http://www.reed.edu/~nelson/tools/
 
 ;; Thank yous:
-;;   David KËôçedal <davidk@lysator.liu.se> for the tempo code which
+;;   David KÂgedal <davidk@lysator.liu.se> for the tempo code which
 ;;   forms the core of the HTML insertion, as well as the HTML+
 ;;   cookies.
 

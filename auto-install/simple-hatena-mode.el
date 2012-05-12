@@ -696,4 +696,3 @@ message."
 (provide 'simple-hatena-mode)
 
 ;;; simple-hatena-mode.el ends here
-
