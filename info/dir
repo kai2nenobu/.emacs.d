@@ -1,0 +1,51 @@
+This is the file .../info/dir, which contains the
+topmost node of the Info hierarchy, called (dir)Top.
+The first time you invoke Info you start off looking at this node.
+
+File: dir,	Node: Top	This is the top of the INFO tree
+
+  This (the Directory node) gives a menu of major topics.
+  Typing "q" exits, "?" lists all Info commands, "d" returns here,
+  "h" gives a primer for first-timers,
+  "mEmacs<Return>" visits the Emacs manual, etc.
+
+  In Emacs, you can click mouse button 2 on a menu item or cross reference
+  to select it.
+
+* Menu:
+
+2ch
+* Navi2ch: (navi2ch).           Navigator for 2ch for Emacsen
+
+Emacs
+* AUCTeX: (auctex).             A sophisticated TeX environment for Emacs.
+* dired-dd: (dired-dd).         Drag and Drop interface to dired/dired-x package.
+* Magit: (magit).               Using Git from Emacs with Magit.
+* Org Mode: (org).              Outline-based notes management and organizer.
+* Org Guide: (orgguide).        Guide of Org-mode.
+* Org Mode Japanese: (org-ja).  Outline-based notes management and organizer (Japanese).
+* SKK: (skk).                   Simple Kana to Kanji conversion program.
+* YaTeX: (yatexj).              Yet Another tex-mode for Emacs. (Japanese).
+* YaTeX-e: (yatexe).            Yet Another tex-mode for Emacs. (English).
+* preview-latex: (preview-latex).
+                                Preview LaTeX fragments in Emacs
+* yahtml: (yahtmlj).            Yet Another HTML-mode for Emacs. (Japanese).
+* yahtml-e: (yahtmle).          Yet Another HTML-mode for Emacs. (English).
+
+TeX
+* AUCTeX: (auctex).             A sophisticated TeX environment for Emacs.
+* YaTeX: (yatexj).              Yet Another tex-mode for Emacs. (Japanese).
+* YaTeX-e: (yatexe).            Yet Another tex-mode for Emacs. (English).
+* preview-latex: (preview-latex).
+                                Preview LaTeX fragments in Emacs
+* yahtml: (yahtmlj).            Yet Another HTML-mode for Emacs. (Japanese).
+* yahtml-e: (yahtmle).          Yet Another HTML-mode for Emacs. (English).
+
+GNU Emacs Lisp
+* SKK: (skk).           Simple Kana to Kanji conversion program.
+* Wanderlust: (wl).             Yet Another Message Interface On Emacsen
+* Wanderlust-ja: (wl-ja).       Yet Another Message Interface On Emacsen
+
+
+The Emacs editor and associated tools
+* Lookup: (lookup).             Lookup, a Search Interface.
