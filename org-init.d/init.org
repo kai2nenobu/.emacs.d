@@ -1,4 +1,5 @@
 ## -*- coding: utf-8-unix -*-
+
 #+TITLE: Emacs の初期設定
 #+STYLE: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
 #+OPTIONS: toc:2 num:nil ^:nil
@@ -32,15 +33,16 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://d.hatena.ne.jp/zqwell-ss/20091123/1258989596][EmacsのFontがでかい - Secondary Storage]]
 `x-scree
 
-* 最初に設定しないといけないもの
+* 最初に必要な設定
 #+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
 (eval-when-compile
   (require 'cl))
-
-;;; 起動時間を測定する
-;;; http://aikotobaha.blogspot.com/2010/08/gnupack-ntemacs23-dotemacs.html より
-;;; http://ubulog.blogspot.com/2009/08/emacs.html
+#+END_SRC
+** 起動時間を測定する
+- [[http://aikotobaha.blogspot.jp/2010/08/gnupack-ntemacs23-dotemacs.html][OSSはアルミニウムの翼で飛ぶ: gnupack + NTEmacs23 のdot.emacs]]
+- [[http://ubulog.blogspot.jp/2009/08/emacs.html][ubulog: Emacsの起動時間を調べる]]
+#+BEGIN_SRC emacs-lisp
 (defvar my-measure-init-time-file (expand-file-name ".init_time" user-emacs-directory)
   "File name to write out initialization time.")
 
@@ -86,10 +88,10 @@ PRE time needs to be before CUR time."
              (my-measure-message-time "after-init-hook.")
              (my-measure-init-time))
           t)
-
-;;; OSの判別，固有の設定
-;;; 2010-11-08 (Mon)
-;;; http://d.hatena.ne.jp/marcy_o/20081208/1228742294 より
+#+END_SRC
+** OSの判別，固有の設定
+- [[http://d.hatena.ne.jp/marcy_o/20081208/1228742294][.emacs で OS の判定を関数化しよう - marcy_oの日記]]
+#+BEGIN_SRC emacs-lisp
 (defconst dropbox-directory (expand-file-name "~/Dropbox")) ; 語尾に / を含めるか含めないか悩むな
 
 (defun macp ()
@@ -100,13 +102,16 @@ PRE time needs to be before CUR time."
   (eq system-type 'gnu/kfreebsd))
 (defun winp ()
   (eq system-type 'windows-nt))
-
-;; なんか最新版をビルドしたやつはこれをつけたほうがいいらしい？
-;; これがないと ispell が動かなかった。ispell に限らんかもしれんが
+#+END_SRC
+** debian-emacs-flavor
+なんか最新版をビルドしたやつはこれをつけたほうがいいらしい？これがないと
+ispell が動かなかった。ispell に限らんかもしれんが
+#+BEGIN_SRC emacs-lisp
 (setq debian-emacs-flavor 'emacs-snapshot)
-
-;; add load-path
-;; http://masutaka.net/chalow/2009-07-05-3.html 参考に
+#+END_SRC
+** ロードパスの追加
+- [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
+#+BEGIN_SRC emacs-lisp
 (defconst my-individual-elisp-directory
   (list (expand-file-name "site-lisp" user-emacs-directory)
 	(expand-file-name "my-lisp" user-emacs-directory)
@@ -127,13 +132,12 @@ PRE time needs to be before CUR time."
                          (getenv "PATH")))
   (add-to-list 'exec-path "c:/cygwin/bin")
   )
-
-
-;;; package.el
-;;; elisp のパッケージ管理をする
-;;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
-;;; http://tromey.com/elpa/install.html にかかれている方法でインストールすると，
-;;; 古いバージョンの package.el がインストールされる．糞だな．
+#+END_SRC
+** package.el
+elisp のパッケージ管理をするライブラリ．
+#+BEGIN_SRC emacs-lisp
+;; package.el
+;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
 (when (load (expand-file-name "~/.emacs.d/package/package.el") t)
   ;; directory to install packages
   (setq package-user-dir (concat user-emacs-directory "package"))
@@ -153,7 +157,38 @@ PRE time needs to be before CUR time."
 
 (my-measure-message-time "Basic setting.")
 #+END_SRC
+** 安全な require, load, autoload マクロ
+- [[http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro][require/loadに成功/失敗したらメッセージを出すマクロ - とりあえず暇だったし何となく始めたブログ]]
+- [[http://www.sodan.org/~knagano/emacs/dotemacs.html][dot.emacs]]
+- [[http://e-arrows.sakura.ne.jp/2010/03/macros-in-emacs-el.html][.emacs.elで定義しておくと便利なマクロ - 八発白中]]
+#+BEGIN_SRC emacs-lisp
+;; use like this (my-safe-require 'skk body)
+(defmacro my-safe-require (feature &rest body)
+  (declare (indent 1))
+  `(if (require ,feature nil t)
+       (progn
+         (message "Require success: %s from %s" ,feature (locate-library (symbol-name ,feature)))
+         ,@body)
+     (message "Require error: %s" ,feature)))
 
+;; use like this (my-safe-load "skk" body)
+(defmacro my-safe-load (name &rest body)
+  (declare (indent 1))
+  `(if (load ,name t)
+       (progn
+         (message "Load success: %s from %s" ,name (locate-library ,name))
+         ,@body)
+     (message "Load error: %s" ,name)))
+
+(defmacro lazyload (func lib &rest body)
+  (declare (indent 2))
+  `(when (locate-library ,lib)
+     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
+     (eval-after-load ,lib
+       '(progn
+          ,@body
+          (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
+#+END_SRC
 * 自作関数
 ** mecab で段落を形態素解析
 #+BEGIN_SRC emacs-lisp
@@ -353,18 +388,18 @@ Leave one space or none, according to the context."
 (eval-after-load "org"
   '(define-key org-mode-map (kbd "C-c '") 'org-my-edit-src-code))
 #+END_SRC
-** 
+** リンクを org-mode から pukiwiki 形式に変換
 #+BEGIN_SRC emacs-lisp
-;;; リンクを org-mode から pukiwiki 形式に変換
 (defun my-convert-link-org2pukiwiki ()
   "Convert link expression from org-mode to pukiwiki."
   (interactive)
   (goto-char (point-min))
   (while (re-search-forward "\\[\\[\\(https?://[^]]+\\)\\]\\[\\([^]]+\\)\\]\\]" nil t)
     (replace-match "[\\1:\\2]")))
-
-;;; pdf と Emacs の相互参照
-;;; http://skalldan.wordpress.com/2011/10/07/tex-%E7%B5%B1%E5%90%88%E7%92%B0%E5%A2%83%E3%81%A7-synctex-%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/
+#+END_SRC
+** TeX で pdf と Emacs の相互参照
+- [[http://skalldan.wordpress.com/2011/10/07/tex-%E7%B5%B1%E5%90%88%E7%92%B0%E5%A2%83%E3%81%A7-synctex-%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/][Debian wheezy の TeX 統合環境で SyncTeX を試してみる | Amrta]]
+#+BEGIN_SRC emacs-lisp
 ;; (require 'dbus)
 
 ;; (defun my-evince-inverse-sync (file linecol)
@@ -382,34 +417,21 @@ Leave one space or none, according to the context."
 ;;  :session nil "/org/gnome/evince/Window/0"
 ;;  "org.gnome.evince.Window" "SyncSource"
 ;;        'my-evince-inverse-sync)
-
-;;; find-file 時にバッファ名に補助的な文字列を追加する
+#+END_SRC
+** find-file 時にバッファ名に補助的な文字列を追加する
+現在は snippet に関するに [snippet] を付加するのみ．しかし，yasnippet のファイ
+ルには拡張子をつけることにしたので，あんまり意味が無いかも．なんか他にも使い道
+を探そう．
+#+BEGIN_SRC emacs-lisp
 (defadvice find-file (after find-file-rename activate)
   ;; when open snippet file, append [snippet]
   (when (string-match "/snippets/" (or (buffer-file-name) ""))
     (rename-buffer (concat (buffer-name) " [snippet]")))
   )
-
-;;; other-window でコマンド実行するマイナーモード
-(defun command-other-window-execute (command)
-  (with-selected-window (other-window-for-scrolling)
-    (funcall command)))
-
-(defvar command-other-window-mode-keymap (make-sparse-keymap))
-(define-key command-other-window-mode-keymap (kbd "H-j")
-  '(lambda () (interactive) (command-other-window-execute 'next-line)))
-(define-key command-other-window-mode-keymap (kbd "H-k")
-  '(lambda () (interactive) (command-other-window-execute 'previous-line)))
-
-(define-minor-mode command-other-window-mode
-  "Execute command in other window."
-  :global nil
-  :group 'command-other-window
-  :init-value nil
-  :lighter " COW"
-  :keymap command-other-window-mode-keymap)
-
-;;; どっかからとってきたはずだけど忘れた．
+#+END_SRC
+** ミニバッファ中に anything で補完
+どっかからとってきたはずだけど忘れた．
+#+BEGIN_SRC emacs-lisp
 (defun anything-my-minibuffer-complete ()
   ""
   (interactive)
@@ -425,10 +447,12 @@ Leave one space or none, according to the context."
     (insert (car comp)))
   )
 (define-key minibuffer-local-map (kbd "C-s") 'anything-my-minibuffer-complete)
-
-;;; 2011-09-05 (Mon)
-;;; 数値をインクリメント，デクリメント
-;;; http://d.hatena.ne.jp/gongoZ/20091222/1261454818
+#+END_SRC
+** 数値をインクリメント，デクリメント
+- [[http://d.hatena.ne.jp/gongoZ/20091222/1261454818][カーソルの位置にある数字列をインクリメントする emacs lisp 改修 - 質のないDiary H]]
+通常時に使うのに割り当てるキーバインドがあんまりない．それに cua-mode にイン
+クリメントする関数があるので，そっちのほうが便利かも．
+#+BEGIN_SRC emacs-lisp
 (defun my-increment-string-as-number (number)
   "Replace progression string of the position of the cursor
 by string that added NUMBER.
@@ -454,10 +478,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
        (number-to-string (+ p (string-to-number (match-string 0)))))
     (move-to-column col)))
 (define-key global-map (kbd "M-i") 'my-increment-string-as-number)
-
-;;; 2011-08-14 (Sun)
-;;; ウィンドウを対話的にリサイズ
-;;; http://d.hatena.ne.jp/khiker/20100119/window_resize
+#+END_SRC
+** ウィンドウを対話的にリサイズ
+- [[http://d.hatena.ne.jp/khiker/20100119/window_resize][Re: 分割したウィンドウの大きさをインタラクティヴに変更する - とりあえず暇だったし何となく始めたブログ]]
+#+BEGIN_SRC emacs-lisp
 (defun my-window-resizer ()
   "Control window size and position."
   (interactive)
@@ -492,10 +516,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                    (call-interactively command)))
                (message "Quit")
                (throw 'end-flag t)))))))
-
-;;; 2011-08-10 (Wed)
-;;; emacsclient の focus 制御のため
-;;; http://d.hatena.ne.jp/syohex/20110127/1296141148
+#+END_SRC
+** emacsclient の focus 制御のため
+- [[http://d.hatena.ne.jp/syohex/20110127/1296141148][emacsclientでフォーカスを移す - Life is very short]]
+あんまりうまく動いてない気がする．
+#+BEGIN_SRC emacs-lisp
 (when (and (linuxp) (executable-find "emacs_server_start.pl"))
   (defadvice server-start
     (after server-start-after-write-window-id ())
@@ -506,10 +531,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                       "x"
                     "nox")))
   (ad-activate 'server-start))
-
-;;; 2011-08-08 (Mon)
-;;; ミニバッファでカーソルの左側の "/" まで文字を削除
-;;; 1つ上のディレクトリを指定するのに便利
+#+END_SRC
+** ミニバッファでカーソルの左側の "/" まで文字を削除
+1つ上のディレクトリを指定するのに便利．Emacs 以外でも使いたい．
+#+BEGIN_SRC emacs-lisp
 (defun my-minibuffer-delete-parent-directory ()
   "Delete one level of directory path."
   (interactive)
@@ -518,60 +543,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
       (forward-char 1)
       (delete-region (point) current-pt))))
 (define-key minibuffer-local-map (kbd "M-^") 'my-minibuffer-delete-parent-directory)
-
-;;; 2011-07-26 (Tue)
-;;; org-mode の星の可視をトグルする関数
-(defun org-my-toggle-hide-stars ()
-  "Toggle whether hide org-mode leading stars."
-  (interactive)
-  (if org-hide-leading-stars
-      (progn (setq org-hide-leading-stars nil)
-             (message "Not hide org-mode leading stars."))
-    (setq org-hide-leading-stars t)
-    (message "Hide org-mode leading stars."))
-  ;; restart font-lock-mode
-  (font-lock-mode 0)
-  (font-lock-mode 1))
-;; 作っては見たものの，org-indent-mode すると自動的に
-;; 星が不可視になるので，そっちの方が見やすいね．
-
-;;; 2011-07-22 (Fri)
-;;; C-j と M-j の機能を統合した関数
-;; (defun my-dwim-newline-and-indent ()
-;;   "Excute newline-and-indent or indent-new-comment-line as appropriate."
-;;   (interactive)
-;;   (let (search-flag
-;;         (eol-bound (point))
-;;         (search-string (concat "^\\s *" comment-start)))
-;;     (save-excursion
-;;       (beginning-of-line)
-;;       (setq search-flag (re-search-forward search-string eol-bound t)))
-;;     (if search-flag
-;;         (indent-new-comment-line)
-;;       (newline-and-indent))))
-;; (define-key global-map (kbd "C-j") 'my-dwim-newline-and-indent)
-;; わざわざこんなん作ったけど，最初から C-j に indent-new-comment-line を
-;; 割り当てればいい話だった．
-(define-key global-map (kbd "C-j") 'indent-new-comment-line)
-
-;;; 2011-06-28 (Tue)
-;;; http://www.fan.gr.jp/~ring/Meadow/meadow.html
-;;; active な region を削除する
-;; (defadvice delete-char
-;;   (around delete-region-by-delete-char activate)
-;;   (if (and transient-mark-mode mark-active)
-;;       (delete-region (region-beginning) (region-end))
-;;     ad-do-it))
-
-;; (defadvice delete-backward-char
-;;   (around delete-region-by-delete-backward-char activate)
-;;   (if (and transient-mark-mode mark-active)
-;;       (delete-region (region-beginning) (region-end))
-;;     ad-do-it))
-
-;;; 2011-06-26 (Sun)
-;;; https://github.com/kik/sandbox/blob/master/emacs/show-char.el
-;;; モードラインに現在の文字の説明を表示するマイナーモード
+#+END_SRC
+** モードラインに現在の文字の説明を表示するマイナーモード
+- [[https://github.com/kik/sandbox/blob/master/emacs/show-char.el][sandbox/emacs/show-char.el at master · kik/sandbox]]
+#+BEGIN_SRC emacs-lisp
 ;; (defun show-current-char ()
 ;;   (let ((ch (following-char)))
 ;;     (format " [U+%04X %s] " ch (get-char-code-property ch 'name))))
@@ -580,9 +555,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;   "Toggle Show char mode."
 ;;   nil
 ;;   (:eval (show-current-char)))
-
-;;; 2011-06-15 (Wed)
-;;; http://d.hatena.ne.jp/khiker/20100721/doya
+#+END_SRC
+** ドヤ顔
+- [[http://d.hatena.ne.jp/khiker/20100721/doya][Emacsでドヤが夫を簡易的なアニメーションでみたい - とりあえず暇だったし何となく始めたブログ]]
+#+BEGIN_SRC emacs-lisp
 (defun doya-show ()
   (interactive)
   (let ((doya-faces '("                      ＿＿＿  まぁ確かに・・・
@@ -674,97 +650,10 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                  (discard-input))
         (delete-overlay ol)))))
 ;(add-hook 'emacs-startup-hook 'doya-show t)
-
-;;; 2011-04-10 (Sun)
-;;; http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro
-;;; http://www.sodan.org/~knagano/emacs/dotemacs.html
-;;; 安全な require, load マクロ
-;; use like this (my-safe-require 'skk body)
-(defmacro my-safe-require (feature &rest body)
-  (declare (indent 1))
-  `(if (require ,feature nil t)
-       (progn
-         (message "Require success: %s from %s" ,feature (locate-library (symbol-name ,feature)))
-         ,@body)
-     (message "Require error: %s" ,feature)))
-
-;; use like this (my-safe-load "skk" body)
-(defmacro my-safe-load (name &rest body)
-  (declare (indent 1))
-  `(if (load ,name t)
-       (progn
-         (message "Load success: %s from %s" ,name (locate-library ,name))
-         ,@body)
-     (message "Load error: %s" ,name)))
-
-;;; 安全な autoload
-;;; http://e-arrows.sakura.ne.jp/2010/03/macros-in-emacs-el.html
-(defmacro lazyload (func lib &rest body)
-  (declare (indent 2))
-  `(when (locate-library ,lib)
-     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
-     (eval-after-load ,lib
-       '(progn
-          ,@body
-          (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
-
-;;; 2011-02-27 (Sun)
-;;; windows.el のタブを作りたい！
-(defvar win:my-list nil nil)
-(defun win:my-update-list ()
-  "Update win:my-list"
-  (setq win:my-list nil)
-  (let (name)
-    (dotimes (itr (length win:names) win:my-list)
-      (unless (string= (setq name (aref win:names itr)) "")
-        ;(print (format "%d: %s" itr name))))))
-        (setq win:my-list (cons (cons itr name) win:my-list))))
-    (setq win:my-list (reverse win:my-list))))
-(defun win:my-print-tab ()
-  "Print window name list."
-  (let (value
-        (width 10))
-    (dolist (element win:my-list value)
-      (insert (concat (substring (format "%d %-100s" (car element) (cdr element)) 0 width) " ")))))
-;; とりあえずウィンドウの番号と名前をある幅ごとに表示させることはできるようになった
-
-;;; 2011-02-13 (Sun)
-;;;  sequential-mark
-;;;  C-u SPC SPC ... で順番にマーク履歴を辿れる
-;; (defun my-sequential-mark ()
-;;   "pop-to-mark"
-;;   (interactive)
-;;   (let* ((key-vector (recent-keys))
-;;          (key-vector-index (1- (length key-vector))))
-;;     (while (equal
-;;             (single-key-description (aref key-vector key-vector-index))
-;;             "C-SPC")
-;;       (setq key-vector-index (1- key-vector-index)))
-;;     (if (equal
-;;          (single-key-description (aref key-vector key-vector-index))
-;;          "C-u")
-;;         (pop-to-mark-command)
-;;       (set-mark-command nil))
-;;     ))
-;; (define-key global-map (kbd "C-SPC") 'my-sequential-mark)
-;;; 2011-06-28 (Tue)
-;;; もとからこのような機能があることに気づいた．残念すぎる
-;; enable to pop mark-ring repeatedly like C-u C-SPC C-SPC ...
-(setq set-mark-command-repeat-pop t)
-
-;; 失敗作
-;; (defadvice set-mark-command (around sequencial-mark activate)
-;;   "sequencial mark"
-;;   (if (eq last-command 'pop-to-mark-command)
-;;       (progn
-;;         (setq last-command 'pop-to-mark-command)
-;;         (pop-to-mark-command))
-;;     ad-do-it))
-
-
-
-;;; 2011-02-10 (Thu)
-;;; やさしいEmacs-Lisp講座 より
+#+END_SRC
+** 対話的にフレームサイズを変えるのだ
+やさしいEmacs-Lisp講座 より
+#+BEGIN_SRC emacs-lisp
 (defun my-resize-frame-interactively ()
   "対話的にフレームサイズを変えるのだ"
   (interactive)
@@ -781,8 +670,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
         (modify-frame-parameters
          nil (list (cons 'width width) (cons 'height height)))))
     (message "おちまい")))
-
-;;; 2011-02-07 (Mon)
+#+END_SRC
+** 句読点を統一するコマンド
+#+BEGIN_SRC emacs-lisp
 (defun my-replace-touten ()
   "読点を．に統一"
   (interactive)
@@ -793,7 +683,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (interactive)
   (save-excursion
     (replace-string "、" "，" nil (point-min) (point-max))))
-
+#+END_SRC
+** カーソル位置を動かさないスクロール
+残念ながら `scroll-preserve-screen-position' でスクロールの制御ができたので自
+作した意味はなかった．参考のために残しておく．
+#+BEGIN_SRC emacs-lisp
 ;;; 2011-02-06 (Sun)
 ;; my-count-lines-window が論理行を数えるため，長い行を折り返していると
 ;; 移動する行数がずれる．めんどくさいので気が向いたら修正する
@@ -813,28 +707,28 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 
 ;;; 2011-02-06 (Sun)
 ;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
-(defun my-count-lines-window ()
-  "Count lines relative to the selected window. The number of line begins 0."
-  (interactive)
-  (let* (;(deactivate-mark nil)       ; prevent to deactivate region by this command
-         (window-string (buffer-substring-no-properties (window-start) (point)))
-         (line-string-list (split-string window-string "\n"))
-         (line-count 0) line-count-list)
-    (setq line-count (1- (length line-string-list)))
-    (unless truncate-lines      ; consider folding back
-      ;; `line-count-list' is list of the number of physical line which each logical line has.
-      (setq line-count-list (mapcar '(lambda (str)
-                                       (/ (my-count-string-columns str) (window-width)))
-                                    line-string-list))
-      (setq line-count (+ line-count (apply '+ line-count-list))))
-    line-count))
+;; (defun my-count-lines-window ()
+;;   "Count lines relative to the selected window. The number of line begins 0."
+;;   (interactive)
+;;   (let* (;(deactivate-mark nil)       ; prevent to deactivate region by this command
+;;          (window-string (buffer-substring-no-properties (window-start) (point)))
+;;          (line-string-list (split-string window-string "\n"))
+;;          (line-count 0) line-count-list)
+;;     (setq line-count (1- (length line-string-list)))
+;;     (unless truncate-lines      ; consider folding back
+;;       ;; `line-count-list' is list of the number of physical line which each logical line has.
+;;       (setq line-count-list (mapcar '(lambda (str)
+;;                                        (/ (my-count-string-columns str) (window-width)))
+;;                                     line-string-list))
+;;       (setq line-count (+ line-count (apply '+ line-count-list))))
+;;     line-count))
 
 ;; count string width (columns)
-(defun my-count-string-columns (str)
-  "Count columns of string. The number of column begins 0."
-  (with-temp-buffer
-    (insert str)
-    (current-column)))
+;; (defun my-count-string-columns (str)
+;;   "Count columns of string. The number of column begins 0."
+;;   (with-temp-buffer
+;;     (insert str)
+;;     (current-column)))
 
 ;; (defun my-count-lines-window ()
 ;;   "Return line relative to the selected window. The number of line begins 0."
@@ -843,21 +737,6 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;       (count-lines (window-start) (point))
 ;;     (1- (count-lines (window-start) (point)))))
 
-
-;;; other-window を空気を読んで賢くする
-;;; 2011-02-05 (Sat)
-;;; Emacs テクニックバイブルより
-;;; (/ 整数 整数) の返り値は当然整数なのです。気をつけましょう
-(defun other-window-or-split (&optional prefix)
-  "Split window if one window exists. Otherwise move a window."
-  (interactive "P")
-  (when (one-window-p)
-    (if (> 3 (/ (float (window-width)) (window-height)))
-        (split-window-vertically)
-      (split-window-horizontally)))
-  (if prefix
-      (other-window -1)
-    (other-window 1)))
 
 ;;; scroll-up, down でウィンドウに対する相対的なカーソル位置を動かさないアドバイス
 ;; (defadvice scroll-up (around scroll-up-relative activate)
@@ -871,18 +750,25 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;   (let ((line (my-count-lines-window)))
 ;;     ad-do-it
 ;;     (move-to-window-line line)))
-
-;;; tex の表の整形
-;;; 2011-02-05 (Sat)
-;; (defun my-tex-table-align ()
-;;   (interactive)
-;;   (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)&" 1 1 t))
-;; (add-hook 'yatex-mode-hook
-;;           '(lambda ()
-;;              (YaTeX-define-key (kbd "C-a") 'my-tex-table-align)))
-
-;;; uwsc-mode
-;;; generic は簡単にメジャーモードを作ってくれる
+#+END_SRC
+** other-window を空気を読んで賢くする
+Emacs テクニックバイブルより．アスペクト比によってどう分割するかを変更する工
+夫なども自分で入れている．
+#+BEGIN_SRC emacs-lisp
+(defun other-window-or-split (&optional prefix)
+  "Split window if one window exists. Otherwise move a window."
+  (interactive "P")
+  (when (one-window-p)
+    (if (> 3 (/ (float (window-width)) (window-height)))
+        (split-window-vertically)
+      (split-window-horizontally)))
+  (if prefix
+      (other-window -1)
+    (other-window 1)))
+#+END_SRC
+** uwsc-mode
+generic で簡単にメジャーモードを作れる．
+#+BEGIN_SRC emacs-lisp
 ;;; 2011-01-23 (Sun)
 (define-generic-mode uwsc-generic-mode
   ;; コメントになる文字列の指定
@@ -906,18 +792,18 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   '("\\.uws$")
   nil
   "Major mode for UWSC-generic")
-
-;;; fullscreen
-;;; 2011-01-17 (Mon)
-;;; http://unaju.net/2010/12/emacs%E3%82%92%E3%83%95%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B/
+#+END_SRC
+** Emacs のフルスクリーン
+- [[http://unaju.net/2010/12/emacs%E3%82%92%E3%83%95%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B/]]
+#+BEGIN_SRC emacs-lisp
 (defun toggle-fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
                                             nil 'fullboth)))
 (define-key global-map (kbd "<f11>") 'toggle-fullscreen)
-
-;;; ChangeLog と同じ形式で日付曜日挿入
-;;; 2010-11-26 (Fri)
+#+END_SRC
+** ChangeLog と同じ形式で日付曜日挿入
+#+BEGIN_SRC emacs-lisp
 (defun my-insert-date (&optional time)
   (interactive)
   (unless (boundp 'time)
@@ -931,8 +817,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (setq time (current-time)))
   (let ((system-time-locale "C"))
     (format-time-string "%Y-%m-%d (%a)" time)))
-
-;;; print function
+#+END_SRC
+** Emacs で印刷する
+#+BEGIN_SRC emacs-lisp
 (setq my-print-command-format "nkf -e | e2ps -a4 -p -nh | lpr")
 (defun my-print-region (begin end)
    (interactive "r")
@@ -940,38 +827,30 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (defun my-print-buffer ()
    (interactive)
    (my-print-region (point-min) (point-max)))
-
-;;; scroll
-;;; 2011-01-14 (Fri)
-;; (defun my-scroll-1line-down ()
-;;   (interactive)
-;;   "1行スクロールダウンする．ポイントは移動しない．"
-;;   (save-excursion
-;;     (goto-char (window-start))
-;;     (recenter 1)))
-;; (defun my-scroll-1line-up ()
-;;   (interactive)
-;;   "1行スクロールアップする．ポイントは移動しない．"
-;;   (save-excursion
-;;     (goto-char (window-end))
-;;     (recenter -1)))
-;; 残念ながらすでに同じ目的の関数がありました
-
+#+END_SRC
+** 時間測定ポイント
+#+BEGIN_SRC emacs-lisp
 (my-measure-message-time "My original function.")
 #+END_SRC
-
 * 見た目の設定など
+** rotate-thema.el
+- [[http://nintos.blogspot.jp/2010/02/emacs.html][好奇心と怠惰の日々: Emacs で 青空文庫を読む。]]
+フォント設定を順番に切り替えられる．
 #+BEGIN_SRC emacs-lisp
-;;; rotate-thema.el
-;;; フォント設定を順番に切り替えられる
-;;; http://nintos.blogspot.com/2010/02/emacs.html
-;; (prin1 (font-family-list)) で使えるフォントのファミリー名が見れるよ
-;; (insert (prin1-to-string (x-list-fonts "*"))) にすると XLFD 表現で表示されるようだ
 ;(my-safe-load "rotate-theme")     ; これはフォントとかを順番にプレビューできる
+#+END_SRC
+** フォント設定
+#+BEGIN_EXAMPLE
+(prin1 (font-family-list))
+#+END_EXAMPLE
+で使えるフォントのファミリー名が見れる．
 
-;;; Ubuntu ではフォントのサイズが何でも，アスキーと日本語の高さはずれないが
-;;; Windows だと縦幅がずれることがある．IPA モナー ゴシック 17 だとずれないのでこの設定で．
-;;; 17pt だと縦幅はずれないが横幅がずれる．16pt だと逆なのかな？まだ高さがずれるほうがいいか
+#+BEGIN_EXAMPLE
+(insert (prin1-to-string (x-list-fonts "*")))
+#+END_EXAMPLE
+にすると XLFD 表現で表示される．
+
+#+BEGIN_SRC emacs-lisp
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
   ;; 標準のフォントサイズ
@@ -1021,11 +900,13 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (setq list-faces-sample-text
 "フォント幅テスト用の文字列．|
 1234567890!\"#$%&'()~-^\\@=~`?|")
-
-;; default-major-mode
+#+END_SRC
+** default-major-mode
+#+BEGIN_SRC emacs-lisp
 (setq default-major-mode 'lisp-interaction-mode)
-
-;use UTF-8
+#+END_SRC
+** 文字コードにを UTF-8 にする
+#+BEGIN_SRC emacs-lisp
 (set-default-coding-systems 'utf-8)
 (coding-system-put 'utf-8 'category 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -1041,12 +922,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (set-buffer-file-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 (add-hook 'shell-mode-hook (lambda () (set-buffer-process-coding-system 'utf-8 'utf-8)))
-;; よく分からんけど Ubuntu で「合計 8」とかが文字化けするのはこれで解決した
-; (add-hook 'dired-before-readin-hook
-;;                         (lambda ()
-;;                             (set (make-local-variable 'coding-system-for-read) 'utf-8)))
-
-; frame configure
+;; process coding system
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+#+END_SRC
+** frame configure
+#+BEGIN_SRC emacs-lisp
 (setq default-frame-alist
       (append (list
                ;color
@@ -1062,12 +942,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
                )
               default-frame-alist))
 ;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
-
-;; process coding system
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
-
-;タブ，全角スペース，半角スペースに色付け
+#+END_SRC
+** タブ，全角スペース，半角スペースに色付け
+#+BEGIN_SRC emacs-lisp
 ;;(defface my-face-r-1 '((t (:background "gray15"))) nil)
 (defface my-face-b-1 '((t (:background "gray30"))) nil)
 (defface my-face-b-2 '((t (:background "gray20"))) nil)
@@ -1087,8 +964,9 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
      )))
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
-
-;;; key-bind
+#+END_SRC
+** キーバインド
+#+BEGIN_SRC emacs-lisp
 (define-key global-map (kbd "C-0") 'delete-window)
 (define-key global-map (kbd "C-1") 'delete-other-windows)
 (define-key global-map (kbd "C-2") 'split-window-vertically)
@@ -1114,12 +992,26 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
           w32-lwindow-modifier 'super)) ; 左Windows キーを super キーにする
 (define-key global-map (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
 
-;; C-c keymap
+;;; H-数字 を digit-argument にバインド
+(define-key global-map (kbd "H-0") 'digit-argument)
+(define-key global-map (kbd "H-1") 'digit-argument)
+(define-key global-map (kbd "H-2") 'digit-argument)
+(define-key global-map (kbd "H-3") 'digit-argument)
+(define-key global-map (kbd "H-4") 'digit-argument)
+(define-key global-map (kbd "H-5") 'digit-argument)
+(define-key global-map (kbd "H-6") 'digit-argument)
+(define-key global-map (kbd "H-7") 'digit-argument)
+(define-key global-map (kbd "H-8") 'digit-argument)
+(define-key global-map (kbd "H-9") 'digit-argument)
+#+END_SRC
+*** C-c (mode-specific-map)
+#+BEGIN_SRC emacs-lisp
 (define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
 (define-key mode-specific-map (kbd "s") 'eshell)
 (define-key mode-specific-map (kbd "A") 'align)
-
-;; original key map (bind to C-q)
+#+END_SRC
+*** original key map (bind to C-q)
+#+BEGIN_SRC emacs-lisp
 (defvar my-original-map (make-sparse-keymap)
   "My original keymap binded to C-q.")
 (defalias 'my-original-prefix my-original-map)
@@ -1138,17 +1030,19 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (kill-buffer)
   (delete-window))
 (define-key my-original-map (kbd "C-k") 'my-kill-buffer-and-close-window)
-
-;; emacsclientを使う
+#+END_SRC
+** emacsclient を使う
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'server
   (cond ((not (server-running-p))
          (server-start))
         ((eq (server-running-p) :other)
          (server-start))))
-
+#+END_SRC
+** 時間測定ポイント
+#+BEGIN_SRC emacs-lisp
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
-
 * その他一般的な動作設定
 ** タイムスタンプ
 ファイルに Time-stamp: <> があれば自動的にタイムスタンプを追加する
@@ -1169,23 +1063,12 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
     (popup-menu menu-bar-edit-menu))
   (global-set-key [mouse-3] 'bingalls-edit-menu))
 #+END_SRC
-** 
+** Power Line
+モードラインを矢印風に装飾する．使ってみたもののモードラインの情報量がだいぶ
+減ったのでやっぱり使わないことにした．
+- [[http://www.emacswiki.org/emacs-en/PowerLine][EmacsWiki: Power Line]]
+- [[http://d.hatena.ne.jp/kenjiskywalker/20120502/1335922233][Emacsにpowerlineを入れてみたら超絶coolだった - kenjiskywalker no memo]]
 #+BEGIN_SRC emacs-lisp
-;;; H-数字 を digit-argument にバインド
-(define-key global-map (kbd "H-0") 'digit-argument)
-(define-key global-map (kbd "H-1") 'digit-argument)
-(define-key global-map (kbd "H-2") 'digit-argument)
-(define-key global-map (kbd "H-3") 'digit-argument)
-(define-key global-map (kbd "H-4") 'digit-argument)
-(define-key global-map (kbd "H-5") 'digit-argument)
-(define-key global-map (kbd "H-6") 'digit-argument)
-(define-key global-map (kbd "H-7") 'digit-argument)
-(define-key global-map (kbd "H-8") 'digit-argument)
-(define-key global-map (kbd "H-9") 'digit-argument)
-
-;;; Power Line
-;;; モードラインを矢印風に装飾
-;;; http://www.emacswiki.org/emacs-en/PowerLine
 ;; (defun arrow-right-xpm (color1 color2)
 ;;   "Return an XPM right arrow string representing."
 ;;   (format "/* XPM */
@@ -1284,48 +1167,54 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 ;;                       :background "#000")
 ;;   )
 ;; (add-hook 'after-init-hook 'set-power-line)
-
-;;; shorten display name of minor mode
+#+END_SRC
+** モードラインのモード表示を変更する
+*** マイナーモード
+#+BEGIN_SRC emacs-lisp
 (loop for (mode file lighter)
       in '((isearch-mode "isearch" "")
            (ibus-mode "ibus" "")
            (undo-tree-mode "undo-tree" " Utree"))
       do  (eval-after-load file
             `(setcar (cdr (assq (quote ,mode) minor-mode-alist)) ,lighter)))
-;; (add-hook 'after-init-hook
-;;           '(lambda ()
-;;              (dolist (elm '((isearch-mode . "")
-;;                             (ibus-mode . "")
-;;                             (undo-tree-mode . " Utree")))
-;;                ;; (eval-after-load (nth 1 elm)
-;;                ;;   `(setcar (cdr (assq ,(nth 0 elm) minor-mode-alist)) ,(nth 2 elm))))
-;;                (setcar (cdr (assq (car elm) minor-mode-alist)) (cdr elm)))))
-
-;;; shorten display name of major mode
+#+END_SRC
+*** メジャーモード
+#+BEGIN_SRC emacs-lisp
 (dolist (elm '((emacs-lisp-mode . "Elisp")
                (lisp-interaction-mode . "LispInt")))
   (add-hook (intern (concat (symbol-name (car elm)) "-hook"))
             `(lambda () (setq mode-name ,(cdr elm)))))
-
-;;; preserver cursor position when scroll
+#+END_SRC
+** スクロール時にカーソルを移動しない
+`scroll-preserve-screen-position' が nil がデフォルト．t だとカーソルが画面外
+に出るようなスクロールの（スクロール量が多い）時にはカーソルが移動しなくなる．
+nil でも t でもない場合はいつも移動しなくなる．
+#+BEGIN_SRC emacs-lisp
 (setq scroll-preserve-screen-position 'always)
-
-;;; kill whole line by `kill-line'
+#+END_SRC
+** C-k で改行も切り取る
+kill whole line by `kill-line'
+#+BEGIN_SRC emacs-lisp
 (setq kill-whole-line t)
-
-;;; max length of log
+#+END_SRC
+** *message* バッファの行数設定
+max length of log
+#+BEGIN_SRC emacs-lisp
 (setq messages-buffer-max-lines 1000)
-
-;;; replace selected region by self-insert-command
-;;; http://d.hatena.ne.jp/web7_77/20110705/1309885434
+#+END_SRC
+** リージョン選択時に文字入力するとリージョンを削除する
+- [[http://d.hatena.ne.jp/web7_77/20110705/1309885434][Emacsでリージョンを上書き入力できるようにする - Web7.77]]
+#+BEGIN_SRC emacs-lisp
 (delete-selection-mode t)
-
-;;; set fill column. I fit it in Org-mode fill-column.
+#+END_SRC
+** デフォルトの折り返し量
+Org-mode のデフォルトと揃えた．
+#+BEGIN_SRC emacs-lisp
 (setq default-fill-column 77)
-
-;;; backup file を一箇所にまとめる
-;;; 2011-07-21 (Thu)
-;;; http://marigold.sakura.ne.jp/devel/emacs/backup_file/index.html
+#+END_SRC
+** バックアップファイルを一箇所にまとめる
+- [[http://marigold.sakura.ne.jp/devel/emacs/backup_file/index.html][バックアップファイルについての設定]]
+#+BEGIN_SRC emacs-lisp
 (setq make-backup-files t)
 (setq backup-directory (expand-file-name "~/.bak"))
 (unless (file-directory-p backup-directory)
@@ -1341,50 +1230,42 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
             (concat (expand-file-name backup-directory)
                     "/" (file-name-nondirectory filename))
           (make-backup-file-name-original filename)))))
-
-;;; 2011-06-21 (Tue)
+#+END_SRC
+** ロケール設定
+#+BEGIN_SRC emacs-lisp
 (setq system-time-locale "C")
-
-;;; hilight current row
-;;; http://d.hatena.ne.jp/khiker/20070409/emacs_hl_line
-(my-safe-require 'hl-line
-  (global-hl-line-mode t)
-  (defface my-hl-line-face
-    '((((class color) (background dark))  ; カラーかつ, 背景が dark ならば,
-       (:background "gray10" t))          ; 背景を黒に.
-      (((class color) (background light)) ; カラーかつ, 背景が light ならば,
-       (:background "gray90" t))          ; 背景を ForestGreen に.
-      (t (:bold t)))
-    "hl-line's my face")
-
-  (setq hl-line-face 'my-hl-line-face)
-  )
-
+#+END_SRC
+** デバッグ
+普段はコメントアウトしておいて，必要なときに有効にする．
+#+BEGIN_SRC emacs-lisp
 ;;; backtrace when debugging
 ;(setq debug-on-error t)
 ;(setq debug-on-error nil)
-
-;;; max-specpdl-size
+#+END_SRC
+** max-specpdl-size
+#+BEGIN_SRC emacs-lisp
 (setq max-specpdl-size 6000)
-
-;;; 初期作業ディレクトリを HOME にする
+#+END_SRC
+** 初期作業ディレクトリを HOME にする
+#+BEGIN_SRC emacs-lisp
 ;;; 2011-04-15 (Fri)
 (when (or (null (getenv "PWD"))
           (equal (getenv "PWD") "/"))
   (cd "~/"))
-
-;;; Window title
-;;; 2011-04-12 (Tue)
-;;; http://cas.eedept.kobe-u.ac.jp/~arai/PCQA/3.7.html
-;;; ファイル名 - emacs@システム名
+#+END_SRC
+** フレームのタイトル
+"ファイル名 - emacs@ホスト名" にした．
+- [[http://cas.eedept.kobe-u.ac.jp/~arai/PCQA/3.7.html][新居良祐サポートページ － パソコン Q&A 3.7 Emacs のタイトルバーにファイル名を表示させたい]]
+#+BEGIN_SRC emacs-lisp
 (setq frame-title-format '("%b - " invocation-name "@" system-name))
-
-;;; ヌルデバイス
-;;; 2011-04-10 (Sun)
+#+END_SRC
+** null-device
+#+BEGIN_SRC emacs-lisp
 (setq-default null-device "/dev/null")
-
-;;; 2011-03-25 (Fri)
-;;; Windows での IME 関連
+#+END_SRC
+** IME
+*** Windows
+#+BEGIN_SRC emacs-lisp
 (when (winp)
   (setq default-input-method "W32-IME")         ;標準IMEの設定
   (w32-ime-initialize)                 ;IMEの初期化
@@ -1421,21 +1302,23 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (wrap-function-to-control-ime 'isearch-backward t nil)
   (wrap-function-to-control-ime 'isearch-backward-regexp t nil)
 )
-
-;;; 2011-02-15 (Tue)
-;; EOF 以降の空行を表示
+#+END_SRC
+** EOF 以降の空行を表示
+#+BEGIN_SRC emacs-lisp
 (setq-default indicate-empty-lines t)
-
-;;; eval したとき結果が長くても折りたたまない
-;;; 2011-02-05 (Sat)
+#+END_SRC
+** eval したとき結果が長くても折りたたまない
+#+BEGIN_SRC emacs-lisp
 (setq eval-expression-print-level nil
       eval-expression-print-length nil
       eval-expression-debug-on-error nil)
-
-;;; proxy 設定
+#+END_SRC
+** proxy
+#+BEGIN_SRC emacs-lisp
 ;(setq url-proxy-services '(("http" . "localhost:1080")))
-
-;;; *scratch*を消さない
+#+END_SRC
+** *scratch* バッファを消さない
+#+BEGIN_SRC emacs-lisp
 ;;; 2011-01-05 (Wed)
 (defun my-make-scratch (&optional arg)
   (interactive)
@@ -1463,23 +1346,13 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
           (lambda ()
             (unless (member (get-buffer "*scratch*") (buffer-list))
               (my-make-scratch 1))))
-
-;;; Xwindow: クリップボード
-;;; Emacs: キルリング
-;;; terminal: オリジナルのコピーバッファ？
-;;; terminalの中クリック: また別のバッファ？
-;;; screen: オリジナルのコピーバッファ？
-;;; Emacs のキルリングをクリップボードにおくる
-;;; Emacs <-> Xwindow のコピーができる．ただし，gnome-terminal 除く
-;;; gnome-terminal は C-S-v でクリップボードからペーストはできる
-;;; screen からクリップボードにコピーはできるが、何故かキルリングには
-;;; 同期されない。どうしたもんか
-;;; 2010-12-31 (Fri)
+#+END_SRC
+** `kill-ring' とクリップボードを同期
+#+BEGIN_SRC emacs-lisp
 (setq x-select-enable-clipboard t)
-;; どうもデフォルトで t らしい
-;; どうもデフォルトじゃなくなったらしい
-
-;; ビープ音を消す
+#+END_SRC
+** ビープ音を消す
+#+BEGIN_SRC emacs-lisp
 ;(setq visible-bell t)    ; ビープ音の変わりに画面がフラッシュ
 (setq ring-bell-function 'ignore)    ; エラー時に何も起こらなくなる
 
@@ -1487,40 +1360,56 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (let ((visible-bell nil)
         (ring-bell-function nil))
     (ding)))
-
-;; ツールバーを非表示
+#+END_SRC
+** ツールバー
+非表示にする．
+#+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
-
-;; メニューバーを非表示 をやめた
+#+END_SRC
+** メニューバー
+表示させる．
+#+BEGIN_SRC emacs-lisp
 (menu-bar-mode 1)
-
-;; 編集中マウスカーソルを右上に
+#+END_SRC
+** マウスカーソル除去
+カーソルとマウスカーソルが近づいたら移動させる．
+#+BEGIN_SRC emacs-lisp
 (mouse-avoidance-mode 'jump)
-
-;; 直感バッファ移動(shift+カーソルキー)
+#+END_SRC
+** 直感ウィンドウ移動
+shift+カーソルキー でウィンドウを移動する．
+#+BEGIN_SRC emacs-lisp
 (windmove-default-keybindings)
-
-;;; 対応する括弧を光らせる
+#+END_SRC
+** 対応する括弧を光らせる
+#+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
-
-;; 長い行を折り返さない
+#+END_SRC
+** 行の折り返し設定
+#+BEGIN_SRC emacs-lisp
 ;(setq truncate-lines t)
 (setq truncate-partial-width-windows nil) ; これは分割されたウィンドウで折り返すか否かを制御する
-
-;; 最大限色分けする
+#+END_SRC
+** 最大限色分けする
+#+BEGIN_SRC emacs-lisp
 (setq font-lock-maximum-decoration t)
-
-;; 起動時の画面を非表示
+#+END_SRC
+** 起動時の画面を非表示
+#+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t)
-
-;;; 下に行，列番号を表示する
+#+END_SRC
+** モードラインに行，列番号を表示する
+#+BEGIN_SRC emacs-lisp
 (line-number-mode t)
 (column-number-mode t)
-
-;; ファイルを保存時に #! で始まっていればスクリプトとみなして実行権限を与える
+#+END_SRC
+** スクリプトに実行権限付与
+保存時にファイルが #! で始まっていればスクリプトとみなして実行権限を与える
+#+BEGIN_SRC emacs-lisp
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-;;; 時間を表示
+#+END_SRC
+** 時間設定
+#+BEGIN_SRC emacs-lisp
 ;; 標準的なやつ
 ;(setq display-time-day-and-date nil)
 ;(setq display-time-24hr-format nil)
@@ -1528,42 +1417,40 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 (setq display-time-string-forms
       '((format-time-string "%Y-%m-%d (%a) %H:%M")))
 (display-time-mode t)
-
-; enable font-lock
+#+END_SRC
+** font-lock
+#+BEGIN_SRC emacs-lisp
 (when (fboundp 'global-font-lock-mode) (global-font-lock-mode t))
-
-; highlight selected region
+#+END_SRC
+** リージョンをハイライトする
+#+BEGIN_SRC emacs-lisp
 (transient-mark-mode t)
-
-; use bash
+#+END_SRC
+** シェルの設定
+#+BEGIN_SRC emacs-lisp
 (cond ((winp)
-       (cond ((equal system-name "MUSIMA")
-              (setq shell-file-name "d:/cygwin/bin/bash.exe"
-                    explisit-shell-file-name "d:/cygwin/bin/bash.exe"))
-             (t
-              (setq shell-file-name "bash.exe"
-                    explisit-shell-file-name "bash.exe"))))
+       (setq shell-file-name "bash.exe"
+             explisit-shell-file-name "bash.exe"))
       ((linuxp)
        (setq explicit-shell-file-name "/bin/bash")
        (setq shell-file-name "/bin/bash")))
-
-; hide inputting password
+#+END_SRC
+** hide inputting password
+#+BEGIN_SRC emacs-lisp
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
-
-; handle escape sequences
-;; (autoload 'ansi-color-for-comint-mode-on "ansi-color"
-;;           "Set `ansi-color-for-comint-mode' to t." t)
-;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-;; shell で色を使うためのようだ。とりあえずコメントアウト
-
-; インデントにタブを使わない設定
+#+END_SRC
+** インデントにタブを使わない設定
+#+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
-
-;;; isearch
+#+END_SRC
+** isearch
+#+BEGIN_SRC emacs-lisp
 (define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
 (define-key isearch-mode-map (kbd "M-@") 'isearch-yank-word)   ; C-w と同じ働き
-;; リージョンが有効な場合，選択中のリージョンで isearch する
-;; http://dev.ariel-networks.com/articles/emacs/part5/
+#+END_SRC
+*** リージョン選択時に isearch すると，リージョンで isearch する
+- [[http://dev.ariel-networks.com/articles/emacs/part5/][リージョン選択(松山智大) — ありえるえりあ]]
+#+BEGIN_SRC emacs-lisp
 (defadvice isearch-mode (around isearch-mode-default-string
                                 (forward &optional regexp op-fun recursive-edit word-p) activate)
   (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
@@ -1577,28 +1464,28 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
         ;;   (isearch-repeat-forward)))
     ad-do-it))
 #+END_SRC
-
 ** 名前，メールの設定                                              :noexport:
 #+BEGIN_SRC emacs-lisp
-(setq user-full-name "kbkbkbkb1")
+(setq user-full-name "Tsunenobu Kai")
 (setq user-mail-address "kbkbkbkb1@gmail.com")
 #+END_SRC
-
-** 
+** info を追加する
+`Info-default-directory-list' に追加したディレクトリの texinfo が読めるように
+なる．
 #+BEGIN_SRC emacs-lisp
 ;; Add personal info directory
-;; ここに追加したディレクトリの texinfo が読めるようになる
 (setq Info-default-directory-list
       (cons (expand-file-name "~/.emacs.d/info/")
             Info-default-directory-list))
-
-;; Display scroll-bar at left
+#+END_SRC
+** スクロールバー
+ウィンドウの左にスクロールバーを表示する．やっぱり非表示に変更．
+#+BEGIN_SRC emacs-lisp
 (setq scroll-bar-mode 'left)
 (toggle-scroll-bar 0)
-;; 試しに scroll-bar なしでやってみる
-
-
-;; M-x customize によって変更される設定
+#+END_SRC
+** customize によって変更される設定
+#+BEGIN_SRC emacs-lisp
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1625,10 +1512,11 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
  '(linum ((t (:inherit (shadow default) :background "gray50" :foreground "yellow"))))
  '(scroll-bar ((t :foreground "magenta")))
  '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
-
+#+END_SRC
+** 時間測定ポイント
+#+BEGIN_SRC emacs-lisp
 (my-measure-message-time "Customize variable.")
 #+END_SRC
-
 * ライブラリの準備，設定
 ** ruby 関連
 *** ruby-mode.el
@@ -2267,6 +2155,24 @@ Creates a buffer if necessary."
 #+END_SRC
 
 ** 非標準ライブラリ
+*** hl-line.el
+カーソルのある桁をハイライトする
+#+BEGIN_SRC emacs-lisp
+;;; hilight current row
+;;; http://d.hatena.ne.jp/khiker/20070409/emacs_hl_line
+(my-safe-require 'hl-line
+  (global-hl-line-mode t)
+  (defface my-hl-line-face
+    '((((class color) (background dark))  ; カラーかつ, 背景が dark ならば,
+       (:background "gray10" t))          ; 背景を黒に.
+      (((class color) (background light)) ; カラーかつ, 背景が light ならば,
+       (:background "gray90" t))          ; 背景を ForestGreen に.
+      (t (:bold t)))
+    "hl-line's my face")
+
+  (setq hl-line-face 'my-hl-line-face)
+  )
+#+END_SRC
 *** editable-help.el
 - [[http://d.hatena.ne.jp/meech/searchdiary?word=%2A%5BEmacs%5D][Emacs - Emacs ひきこもり生活]]
 みんなで編集可能な *Help* バッファ．id:meech さんのサーバにファイルを使っている．
@@ -4582,7 +4488,9 @@ do nothing. And suppress the output from `message' and
     (setq migemo-pattern-alist-length 1024)
     ;; 起動時に初期化も行う
     (migemo-init)))
-
+#+END_SRC
+** 
+#+BEGIN_SRC emacs-lisp
 ;;; use emacs-w3m
 (autoload 'w3m "w3m"
   "Interface for w3m on Emacs." t)
