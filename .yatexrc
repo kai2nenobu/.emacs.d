@@ -1,4 +1,5 @@
 (setq user-env-table '(
+("textblock*")
 ("block")
 ("beamerboxesrounded")
 ("align")
@@ -28,4 +29,7 @@
 (setq user-singlecmd-table '(
 ("centering")
 ("baselineskip")
+))
+(setq YaTeX::usepackage-alist-private '(
+("cite")
 ))
