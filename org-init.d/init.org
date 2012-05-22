@@ -1517,74 +1517,14 @@ shift+カーソルキー でウィンドウを移動する．
 #+BEGIN_SRC emacs-lisp
 (my-measure-message-time "Customize variable.")
 #+END_SRC
-* ライブラリの準備，設定
-** ruby 関連
-*** ruby-mode.el
-#+BEGIN_SRC emacs-lisp
-;; ruby-mode
-(my-safe-require 'ruby-mode
-  (my-safe-require 'ruby-electric
-    (add-hook 'ruby-mode-hook
-              (lambda () (ruby-electric-mode t))))
-#+END_SRC
-*** RSense
-- 公式 [[http://cx4a.org/software/rsense/index.ja.html][RSense - EmacsやVimなどに特化したRubyのための優れた開発援助ツール]]
-コード補完，型検査，定義元ジャンプなどができる Ruby のための開発援助ツール．
-#+BEGIN_SRC emacs-lisp
-  ;; rsense.el
-  (setq rsense-home (expand-file-name "site-lisp/rsense-0.3" user-emacs-directory))
-  (setq rsense-rurema-home (expand-file-name "doc/ruby-refm-1.9.2" rsense-home))
-  (my-safe-require 'rsense
-    (add-hook 'ruby-mode-hook
-              (lambda ()
-                ;; 余計な ac-source を除去
-                (dolist (source '(ac-source-features ac-source-functions
-                                                     ac-source-variables ac-source-symbols))
-                  (setq ac-sources (delq source ac-sources)))
-                ;; rsense の ac-source を追加
-                (add-to-list 'ac-sources 'ac-source-rsense-method)
-                (add-to-list 'ac-sources 'ac-source-rsense-constant))))
-#+END_SRC
-*** るりまを anything で検索
-- [[http://d.hatena.ne.jp/rubikitch/20091223/rurima][Rubyリファレンスマニュアル刷新計画（るりま）をanything.elで検索して生産性を
-  向上する - (rubikitch loves (Emacs Ruby CUI Books))]]
-結構使えるが，anything で選ぶ所の日本語が文字化けしているのと，ヘルプファイル
-が少し見にくいのが気になる．リファレンス全体から探したい時は anything で探し
-て，実際のメソッドの説明などは rsense の方がいいかもしれない．
-#+BEGIN_SRC emacs-lisp
-  ;; anything-rurima
-  ;; (auto-install-from-emacswiki "anything-rurima.el")
-  (eval-after-load "anything"
-    '(progn
-       (my-safe-require 'anything-rurima
-         (setq anything-rurima-index-file (expand-file-name "~/repo/rurima/rubydoc/rurima.e")))))
-#+END_SRC
-*** key-combo の設定
-#+BEGIN_SRC emacs-lisp
-  (eval-after-load "key-combo"
-    '(progn
-       (key-combo-define ruby-mode-map (kbd "=") '(" = " " == " " === "))
-       (key-combo-define ruby-mode-map (kbd "=~") " =~ ")
-       (key-combo-define ruby-mode-map (kbd "=>") " => ")
-       (key-combo-define ruby-mode-map (kbd "<=") " <= ")
-       (key-combo-define ruby-mode-map (kbd ",") ", ")
-       (key-combo-define ruby-mode-map (kbd "!=") " != ")
-       (key-combo-define ruby-mode-map (kbd "<") '(" < " " << " " <= "))
-       (key-combo-define ruby-mode-map (kbd ">") '(" > " " >> " " >= "))
-       (key-combo-define ruby-mode-map (kbd "/") '("/" "/`!!'/")) ; どうも ac-source-filename のオムニ補完と競合してるっぽい
-       ))
-  (add-hook 'ruby-mode-hook (lambda () (key-combo-mode t)))
-  )
-#+END_SRC
-**** 参考URL
-- Rsense の導入の仕方など [[http://mitukiii.jp/2010/10/29/install-rsense-to-mac/][mitukiii.jp | Emacs/Vimなどに特化したRubyのための開発補助ツー
-  ルRsenseをMac に入れてみた]]
-- かなり多くの ruby 関連の設定が書いてある [[http://d.hatena.ne.jp/eiel/20101106][Rubyに関するEmacsの設定を晒してみ
-  る - そんなこと覚えてるわけがない。]]
-** 標準ライブラリ
+* 標準ライブラリ
+** cl.el
+便利な common lisp のマクロなどが使えるようになるライブラリ．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'cl)
-
+#+END_SRC
+** align.el
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'align
   (add-to-list 'align-rules-list
                '(latex-table-alignment
@@ -2154,8 +2094,116 @@ Creates a buffer if necessary."
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 
-** 非標準ライブラリ
-*** hl-line.el
+* 非標準ライブラリ
+** ruby 関連
+*** ruby-mode.el
+#+BEGIN_SRC emacs-lisp
+;; ruby-mode
+(my-safe-require 'ruby-mode
+  (my-safe-require 'ruby-electric
+    (add-hook 'ruby-mode-hook
+              (lambda () (ruby-electric-mode t))))
+    (define-key ruby-mode-map (kbd "C-c h") 'anything-rurima)
+#+END_SRC
+*** RSense
+- 公式 [[http://cx4a.org/software/rsense/index.ja.html][RSense - EmacsやVimなどに特化したRubyのための優れた開発援助ツール]]
+コード補完，型検査，定義元ジャンプなどができる Ruby のための開発援助ツール．
+#+BEGIN_SRC emacs-lisp
+  ;; rsense.el
+  (setq rsense-home (expand-file-name "site-lisp/rsense-0.3" user-emacs-directory))
+  (setq rsense-rurema-home (expand-file-name "doc/ruby-refm-1.9.2" rsense-home))
+
+  ;; keymap for rsense
+  (defvar my-rsense-map (make-sparse-keymap) "Keymap for rsense.")
+  (defalias 'my-rsense-prefix my-rsense-map)
+  (loop for (command key) in '((rsense-clear "c")
+                             (rsense-close-project "C")
+                             (rsense-complete "TAB")
+                             (rsense-exit "q")
+                             (rsense-jump-to-definition "j")
+                             (rsense-open-project "o")
+                             (rsense-type-help "t")
+                             (rsense-version "v")
+                             (rsense-where-is "w"))
+      do (define-key my-rsense-map (read-kbd-macro key) command))
+  ;; (eval-after-load "key-chord"
+  ;;   '(key-chord-define ruby-mode-map "rs" 'my-rsense-prefix))
+  (define-key ruby-mode-map (kbd "C-c i") 'my-rsense-prefix)
+
+  (eval-after-load "guide-key"
+    '(progn
+       (defun guide-key:my-hook-function-for-rsense ()
+         (dolist (key '("C-c" "C-c i"))
+           (guide-key:add-local-show-key-sequence key))
+         (guide-key:add-local-highlight-command-regexp "rsense-"))
+       (add-hook 'ruby-mode-hook 'guide-key:my-hook-function-for-rsense)))
+
+  (my-safe-require 'rsense
+    (add-hook 'ruby-mode-hook
+              (lambda ()
+                ;; 余計な ac-source を除去
+                (dolist (source '(ac-source-features ac-source-functions
+                                                     ac-source-variables ac-source-symbols))
+                  (setq ac-sources (delq source ac-sources)))
+                ;; rsense の ac-source を追加
+                (add-to-list 'ac-sources 'ac-source-rsense-method)
+                (add-to-list 'ac-sources 'ac-source-rsense-constant))))
+#+END_SRC
+*** るりまを anything で検索
+- [[http://d.hatena.ne.jp/rubikitch/20091223/rurima][Rubyリファレンスマニュアル刷新計画（るりま）をanything.elで検索して生産性を
+  向上する - (rubikitch loves (Emacs Ruby CUI Books))]]
+結構使えるが，anything で選ぶ所の日本語が文字化けしているのと，ヘルプファイル
+が少し見にくいのが気になる．リファレンス全体から探したい時は anything で探し
+て，実際のメソッドの説明などは rsense の方がいいかもしれない．
+#+BEGIN_SRC emacs-lisp
+  ;; anything-rurima
+  ;; (auto-install-from-emacswiki "anything-rurima.el")
+  (eval-after-load "anything"
+    '(progn
+       (my-safe-require 'anything-rurima
+         (setq anything-rurima-index-file
+               (expand-file-name "doc/rubydoc/rurima.e" user-emacs-directory))
+
+         ;; anything-rurima 用のバッファ名変更
+         (defun anything-rurima-my-rename-buffer ()
+           "Rename anything rurima buffer."
+           (when (string-match (expand-file-name
+                                "refm" (file-name-directory anything-rurima-index-file))
+                               (or buffer-file-name ""))
+             (rename-buffer (concat "*anything rurima "
+                                    (file-name-nondirectory buffer-file-name)
+                                    "*"))))
+         (add-hook 'find-file-hook 'anything-rurima-my-rename-buffer)
+         ;; popwin で表示
+         ;; (eval-after-load "popwin"
+         ;;   '(add-to-list 'popwin:special-display-config
+         ;;                 '("\\'\\*anything rurima " :regexp t :width 0.4 :position right)))
+         ;; popwin で表示できない．バッファ名変更のタイミングが悪いのかも
+         )))
+#+END_SRC
+*** key-combo の設定
+#+BEGIN_SRC emacs-lisp
+  ;; (eval-after-load "key-combo"
+  ;;   '(progn
+  ;;      (key-combo-define ruby-mode-map (kbd "=") '(" = " " == " " === "))
+  ;;      (key-combo-define ruby-mode-map (kbd "=~") " =~ ")
+  ;;      ;; (key-combo-define ruby-mode-map (kbd "=>") " => ")
+  ;;      ;; (key-combo-define ruby-mode-map (kbd "<=") " <= ")
+  ;;      (key-combo-define ruby-mode-map (kbd ",") ", ")
+  ;;      (key-combo-define ruby-mode-map (kbd "!=") " != ")
+  ;;      (key-combo-define ruby-mode-map (kbd "<") '(" < " " << " " <= "))
+  ;;      (key-combo-define ruby-mode-map (kbd ">") '(" > " " >> " " >= "))
+  ;;      (key-combo-define ruby-mode-map (kbd "/") '("/" "/`!!'/")) ; どうも ac-source-filename のオムニ補完と競合してるっぽい
+  ;;      ))
+  ;; (add-hook 'ruby-mode-hook (lambda () (key-combo-mode t)))g
+  )
+#+END_SRC
+*** 参考URL
+- Rsense の導入の仕方など [[http://mitukiii.jp/2010/10/29/install-rsense-to-mac/][mitukiii.jp | Emacs/Vimなどに特化したRubyのための開発補助ツー
+  ルRsenseをMac に入れてみた]]
+- かなり多くの ruby 関連の設定が書いてある [[http://d.hatena.ne.jp/eiel/20101106][Rubyに関するEmacsの設定を晒してみ
+  る - そんなこと覚えてるわけがない。]]
+** hl-line.el
 カーソルのある桁をハイライトする
 #+BEGIN_SRC emacs-lisp
 ;;; hilight current row
