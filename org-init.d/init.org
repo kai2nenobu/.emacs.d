@@ -5,6 +5,10 @@
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work
+** yasnippet を auto-complete するときに
+ドキュメントを表示する．展開結果をポップアップできると一番いいんだが．いまい
+ちどうやってドキュメントを定義するのかよくわかっていない．yasnippet もハッシュ
+テーブル使っているようで理解するのが難しそう．
 ** 日本語の禁則処理
 kinsoku.el で行頭禁則と行末禁則はできるようだが，単語境界を禁則に出来ればもっ
 とメールや文章が書けるのだが．
@@ -31,8 +35,6 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://ameblo.jp/concello/entry-10786074455.html][ORG-Babel + init.el = ??｜くらいまーず はい]]
 ** Emacs から解像度を調べる
 - [[http://d.hatena.ne.jp/zqwell-ss/20091123/1258989596][EmacsのFontがでかい - Secondary Storage]]
-`x-scree
-
 * 最初に必要な設定
 #+BEGIN_SRC emacs-lisp
 ;;; -*- coding: utf-8-unix -*-
