@@ -2141,6 +2141,19 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** org2blog.el
+- [[https://github.com/punchagan/org2blog][punchagan/org2blog]]
+org-mode 形式のファイルを変換し wordpress に投稿する．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'org2blog
+  (setq org2blog/wp-tags-list '("Emacs" "WordPress" "Uncategorized"))
+  (setq org2blog/wp-blog-alist
+        `(("wordpress"
+           :url "http://www.kaichan.mydns.jp/wordpress/xmlrpc.php"
+           :username "wordpress_admin"
+           :tags-as-categories nil)
+          )))
+#+END_SRC
 ** ruby 関連
 *** ruby-mode.el
 #+BEGIN_SRC emacs-lisp
