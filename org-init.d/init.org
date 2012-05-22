@@ -1706,6 +1706,9 @@ Emacs lisp によるシェル．リダイレクトがないのがきつい．
     (my-minibuffer-delete-parent-directory))
   (defun-eshell-cmdline "C-r"
     (anything-eshell-history))
+  ;; `anything-eshell-history' 実行前に recenter する
+  (defadvice anything-eshell-history (before recenter-top activate)
+    (recenter 1))
   ;; 1回1回履歴のアクセスをリセットする
   (defadvice eshell-send-input (after history-position activate)
     (setq eshell-history-index -1))
