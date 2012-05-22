@@ -2917,6 +2917,8 @@ diff が見やすくなるように各フェイスの色を設定．
   (when (executable-find "cmigemo")
     (my-safe-require 'anything-migemo))
 
+  (setq anything-idle-delay 0.1)
+  (setq anything-input-idle-delay 0.1)
   (define-key global-map (kbd "C-S-a") 'anything-command-map)
   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
   (add-to-list 'anything-c-source-buffers+ '(migemo))
