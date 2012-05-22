@@ -1676,6 +1676,49 @@ Emacs lisp によるシェル．リダイレクトがないのがきつい．
   ;; これの設定を上手くしとかないとタブ補完も効かなくなるっぽい
   (setq eshell-prompt-regexp "^[^#$]*[$#] ")
 
+  ;; eshell の解釈を別のパーサで乗っ取り
+  (my-safe-require 'esh-myparser
+    (defun eshell-parser/z (str) (eshell-parser/b str "zsh"))) ; zsh で乗っ取り
+
+  ;; elisp として解釈
+  (defun eshell/e (arg) (eval (read (format "%s" arg))))
+
+  ;; eshell の Unix コマンドエミュレーションを無効にする
+  (progn
+    (defmacro eval-after-load* (name &rest body)
+      (declare (indent 1))
+      `(eval-after-load ,name '(progn ,@body)))
+    (defun eshell-disable-unix-command-emulation ()
+      (eval-after-load* "em-ls"
+        (fmakunbound 'eshell/ls))
+      (eval-after-load* "em-unix"
+        (mapc 'fmakunbound '(eshell/agrep
+                             eshell/basename
+                             eshell/cat
+                             eshell/cp
+                             eshell/date
+                             eshell/diff
+                             eshell/dirname
+                             eshell/du
+                             eshell/egrep
+                             eshell/fgrep
+                             eshell/glimpse
+                             eshell/grep
+                             eshell/info
+                             eshell/ln
+                             eshell/locate
+                             eshell/make
+                             eshell/man
+                             eshell/mkdir
+                             eshell/mv
+                             eshell/occur
+                             eshell/rm
+                             eshell/rmdir
+                             eshell/su
+                             eshell/sudo
+                             eshell/time))))
+    (eshell-disable-unix-command-emulation))
+
   ;; eshell のコマンドライン上の挙動を変更する（るびきちメルマガ）
   (defun eshell-in-command-line-p ()
     (<= eshell-last-output-end (point)))
