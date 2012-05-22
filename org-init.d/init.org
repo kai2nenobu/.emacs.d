@@ -2141,6 +2141,16 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** python 関連
+*** ac-python.el
+- [[http://d.hatena.ne.jp/CortYuming/20111224/p1][Pythonの補完をEmacsでシンプルに最小労力で手早く使えるようにする - 牌語備忘録 - pygo]]
+#+BEGIN_SRC emacs-lisp
+;; (auto-install-from-url "http://chrispoole.com/downloads/ac-python.el")
+(eval-after-load "auto-complete"
+  '(progn
+     (my-safe-require 'ac-python
+       (add-to-list 'ac-modes 'python-mode))))
+#+END_SRC
 ** org2blog.el
 - [[https://github.com/punchagan/org2blog][punchagan/org2blog]]
 org-mode 形式のファイルを変換し wordpress に投稿する．
