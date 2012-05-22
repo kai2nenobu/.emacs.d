@@ -1539,12 +1539,19 @@ shift+カーソルキー でウィンドウを移動する．
                  (repeat . t)
                  (modes . '(pukiwiki-edit-mode))))
   )
-
+#+END_SRC
+** flyspell.el
+編集中にリアルタイムにスペルチェックする．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'flyspell
   (define-key flyspell-mode-map (kbd "C-.") nil) ; available cycle-buffer
   (define-key flyspell-mode-map (kbd "C-,") nil)
   )
-
+#+END_SRC
+** outline.el
+アウトラインを確認しながら編集するモード．主な目的は `outline-minor-mode' を
+使うため．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'outline
   ;; make outline-level buffer local variable
   (make-variable-buffer-local 'outline-level)
@@ -1557,9 +1564,10 @@ shift+カーソルキー でウィンドウを移動する．
   (defadvice outline-previous-visible-heading (after recenter-after activate)
     (recenter))
   )
-
-;;; tramp.el
-;;; Edit file in remote host
+#+END_SRC
+** tramp.el                                                        :noexport:
+リモートにあるサーバのファイルを編集する．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'tramp
   (setq tramp-default-method (cond ((winp) "sshx")
                                    (t "ssh")))
@@ -1583,9 +1591,10 @@ shift+カーソルキー でウィンドウを移動する．
   (add-to-list 'tramp-default-proxies-alist
                '("rubner-\\(dns\\|web\\)\\(.kaichan.mydns.jp\\)?" nil "/kai@rubner:"))
   )
-
-;;; doc-view.el
-;;; Emacs で pdf 閲覧
+#+END_SRC
+** doc-view.el
+Emacs で pdf 閲覧する．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'doc-view
   (setq doc-view-continuous t)     ; move next page if execute next-line on bottom edge of image
   (define-key doc-view-mode-map (kbd "l") 'image-forward-hscroll)
@@ -1614,10 +1623,10 @@ shift+カーソルキー でウィンドウを移動する．
         (image-eob)
         (set-window-hscroll (selected-window) hscroll))))
   )
-
-;;; cua-mode.el
-;;; 矩形範囲の編集を便利にする
-;;; require とかはいらない模様
+#+END_SRC
+** cua-mode.el
+矩形範囲の編集を便利にする．
+#+BEGIN_SRC emacs-lisp
 (cua-mode 1)
 (setq cua-enable-cua-keys nil)
 (defun cua-my-dec-rectangle (decriment)
@@ -1625,32 +1634,23 @@ shift+カーソルキー でウィンドウを移動する．
   (interactive "p")
   (cua-incr-rectangle (- decriment)))
 (define-key cua--rectangle-keymap (kbd "M-d") 'cua-my-dec-rectangle)
-
-;;; longlines.el
-;; (autoload 'longlines-mode "longlines.el"
-;;   "Minor mode for automatically wrapping long lines." t)
-;; スペースが入らないと意味が無いので，日本語では意味がなかった．
-
-;;; gnus.el
-;;; 2011-06-15 (Wed)
-
-;;; open-dribble
-;;; 2011-06-04 (Sat)
-;;; キー入力をファイルに保存する
+#+END_SRC
+** open-dribble
+キー入力を記録してファイルに保存する．あんまり意味がなかったのでコメントアウ
+ト．
+#+BEGIN_SRC emacs-lisp
 ;; (defvar my-dribble-file (concat user-emacs-directory ".dribble") "dribble file")
 ;; (open-dribble-file my-dribble-file)
-;; あんまり意味がなかった
-
-;;; sh-script.el
-;;; 2011-06-03 (Fri)
-;;; sh-mode とかいろいろ
+#+END_SRC
+** sh-script.el
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'sh-script
   (setq-default sh-basic-offset 2)
   (setq-default sh-indentation 2))
-
-;;; eshell.el
-;;; 2011-04-25 (Mon)
-;;; Emacs lisp によるシェル
+#+END_SRC
+** eshell.el
+Emacs lisp によるシェル．リダイレクトがないのがきつい．
+#+BEGIN_SRC emacs-lisp
 (lazyload (eshell) "eshell"
   ;; 補完時に大文字小文字を区別しない
   (setq eshell-cmpl-ignore-case t)
@@ -1761,17 +1761,23 @@ shift+カーソルキー でウィンドウを移動する．
                    :follow-mode t))
        ))
   )
-
-;;; socks.el
+#+END_SRC
+** socks.el
+SOCK プロトコル実装．
+#+BEGIN_SRC emacs-lisp
 ;; (setq socks-override-functions 1)
 ;; (my-safe-require 'socks
 ;;   (setq socks-server '("Default" "localhost" "1080" 5))
 ;;   (defalias 'open-network-stream 'socks-open-network-stream))
-
-;;; help-mode.el
+#+END_SRC
+** help-mode.el
+*Help* のためのモード．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'help-mode)
-
-;;; info.el
+#+END_SRC
+** info.el
+info を Emacs で読む．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'info
   (define-key Info-mode-map (kbd "M-n") nil) ; clone-buffer とかいう無駄なものが割り当てられてたので無効にする
   (define-key Info-mode-map (kbd "f") 'Info-scroll-up) ; 元のコマンドの Info-follow-reference の利用価値がまだわからない
@@ -1780,7 +1786,10 @@ shift+カーソルキー でウィンドウを移動する．
   (define-key Info-mode-map (kbd "B") 'Info-history-back)
   (define-key Info-mode-map (kbd "j") 'next-line)
   (define-key Info-mode-map (kbd "k") 'previous-line))
-
+#+END_SRC
+*** info で Hit a Hint
+あんまりうまく動かない．
+#+BEGIN_SRC emacs-lisp
 (defun my-Info-HaH ()
   "Follow a node by hit-a-hint.
 リファレンス以外の部分も jaunte の候補が出てしまうので
@@ -1792,76 +1801,71 @@ shift+カーソルキー でウィンドウを移動する．
         (Info-follow-nearest-node))
     (quit nil)))
 (define-key Info-mode-map (kbd "e") 'my-Info-HaH)
-
-
-;;; ffap.el
-;;; 2011-04-09 (Sat)
-;;; カーソル近くのファイルや URL を find-file で開く
+#+END_SRC
+** ffap.el
+カーソル近くのファイルや URL を find-file で開く．
+#+BEGIN_SRC emacs-lisp
 (ffap-bindings)
-;; なかなかよい
-;; もんだいは， one-key で上書きしている部分があるキーバインドがあるので
-;; ffap が動かない部分がある．C-x 4 とか．other-window 系とか other-frame 系ですね
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; dired.el
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+#+END_SRC
+** dired.el
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'dired)
-
-;;; dired+.el
+#+END_SRC
+*** dired+.el
+dired.el, dired-x.el, dired-aux.el の拡張
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "dired+.el")
-;;; dired.el, dired-x.el, dired-aux.el の拡張
 (my-safe-require 'dired+)
 
-;;; 2011-09-04 (Sun)
-;;; dired-dd.el
-;;; dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使える
-;;; マウスインターフェースのよう．dired-x を前提としているらしいので，ロードしておく
+;; ディレクトリを先に表示
+(setq ls-lisp-dirs-first t)             ; なんかどうも効果ないっぽい．この変数廃止された？
+;; set ls option. Not display . and .. directories, and human readable file size.
+(setq dired-listing-switches "-lAh")
+#+END_SRC
+*** dired-dd.el
+dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使えるマウ
+スインターフェースのよう．dired-x を前提としているらしいのでロードしておく．
+
+何故かうまく動かないような気がする．コレ自体の問題じゃないかもだが．
+#+BEGIN_SRC emacs-lisp
 ;;; http://www.asahi-net.or.jp/~pi9s-nnb/dired-dd-home.html
 ;; (add-hook 'dired-load-hook
 ;;           (function
 ;;            (lambda ()
 ;;              (load "dired-x")
 ;;              (if window-system (require 'dired-dd)))))
-;; 何故かうまく動かないような気がする．コレ自体の問題じゃないかもだが．
-
-;;; 2011-03-30 (Wed)
-;;; ディレクトリ内のファイルを取得．エクスプローラ的な．
-;; ディレクトリを先に表示
-(setq ls-lisp-dirs-first t)             ; なんかどうも効果ないっぽい．この変数廃止された？
-;; set ls option
-;; Not display . and .. directories, and human readable file size.
-(setq dired-listing-switches "-lAh")
-;; wdired.el
-;; dired で一括リネームできる
+#+END_SRC
+*** wdired.el
+dired でファイルのリネームをする．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'wdired
   (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
   (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
   )
-;; sorter.el
-;; 2011-03-30 (Wed)
-;; dired のソートを拡張
-;; http://www.bookshelf.jp/soft/meadow_25.html より
+#+END_SRC
+*** sorter.el
+dired のソートを拡張する．
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=sorter][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
 ;; (auto-install-from-url "http://www.meadowy.org/~shirai/elips/sorter.el")
 (my-safe-require 'sorter)
-;; バッファ名に [Dired] を付加
-;; 2011-04-15 (Fri)
-;; うーん、どうもうまく働かない。というか readin-hook がどのタイミングのフックなのかわからん
-;; 別の方法を探すか。
-;; ふつうに dired-mode-hook でよかった
-(add-hook 'dired-mode-hook
-          '(lambda ()
-             (when (eq major-mode 'dired-mode)
-               (rename-buffer (concat
-                               (buffer-name)
-                               " ["
-                               ;; Windows の場合はドライブレターを追加
-                               (if (winp)
-                                   (substring default-directory 0 2)
-                                 "")
-                               "Dired]")))))
-
-;; 新しいバッファを作らないバッファ移動
-;; http://www.bookshelf.jp/soft/meadow_25.html より
+#+END_SRC
+*** バッファ名に [Dired] を付加
+#+BEGIN_SRC emacs-lisp
+(defun dired-my-add-buffer-name ()
+  "Add a auxiliary string to a name of dired buffer."
+  (when (eq major-mode 'dired-mode)
+    (rename-buffer (format "%s [%sDired]"
+                           (buffer-name)
+                           ;; Windows の場合はドライブレターを追加
+                           (if (winp)
+                               (substring (expand-file-name default-directory) 0 2)
+                             "")))))
+(add-hook 'dired-mode-hook 'dired-my-add-buffer-name)
+#+END_SRC
+*** 新しいバッファを作らないバッファ移動
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20single][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
 (defun dired-my-advertised-find-file ()
   (interactive)
   (let ((kill-target (current-buffer))
@@ -1888,19 +1892,20 @@ Creates a buffer if necessary."
               (kill-buffer (current-buffer))
               (dired up))
             (dired-goto-file dir))))))
-
+#+END_SRC
+*** キーバインド
+#+BEGIN_SRC emacs-lisp
 (define-key dired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
 (define-key dired-mode-map (kbd "^") 'dired-my-up-directory)
 (define-key dired-mode-map (kbd "RET") 'dired-my-advertised-find-file)
 (define-key dired-mode-map (kbd "<left>") 'dired-my-up-directory)
 (define-key dired-mode-map (kbd "<right>") 'dired-my-advertised-find-file)
-;;; 2011-05-11 (Wed)
 ;;; C-t が image-なんたら の prefix で潰れているので unset
 (define-key dired-mode-map (kbd "C-t") nil)
-;;--------------------------------------------------------
-;;; Dired で Windows に関連付けられたファイルを起動する。
-;;; http://www.bookshelf.jp/soft/meadow_25.html
-;;--------------------------------------------------------
+#+END_SRC
+*** Dired で Windows に関連付けられたファイルを起動する。
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20fiber][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
 (defun my-dired-start ()
   "Type '\\[my-dired-start]': start the current line's file."
   (interactive)
@@ -1914,7 +1919,9 @@ Creates a buffer if necessary."
 (add-hook 'dired-mode-hook
           (lambda ()
             (define-key dired-mode-map "z" 'my-dired-start))) ;;; 関連付け
-;; スペースでマークする (FD like)
+#+END_SRC
+*** スペースでマークする (FD like)
+#+BEGIN_SRC emacs-lisp
 (defun dired-toggle-mark (arg)
   "Toggle the current (or next ARG) files."
   ;; S.Namba Sat Aug 10 12:20:36 1996
@@ -1926,23 +1933,19 @@ Creates a buffer if necessary."
     (dired-mark arg)
     (dired-previous-line 1)))
 (define-key dired-mode-map (kbd "SPC") 'dired-toggle-mark)
-;; (auto-install-from-emacswiki "dired-isearch.el")
-;; ファイル名のみで isearch
+#+END_SRC
+*** ファイル名のみで isearch
+#+BEGIN_SRC emacs-lisp
 (setq dired-isearch-filenames 'dwim)        ; dired-aux で定義されている．これだけで十分だった
-;; (my-safe-require 'dired-isearch
-;;   (define-key dired-mode-map (kbd "C-s") 'dired-isearch-forward)
-;;   (define-key dired-mode-map (kbd "C-r") 'dired-isearch-backward)
-;;   (define-key dired-mode-map (kbd "ESC C-s") 'dired-isearch-forward-regexp)
-;;   (define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)
-;;   )
-
-;; dired バッファは折り返さない
+#+END_SRC
+*** dired バッファは折り返さない
+#+BEGIN_SRC emacs-lisp
 (add-hook 'dired-mode-hook
           (lambda ()
             (toggle-truncate-lines 1)))
-
-;;; 2011-08-08 (Mon)
-;;; dired ですべてのファイルにマークしたり
+#+END_SRC
+*** すべてのファイルにマークする
+#+BEGIN_SRC emacs-lisp
 (defun dired-my-mark-all-files ()
   "Mark all files in a current dired buffer."
   (interactive)
@@ -1966,9 +1969,10 @@ Creates a buffer if necessary."
       ad-do-it
     (dired-my-mark-all-files)))
 (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
-
-;;; dired で文字コード一括変換
-;;; http://www.bookshelf.jp/soft/meadow_25.html#SEC278
+#+END_SRC
+*** dired で文字コード一括変換
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20convert%20code]][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
 (defvar dired-default-file-coding-system nil
   "*Default coding system for converting file (s).")
 
@@ -2003,9 +2007,10 @@ Creates a buffer if necessary."
   (dired-map-over-marks-check
    (function dired-convert-coding-system) arg 'convert-coding-system t))
 (define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
-
-;;; 本日変更のファイルを色付け
-;;; http://homepage1.nifty.com/blankspace/emacs/dired.html
+#+END_SRC
+*** 本日変更したファイルを色付け
+- [[http://homepage1.nifty.com/blankspace/emacs/dired.html][dired]]
+#+BEGIN_SRC emacs-lisp
 (defface my-face-f-2 '((t (:foreground "GreenYellow"))) nil)
 (defvar my-face-f-2 'my-face-f-2)
 (defun my-dired-today-search (arg)
@@ -2019,67 +2024,60 @@ Creates a buffer if necessary."
               (list
                '(my-dired-today-search . my-face-f-2)
                ))))
-
-;;; dired-details.el
-;;; 2011-07-19 (Tue)
-;;; dired のファイル情報の詳細表示をトグルする
-;;; (auto-install-from-emacswiki "dired-details.el")
-;;; (auto-install-from-emacswiki "dired-details+.el")
+#+END_SRC
+*** dired-details+.el
+dired のファイル情報の詳細表示をトグルする．
+#+BEGIN_SRC emacs-lisp
+;; (auto-install-from-emacswiki "dired-details.el")
+;; (auto-install-from-emacswiki "dired-details+.el")
 (my-safe-require 'dired-details+
   (setq dired-details-hidden-string "")
   (setq dired-details-hide-link-targets nil)
   )
-
-(defun anything-dired-file ()
-  "Anything command in dired buffer."
-  (interactive)
-  (anything-other-buffer
-   '(anything-c-source-files-in-current-dir+)
-   "*anything dired:"))
-(define-key dired-mode-map (kbd "/") 'anything-dired-file)
-
-;;; generic-x.el
-;;; 2011-03-07 (Mon)
-;;; 予め定義されている generic
-;; (my-safe-require 'generic-x)
-
-;;; filecache.el
-;;; 2011-02-21 (Mon)
-;;; よく開くファイルやディレクトリをキャッシュとして保存しておく
+#+END_SRC
+** generic-x.el
+generic を用いて予め定義されているモード．
+#+BEGIN_SRC emacs-lisp
+;;; (my-safe-require 'generic-x)
+#+END_SRC
+** filecache.el
+よく開くファイルやディレクトリをキャッシュとして保存しておく．
+#+BEGIN_SRC emacs-lisp
 ;;; find-file の時に C-TAB で補完できる
 (my-safe-require 'filecache
   ;; キャッシュするディレクトリを指定。このディレクトリ下のファイルを補完できる
   ;; ディレクトリは対象外らしい
   (file-cache-add-directory-list
    (list "~/.emacs.d/" "~/.emacs.d/auto-install/" "~/.emacs.d/site-lisp")))
-
-;;; skk
+#+END_SRC
+** skk
+#+BEGIN_SRC emacs-lisp
 ;; (setq skk-user-directory "~/.emacs.d/ddskk/")
 ;; (when (require 'skk-autoloads nil t)
 ;;   (define-key global-map (kbd "C-x C-j") 'skk-mode)
 ;;   (setq skk-byte-compile-init-file t))
-
-;;; desktop.el
-;;; 2010-11-25 (Thu)
-;;; EmacsWiki より
-;;; セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)
-;;; 保存しないファイルの正規表現
+#+END_SRC
+** desktop.el
+セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'desktop
+  ;; 保存しないファイルの正規表現
   (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
   (run-at-time t 60 'desktop-save "~/") ; 定期的にdesktop を保存する
   (desktop-save-mode t))
-
-;;; uniquify.el
-;;; 2010-11-06 (Sat)
-;;; Emacsテクニックバイブル より
-;;; ファイル名がかぶったときわかり易くする
+#+END_SRC
+** uniquify.el
+同じ名前のファイルを開く際にバッファ名にディレクトリ名を付加する．ファイル名が
+かぶったときわかり易くなる．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'uniquify
   ;; filename<dir> 形式のバッファ名にする
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   ;; *で囲まれたバッファ名は対象外にする
   (setq uniquify-ignore-buffers-re "*[^*]+*"))
-
-;;; iswitchb.el
+#+END_SRC
+*** iswitchb.el
+#+BEGIN_SRC emacs-lisp
 ;;; 2010-11-06 (Sat)
 ;;; Emacsテクニックバイブル より
 ;;; バッファ切り替えを強化する
@@ -2221,7 +2219,7 @@ Creates a buffer if necessary."
   (setq hl-line-face 'my-hl-line-face)
   )
 #+END_SRC
-*** editable-help.el
+** editable-help.el
 - [[http://d.hatena.ne.jp/meech/searchdiary?word=%2A%5BEmacs%5D][Emacs - Emacs ひきこもり生活]]
 みんなで編集可能な *Help* バッファ．id:meech さんのサーバにファイルを使っている．
 #+BEGIN_SRC emacs-lisp
@@ -2230,25 +2228,25 @@ Creates a buffer if necessary."
 ;;(my-safe-load "editable-help")
 #+END_SRC
 ヘルプするたびに一々ネット接続しに行くのがうざかったので，コメントアウト．
-*** key-combo.el
+** key-combo.el
 - [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないよ
   うにしました - むしゃくしゃしてやった]]
 記号入力の補助．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'key-combo)
 #+END_SRC
-*** menu-tree.el
+** menu-tree.el
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
-メニューバーを日本語化する．
+メニューバーを日本語化する．Windows 環境では一部文字化けあり．
 #+BEGIN_SRC emacs-lisp
 (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
 (my-safe-require 'menu-tree)
 #+END_SRC
 
-*** 
+** emoji.el
+- [[https://github.com/imakado/emoji][imakado/emoji]]
+
 #+BEGIN_SRC emacs-lisp
-;;; emoji.el
-;;; https://github.com/imakado/emoji
 (lazyload (emoji-complete-pictogram) "emoji"
   (defvar emoji-my-carrier "ezweb" "My carrier for emoji")
   (defadvice emoji-complete-pictogram (after display-image-buffer activate)
@@ -2299,7 +2297,7 @@ Creates a buffer if necessary."
 ;;   )
 #+END_SRC
 
-*** guide-key.el
+** guide-key.el
 #+BEGIN_SRC emacs-lisp
 ;; guide-key.el
 ;; キーバインドを自動的に表示
@@ -2344,7 +2342,7 @@ Creates a buffer if necessary."
   )
 #+END_SRC
 
-*** 
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; save-load-path.el
 ;;; (auto-install-from-emacswiki "save-load-path.el")
@@ -2437,7 +2435,7 @@ Creates a buffer if necessary."
 
 ;;; quickrun.el
 ;;; ワンタッチでスクリプト実行
-;;; (auto-install-from-url "https://raw.github.com/syohex/emacs-quickrun/master/quickrun.el")
+;;; marmalade からインストール
 (my-safe-require 'quickrun
   (define-key global-map (kbd "<f8>") 'quickrun)
   )
@@ -2647,7 +2645,7 @@ Creates a buffer if necessary."
 ;; 使い方がよう分からん
 #+END_SRC
 
-*** e2wm.el
+** e2wm.el
 IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
 ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
 - [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
@@ -2660,7 +2658,7 @@ IDE的なウィンドウ管理をしてくれるライブラリ．設定され�
 (define-key global-map (kbd "M-+") 'e2wm:start-management)
 (lazyload (e2wm:start-management) "e2wm"
 #+END_SRC
-**** e2wm-vcs.el
+*** e2wm-vcs.el
 magit 用のパースペクティブ．
 - [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
 #+BEGIN_SRC emacs-lisp
@@ -2669,7 +2667,7 @@ magit 用のパースペクティブ．
   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
   (my-safe-require 'e2wm-vcs))
 #+END_SRC
-*** magit.el
+** magit.el
 Emacs から git を操作するライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;; ついでに diff 関連
@@ -2707,14 +2705,14 @@ Emacs から git を操作するライブラリ．
 ;; magit.el
 (my-safe-require 'magit
 #+END_SRC
-**** 日本語設定
+*** 日本語設定
 日本語のエンコーディングを utf-8 にする．デフォルトではマルチバイト文字が考慮
 されていないようでなにも設定されていないので文字化けしてしまう．
 #+BEGIN_SRC emacs-lisp
   ;; japanese encoding
   (add-to-list 'process-coding-system-alist (cons magit-git-executable 'utf-8))
 #+END_SRC
-**** フェイスの色
+*** フェイスの色
 diff が見やすくなるように各フェイスの色を設定．
 #+BEGIN_SRC emacs-lisp
   ;; face color
@@ -2724,7 +2722,7 @@ diff が見やすくなるように各フェイスの色を設定．
   (set-face-foreground 'magit-diff-file-header "magenta") ; 効果なし？ version をあげたら良くなった
   (set-face-background 'magit-item-highlight "gray20")
 #+END_SRC
-**** 
+*** 
 #+BEGIN_SRC emacs-lisp
   (defun magit-view-item-other-window ()
     "View item in other window."
@@ -2745,14 +2743,14 @@ diff が見やすくなるように各フェイスの色を設定．
   ;; (add-hook 'magit-mode-hook 'my-magit-apply-file-header-face t)
   ;; あんま上手くいかんねー
 #+END_SRC
-**** フック
+*** フック
 #+BEGIN_SRC emacs-lisp
   (add-hook 'magit-log-edit-mode-hook
             (lambda ()
               (set-fill-column 72)))
   )
 #+END_SRC
-*** 
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; col-hilight
 ;;; 2011-05-22 (Sun)
@@ -2769,7 +2767,7 @@ diff が見やすくなるように各フェイスの色を設定．
   (define-key my-original-map (kbd "C-c") 'column-highlight-mode)
   )
 #+END_SRC
-*** yasnippet.el
+** yasnippet.el
 テンプレート挿入ライブラリ．柔軟性が高すぎて設定に困る．
 #+BEGIN_SRC emacs-lisp
 ;;; yasnippet.el
@@ -3277,7 +3275,7 @@ diff が見やすくなるように各フェイスの色を設定．
   )
 #+END_SRC
 
-*** color-theme.el
+** color-theme.el
 Emacs の色付けをいろいろなテーマから選べる． 組み込みのカラーテーマでなかなか
 いいのは，
 - Clarity and Beauty :: dark 系でわりかし見やすい．自分設定とあまり変わらないか
@@ -3288,7 +3286,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 (lazyload (color-theme-select) "color-theme"
   (color-theme-initialize)
 #+END_SRC
-**** color-theme-solarized.el
+*** color-theme-solarized.el
 - [[https://github.com/sellout/emacs-color-theme-solarized][sellout/emacs-color-theme-solarized]]
 ライトでも，ダークでもいい感じのコントラストのテーマで人気らしい．
 #+BEGIN_SRC emacs-lisp
@@ -3299,7 +3297,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+END_SRC
 背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
 にくいので使うのはやめた．
-*** 
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; pink-bliss.el
 ;;; ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる
@@ -3821,7 +3819,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 
   ;; anything source for src block
   (defvar org-src-my-lang-candidates
-    '("asymptote" "awk" "calc" "C" "C++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
+    '("asymptote" "awk" "calc" "c" "c++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
       "gnuplot" "haskell" "java" "js" "latex" "ledger" "lisp" "lilypond" "matlab"
       "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
       "sass" "scheme" "screen" "sh" "sql" "sqlite")
@@ -3889,7 +3887,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=org-location-google-maps.el;hb=HEAD")
 (my-safe-require 'google-maps)
 #+END_SRC
-*** jaunte.el
+** jaunte.el
 - [[http://kawaguchi.posterous.com/emacshit-a-hint][EmacsでHit a Hint(改) - Leave Me In Emacs]]
 Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp
@@ -3916,7 +3914,7 @@ Hit a Hint でカーソル移動するライブラリ．
   (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
   )
 #+END_SRC
-*** 
+** 
 #+BEGIN_SRC emacs-lisp
 ;;; postit.el
 ;;; 2010-12-16 (Thu)
@@ -4472,7 +4470,7 @@ do nothing. And suppress the output from `message' and
 
 #+END_SRC
 
-** 外部プログラムが必要そうなやつ
+* 外部プログラムが必要そうなライブラリ
 ポータブルにはしにくそうなやつ
 #+BEGIN_SRC emacs-lisp
 ;;; lookup
