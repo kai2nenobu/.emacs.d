@@ -4170,7 +4170,7 @@ do nothing. And suppress the output from `message' and
 (lazyload (pukiwiki-edit pukiwiki-index pukiwki-edit-url) "pukiwiki-mode"
   (setq pukiwiki-auto-insert t)
   (setq pukiwiki-site-list
-        '(("bibouroku" "http://rubner.mydns.jp/pukiwiki/index.php" nil utf-8-unix)
+        '(("bibouroku" "http://www.kaichan.mydns.jp/~kai/pukiwiki/index.php" nil utf-8-unix)
           ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
           ("minerva" "http://minerva.gavo.t.u-tokyo.ac.jp/wiki/index.php" nil utf-8-unix)
           ("eeic09" "http://eeic09.dip.jp/index.php" nil utf-8-unix)
