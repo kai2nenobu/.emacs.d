@@ -5,6 +5,7 @@
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work
+** anything を使って describe-function, describe-variable
 ** yasnippet を auto-complete するときに
 ドキュメントを表示する．展開結果をポップアップできると一番いいんだが．いまい
 ちどうやってドキュメントを定義するのかよくわかっていない．yasnippet もハッシュ
