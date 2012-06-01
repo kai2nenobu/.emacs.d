@@ -2310,8 +2310,9 @@ org-mode 形式のファイルを変換し wordpress に投稿する．
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
 メニューバーを日本語化する．Windows 環境では一部文字化けあり．
 #+BEGIN_SRC emacs-lisp
-(setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
-(my-safe-require 'menu-tree)
+(when window-system
+  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
+  (my-safe-require 'menu-tree))
 #+END_SRC
 
 ** emoji.el
