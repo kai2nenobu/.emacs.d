@@ -3036,9 +3036,22 @@ diff が見やすくなるように各フェイスの色を設定．
 
   (setq anything-idle-delay 0.1)
   (setq anything-input-idle-delay 0.1)
+  (define-key anything-command-map (kbd "o") 'anything-occur)
+  (define-key anything-command-map (kbd "a") 'anything-apropos)
   (define-key global-map (kbd "C-S-a") 'anything-command-map)
+  (eval-after-load "key-chord"
+    '(progn
+       (defalias 'anything-command-prefix anything-command-map)
+       (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
   (add-to-list 'anything-c-source-buffers+ '(migemo))
+
+  ;; ミニバッファの履歴を anything で絞込みする
+  (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+
+  ;; prefix で候補を選択可能にする
+  ;(setq anything-enable-shortcuts 'prefix)
+  ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
 
   ;; for filelist
   ;; (when (linuxp)
