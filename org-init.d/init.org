@@ -2151,16 +2151,18 @@ generic を用いて予め定義されているモード．
      (my-safe-require 'ac-python
        (add-to-list 'ac-modes 'python-mode))))
 #+END_SRC
-** org2blog.el
+** org2blog.el                                                     :noexport:
 - [[https://github.com/punchagan/org2blog][punchagan/org2blog]]
-org-mode 形式のファイルを変換し wordpress に投稿する．
+org-mode 形式のファイルを変換し wordpress に投稿する．marmalade よりインストー
+ル．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'org2blog
-  (setq org2blog/wp-tags-list '("Emacs" "WordPress" "Uncategorized"))
+  (setq org2blog/wp-tags-list '("Emacs" "WordPress"))
   (setq org2blog/wp-blog-alist
         `(("wordpress"
-           :url "http://www.kaichan.mydns.jp/wordpress/xmlrpc.php"
-           :username "wordpress_admin"
+           :url "http://www.kaichan.mydns.jp/~kai/wordpress/xmlrpc.php"
+           :username "kbkbkbkb1"
+           :password "whdU05qU45j0"
            :tags-as-categories nil)
           )))
 #+END_SRC
