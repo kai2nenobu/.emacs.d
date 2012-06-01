@@ -3551,8 +3551,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   (key-chord-define global-map "db" 'describe-bindings)
   (key-chord-define global-map "dm" 'describe-mode)
   (key-chord-define global-map "AA" 'anything-apropos)
-  (key-chord-define global-map "cc" 'org-capture)
-  ;; (key-chord-define global-map "CC" 'org-capture)
+  (key-chord-define global-map ":c" 'org-capture)
   (key-chord-define global-map "hl" 'global-hl-line-mode)
   (key-chord-define global-map "gs" 'magit-status)
   (key-chord-define global-map "kb" '(lambda () (interactive) (kill-buffer)))
@@ -3636,7 +3635,8 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
          (push '("** YaTeX HELP **" :position right :width 80 :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
-  (define-key mode-specific-map (kbd "p") popwin:keymap)
+  (eval-after-load "key-chord"
+    '(key-chord-define-global ":p" popwin:keymap))
   )
 
 ;;; latex-math-preview.el
