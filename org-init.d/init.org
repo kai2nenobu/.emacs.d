@@ -191,6 +191,217 @@ elisp のパッケージ管理をするライブラリ．
           ,@body
           (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
 #+END_SRC
+* 見た目の設定など
+** rotate-thema.el
+- [[http://nintos.blogspot.jp/2010/02/emacs.html][好奇心と怠惰の日々: Emacs で 青空文庫を読む。]]
+フォント設定を順番に切り替えられる．
+#+BEGIN_SRC emacs-lisp
+;(my-safe-load "rotate-theme")     ; これはフォントとかを順番にプレビューできる
+#+END_SRC
+** フォント設定
+#+BEGIN_EXAMPLE
+(prin1 (font-family-list))
+#+END_EXAMPLE
+で使えるフォントのファミリー名が見れる．
+
+#+BEGIN_EXAMPLE
+(insert (prin1-to-string (x-list-fonts "*")))
+#+END_EXAMPLE
+にすると XLFD 表現で表示される．
+
+#+BEGIN_SRC emacs-lisp
+;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
+(when window-system
+  ;; 標準のフォントサイズ
+  (defvar my-font-size nil "Standard font size")
+  (defvar my-font-str nil "Standard font string")
+  (defvar my-font-set-str nil "Font string to create fontset")
+  (cond ((linuxp)
+         (setq my-font-size 16)
+         (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
+        ((winp)
+         (setq my-font-size 18)
+         (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
+  ;; それぞれのフォントサイズに対応したフォントセットを作る
+  ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
+  (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
+  (let (size
+        (size-list my-font-size-list))
+    (while size-list
+      (setq size (car size-list))
+      (setq size-list (cdr size-list))
+      (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
+  ;; 発音記号のフォント
+  (set-fontset-font "fontset-myfont"
+                    'ipa
+                    (font-spec :family "SILDoulos IPA93")) ; うまくいかん
+  ;; (set-fontset-font "fontset-default"
+  ;;                  'japanese-jisx0208
+  ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
+  (defvar nandemo "あいうえおかきくけこさしすせそ")
+  ;; フォントを設定
+  (cond ((linuxp)
+         (add-to-list 'default-frame-alist
+               '(font . "-*-*-normal-normal-normal-*-16-*-*-*-*-*-fontset-myfont")))
+        ((winp)
+         (add-to-list 'default-frame-alist
+               '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
+  ;; ;; アスキーフォント設定
+  ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
+  ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
+  ;; ;; 日本語フォント設定
+  ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
+  )
+
+;;; list-faces-display 用の文字列
+;;; フォント幅テスト用の文字列．|
+;;; 1234567890123456789012345678|
+(setq list-faces-sample-text
+"フォント幅テスト用の文字列．|
+1234567890!\"#$%&'()~-^\\@=~`?|")
+#+END_SRC
+** default-major-mode
+#+BEGIN_SRC emacs-lisp
+(setq default-major-mode 'lisp-interaction-mode)
+#+END_SRC
+** 文字コードにを UTF-8 にする
+#+BEGIN_SRC emacs-lisp
+(set-default-coding-systems 'utf-8)
+(coding-system-put 'utf-8 'category 'utf-8)
+(prefer-coding-system 'utf-8)
+; Windows でフォルダ名が文字化けするので場合分け
+; 条件が偽の場合が Windows の時だが特に設定しなくてもいいらしい
+(if (linuxp)
+      (setq file-name-coding-system 'utf-8-unix) ; default-file-name-coding-system がうまく
+                                                 ; 自動判別してくれないので直接設定
+      )
+(set-language-environment "Japanese")
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(add-hook 'shell-mode-hook (lambda () (set-buffer-process-coding-system 'utf-8 'utf-8)))
+;; process coding system
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+#+END_SRC
+** frame configure
+#+BEGIN_SRC emacs-lisp
+(setq default-frame-alist
+      (append (list
+               ;color
+               '(background-color . "#000020") ; 背景の色
+               '(foreground-color . "#ffffff") ; 文字の色
+               '(cursor-color . "yellow")     ; カーソルの色
+               ;size & position
+               '(width . 150)   ; 一行の字数
+               '(height . 54)  ; 行数
+               '(top . 0)    ; ディスプレイのx座標(ピクセル)
+               '(left . 0)   ; ディスプレイのy座標(ピクセル)
+               '(alpha . (85 70 60 40)) ; 不透明度
+               )
+              default-frame-alist))
+;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
+#+END_SRC
+** タブ，全角スペース，半角スペースに色付け
+#+BEGIN_SRC emacs-lisp
+;;(defface my-face-r-1 '((t (:background "gray15"))) nil)
+(defface my-face-b-1 '((t (:background "gray30"))) nil)
+(defface my-face-b-2 '((t (:background "gray20"))) nil)
+(defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil)
+;;(defvar my-face-r-1 'my-face-r-1)
+(defvar my-face-b-1 'my-face-b-1)
+(defvar my-face-b-2 'my-face-b-2)
+(defvar my-face-u-1 'my-face-u-1)
+
+(defadvice font-lock-mode (before my-font-lock-mode ())
+  (font-lock-add-keywords
+   major-mode
+   '(("　" 0 my-face-b-1 append)
+     ("\t" 0 my-face-b-2 append)
+    ("[ \t]+$" 0 my-face-u-1 append)
+     ;;("[\r]*\n" 0 my-face-r-1 append)
+     )))
+(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
+(ad-activate 'font-lock-mode)
+#+END_SRC
+** キーバインド
+#+BEGIN_SRC emacs-lisp
+(define-key global-map (kbd "C-0") 'delete-window)
+(define-key global-map (kbd "C-1") 'delete-other-windows)
+(define-key global-map (kbd "C-2") 'split-window-vertically)
+(define-key global-map (kbd "C-3") 'split-window-horizontally)
+(define-key global-map (kbd "C-4") 'ctl-x-4-prefix)
+(define-key global-map (kbd "C-5") 'ctl-x-5-prefix)
+(defalias 'ctl-x-r-prefix ctl-x-r-map)
+(define-key global-map (kbd "S-C-r") 'ctl-x-r-prefix)
+(define-key global-map (kbd "C-t") 'other-window-or-split)
+(define-key global-map (kbd "C-h") 'delete-backward-char)
+(define-key global-map (kbd "M-h") 'backward-kill-word)
+;(define-key global-map (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
+(define-key global-map (kbd "C-M-;") 'comment-or-uncomment-region)
+(define-key global-map (kbd "H-n") '(lambda (arg) (interactive "p") (scroll-up arg)))
+(define-key global-map (kbd "H-p") '(lambda (arg) (interactive "p") (scroll-down arg)))
+(define-key global-map (kbd "H-u")
+  '(lambda () (interactive) (scroll-down (/ (window-height) 2))))
+(define-key global-map (kbd "H-d")
+  '(lambda () (interactive) (scroll-up (/ (window-height) 2))))
+(if (winp)
+    (setq w32-apps-modifier 'hyper      ; apps キーを hyper キーにする
+                                        ; nodoka でカタカナひらがなを app にしている前提
+          w32-lwindow-modifier 'super)) ; 左Windows キーを super キーにする
+(define-key global-map (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
+
+;;; H-数字 を digit-argument にバインド
+(define-key global-map (kbd "H-0") 'digit-argument)
+(define-key global-map (kbd "H-1") 'digit-argument)
+(define-key global-map (kbd "H-2") 'digit-argument)
+(define-key global-map (kbd "H-3") 'digit-argument)
+(define-key global-map (kbd "H-4") 'digit-argument)
+(define-key global-map (kbd "H-5") 'digit-argument)
+(define-key global-map (kbd "H-6") 'digit-argument)
+(define-key global-map (kbd "H-7") 'digit-argument)
+(define-key global-map (kbd "H-8") 'digit-argument)
+(define-key global-map (kbd "H-9") 'digit-argument)
+#+END_SRC
+*** C-c (mode-specific-map)
+#+BEGIN_SRC emacs-lisp
+(define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
+(define-key mode-specific-map (kbd "s") 'eshell)
+(define-key mode-specific-map (kbd "A") 'align)
+#+END_SRC
+*** original key map (bind to C-q)
+#+BEGIN_SRC emacs-lisp
+(defvar my-original-map (make-sparse-keymap)
+  "My original keymap binded to C-q.")
+(defalias 'my-original-prefix my-original-map)
+(define-key global-map (kbd "C-q") 'my-original-prefix)
+(define-key my-original-map (kbd "C-q") 'quoted-insert)
+(define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
+(define-key my-original-map (kbd "C-l") 'linum-mode)
+(define-key my-original-map (kbd "C-w") 'my-window-resizer)
+(defun my-revert-buffer-noconfirm ()
+  (interactive)
+  (revert-buffer nil t t)
+  (message (format "Revert %S" (current-buffer))))
+(define-key my-original-map (kbd "C-r") 'my-revert-buffer-noconfirm)
+(defun my-kill-buffer-and-close-window ()
+  (interactive)
+  (kill-buffer)
+  (delete-window))
+(define-key my-original-map (kbd "C-k") 'my-kill-buffer-and-close-window)
+#+END_SRC
+** emacsclient を使う
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'server
+  (cond ((not (server-running-p))
+         (server-start))
+        ((eq (server-running-p) :other)
+         (server-start))))
+#+END_SRC
+** 時間測定ポイント
+#+BEGIN_SRC emacs-lisp
+(my-measure-message-time "Looks and key bind.")
+#+END_SRC
 * 自作関数
 ** mecab で段落を形態素解析
 #+BEGIN_SRC emacs-lisp
@@ -833,217 +1044,6 @@ generic で簡単にメジャーモードを作れる．
 ** 時間測定ポイント
 #+BEGIN_SRC emacs-lisp
 (my-measure-message-time "My original function.")
-#+END_SRC
-* 見た目の設定など
-** rotate-thema.el
-- [[http://nintos.blogspot.jp/2010/02/emacs.html][好奇心と怠惰の日々: Emacs で 青空文庫を読む。]]
-フォント設定を順番に切り替えられる．
-#+BEGIN_SRC emacs-lisp
-;(my-safe-load "rotate-theme")     ; これはフォントとかを順番にプレビューできる
-#+END_SRC
-** フォント設定
-#+BEGIN_EXAMPLE
-(prin1 (font-family-list))
-#+END_EXAMPLE
-で使えるフォントのファミリー名が見れる．
-
-#+BEGIN_EXAMPLE
-(insert (prin1-to-string (x-list-fonts "*")))
-#+END_EXAMPLE
-にすると XLFD 表現で表示される．
-
-#+BEGIN_SRC emacs-lisp
-;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
-(when window-system
-  ;; 標準のフォントサイズ
-  (defvar my-font-size nil "Standard font size")
-  (defvar my-font-str nil "Standard font string")
-  (defvar my-font-set-str nil "Font string to create fontset")
-  (cond ((linuxp)
-         (setq my-font-size 16)
-         (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
-        ((winp)
-         (setq my-font-size 18)
-         (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
-  ;; それぞれのフォントサイズに対応したフォントセットを作る
-  ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
-  (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
-  (let (size
-        (size-list my-font-size-list))
-    (while size-list
-      (setq size (car size-list))
-      (setq size-list (cdr size-list))
-      (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
-  ;; 発音記号のフォント
-  (set-fontset-font "fontset-myfont"
-                    'ipa
-                    (font-spec :family "Charis SIL")) ; うまくいかん
-  ;; (set-fontset-font "fontset-default"
-  ;;                  'japanese-jisx0208
-  ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
-  (defvar nandemo "あいうえおかきくけこさしすせそ")
-  ;; フォントを設定
-  (cond ((linuxp)
-         (add-to-list 'default-frame-alist
-               '(font . "-*-*-normal-normal-normal-*-16-*-*-*-*-*-fontset-myfont")))
-        ((winp)
-         (add-to-list 'default-frame-alist
-               '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
-  ;; ;; アスキーフォント設定
-  ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
-  ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
-  ;; ;; 日本語フォント設定
-  ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
-  )
-
-;;; list-faces-display 用の文字列
-;;; フォント幅テスト用の文字列．|
-;;; 1234567890123456789012345678|
-(setq list-faces-sample-text
-"フォント幅テスト用の文字列．|
-1234567890!\"#$%&'()~-^\\@=~`?|")
-#+END_SRC
-** default-major-mode
-#+BEGIN_SRC emacs-lisp
-(setq default-major-mode 'lisp-interaction-mode)
-#+END_SRC
-** 文字コードにを UTF-8 にする
-#+BEGIN_SRC emacs-lisp
-(set-default-coding-systems 'utf-8)
-(coding-system-put 'utf-8 'category 'utf-8)
-(prefer-coding-system 'utf-8)
-; Windows でフォルダ名が文字化けするので場合分け
-; 条件が偽の場合が Windows の時だが特に設定しなくてもいいらしい
-(if (linuxp)
-      (setq file-name-coding-system 'utf-8-unix) ; default-file-name-coding-system がうまく
-                                                 ; 自動判別してくれないので直接設定
-      )
-(set-language-environment "Japanese")
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-(add-hook 'shell-mode-hook (lambda () (set-buffer-process-coding-system 'utf-8 'utf-8)))
-;; process coding system
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-#+END_SRC
-** frame configure
-#+BEGIN_SRC emacs-lisp
-(setq default-frame-alist
-      (append (list
-               ;color
-               '(background-color . "black") ; 背景の色
-               '(foreground-color . "gainsboro") ; 文字の色
-               '(cursor-color . "yellow")     ; カーソルの色
-               ;size & position
-               '(width . 150)   ; 一行の字数
-               '(height . 54)  ; 行数
-               '(top . 0)    ; ディスプレイのx座標(ピクセル)
-               '(left . 0)   ; ディスプレイのy座標(ピクセル)
-               '(alpha . (85 70 60 40)) ; 不透明度
-               )
-              default-frame-alist))
-;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
-#+END_SRC
-** タブ，全角スペース，半角スペースに色付け
-#+BEGIN_SRC emacs-lisp
-;;(defface my-face-r-1 '((t (:background "gray15"))) nil)
-(defface my-face-b-1 '((t (:background "gray30"))) nil)
-(defface my-face-b-2 '((t (:background "gray20"))) nil)
-(defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil)
-;;(defvar my-face-r-1 'my-face-r-1)
-(defvar my-face-b-1 'my-face-b-1)
-(defvar my-face-b-2 'my-face-b-2)
-(defvar my-face-u-1 'my-face-u-1)
-
-(defadvice font-lock-mode (before my-font-lock-mode ())
-  (font-lock-add-keywords
-   major-mode
-   '(("　" 0 my-face-b-1 append)
-     ("\t" 0 my-face-b-2 append)
-     ("[ \t]+$" 0 my-face-u-1 append)
-     ;;("[\r]*\n" 0 my-face-r-1 append)
-     )))
-(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
-(ad-activate 'font-lock-mode)
-#+END_SRC
-** キーバインド
-#+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "C-0") 'delete-window)
-(define-key global-map (kbd "C-1") 'delete-other-windows)
-(define-key global-map (kbd "C-2") 'split-window-vertically)
-(define-key global-map (kbd "C-3") 'split-window-horizontally)
-(define-key global-map (kbd "C-4") 'ctl-x-4-prefix)
-(define-key global-map (kbd "C-5") 'ctl-x-5-prefix)
-(defalias 'ctl-x-r-prefix ctl-x-r-map)
-(define-key global-map (kbd "S-C-r") 'ctl-x-r-prefix)
-(define-key global-map (kbd "C-t") 'other-window-or-split)
-(define-key global-map (kbd "C-h") 'delete-backward-char)
-(define-key global-map (kbd "M-h") 'backward-kill-word)
-;(define-key global-map (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
-(define-key global-map (kbd "C-M-;") 'comment-or-uncomment-region)
-(define-key global-map (kbd "H-n") '(lambda (arg) (interactive "p") (scroll-up arg)))
-(define-key global-map (kbd "H-p") '(lambda (arg) (interactive "p") (scroll-down arg)))
-(define-key global-map (kbd "H-u")
-  '(lambda () (interactive) (scroll-down (/ (window-height) 2))))
-(define-key global-map (kbd "H-d")
-  '(lambda () (interactive) (scroll-up (/ (window-height) 2))))
-(if (winp)
-    (setq w32-apps-modifier 'hyper      ; apps キーを hyper キーにする
-                                        ; nodoka でカタカナひらがなを app にしている前提
-          w32-lwindow-modifier 'super)) ; 左Windows キーを super キーにする
-(define-key global-map (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
-
-;;; H-数字 を digit-argument にバインド
-(define-key global-map (kbd "H-0") 'digit-argument)
-(define-key global-map (kbd "H-1") 'digit-argument)
-(define-key global-map (kbd "H-2") 'digit-argument)
-(define-key global-map (kbd "H-3") 'digit-argument)
-(define-key global-map (kbd "H-4") 'digit-argument)
-(define-key global-map (kbd "H-5") 'digit-argument)
-(define-key global-map (kbd "H-6") 'digit-argument)
-(define-key global-map (kbd "H-7") 'digit-argument)
-(define-key global-map (kbd "H-8") 'digit-argument)
-(define-key global-map (kbd "H-9") 'digit-argument)
-#+END_SRC
-*** C-c (mode-specific-map)
-#+BEGIN_SRC emacs-lisp
-(define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
-(define-key mode-specific-map (kbd "s") 'eshell)
-(define-key mode-specific-map (kbd "A") 'align)
-#+END_SRC
-*** original key map (bind to C-q)
-#+BEGIN_SRC emacs-lisp
-(defvar my-original-map (make-sparse-keymap)
-  "My original keymap binded to C-q.")
-(defalias 'my-original-prefix my-original-map)
-(define-key global-map (kbd "C-q") 'my-original-prefix)
-(define-key my-original-map (kbd "C-q") 'quoted-insert)
-(define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
-(define-key my-original-map (kbd "C-l") 'linum-mode)
-(define-key my-original-map (kbd "C-w") 'my-window-resizer)
-(defun my-revert-buffer-noconfirm ()
-  (interactive)
-  (revert-buffer nil t t)
-  (message (format "Revert %S" (current-buffer))))
-(define-key my-original-map (kbd "C-r") 'my-revert-buffer-noconfirm)
-(defun my-kill-buffer-and-close-window ()
-  (interactive)
-  (kill-buffer)
-  (delete-window))
-(define-key my-original-map (kbd "C-k") 'my-kill-buffer-and-close-window)
-#+END_SRC
-** emacsclient を使う
-#+BEGIN_SRC emacs-lisp
-(my-safe-require 'server
-  (cond ((not (server-running-p))
-         (server-start))
-        ((eq (server-running-p) :other)
-         (server-start))))
-#+END_SRC
-** 時間測定ポイント
-#+BEGIN_SRC emacs-lisp
-(my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * その他一般的な動作設定
 ** タイムスタンプ
