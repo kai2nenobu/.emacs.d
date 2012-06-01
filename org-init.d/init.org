@@ -4570,17 +4570,18 @@ do nothing. And suppress the output from `message' and
              '((ndeb "~/dict/EIJIRO126-epwing")
                (ndeb "~/dict/LDOCE5")
                (ndeb "~/dict/KOJIEN6")
-               (ndeb "~/dict/Wikip0723Lite/epwing")
-               ;(ndeb "~/.emacs.d/dict/EDICT")
-               ;(ndeb "~/.emacs.d/dict/WORDNET")
-               ;(ndeb "~/.emacs.d/dict/WEB")
-               ;(ndeb "~/.emacs.d/dict/YASOU")
+               (ndeb "~/dict/Wikip0503/epwing")
                ))
 (setq lookup-default-dictionary-options
       '((:stemmer .  stem-english)))
 (my-safe-require 'lookup
   ;; remove an inflected suffix
   ;(lookup-set-dictionary-options "ndeb:~/.emacs.d/dict/WORDNET/wordnet" ':stemmer 'stem-english) ; うまくいかん？
+
+  ;; setting
+  (setq lookup-window-height 8)
+  (if (executable-find "mecab")
+      (setq lookup-use-mecab t))
 
   ;; key bind
   (define-key mode-specific-map (kbd "d") 'lookup-pattern)
