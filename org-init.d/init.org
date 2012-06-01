@@ -1865,8 +1865,8 @@ dired.el, dired-x.el, dired-aux.el の拡張
 ;;; (auto-install-from-emacswiki "dired+.el")
 (my-safe-require 'dired+)
 
-;; ディレクトリを先に表示
-(setq ls-lisp-dirs-first t)             ; なんかどうも効果ないっぽい．この変数廃止された？
+(setq ls-lisp-ignore-case t)            ; ファイル名の大文字小文字無視でソート
+(setq ls-lisp-dirs-first t)             ; ディレクトリとファイルを分けて表示
 ;; set ls option. Not display . and .. directories, and human readable file size.
 (setq dired-listing-switches "-lAh")
 #+END_SRC
