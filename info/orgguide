@@ -1,6 +1,7 @@
-This is orgguide, produced by makeinfo version 4.13 from orgguide.texi.
+This is orgguide, produced by makeinfo version 4.13 from
+doc/orgguide.texi.
 
-Copyright (C) 2010 Free Software Foundation
+Copyright (C) 2010-2012 Free Software Foundation
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -31,7 +32,7 @@ File: orgguide,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 Org Mode Guide
 **************
 
-Copyright (C) 2010 Free Software Foundation
+Copyright (C) 2010-2012 Free Software Foundation
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -1334,15 +1335,18 @@ Plain timestamp; Event; Appointment
 A simple timestamp just assigns a date/time to an item.  This is just
 like writing down an appointment or event in a paper agenda.
 
-     * Meet Peter at the movies <2006-11-01 Wed 19:15>
-     * Discussion on climate change <2006-11-02 Thu 20:00-22:00>
+     * Meet Peter at the movies
+       <2006-11-01 Wed 19:15>
+     * Discussion on climate change
+       <2006-11-02 Thu 20:00-22:00>
 
 Timestamp with repeater interval
 A timestamp may contain a _repeater interval_, indicating that it
 applies not only on the given date, but again and again after a certain
 interval of N days (d), weeks (w), months (m), or years (y).  The
 following will show up in the agenda every Wednesday:
-     * Pick up Sam at school <2007-05-16 Wed 12:30 +1w>
+     * Pick up Sam at school
+       <2007-05-16 Wed 12:30 +1w>
 
 Diary-style sexp entries
 For more complex date specifications, Org mode supports using the
@@ -1361,7 +1365,8 @@ Just like a plain timestamp, but with square brackets instead of
 angular ones.  These timestamps are inactive in the sense that they do
 _not_ trigger an entry to show up in the agenda.
 
-     * Gillian comes late for the fifth time [2006-11-01 Wed]
+     * Gillian comes late for the fifth time
+       [2006-11-01 Wed]
 
 
 File: orgguide,  Node: Creating timestamps,  Next: Deadlines and scheduling,  Prev: Timestamps,  Up: Dates and Times
@@ -1966,7 +1971,7 @@ View/Go to Org file
 
 `<TAB>'
      Go to the original location of the item in another window.  Under
-     Emacs 22, `mouse-1' will also works for this.
+     Emacs 22, `mouse-1' will also work for this.
 
 `<RET>'
      Go to the original location of the item and delete other windows.
@@ -2489,8 +2494,8 @@ File: orgguide,  Node: DocBook export,  Next: iCalendar export,  Prev: LaTeX and
 `C-c C-e D'
      Export as DocBook file.
 
-   Similarly to the HTML exporter, you can use `#+DocBook:' and
-`#+BEGIN_DocBook ... #+END_DocBook' construct to add verbatim LaTeX
+   Similarly to the HTML exporter, you can use `#+DOCBOOK:' and
+`#+BEGIN_DOCBOOK ... #+END_DOCBOOK' construct to add verbatim LaTeX
 code.
 
 
@@ -2584,10 +2589,10 @@ Structure of Code Blocks
 
 The structure of code blocks is as follows:
 
-     #+srcname: <name>
-     #+begin_src <language> <switches> <header arguments>
+     #+NAME: <name>
+     #+BEGIN_SRC <language> <switches> <header arguments>
        <body>
-     #+end_src
+     #+END_SRC
 
    Where `<name>' is a string used to name the code block, `<language>'
 specifies the language of the code block (e.g. `emacs-lisp', `shell',
@@ -2613,11 +2618,11 @@ in the Org-mode buffer.  By default, evaluation is only turned on for
 in many languages.  For a complete list of supported languages see the
 manual.  The following shows a code block and its results.
 
-     #+begin_src emacs-lisp
+     #+BEGIN_SRC emacs-lisp
        (+ 1 2 3 4)
-     #+end_src
+     #+END_SRC
 
-     #+results:
+     #+RESULTS:
      : 10
 
 Extracting source code
@@ -2772,10 +2777,16 @@ File: orgguide,  Node: MobileOrg,  Prev: Clean view,  Up: Miscellaneous
 15.3 MobileOrg
 ==============
 
-MobileOrg is an application originally developed for the iPhone/iPod
-Touch series of devices, developed by Richard Moreland.  There is also
-an independent implementation for Android devices, by Matt Jones.  For
-details, see the Org-mode manual.
+MobileOrg is the name of the mobile companion app for Org mode,
+currently available for iOS and for Android.  MobileOrg offers offline
+viewing and capture support for an Org mode system rooted on a "real"
+computer.  It does also allow you to record changes to existing entries.
+
+   The iOS implementation (http://mobileorg.ncogni.to/) for the
+iPhone/iPod Touch/iPad series of devices, was developed by Richard
+Moreland. Android users should check out MobileOrg Android
+(http://wiki.github.com/matburt/mobileorg-android/) by Matt Jones.  The
+two implementations are not identical but offer similar features.
 
 Further reading
 Chapter 15 of the manual
@@ -2787,103 +2798,103 @@ Key reference card (http://orgmode.org/orgcard.pdf)
 
 
 Tag Table:
-Node: Top1190
-Node: Introduction7024
-Node: Preface7341
-Node: Installation7954
-Node: Activation8961
-Node: Feedback9677
-Node: Document Structure9992
-Node: Outlines10648
-Node: Headlines11309
-Ref: Headlines-Footnote-111973
-Node: Visibility cycling12084
-Node: Motion13241
-Node: Structure editing13638
-Ref: Structure editing-Footnote-114827
-Node: Sparse trees14927
-Ref: Sparse trees-Footnote-115966
-Node: Plain lists16172
-Node: Footnotes18579
-Node: Tables19676
-Node: Hyperlinks23453
-Node: Link format23951
-Node: Internal links24568
-Node: External links25109
-Node: Handling links27233
-Node: Targeted links28582
-Node: TODO Items29311
-Ref: TODO Items-Footnote-130352
-Node: Using TODO states30466
-Node: Multi-state workflows31754
-Node: Progress logging33693
-Node: Closing items34341
-Ref: Closing items-Footnote-135047
-Ref: Closing items-Footnote-235116
-Node: Tracking TODO state changes35189
-Node: Priorities36226
-Node: Breaking down tasks37005
-Node: Checkboxes37787
-Node: Tags39147
-Node: Tag inheritance39931
-Ref: Tag inheritance-Footnote-140800
-Node: Setting tags40900
-Node: Tag searches42910
-Node: Properties44288
-Node: Dates and Times46176
-Node: Timestamps46737
-Node: Creating timestamps48588
-Node: Deadlines and scheduling50132
-Ref: Deadlines and scheduling-Footnote-152052
-Ref: Deadlines and scheduling-Footnote-252216
-Node: Clocking work time52371
-Node: Capture - Refile - Archive54491
-Node: Capture55210
-Node: Setting up a capture location55843
-Ref: Setting up a capture location-Footnote-156293
-Ref: Setting up a capture location-Footnote-256409
-Node: Using capture56475
-Node: Capture templates57148
-Ref: Capture templates-Footnote-158832
-Node: Refiling notes58919
-Node: Archiving59981
-Node: Agenda Views61488
-Node: Agenda files62731
-Node: Agenda dispatcher63381
-Node: Built-in agenda views64219
-Node: Weekly/daily agenda64702
-Ref: Weekly/daily agenda-Footnote-165851
-Node: Global TODO list65964
-Node: Matching tags and properties66669
-Node: Timeline68631
-Node: Search view69221
-Node: Agenda commands70223
-Node: Custom agenda views73556
-Node: Markup75297
-Node: Structural markup elements76114
-Node: Document title76605
-Node: Headings and sections76891
-Node: Table of contents77566
-Node: Paragraphs77928
-Node: Emphasis and monospace79101
-Node: Comment lines79591
-Node: Images and tables80137
-Node: Literal examples81398
-Node: Include files82463
-Node: Embedded LaTeX83098
-Node: Exporting84053
-Node: Export options84875
-Node: The export dispatcher86209
-Node: ASCII/Latin-1/UTF-8 export86774
-Node: HTML export87387
-Node: LaTeX and PDF export87896
-Node: DocBook export88703
-Node: iCalendar export89036
-Node: Publishing89825
-Node: Working With Source Code91478
-Node: Miscellaneous96763
-Node: Completion97034
-Node: Clean view97514
-Node: MobileOrg99296
+Node: Top1199
+Node: Introduction7038
+Node: Preface7355
+Node: Installation7968
+Node: Activation8975
+Node: Feedback9691
+Node: Document Structure10006
+Node: Outlines10662
+Node: Headlines11323
+Ref: Headlines-Footnote-111987
+Node: Visibility cycling12098
+Node: Motion13255
+Node: Structure editing13652
+Ref: Structure editing-Footnote-114841
+Node: Sparse trees14941
+Ref: Sparse trees-Footnote-115980
+Node: Plain lists16186
+Node: Footnotes18593
+Node: Tables19690
+Node: Hyperlinks23467
+Node: Link format23965
+Node: Internal links24582
+Node: External links25123
+Node: Handling links27247
+Node: Targeted links28596
+Node: TODO Items29325
+Ref: TODO Items-Footnote-130366
+Node: Using TODO states30480
+Node: Multi-state workflows31768
+Node: Progress logging33707
+Node: Closing items34355
+Ref: Closing items-Footnote-135061
+Ref: Closing items-Footnote-235130
+Node: Tracking TODO state changes35203
+Node: Priorities36240
+Node: Breaking down tasks37019
+Node: Checkboxes37801
+Node: Tags39161
+Node: Tag inheritance39945
+Ref: Tag inheritance-Footnote-140814
+Node: Setting tags40914
+Node: Tag searches42924
+Node: Properties44302
+Node: Dates and Times46190
+Node: Timestamps46751
+Node: Creating timestamps48630
+Node: Deadlines and scheduling50174
+Ref: Deadlines and scheduling-Footnote-152094
+Ref: Deadlines and scheduling-Footnote-252258
+Node: Clocking work time52413
+Node: Capture - Refile - Archive54533
+Node: Capture55252
+Node: Setting up a capture location55885
+Ref: Setting up a capture location-Footnote-156335
+Ref: Setting up a capture location-Footnote-256451
+Node: Using capture56517
+Node: Capture templates57190
+Ref: Capture templates-Footnote-158874
+Node: Refiling notes58961
+Node: Archiving60023
+Node: Agenda Views61530
+Node: Agenda files62773
+Node: Agenda dispatcher63423
+Node: Built-in agenda views64261
+Node: Weekly/daily agenda64744
+Ref: Weekly/daily agenda-Footnote-165893
+Node: Global TODO list66006
+Node: Matching tags and properties66711
+Node: Timeline68673
+Node: Search view69263
+Node: Agenda commands70265
+Node: Custom agenda views73597
+Node: Markup75338
+Node: Structural markup elements76155
+Node: Document title76646
+Node: Headings and sections76932
+Node: Table of contents77607
+Node: Paragraphs77969
+Node: Emphasis and monospace79142
+Node: Comment lines79632
+Node: Images and tables80178
+Node: Literal examples81439
+Node: Include files82504
+Node: Embedded LaTeX83139
+Node: Exporting84094
+Node: Export options84916
+Node: The export dispatcher86250
+Node: ASCII/Latin-1/UTF-8 export86815
+Node: HTML export87428
+Node: LaTeX and PDF export87937
+Node: DocBook export88744
+Node: iCalendar export89077
+Node: Publishing89866
+Node: Working With Source Code91519
+Node: Miscellaneous96801
+Node: Completion97072
+Node: Clean view97552
+Node: MobileOrg99334
 
 End Tag Table

@@ -32,6 +32,9 @@ Emacs
 * yahtml: (yahtmlj).            Yet Another HTML-mode for Emacs. (Japanese).
 * yahtml-e: (yahtmle).          Yet Another HTML-mode for Emacs. (English).
 
+Emacs editing modes
+* Org Mode: (org).              Outline-based notes management and organizer
+
 TeX
 * AUCTeX: (auctex).             A sophisticated TeX environment for Emacs.
 * YaTeX: (yatexj).              Yet Another tex-mode for Emacs. (Japanese).
