@@ -25,3 +25,9 @@
 [submodule "site-lisp/color-theme-solarized"]
 	path = site-lisp/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
+[submodule "my-lisp/org-export-hatena"]
+	path = my-lisp/org-export-hatena
+	url = git://github.com/kbkbkbkb1/emacs-org-export-hatena.git
+[submodule "site-lisp/ya-hatena-mode"]
+	path = site-lisp/ya-hatena-mode
+	url = git://github.com/takaishi/ya-hatena-mode.git
