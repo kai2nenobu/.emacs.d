@@ -1257,20 +1257,14 @@ Org-mode のデフォルトと揃えた．
   (setq w32-ime-mode-line-state-indicator "[--]")
   (setq w32-ime-mode-line-state-indicator-list
         '("[--]" "[あ]" "[--]"))
-  ;; ; IME ON/OFF時のカーソルカラー
-  ;; (defadvice ime-force-on (after ime-force-on-color activate)
-  ;;   (set-cursor-color "green"))
-  ;; (defadvice ime-force-off (after ime-force-off-color activate)
-  ;;   (set-cursor-color "yellow"))
-  ;; ime を on/off する関数のアドバイスでなんとかなるかと思いやってみた。
-  ;; かなり意図通りの動きはするが、どうも動作が重いのでコメントアウト。コストが高すぎるか
-  (add-hook 'input-method-activate-hook
-    (lambda() (set-cursor-color "green")))
-  (add-hook 'input-method-inactivate-hook
-    (lambda() (set-cursor-color "yellow")))
-  ;; できれば IME の状態はバッファローカルにしたい。ので、hook だけでは対応しきれない。
-  ;; どないしよ
-
+  ;; IME ON/OFF時のカーソルカラー
+  ;; ※input-method-activate-hook, input-method-inactivate-hook じゃない方がいい感じになる
+  (add-hook 'w32-ime-on-hook
+            (function (lambda ()
+                        (set-cursor-color "green"))))
+  (add-hook 'w32-ime-off-hook
+            (function (lambda ()
+                        (set-cursor-color "yellow"))))
   ;; key-chord が無効になってしまうのは以下で解決できた
   ;; http://d.hatena.ne.jp/grandVin/20080917/1221653750
   (defadvice toggle-input-method (around toggle-input-method-around activate)
