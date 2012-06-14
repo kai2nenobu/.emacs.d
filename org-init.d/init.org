@@ -2684,7 +2684,10 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;;; 長い行の仮想折り返し，日本語バージョン
 ;;; (auto-install-from-emacswiki "longlines-jp.el")
 (my-safe-require 'longlines-jp
-  (setq longlines-jp-show-effect (propertize "\\n\n" 'face 'font-lock-keyword-face))
+  (defface my-longline-jp-face
+    '((t (:foreground "purple")))
+    "Face for loneglines-jp.el")
+  (setq longlines-jp-show-effect (propertize "↵\n" 'face 'my-longline-jp-face))
   (setq longlines-jp-show-hard-newlines t)
   (define-key my-original-map (kbd "C-j") 'longlines-jp-mode)
   )

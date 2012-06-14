@@ -63,7 +63,7 @@ You can also enable the display temporarily, using the command
   :group 'longlines-jp
   :type 'boolean)
 
-(defcustom longlines-jp-show-effect (propertize "ﾂｫ\n" 'face 'jaspace-highlight-eol-face)
+(defcustom longlines-jp-show-effect (propertize "«\n" 'face 'jaspace-highlight-eol-face)
   "A string to display when showing hard newlines.
 This is used when `longlines-jp-show-hard-newlines' is on."
   :group 'longlines-jp
@@ -391,8 +391,8 @@ that has changed."
 (defun longlines-jp-post-command-function ()
   "Perform line wrapping on the parts of the buffer that have changed.
 This is called by `post-command-hook' after each command."
-  (unless (or skk-henkan-mode
-	      skk-current-rule-tree)
+  (unless (or (and (boundp 'skk-henkan-mode) skk-henkan-mode)
+	      (and (boundp 'skk-current-rule-tree) skk-current-rule-tree))
     (save-excursion
       (when (and longlines-jp-auto-wrap longlines-jp-wrap-beg)
 	(if (or (eq this-command 'yank)
