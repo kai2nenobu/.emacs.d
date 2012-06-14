@@ -31,7 +31,7 @@ Lab{
 }
 
 # google mail
-Gmail{
+#Gmail{
 #  g03090416{
 #    %INBOX:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
 #    %INBOX/googleカレンダー通知:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"googleカレンダー通知"
@@ -41,28 +41,35 @@ Gmail{
 #    %INBOX/WebService:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"WebService"
 #    %INBOX/トリックスター:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"トリックスター"
 #  }
-#  kbkbkbkb1{
+kbkbkbkb1{
   %INBOX:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
   振り分け{
     %INBOX/Amazon:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Amazon"
     %INBOX/BOOKOFF:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"BOOKOFF"
     %INBOX/Delivery:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Delivery"
     %INBOX/ESL:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"ESL"
-    mailing-list{
-      %INBOX/mailing-list/emacs-orgmode:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"emacs-orgmode"
-    }
+#    mailing-list{
+      %INBOX/mailing-list/Emacs-devel:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Emacs-devel"
+      %INBOX/mailing-list/Emacs-orgmode:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Emacs-orgmode"
+      %INBOX/mailing-list/Linux-system:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Linux-system"
+      %INBOX/mailing-list/rubikitch:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"rubikitch"
+#    }
     %INBOX/misc:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"misc"
     %INBOX/mydns:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"mydns"
+    %INBOX/OneTime:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"OneTime"
     %INBOX/OnlineShop:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"OnlineShop"
+    %INBOX/Ponta:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"Ponta"
     %INBOX/PS:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"PS"
-    %INBOX/rubikitch:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"rubikitch"
     %INBOX/TSUTAYA:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"TSUTAYA"
-    %INBOX/TSUTAYA購入:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"TSUTAYA購入"
+    %INBOX/TSUTAYA/TSUTAYA購入:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"TSUTAYA購入"
     %INBOX/WebService:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"WebService"
+    %INBOX/じゃらん:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"じゃらん"
     %INBOX/のどか:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"のどか"
     %INBOX/リクナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"リクナビ"
     %INBOX/運送:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"運送"
+    %INBOX/価格.com:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"価格.com"
     %INBOX/外資就活ドットコム:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"外資就活ドットコム"
+    %INBOX/就活ナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"就活ナビ"
     %INBOX/就職活動:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"就職活動"
     %INBOX/日経就職ナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"日経就職ナビ"
     %INBOX/理系ナビ:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"理系ナビ"
@@ -71,10 +78,9 @@ Gmail{
   %[Gmail]/送信済みメール:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"送信済みメール"
   %[Gmail]/すべてのメール:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"すべてのメール"
   %[Gmail]/ゴミ箱:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"ゴミ箱"
-
-
+  %日立システムズ2013内定:"kbkbkbkb1@gmail.com"/clear@imap.googlemail.com:993	"日立システムズ2013内定"
 }
-%INBOX:"g03090416@gmail.com"/clear@imap.googlemail.com:993	"受信トレイ"
+
 au{
   受信トレイ{
     %INBOX:"giovanni-franz@auone.jp"/clear@imap.googlemail.com:993	"受信トレイ"
