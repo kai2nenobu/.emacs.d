@@ -3835,9 +3835,19 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
           ("a" "Article" entry
            (file+headline "article.org" "Draft")
            "** %?\n" :empty-lines 1)
-          ("t" "Test" entry
-           (file+headline ,(concat org-directory "/test.org") ,(format-time-string "%Y-%m-%d (%a)"))
-           "* %?\n   %T" :empty-lines 1 :prepend t)
+          ("t" "Item" entry
+           (file "item.org")
+           "* Check %?
+:PROPERTIES:
+:Name:
+:Maker:
+:Kind:
+:Price:
+:Link:
+:Image:
+:BuyDate:
+:END:"
+           :empty-lines 1 :prepend t)
           ("i" "Idea" entry
            (file+headline nil "New Ideas")
            "** %?\n   %a\n   %t")))
