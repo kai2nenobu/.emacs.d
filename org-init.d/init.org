@@ -2424,6 +2424,12 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
       (guide-key:add-local-show-key-sequence key))
     (guide-key:add-local-highlight-command-regexp "wl-draft-"))
   (add-hook 'wl-draft-mode-hook 'guide-key:my-hook-function-for-wl-draft-mode)
+
+  (defun guide-key:my-hook-function-for-wl-folder-mode ()
+    (dolist (key '("m" "r"))
+      (guide-key:add-local-show-key-sequence key))
+    (guide-key:add-local-highlight-command-regexp "wl-fldmgr-"))
+  (add-hook 'wl-folder-mode-hook 'guide-key:my-hook-function-for-wl-folder-mode)
   )
 #+END_SRC
 
