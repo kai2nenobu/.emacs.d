@@ -1910,7 +1910,7 @@ dired のソートを拡張する．
                            ;; Windows の場合はドライブレターを追加
                            (if (winp)
                                (substring (expand-file-name default-directory) 0 2)
-                             "")))))
+                             "")) t)))
 (add-hook 'dired-mode-hook 'dired-my-add-buffer-name)
 #+END_SRC
 *** 新しいバッファを作らないバッファ移動
