@@ -3785,21 +3785,27 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   (setq org-export-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-edit-src-content-indentation 0) ; Indentation for the content of a source code block
-  ;; リンクが日本語で残念な感じにならないように
-  (setq org-activate-links '(date bracket radio tag date footnote angle))
-  ;; for MobileOrg
-  (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
-  (setq org-mobile-inbox-for-pull
-        (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
-  ;; org-mobile-files の評価値が (org-agenda-files) なので MobileOrg で同期される
+  ;; agenda で参照する org ファイル達
   (setq org-agenda-files `(,org-default-notes-file
                            ,(expand-file-name "task.org" org-directory)
                            ,(expand-file-name "contract.org" org-directory)
                            ,(expand-file-name "english.org" org-directory)
-                           ,(expand-file-name "jobhunt.org" org-directory)
-                           ,org-mobile-inbox-for-pull))
-
-  (setq org-tag-alist '(("Bookmark" . ?b)
+                           ,(expand-file-name "jobhunt.org" org-directory)))
+  ;; リンクが日本語で残念な感じにならないように
+  (setq org-activate-links '(date bracket radio tag date footnote angle))
+  ;; for MobileOrg
+  (my-safe-require 'org-mobile
+    (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
+    (setq org-mobile-inbox-for-pull
+          (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
+    (add-to-list 'org-agenda-files org-mobile-inbox-for-pull t)
+    (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
+    )
+  ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
+  (setq org-mobile-files (cons (expand-file-name "item.org" org-directory)
+                               org-agenda-files))
+  ;; tag
+  (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
                         ("Home" . ?h) ("Firefox" . ?) ("Question" . ?q) ("Vi" . ?)
