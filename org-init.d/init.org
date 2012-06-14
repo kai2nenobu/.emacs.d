@@ -1029,7 +1029,7 @@ generic で簡単にメジャーモードを作れる．
 ファイルに Time-stamp: <> があれば自動的にタイムスタンプを追加する
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'write-file-hooks 'time-stamp)
-(setq time-stamp-format "%3a %3b %2d %02H:%02M:%02S %Z %:y") ; equivalent for date command
+(setq time-stamp-format "%:y-%02m-%02d %02H:%02M:%02S")
 #+END_SRC
 ** 右クリックメニューを有効にする
 - [[http://blogs.yahoo.co.jp/rakuten200802/31224692.html][Windows環境でEmacsを活用しよう　Part2　～.emacsのいくつかの設定～ - Webメディア開発日記 - Yahoo!ブログ]]
