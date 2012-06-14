@@ -1,33 +1,44 @@
 [submodule "site-lisp/expand-region"]
 	path = site-lisp/expand-region
 	url = git://github.com/magnars/expand-region.el.git
+	ignore = dirty
 [submodule "site-lisp/magit"]
 	path = site-lisp/magit
 	url = https://github.com/magit/magit.git
+	ignore = dirty
 [submodule "site-lisp/yspel"]
 	path = site-lisp/yspel
 	url = git://github.com/yama-natuki/yspel
+	ignore = dirty
 [submodule "my-lisp/guide-key"]
 	path = my-lisp/guide-key
 	url = git@github.com:kbkbkbkb1/guide-key.git
+	ignore = dirty
 [submodule "site-lisp/popwin"]
 	path = site-lisp/popwin
 	url = https://github.com/m2ym/popwin-el.git
+	ignore = dirty
 [submodule "site-lisp/calfw"]
 	path = site-lisp/calfw
 	url = https://github.com/kiwanami/emacs-calfw.git
+	ignore = dirty
 [submodule "site-lisp/highlight-indentation"]
 	path = site-lisp/highlight-indentation
 	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
+	ignore = dirty
 [submodule "site-lisp/emoji"]
 	path = site-lisp/emoji
 	url = git://github.com/imakado/emoji.git
+	ignore = dirty
 [submodule "site-lisp/color-theme-solarized"]
 	path = site-lisp/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
+	ignore = dirty
 [submodule "my-lisp/org-export-hatena"]
 	path = my-lisp/org-export-hatena
 	url = git://github.com/kbkbkbkb1/emacs-org-export-hatena.git
+	ignore = dirty
 [submodule "site-lisp/ya-hatena-mode"]
 	path = site-lisp/ya-hatena-mode
 	url = git://github.com/takaishi/ya-hatena-mode.git
+	ignore = dirty
