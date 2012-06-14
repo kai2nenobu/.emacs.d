@@ -303,28 +303,6 @@ elisp のパッケージ管理をするライブラリ．
               default-frame-alist))
 ;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
 #+END_SRC
-** タブ，全角スペース，半角スペースに色付け
-#+BEGIN_SRC emacs-lisp
-;;(defface my-face-r-1 '((t (:background "gray15"))) nil)
-(defface my-face-b-1 '((t (:background "gray30"))) nil)
-(defface my-face-b-2 '((t (:background "gray20"))) nil)
-(defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil)
-;;(defvar my-face-r-1 'my-face-r-1)
-(defvar my-face-b-1 'my-face-b-1)
-(defvar my-face-b-2 'my-face-b-2)
-(defvar my-face-u-1 'my-face-u-1)
-
-(defadvice font-lock-mode (before my-font-lock-mode ())
-  (font-lock-add-keywords
-   major-mode
-   '(("　" 0 my-face-b-1 append)
-     ("\t" 0 my-face-b-2 append)
-    ("[ \t]+$" 0 my-face-u-1 append)
-     ;;("[\r]*\n" 0 my-face-r-1 append)
-     )))
-(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
-(ad-activate 'font-lock-mode)
-#+END_SRC
 ** キーバインド
 #+BEGIN_SRC emacs-lisp
 (define-key global-map (kbd "C-0") 'delete-window)
@@ -1521,6 +1499,35 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** whitespace.el
+- [[http://d.hatena.ne.jp/syohex/20110119/1295450495][whitespace-modeの設定 - Life is very short]]
+空白文字類を明示する．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'whitespace
+  (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing));newline newline-mark))
+  (setq whitespace-display-mappings
+        '((space-mark ?\u3000 [?\u25a1])
+          (newline-mark ?\n    [?\u21B5 ?\n] [?$ ?\n])
+          ;; WARNING: the mapping below has a problem.
+          ;; When a TAB occupies exactly one column, it will display the
+          ;; character ?\xBB at that column followed by a TAB which goes to
+          ;; the next TAB column.
+          ;; If this is a problem for you, please, comment the line below.
+          (tab-mark     ?\t    [?\xBB ?\t]   [?\\ ?\t])))
+  (setq whitespace-space-regexp "\\(\u3000+\\)") ; 全角空白のみを明示
+  ;; フェイス設定
+  (set-face-foreground 'whitespace-space nil)
+  (set-face-background 'whitespace-space "gray30")
+  (set-face-foreground 'whitespace-tab "green")
+  (set-face-background 'whitespace-tab "gray20")
+  (set-face-foreground 'whitespace-trailing "green")
+  (set-face-background 'whitespace-trailing nil)
+  (set-face-bold-p 'whitespace-trailing nil)
+  (set-face-underline 'whitespace-trailing t)
+  ;(set-face-foreground 'whitespace-newline "purple")
+  (global-whitespace-mode 1)
+  )
+#+END_SRC
 ** cl.el
 便利な common lisp のマクロなどが使えるようになるライブラリ．
 #+BEGIN_SRC emacs-lisp
