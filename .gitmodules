@@ -2,10 +2,6 @@
 	path = site-lisp/expand-region
 	url = git://github.com/magnars/expand-region.el.git
 	ignore = dirty
-[submodule "site-lisp/magit"]
-	path = site-lisp/magit
-	url = https://github.com/magit/magit.git
-	ignore = dirty
 [submodule "site-lisp/yspel"]
 	path = site-lisp/yspel
 	url = git://github.com/yama-natuki/yspel
