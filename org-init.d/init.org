@@ -3404,6 +3404,18 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+END_SRC
 背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
 にくいので使うのはやめた．
+** google 関連
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'icalendar)
+(my-safe-require 'google-calendar
+  (setq google-calendar-user "g03090416")         ;;; GOOGLE USER
+  (setq google-calendar-code-directory     ;;; PATH TO THE PYTHON CODE
+        (expand-file-name "code"
+                          (file-name-directory (locate-library "google-calendar"))))
+  (setq google-calendar-directory      "~/tmp")               ;;; TEMPORARY DIRECTORY
+  (setq google-calendar-url "http://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics")  ;;; URL TO YOUR GOOGLE CALENDAR
+  (setq google-calendar-auto-update t))
+#+END_SRC
 ** 
 #+BEGIN_SRC emacs-lisp
 ;;; pink-bliss.el
