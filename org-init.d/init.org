@@ -1581,8 +1581,9 @@ shift+カーソルキー でウィンドウを移動する．
   (when (winp)
     (nconc (cadr (assq 'tramp-login-args (assoc "ssh" tramp-methods)))
            '(("bash" "-i")))
-    (setcdr (assq 'tramp-remote-sh (assoc "ssh" tramp-methods))
-            '("bash -i")))
+    ;; (setcdr (assq 'tramp-remote-sh (assoc "ssh" tramp-methods))
+    ;;         '("bash -i"))
+    )
   ;; multi ssh
   (add-to-list 'tramp-default-proxies-alist
                '("athena" "\\`root\\'" "/kai@%h:"))
