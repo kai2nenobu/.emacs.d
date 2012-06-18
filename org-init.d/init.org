@@ -3405,6 +3405,9 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
 にくいので使うのはやめた．
 ** google 関連
+- [[http://maarui.doorblog.jp/archives/6301428.html][まぁるいしっぽ:emacsのカレンダーでgoogle calendarを読み込む]]
+カレンダーへのイベント追加はできたが，タイムゾーンが +0:00 になっていまい時間
+指定が思い通りにならない．タイムゾーンを指定したいがやり方がわからない．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'icalendar)
 (my-safe-require 'google-calendar
