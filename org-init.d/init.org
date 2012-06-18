@@ -3825,7 +3825,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
                         ("Idea" . ?i) ("Survey" . ?v) ("Server" . ?s) ("Note" . ?n)
                         ("Home" . ?h) ("Firefox" . ?) ("Question" . ?q) ("Vi" . ?)
                         ("Item" . ?t) ("Experiment" . ?e) ("Computer" . ?C) ("Shop" . ?o)
-                        ("Apple" . ?A) ("Later" . ?L)
+                        ("Apple" . ?A) ("Later" . ?L) ("HTML" . ?H)
                         ("Program" . ?p) ("Tool" . ?T) ("Adobe" . ?) ("Event" . ?E)
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
                         ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
