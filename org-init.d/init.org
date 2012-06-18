@@ -3749,7 +3749,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 (setq mark-holidays-in-calendar t)
 ;; 祝日の設定を先にしてないといけないっぽい
 ;; (lazyload (my-open-calendar) "calfw"
-(lazyload (my-open-calendar) "calfw"
+(lazyload (my-open-calendar) "calfw-cal"
   ;; iCalender形式と連携
   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw-ical.el")
   (my-safe-require 'calfw-ical)
