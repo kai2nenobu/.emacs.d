@@ -2411,6 +2411,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (setq guide-key:popup-window-position 'right
         guide-key:polling-time 0.1)
   (guide-key-mode 1)
+  (guide-key:key-chord-hack-on)
   ;; mode specific setting
   (defun guide-key:my-hook-function-for-org-mode ()
     (dolist (key '("C-c" "C-c C-v" "C-c C-x"))
