@@ -2174,7 +2174,23 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
            :username "kbkbkbkb1"
            :password "whdU05qU45j0"
            :tags-as-categories nil)
-          )))
+          ))
+  ;; my function
+  (defun org2blog/wp-my-preview-current-subtree ()
+    "Preview current subtree."
+    (interactive)
+    (save-excursion
+      (re-search-backward "^* " nil t)
+      (let ((org2blog/wp-show-post-in-browser 'show))
+        (org2blog/wp-post-subtree))))
+  (defun org2blog/wp-my-post-current-subtree ()
+    "Post current subtree."
+    (interactive)
+    (save-excursion
+      (re-search-backward "^* " nil t)
+      (let ((org2blog/wp-show-post-in-browser nil))
+        (org2blog/wp-post-subtree t))))
+  )
 #+END_SRC
 ** ruby 関連
 *** ruby-mode.el
