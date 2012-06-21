@@ -38,6 +38,3 @@
 	path = site-lisp/ya-hatena-mode
 	url = git://github.com/takaishi/ya-hatena-mode.git
 	ignore = dirty
-[submodule "google-weather"]
-	path = google-weather
-	url = git://git.naquadah.org/google-weather-el.git
