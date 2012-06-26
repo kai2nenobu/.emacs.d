@@ -6,6 +6,7 @@
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work
+** org-mode の pre タグにタイトル的な部分を追加したい
 ** anything を使って describe-function, describe-variable
 ** yasnippet を auto-complete するときに
 ドキュメントを表示する．展開結果をポップアップできると一番いいんだが．いまい
