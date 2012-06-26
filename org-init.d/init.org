@@ -387,8 +387,12 @@ elisp のパッケージ管理をするライブラリ．
 ** 順方向に mark-ring をたどる
 `pop-to-mark-command' は逆方向にしか 'mark-ring' をたどれないので，順方向にも
 たどれるコマンドを作った．グローバル版もあり．なかなか快適．ただ，"H-O" とい
-うキーが押せない．まあグローバルの方はそこまで役に立たんからいいや．
+うキーが押せない．まあグローバルの方はそこまで役に立たんからいいや．ついでに
+マークリングの保持数も増やしておいた．
 #+BEGIN_SRC emacs-lisp
+(setq global-mark-ring-max 256)
+(setq mark-ring-max 256)
+
 (defun pop-global-mark-reverse ()
   (interactive)
   (setq global-mark-ring (nreverse global-mark-ring))
