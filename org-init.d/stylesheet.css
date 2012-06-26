@@ -119,6 +119,8 @@ pre {
     font-size: medium;
     margin: 0.5em;
     padding: 0.5em;
+	white-space: pre-wrap;      /* CSS3 */
+	word-wrap: break-word;      /* IE 5.5+ */
 }
 pre.example {
     color: #202020;
