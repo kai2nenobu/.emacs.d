@@ -3708,6 +3708,8 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   (key-chord-define global-map "@1" 'delete-other-windows)
   (key-chord-define global-map "@2" 'split-window-vertically)
   (key-chord-define global-map "@3" 'split-window-horizontally)
+  (key-chord-define global-map "@4" 'ctl-x-4-prefix)
+  (key-chord-define global-map "@5" 'ctl-x-5-prefix)
   (key-chord-define global-map "@k" '(lambda () (interactive)
                                        (kill-buffer)
                                        (delete-window)))
