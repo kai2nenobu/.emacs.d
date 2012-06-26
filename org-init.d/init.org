@@ -4907,49 +4907,50 @@ do nothing. And suppress the output from `message' and
   (interactive "P")
   ;(matlab-navigation-syntax
     (let* ((prefix (if (and (not (eq last-command 'matlab-complete-symbol))
-			    (member (preceding-char) '(?  ?\t ?\n ?, ?\( ?\[ ?\')))
-		       ""
-		     (buffer-substring-no-properties
-		      (save-excursion (forward-word -1) (point))
-		      (point))))
-	   (sem (matlab-lattr-semantics prefix)))
+                            (member (preceding-char) '(?  ?\t ?\n ?, ?\( ?\[ ?\')))
+                       ""
+                     (buffer-substring-no-properties
+                      (save-excursion (forward-word -1) (point))
+                      (point))))
+           (sem (matlab-lattr-semantics prefix)))
       (if (not (eq last-command 'matlab-complete-symbol))
-	  (setq matlab-last-prefix prefix
-		matlab-last-semantic sem
-		matlab-completion-search-state
-		(cond ((eq sem 'solo)
-		       '(matlab-solo-completions
-			 matlab-find-user-functions
-			 matlab-find-recent-variable))
-		      ((eq sem 'boolean)
-		       '(matlab-find-recent-variable
-			 matlab-boolean-completions
-			 matlab-find-user-functions
-			 matlab-value-completions))
-		      ((eq sem 'value)
-		       '(matlab-find-recent-variable
-			 matlab-find-user-functions
-			 matlab-value-completions
-			 matlab-boolean-completions))
-		      ((eq sem 'property)
-		       '(matlab-property-completions
-			 matlab-find-user-functions
-			 matlab-find-recent-variable
-			 matlab-value-completions))
-		      (t '(matlab-find-recent-variable
-			   matlab-find-user-functions
-			   matlab-value-completions
-			   matlab-boolean-completions)))))
+          (setq matlab-last-prefix prefix
+                matlab-last-semantic sem
+                matlab-completion-search-state
+                (cond ((eq sem 'solo)
+                       '(matlab-solo-completions
+
+                         matlab-find-user-functions
+                         matlab-find-recent-variable))
+                      ((eq sem 'boolean)
+                       '(matlab-find-recent-variable
+                         matlab-boolean-completions
+                         matlab-find-user-functions
+                         matlab-value-completions))
+                      ((eq sem 'value)
+                       '(matlab-find-recent-variable
+                         matlab-find-user-functions
+                         matlab-value-completions
+                         matlab-boolean-completions))
+                      ((eq sem 'property)
+                       '(matlab-property-completions
+                         matlab-find-user-functions
+                         matlab-find-recent-variable
+                         matlab-value-completions))
+                      (t '(matlab-find-recent-variable
+                           matlab-find-user-functions
+                           matlab-value-completions
+                           matlab-boolean-completions)))))
 
       (let ((allsyms (apply 'append
-			    (mapcar (lambda (f) (funcall f prefix))
-				    matlab-completion-search-state))))
-	(matlab-uniquafy-list allsyms))))
+                            (mapcar (lambda (f) (funcall f prefix))
+                                    matlab-completion-search-state))))
+        (matlab-uniquafy-list allsyms))))
 
 (defvar ac-source-matlab
   '((candidates
      . (lambda ()
-	 (matlab-complete-symbol-list)))
+         (matlab-complete-symbol-list)))
     (candidate-face . ac-matlab-candidate-face)
     (selection-face . ac-matlab-selection-face)
     ))
