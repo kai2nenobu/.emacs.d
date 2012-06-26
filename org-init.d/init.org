@@ -4980,18 +4980,24 @@ do nothing. And suppress the output from `message' and
 
 
 (add-hook 'matlab-mode-hook
-	  (lambda ()
-	    (add-to-list 'ac-sources 'ac-source-matlab)
-	    (add-to-list 'ac-sources 'ac-source-matlab-functions)
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-matlab)
+            (add-to-list 'ac-sources 'ac-source-matlab-functions)
+            (dolist (source '(ac-source-features ac-source-functions
+                                                 ac-source-variables ac-source-symbols))
+              (setq ac-sources (delq source ac-sources)))
             (key-chord-define matlab-mode-map "df" 'matlab-shell-describe-command)
             (key-chord-define matlab-mode-map "dv" 'matlab-shell-describe-variable)
             (key-chord-define matlab-mode-map "AA" 'matlab-shell-apropos)
             ))
 
 (add-hook 'matlab-shell-mode-hook
-	  (lambda ()
-	    (add-to-list 'ac-sources 'ac-source-matlab)
-	    (add-to-list 'ac-sources 'ac-source-matlab-functions)
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-matlab)
+            (add-to-list 'ac-sources 'ac-source-matlab-functions)
+            (dolist (source '(ac-source-features ac-source-functions
+                                                 ac-source-variables ac-source-symbols))
+              (setq ac-sources (delq source ac-sources)))
             (key-chord-define matlab-shell-mode-map "df" 'matlab-shell-describe-command)
             (key-chord-define matlab-shell-mode-map "dv" 'matlab-shell-describe-variable)
             (key-chord-define matlab-shell-mode-map "AA" 'matlab-shell-apropos)
