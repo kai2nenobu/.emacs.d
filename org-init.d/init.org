@@ -384,6 +384,31 @@ elisp のパッケージ管理をするライブラリ．
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 順方向に mark-ring をたどる
+`pop-to-mark-command' は逆方向にしか 'mark-ring' をたどれないので，順方向にも
+たどれるコマンドを作った．グローバル版もあり．なかなか快適．ただ，"H-O" とい
+うキーが押せない．まあグローバルの方はそこまで役に立たんからいいや．
+#+BEGIN_SRC emacs-lisp
+(defun pop-global-mark-reverse ()
+  (interactive)
+  (setq global-mark-ring (nreverse global-mark-ring))
+  (pop-global-mark)
+  (setq global-mark-ring (nreverse global-mark-ring)))
+
+(defun pop-to-mark-reverse-command ()
+  (interactive)
+  (if (null (mark t))
+      (error "No mark set in this buffer")
+    (setq mark-ring (nreverse mark-ring))
+    (pop-mark)
+    (goto-char (mark t))
+    (setq mark-ring (nreverse mark-ring))))
+
+(define-key global-map (kbd "H-O") 'pop-global-mark)
+(define-key global-map (kbd "H-I") 'pop-global-mark-reverse)
+(define-key global-map (kbd "H-o") 'pop-to-mark-command)
+(define-key global-map (kbd "H-i") 'pop-to-mark-reverse-command)
+#+END_SRC
 ** mecab で段落を形態素解析
 #+BEGIN_SRC emacs-lisp
 (defun mecab-paragraph (start end)
