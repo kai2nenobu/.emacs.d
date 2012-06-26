@@ -2182,6 +2182,13 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** google-weather
+google 天気予報を使う．ロケールを日本にしたいがやり方がわからない．温度表記も
+華氏なのでさっぱりわからん．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'google-weather)
+(my-safe-require 'org-google-weather)
+#+END_SRC
 ** hiwin.el
 - [[http://d.hatena.ne.jp/ksugita0510/20111223][2011-12-23 - gnupackの開発メモ]]
 非アクティブなウィンドウの背景色を変更する．
