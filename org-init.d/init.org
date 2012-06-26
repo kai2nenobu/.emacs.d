@@ -2873,8 +2873,8 @@ Emacs から git を操作するライブラリ．
 日本語のエンコーディングを utf-8 にする．デフォルトではマルチバイト文字が考慮
 されていないようでなにも設定されていないので文字化けしてしまう．
 #+BEGIN_SRC emacs-lisp
-  ;; japanese encoding
-  (add-to-list 'process-coding-system-alist (cons magit-git-executable 'utf-8))
+;; japanese encoding
+(add-to-list 'process-coding-system-alist (cons magit-git-executable 'utf-8))
 #+END_SRC
 *** フェイスの色
 diff が見やすくなるように各フェイスの色を設定．
