@@ -1219,7 +1219,7 @@ kill whole line by `kill-line'
 ** *message* バッファの行数設定
 max length of log
 #+BEGIN_SRC emacs-lisp
-(setq messages-buffer-max-lines 1000)
+(setq messages-buffer-max-lines 10000)
 #+END_SRC
 ** リージョン選択時に文字入力するとリージョンを削除する
 - [[http://d.hatena.ne.jp/web7_77/20110705/1309885434][Emacsでリージョンを上書き入力できるようにする - Web7.77]]
