@@ -11,12 +11,8 @@
 ("eqnarray*")
 ("frame")
 ))
-
 (setq user-section-table '(
-("block")
-("alert")
 ("frametitle")
-("hspace")
 ))
 
 (setq user-fontsize-table '(
