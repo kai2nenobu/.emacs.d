@@ -2186,6 +2186,17 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** fill-column-indicator
+- [[https://github.com/alpaker/Fill-Column-Indicator][alpaker/Fill-Column-Indicator]]
+`fill-column' の桁を明示してくれるライブラリ．すばらしい．package.el でインス
+トール
+#+BEGIN_SRC emacs-lisp
+;; fill-column-indicator.el
+(my-safe-require 'fill-column-indicator
+  (setq fci-rule-color "gray")
+  (add-hook 'magit-log-edit-mode-hook 'fci-mode)
+  )
+#+END_SRC
 ** bat-mode
 バッチファイル編集用のメジャーモード．
 #+BEGIN_SRC emacs-lisp
