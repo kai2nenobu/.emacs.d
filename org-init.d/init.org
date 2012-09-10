@@ -143,7 +143,7 @@ elisp のパッケージ管理をするライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;; package.el
 ;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
-(when (load (expand-file-name "~/.emacs.d/package/package.el") t)
+(when (require 'package nil t)
   ;; directory to install packages
   (setq package-user-dir (concat user-emacs-directory "package"))
   ;; location to get package informations
