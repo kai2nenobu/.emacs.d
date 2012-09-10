@@ -2186,6 +2186,21 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** bat-mode
+バッチファイル編集用のメジャーモード．
+#+BEGIN_SRC emacs-lisp
+;; (auto-install-from-url "http://ftp.gnu.org/old-gnu/emacs/windows/contrib/bat-mode.el")
+(setq auto-mode-alist
+       (append
+        (list (cons "\\.[bB][aA][tT]$" 'bat-mode))
+        ;; For DOS init files
+        (list (cons "CONFIG\\."   'bat-mode))
+        (list (cons "AUTOEXEC\\." 'bat-mode))
+        auto-mode-alist))
+
+(autoload 'bat-mode "bat-mode"
+      "DOS and Windows BAT files" t)
+#+END_SRC
 ** google-weather
 google 天気予報を使う．ロケールを日本にしたいがやり方がわからない．温度表記も
 華氏なのでさっぱりわからん．
