@@ -3962,6 +3962,15 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
   (setq org-mobile-files (cons (expand-file-name "item.org" org-directory)
                                org-agenda-files))
+  ;; #+ATTR_HTML が思い通りの要素に追加されないのを無理やりハック
+  (defun org-export-my-attr-html-hack ()
+    (goto-char (point-min))
+    (while (re-search-forward
+            "<\\(a href=[^>]+\\)\\( \\(?:width\\|height\\)=[0-9]+\\)\\(><img src=[^>]+\\)/>" nil t)
+      (replace-match "<\\1\\3\\2/>")))
+
+  (add-hook 'org-export-html-final-hook 'org-export-my-attr-html-hack)
+
   ;; tag
   (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
