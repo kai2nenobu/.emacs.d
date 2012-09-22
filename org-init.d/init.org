@@ -3975,7 +3975,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("TeX" . ?) ("PukiWiki" . ?)
                         ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
-  (setq org-log-done 'time) ; DONEの時刻を記録
+  (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
   (setq org-capture-templates
         `(("m" "Today's memo" entry
            (file+function nil my-search-org-headline)
