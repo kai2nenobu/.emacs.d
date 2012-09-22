@@ -4035,6 +4035,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
           :publishing-function org-publish-attachment)
          ("website" :components ("orgfiles" "images" "others"))))
   ;; config about latex exporting
+  (setcdr (assoc "\\.pdf\\'" org-file-apps) "/usr/bin/acroread %s")
   (setq org-export-latex-coding-system 'utf-8-unix)
   (setq org-latex-to-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
   (setq org-export-latex-date-format "%Y-%m-%d")
