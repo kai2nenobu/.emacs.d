@@ -3343,12 +3343,14 @@ diff が見やすくなるように各フェイスの色を設定．
 ;;; 2011-04-11 (Mon)
 (autoload 'navi2ch "navi2ch" "Navigator for 2ch for Emacs" t)
 (eval-after-load "navi2ch"
-  (progn
-    (defadvice navi2ch-article-next-message (after recenter-after activate)
-      (recenter))
-    (defadvice navi2ch-article-previous-message (after recenter-after activate)
-      (recenter)))
-  )
+  '(progn
+     (defadvice navi2ch-article-next-message (after recenter-after activate)
+       (recenter))
+     (defadvice navi2ch-article-previous-message (after recenter-after activate)
+       (recenter))
+     (define-key navi2ch-article-mode-map (kbd "]") 'navi2ch-article-next-link)
+     (define-key navi2ch-article-mode-map (kbd "[") 'navi2ch-article-previous-link)
+     ))
 
 
 ;;; color-moccur.el
