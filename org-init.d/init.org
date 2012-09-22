@@ -4042,29 +4042,37 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   (setq org-export-latex-classes nil)
   (add-to-list 'org-export-latex-classes
                '("jsarticle"
-                 "\\documentclass[a4j]{jsarticle}"
+                 "\\documentclass[a4j]{jsarticle}
+\\usepackage[dvipdfmx]{graphicx}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
                  ))
-  (setcar (member '("" "graphicx" t) org-export-latex-default-packages-alist)
-          '("dvipdfmx" "graphicx" t))   ; add option to graphicx package
+  ;; (setcar (member '("" "graphicx" t) org-export-latex-default-packages-alist)
+  ;;        '("dvipdfmx" "graphicx" t))   ; add option to graphicx package
   ; default package
-  (setcar (member '("" "hyperref" nil) org-export-latex-default-packages-alist)
-          '("dvipdfmx,%\n%colorlinks=true,%\nbookmarks=true,%\nbookmarksnumbered=false,%\nbookmarkstype=toc,%\npdftitle={},%\npdfsubject={},%\npdfauthor={},%\npdfkeywords={},%\n"
-            "hyperref" nil))
-  (add-to-list 'org-export-latex-default-packages-alist
-               '("dvipdfmx" "color" nil)
-               t)
-  (add-to-list 'org-export-latex-default-packages-alist
-               "\\AtBeginDvi{\\special{pdf:tounicode EUC-UCS2}} % prevent mojibake of bookmark in pdf"
-               t)
+  ;; (setcar (member '("" "hyperref" nil) org-export-latex-default-packages-alist)
+  ;;         '("dvipdfmx,%\n%colorlinks=true,%\nbookmarks=true,%\nbookmarksnumbered=false,%\nbookmarkstype=toc,%\npdftitle={},%\npdfsubject={},%\npdfauthor={},%\npdfkeywords={},%\n"
+  ;;           "hyperref" nil))
+  ;; (add-to-list 'org-export-latex-default-packages-alist
+  ;;              '("dvipdfmx" "color" nil)
+  ;;              t)
   ;; config about beamer export
   (add-to-list 'org-export-latex-classes
                '("beamer"
-                 "\\documentclass[compress,dvipdfmx]{beamer}"
+                 "\\documentclass[dvipdfmx]{beamer}
+\\AtBeginDvi{\\special{pdf:tounicode EUC-UCS2}} % prevent mojibake of bookmark in pdf
+\\usetheme{Madrid}
+\\setbeamertemplate{navigation symbols}{}
+\\renewcommand{\\familydefault}{\\sfdefault}
+\\renewcommand{\\kanjifamilydefault}{\\gtdefault}
+\\setbeamerfont{title}{size=\\large,series=\\bfseries}
+\\setbeamerfont{frametitle}{size=\\large,series=\\bfseries}
+\\setbeamertemplate{frametitle}[default][center]
+\\usefonttheme{professionalfonts}
+\\setbeamertemplate{footline}[frame number]"
                  org-beamer-sectioning
                  ))
   ;; Because completion string of template alist is lower case, upcase it.
