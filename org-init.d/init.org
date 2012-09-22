@@ -4637,9 +4637,17 @@ do nothing. And suppress the output from `message' and
              ))
 
 (defun YaTeX-my-set-sectioning-face ()
-    (set-face-background 'YaTeX-sectioning-1 "#1c27ee")
-    (set-face-background 'YaTeX-sectioning-3 "#7874cc")
-    (set-face-background 'YaTeX-sectioning-4 "#d66abb"))
+  ""
+  (custom-set-faces
+   ;; YaTeX-sectioning-0 is #6a5acd
+   '(YaTeX-sectioning-0 ((((class color)) (:foreground "#d9d900" :background "#6a5acd" :height 1.4))))
+   '(YaTeX-sectioning-1 ((((class color)) (:foreground "#d9d900" :background "#2a5acd" :height 1.4))))
+   '(YaTeX-sectioning-2 ((((class color)) (:foreground "#d9d900" :background "#2a2acd" :height 1.4))))
+   '(YaTeX-sectioning-3 ((((class color)) (:foreground "#d9d900" :background "#aa33cd" :height 1.4))))
+   '(YaTeX-sectioning-4 ((((class color)) (:foreground "#d9d900" :background "#aa5a6a" :height 1.4))))
+   '(YaTeX-sectioning-5 ((((class color)) (:foreground "#d9d900" :background "#aa006a" :height 1.4))))
+   '(YaTeX-sectioning-6 ((((class color)) (:foreground "#d9d900" :background "#5a5a5a" :height 1.4))))
+   ))
 
 ;; function to find hierarchy for LaTeX
 (defun latex-outline-level ()
