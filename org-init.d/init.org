@@ -3948,7 +3948,10 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
                            ,(expand-file-name "task.org" org-directory)
                            ,(expand-file-name "contract.org" org-directory)
                            ,(expand-file-name "english.org" org-directory)
-                           ,(expand-file-name "jobhunt.org" org-directory)))
+                           ,(expand-file-name "jobhunt.org" org-directory)
+                           ,(expand-file-name "LabServer.org" org-directory)
+                           ,(expand-file-name "HomeServer.org" org-directory)
+                          ))
   ;; リンクが日本語で残念な感じにならないように
   (setq org-activate-links '(date bracket radio tag date footnote angle))
   ;; for MobileOrg
