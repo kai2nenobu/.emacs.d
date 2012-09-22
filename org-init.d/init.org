@@ -3174,7 +3174,7 @@ diff が見やすくなるように各フェイスの色を設定．
   (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
 
   ;; prefix で候補を選択可能にする
-  ;(setq anything-enable-shortcuts 'prefix)
+  (setq anything-enable-shortcuts t)   ; t だと C-number で選択
   ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
 
   ;; for filelist
