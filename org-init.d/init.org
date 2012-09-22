@@ -4619,6 +4619,7 @@ do nothing. And suppress the output from `message' and
                          ("section" . 1)
                          ("subsection" . 2)
                          ("subsubsection" . 3)
+                         ("begin{frame}" . 4)
                          ("paragraph" . 4)
                          ("subparagraph" . 5)
                          ("appendix" . 0)))
