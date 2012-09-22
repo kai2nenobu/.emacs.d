@@ -4895,7 +4895,7 @@ do nothing. And suppress the output from `message' and
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
 (setq matlab-shell-command "/usr/local/bin/matlab"
       matlab-shell-command-swithes '("-nodesktop -v=glnx86")
-      matlab-indent-level 2
+      matlab-indent-level 4
       matlab-indent-function-body nil
       matlab-highlight-cross-function-variables t
       matlab-return-add-semicolon t
