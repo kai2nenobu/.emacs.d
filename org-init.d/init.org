@@ -2648,7 +2648,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;;; sunrise-commander.el
 ;;; 2ペインファイラー？
 ;;; installed by package.el from "SC"
-(my-safe-require 'sunrise-commander)
+;(my-safe-require 'sunrise-commander)
 
 ;;; shell-history.el
 ;;; シェルの履歴を履歴ファイルに書きこむ
