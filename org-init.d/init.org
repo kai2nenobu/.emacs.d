@@ -3988,7 +3988,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
                         ("Ubuntu" . ?) ("Debian" . ?) ("Windows" . ?) ("Blog" . ?)
                         ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("TeX" . ?) ("PukiWiki" . ?)
-                        ("Shell" . ?) ("はてな" . ?)))
+                        ("Ruby" . ?) ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
   (setq org-capture-templates
