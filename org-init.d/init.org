@@ -2195,9 +2195,13 @@ generic を用いて予め定義されているモード．
 ;; fill-column-indicator.el
 (my-safe-require 'fill-column-indicator
   (setq fci-rule-color "gray")
-  (add-hook 'magit-log-edit-mode-hook 'fci-mode)
+  (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
+  (global-fci-mode)
+  (add-hook 'org-mode-hook 'turn-off-fci-mode)
   )
 #+END_SRC
+org-mode で有効にするといろいろな動作で重くなる．折りたたみされているのが良く
+ない？
 ** bat-mode
 バッチファイル編集用のメジャーモード．
 #+BEGIN_SRC emacs-lisp
