@@ -2962,10 +2962,10 @@ diff が見やすくなるように各フェイスの色を設定．
   (define-key my-original-map (kbd "C-c") 'column-highlight-mode)
   )
 #+END_SRC
-** yasnippet.el
+** COMMENT yasnippet.el
 テンプレート挿入ライブラリ．柔軟性が高すぎて設定に困る．
 #+BEGIN_SRC emacs-lisp
-;;; yasnippet.el
+;;;; yasnippet.el
 (lazyload (yas/expand yas/minor-mode anything-c-yas-complete) "yasnippet"
   (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
   ;; キーバインドは以下を参考にした
