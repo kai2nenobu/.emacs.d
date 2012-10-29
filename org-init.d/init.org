@@ -1633,6 +1633,8 @@ shift+カーソルキー でウィンドウを移動する．
   (add-to-list 'tramp-default-proxies-alist
                '("demeter\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
   (add-to-list 'tramp-default-proxies-alist
+               '("hermes\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
+  (add-to-list 'tramp-default-proxies-alist
                '("poseidon\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
   (add-to-list 'tramp-default-proxies-alist
                '("rubner" "\\`root\\'" "/kai@%h:"))
