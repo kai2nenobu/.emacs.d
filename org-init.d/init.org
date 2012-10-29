@@ -6,8 +6,10 @@
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work
+** iserach などで perl 正規表現を使う
+- [[http://fukuyama.co/foreign-regexp][Emacs正規表現から解放されました]]
+foreign-regexp.el ので実現できるらしので，そのうち導入しよう．
 ** org-mode の pre タグにタイトル的な部分を追加したい
-** anything を使って describe-function, describe-variable
 ** yasnippet を auto-complete するときに
 ドキュメントを表示する．展開結果をポップアップできると一番いいんだが．いまい
 ちどうやってドキュメントを定義するのかよくわかっていない．yasnippet もハッシュ
@@ -31,7 +33,24 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ** one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ** yatex のキー割り当てが ??? なのを修正する
 
+* Question                                                         :Question:
+** ミニバッファ中に anything を発動させるには？
+ミニバッファの再帰的な利用法を知りたい．
+** なんか anything のバッファが bottom に固定表示される？
+なんで？　アップデートしたからか．
+** anything を使って describe-function, describe-variable
+** completion-read の anything 化
+って自動的になるんですよね？これのカスタマイズってできない？
+** anything で自動的に persistent-action
+`anything-move-selection-after-hook' を使えば自分で書けるか？ anything の情報
+源に (auto-persistent-action) とか追加できたらいいな．
+** ミニバッファのヒストリを anything 検索
+: (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+は設定しているが，有効な時と無効な時がある．map が違うのか？
 * 参考URL
+** MELPA でリリース
+- [[http://qiita.com/items/0502030e0875b6902fe1][emacsのプラグイン置き場、MELPAに自作の.elを登録する #elisp #Emacs - Qiita]]
+ひととおりやり方が書いてある．
 ** org-babel
 org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://www.gfd-dennou.org/member/uwabami/cc-env/EmacsBasic.html][cc-env - Emacs の基本設定]]
