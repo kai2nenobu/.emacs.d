@@ -472,6 +472,7 @@ Leave one space or none, according to the context."
                  (> (following-char) 255)))  ; 前後が両方共 ascii ではない場合
         nil
       (insert ?\s))))
+(defalias 'fixup-whitespace-original 'fixup-whitespace)
 (defalias 'fixup-whitespace 'my-fixup-whitespace)
 #+END_SRC
 ** カーソル位置の行を複製するコマンド
