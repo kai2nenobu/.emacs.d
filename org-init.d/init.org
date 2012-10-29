@@ -1536,6 +1536,13 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** winner.el
+ウィンドウ構成の変更履歴を辿れる．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'winner
+  (define-key my-original-map (kbd "C-u") 'winner-undo)
+  (winner-mode 1))
+#+END_SRC
 ** whitespace.el
 - [[http://d.hatena.ne.jp/syohex/20110119/1295450495][whitespace-modeの設定 - Life is very short]]
 空白文字類を明示する．
