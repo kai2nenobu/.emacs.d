@@ -3170,6 +3170,11 @@ diff が見やすくなるように各フェイスの色を設定．
   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
   (add-to-list 'anything-c-source-buffers+ '(migemo))
 
+  ;; agrep-goto でアウトラインを開くアドバイス
+  (defadvice agrep-goto (after org-reveal activate)
+     (when (eq major-mode 'org-mode)
+        (org-reveal))
+     (recenter))
   ;; ミニバッファの履歴を anything で絞込みする
   (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
 
