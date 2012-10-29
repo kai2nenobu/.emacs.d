@@ -3966,8 +3966,8 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
     (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
     )
   ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
-  (setq org-mobile-files (cons (expand-file-name "item.org" org-directory)
-                               org-agenda-files))
+  (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
+  (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
   ;; #+ATTR_HTML が思い通りの要素に追加されないのを無理やりハック
   (defun org-export-my-attr-html-hack ()
     (goto-char (point-min))
