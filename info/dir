@@ -27,6 +27,7 @@ Emacs
 * SKK: (skk).                   Simple Kana to Kanji conversion program.
 * YaTeX: (yatexj).              Yet Another tex-mode for Emacs. (Japanese).
 * YaTeX-e: (yatexe).            Yet Another tex-mode for Emacs. (English).
+* mu4e: (mu4e).                 An email client for emacs.
 * preview-latex: (preview-latex).
                                 Preview LaTeX fragments in Emacs
 * yahtml: (yahtmlj).            Yet Another HTML-mode for Emacs. (Japanese).
@@ -48,6 +49,10 @@ GNU Emacs Lisp
 * SKK: (skk).           Simple Kana to Kanji conversion program.
 * Wanderlust: (wl).             Yet Another Message Interface On Emacsen
 * Wanderlust-ja: (wl-ja).       Yet Another Message Interface On Emacsen
+
+The Algorithmic Language Scheme
+* Mu-guile: (mu-guile).         Guile-bindings for the mu e-mail 
+                                  indexer/searcher
 
 
 The Emacs editor and associated tools

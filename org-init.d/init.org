@@ -2223,6 +2223,21 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** mu4e.el
+新しいメーラー．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'mu4e
+  ;; フォルダ設定
+  (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
+        mu4e-sent-folder   "/INBOX.Sent"      ;; folder for sent messages
+        mu4e-drafts-folder "/INBOX.Drafts"    ;; unfinished messages
+        mu4e-trash-folder  "/INBOX.Trash"     ;; trashed messages
+        mu4e-refile-folder "/INBOX.Archives") ;; saved messages
+  ;; 受信設定
+  (setq mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
+        mu4e-update-interval 120)             ;; update every 5 minutes
+  )
+#+END_SRC(my-safe-require 'mu4e
 ** fill-column-indicator
 - [[https://github.com/alpaker/Fill-Column-Indicator][alpaker/Fill-Column-Indicator]]
 `fill-column' の桁を明示してくれるライブラリ．すばらしい．package.el でインス
