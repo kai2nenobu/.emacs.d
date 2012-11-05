@@ -2227,8 +2227,12 @@ generic を用いて予め定義されているモード．
 新しいメーラー．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'mu4e
+  ;; 基本設定
+  (setq mu4e-headers-date-format "%Y/%m/%d (%a)")
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-html2text-command "html2text -utf8 -width 72")
   ;; フォルダ設定
-  (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
+  (setq mu4e-maildir       "~/Maildir/gavo"        ;; top-level Maildir
         mu4e-sent-folder   "/INBOX.Sent"      ;; folder for sent messages
         mu4e-drafts-folder "/INBOX.Drafts"    ;; unfinished messages
         mu4e-trash-folder  "/INBOX.Trash"     ;; trashed messages
@@ -2236,6 +2240,20 @@ generic を用いて予め定義されているモード．
   ;; 受信設定
   (setq mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
         mu4e-update-interval 120)             ;; update every 5 minutes
+  ;; フォルダ設定
+  (setq mu4e-search-results-limit 500) ;; -1 にすると無制限
+  (setq mu4e-maildir-shortcuts
+        '(("/INBOX" . ?i)
+          ("/INBOX.onsei-mail" . ?O)))
+  ;; 送信設定
+  (add-to-list 'mu4e-user-mail-address-list "kai@gavo.t.u-tokyo.ac.jp")
+  (my-safe-require 'smtpmail
+    (setq message-send-mail-function   'smtpmail-send-it
+          smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
+          smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
+          smtpmail-stream-type 'starttls
+          smtpmail-smtp-service        465
+          smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
   )
 #+END_SRC(my-safe-require 'mu4e
 ** fill-column-indicator
