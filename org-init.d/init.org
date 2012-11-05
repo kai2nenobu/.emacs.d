@@ -4218,7 +4218,17 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
               ("Return as symbol" . intern)
               ("Insert string" . insert))))
 
-
+  ;; カーソルのあるサブツリーをエクスポートする
+  (defun org-my-export-as-html-current-subtree (&optional arg)
+    "Export a current subtree as html.
+If specify ARG, the subtree starts ARGth level headline."
+    (interactive "p")
+    (let ((level (org-current-level)))
+      (save-excursion
+        (outline-up-heading (- level arg))
+        (org-mark-subtree)
+        (org-export-as-html-and-open nil))))
+  (define-key org-mode-map (kbd "C-c h") 'org-my-export-as-html-current-subtree)
   )
 
 (defun my-search-org-level1 ()
