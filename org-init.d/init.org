@@ -1735,162 +1735,162 @@ Emacs で pdf 閲覧する．
 ** eshell.el
 Emacs lisp によるシェル．リダイレクトがないのがきつい．
 #+BEGIN_SRC emacs-lisp
-(lazyload (eshell) "eshell"
-  ;; 補完時に大文字小文字を区別しない
-  (setq eshell-cmpl-ignore-case t)
-  ;; 確認なしでヒストリ保存
-  (setq eshell-ask-to-save-history (quote always))
-  ;; 補完時にサイクルする
-  (setq eshell-cmpl-cycle-completions t)
-  ;;補完候補がこの数値以下だとサイクルせずに候補表示
-  (setq eshell-cmpl-cycle-cutoff-length 5)
-  ;; 履歴で重複を無視する
-  (setq eshell-hist-ignoredups t)
-  ;; prompt文字列の変更
-  (defun my-eshell-prompt ()
-    (concat (eshell/pwd) "\n$ " ))
-  (setq eshell-prompt-function 'my-eshell-prompt)
-  ;; (setq eshell-prompt-function
-  ;;       '(lambda ()
-  ;;         (concat "hoge "
-  ;;                 (eshell/pwd)
-  ;;                 ;(if (= (user-uid) 0) "]\n# " "]\n$ ")
-  ;;                 )))
-  ;; 変更したprompt文字列に合う形でpromptの初まりを指定(C-aで"$ "の次にカーソルがくるようにする)
-  ;; これの設定を上手くしとかないとタブ補完も効かなくなるっぽい
-  (setq eshell-prompt-regexp "^[^#$]*[$#] ")
+  (lazyload (eshell) "eshell"
+    ;; 補完時に大文字小文字を区別しない
+    (setq eshell-cmpl-ignore-case t)
+    ;; 確認なしでヒストリ保存
+    (setq eshell-ask-to-save-history (quote always))
+    ;; 補完時にサイクルする
+    (setq eshell-cmpl-cycle-completions t)
+    ;;補完候補がこの数値以下だとサイクルせずに候補表示
+    (setq eshell-cmpl-cycle-cutoff-length 5)
+    ;; 履歴で重複を無視する
+    (setq eshell-hist-ignoredups t)
+    ;; prompt文字列の変更
+    (defun my-eshell-prompt ()
+      (concat (eshell/pwd) "\n$ " ))
+    (setq eshell-prompt-function 'my-eshell-prompt)
+    ;; (setq eshell-prompt-function
+    ;;       '(lambda ()
+    ;;         (concat "hoge "
+    ;;                 (eshell/pwd)
+    ;;                 ;(if (= (user-uid) 0) "]\n# " "]\n$ ")
+    ;;                 )))
+    ;; 変更したprompt文字列に合う形でpromptの初まりを指定(C-aで"$ "の次にカーソルがくるようにする)
+    ;; これの設定を上手くしとかないとタブ補完も効かなくなるっぽい
+    (setq eshell-prompt-regexp "^[^#$]*[$#] ")
 
-  ;; eshell の解釈を別のパーサで乗っ取り
-  (my-safe-require 'esh-myparser
-    (defun eshell-parser/z (str) (eshell-parser/b str "zsh"))) ; zsh で乗っ取り
+    ;; eshell の解釈を別のパーサで乗っ取り
+    (my-safe-require 'esh-myparser
+      (defun eshell-parser/z (str) (eshell-parser/b str "zsh"))) ; zsh で乗っ取り
 
-  ;; elisp として解釈
-  (defun eshell/e (arg) (eval (read (format "%s" arg))))
+    ;; elisp として解釈
+    (defun eshell/e (arg) (eval (read (format "%s" arg))))
 
-  ;; eshell の Unix コマンドエミュレーションを無効にする
-  (progn
-    (defmacro eval-after-load* (name &rest body)
-      (declare (indent 1))
-      `(eval-after-load ,name '(progn ,@body)))
-    (defun eshell-disable-unix-command-emulation ()
-      (eval-after-load* "em-ls"
-        (fmakunbound 'eshell/ls))
-      (eval-after-load* "em-unix"
-        (mapc 'fmakunbound '(eshell/agrep
-                             eshell/basename
-                             eshell/cat
-                             eshell/cp
-                             eshell/date
-                             eshell/diff
-                             eshell/dirname
-                             eshell/du
-                             eshell/egrep
-                             eshell/fgrep
-                             eshell/glimpse
-                             eshell/grep
-                             eshell/info
-                             eshell/ln
-                             eshell/locate
-                             eshell/make
-                             eshell/man
-                             eshell/mkdir
-                             eshell/mv
-                             eshell/occur
-                             eshell/rm
-                             eshell/rmdir
-                             eshell/su
-                             eshell/sudo
-                             eshell/time))))
-    (eshell-disable-unix-command-emulation))
+    ;; eshell の Unix コマンドエミュレーションを無効にする
+    (progn
+      (defmacro eval-after-load* (name &rest body)
+        (declare (indent 1))
+        `(eval-after-load ,name '(progn ,@body)))
+      (defun eshell-disable-unix-command-emulation ()
+        (eval-after-load* "em-ls"
+          (fmakunbound 'eshell/ls))
+        (eval-after-load* "em-unix"
+          (mapc 'fmakunbound '(eshell/agrep
+                               eshell/basename
+                               eshell/cat
+                               eshell/cp
+                               eshell/date
+                               eshell/diff
+                               eshell/dirname
+                               eshell/du
+                               eshell/egrep
+                               eshell/fgrep
+                               eshell/glimpse
+                               eshell/grep
+                               eshell/info
+                               eshell/ln
+                               eshell/locate
+                               eshell/make
+                               eshell/man
+                               eshell/mkdir
+                               eshell/mv
+                               eshell/occur
+                               eshell/rm
+                               eshell/rmdir
+                               eshell/su
+                               eshell/sudo
+                               eshell/time))))
+      (eshell-disable-unix-command-emulation))
 
-  ;; eshell のコマンドライン上の挙動を変更する（るびきちメルマガ）
-  (defun eshell-in-command-line-p ()
-    (<= eshell-last-output-end (point)))
-  (defmacro defun-eshell-cmdline (key &rest body)
-    (let ((cmd (intern (format "eshell-cmdline/%s" key))))
-      `(progn
-         (add-hook 'eshell-mode-hook
-                   (lambda () (define-key eshell-mode-map (read-kbd-macro ,key) ',cmd)))
-         (defun ,cmd ()
-           (interactive)
-           (if (not (eshell-in-command-line-p))
-               (call-interactively (lookup-key (current-global-map) (read-kbd-macro ,key)))
-             ,@body)))))
-  (defun eshell-history-and-bol (func)
-    (delete-region eshell-last-output-end (point-max))
-    (funcall func 1)
-    (goto-char (point-max)));eshell-last-output-end))
-  ;; コマンドライン上の挙動変更
-  (defun-eshell-cmdline "C-p"
-    (let ((last-command 'eshell-previous-matching-input-from-input))
-      (eshell-history-and-bol 'eshell-previous-matching-input-from-input)))
-  (defun-eshell-cmdline "C-n"
-    (let ((last-command 'eshell-previous-matching-input-from-input))
-      (eshell-history-and-bol 'eshell-next-input)))
-  (defun-eshell-cmdline "C-w"
-    (delete-region (eshell-bol) (point-max)))
-  (defun-eshell-cmdline "M-^"
-    (my-minibuffer-delete-parent-directory))
-  (defun-eshell-cmdline "C-r"
-    (anything-eshell-history))
-  ;; `anything-eshell-history' 実行前に recenter する
-  (defadvice anything-eshell-history (before recenter-top activate)
-    (recenter 1))
-  ;; 1回1回履歴のアクセスをリセットする
-  (defadvice eshell-send-input (after history-position activate)
-    (setq eshell-history-index -1))
+    ;; eshell のコマンドライン上の挙動を変更する（るびきちメルマガ）
+    (defun eshell-in-command-line-p ()
+      (<= eshell-last-output-end (point)))
+    (defmacro defun-eshell-cmdline (key &rest body)
+      (let ((cmd (intern (format "eshell-cmdline/%s" key))))
+        `(progn
+           (add-hook 'eshell-mode-hook
+                     (lambda () (define-key eshell-mode-map (read-kbd-macro ,key) ',cmd)))
+           (defun ,cmd ()
+             (interactive)
+             (if (not (eshell-in-command-line-p))
+                 (call-interactively (lookup-key (current-global-map) (read-kbd-macro ,key)))
+               ,@body)))))
+    (defun eshell-history-and-bol (func)
+      (delete-region eshell-last-output-end (point-max))
+      (funcall func 1)
+      (goto-char (point-max)));eshell-last-output-end))
+    ;; コマンドライン上の挙動変更
+    (defun-eshell-cmdline "C-p"
+      (let ((last-command 'eshell-previous-matching-input-from-input))
+        (eshell-history-and-bol 'eshell-previous-matching-input-from-input)))
+    (defun-eshell-cmdline "C-n"
+      (let ((last-command 'eshell-previous-matching-input-from-input))
+        (eshell-history-and-bol 'eshell-next-input)))
+    (defun-eshell-cmdline "C-w"
+      (delete-region (eshell-bol) (point-max)))
+    (defun-eshell-cmdline "M-^"
+      (my-minibuffer-delete-parent-directory))
+    (defun-eshell-cmdline "C-r"
+      (anything-eshell-history))
+    ;; `anything-eshell-history' 実行前に recenter する
+    (defadvice anything-eshell-history (before recenter-top activate)
+      (recenter 1))
+    ;; 1回1回履歴のアクセスをリセットする
+    (defadvice eshell-send-input (after history-position activate)
+      (setq eshell-history-index -1))
 
-  ;; eev と協調
-  (defun eeeshell (s &optional e)
-    (interactive "r")
-    (eev s e)
-    (eepitch-eshell)
-    (eepitch-line ". $EE"))
-  (setq eepitch-code '(eshell))
-  (setq eeb-defaults '(eeeshell ee-delimiter-hash nil t t))
-  (eeb-define 'eeeshell-bounded 'eeeshell 'ee-delimiter-hash nil t t)
-  (global-set-key (kbd "<f6>") 'eepitch-this-line)
-  ;; 文字列入力関数
-  (defun eshell/readstr (varname &optional default)
-    "文字列を入力させて変数VARNAMEに記憶する。デフォルト値も指定できる。"
-    (set (intern varname)
-         (read-string (format "%s%s: " varname
-                              (if default (format " (default: %s)" default) ""))
-                      nil nil default)))
-  (defun eshell/readfncd (varname)
-    "ファイル名を入力させて変数VARNAMEに記憶し、そのディレクトリに移動する。"
-    (let ((fn (read-file-name (format "%s: " varname))))
-      (eshell/pushd (file-name-directory fn))
-      (set (intern varname) (file-name-nondirectory fn))))
-  (defun eshell/readfn (varname)
-    "ファイル名を入力させて変数VARNAMEに記憶する。"
-    (set (intern varname)
-         (file-relative-name (read-file-name (format "%s: " varname)))))
-  (defun eshell/readdir (varname)
-    "ディレクトリ名を入力させて変数VARNAMEに記憶する。"
-    (set (intern varname) (read-directory-name (format "%s: " varname))))
-  ;; escript
-  (eval-after-load "anything"
-    '(progn
-       (defvar anything-c-escript-file-name
-         (expand-file-name "memo/escript.org" dropbox-directory))
-       (defvar anything-c-source-search-escript
-         '((name . "E-script search")
-           (candidates-file anything-c-escript-file-name update)
-           (target-file . anything-c-escript-file-name)
-           (get-line . anything-c-occur-get-line)
-           (recenter)
-           (requires-pattern . 3)
-           (migemo)
-           (type . line)))
+    ;; eev と協調
+    ;; (defun eeeshell (s &optional e)
+    ;;   (interactive "r")
+    ;;   (eev s e)
+    ;;   (eepitch-eshell)
+    ;;   (eepitch-line ". $EE"))
+    ;; (setq eepitch-code '(eshell))
+    ;; (setq eeb-defaults '(eeeshell ee-delimiter-hash nil t t))
+    ;; (eeb-define 'eeeshell-bounded 'eeeshell 'ee-delimiter-hash nil t t)
+    ;; (global-set-key (kbd "<f6>") 'eepitch-this-line)
+    ;; ;; 文字列入力関数
+    ;; (defun eshell/readstr (varname &optional default)
+    ;;   "文字列を入力させて変数VARNAMEに記憶する。デフォルト値も指定できる。"
+    ;;   (set (intern varname)
+    ;;        (read-string (format "%s%s: " varname
+    ;;                             (if default (format " (default: %s)" default) ""))
+    ;;                     nil nil default)))
+    ;; (defun eshell/readfncd (varname)
+    ;;   "ファイル名を入力させて変数VARNAMEに記憶し、そのディレクトリに移動する。"
+    ;;   (let ((fn (read-file-name (format "%s: " varname))))
+    ;;     (eshell/pushd (file-name-directory fn))
+    ;;     (set (intern varname) (file-name-nondirectory fn))))
+    ;; (defun eshell/readfn (varname)
+    ;;   "ファイル名を入力させて変数VARNAMEに記憶する。"
+    ;;   (set (intern varname)
+    ;;        (file-relative-name (read-file-name (format "%s: " varname)))))
+    ;; (defun eshell/readdir (varname)
+    ;;   "ディレクトリ名を入力させて変数VARNAMEに記憶する。"
+    ;;   (set (intern varname) (read-directory-name (format "%s: " varname))))
+    ;; ;; escript
+    ;; (eval-after-load "anything"
+    ;;   '(progn
+    ;;      (defvar anything-c-escript-file-name
+    ;;        (expand-file-name "memo/escript.org" dropbox-directory))
+    ;;      (defvar anything-c-source-search-escript
+    ;;        '((name . "E-script search")
+    ;;          (candidates-file anything-c-escript-file-name update)
+    ;;          (target-file . anything-c-escript-file-name)
+    ;;          (get-line . anything-c-occur-get-line)
+    ;;          (recenter)
+    ;;          (requires-pattern . 3)
+    ;;          (migemo)
+    ;;          (type . line)))
 
-       (defun anything-escript-search ()
-         (interactive)
-         (anything :sources 'anything-c-source-search-escript
-                   :buffer "*anything-escript-search*"
-                   :follow-mode t))
-       ))
-  )
+    ;;      (defun anything-escript-search ()
+    ;;        (interactive)
+    ;;        (anything :sources 'anything-c-source-search-escript
+    ;;                  :buffer "*anything-escript-search*"
+    ;;                  :follow-mode t))
+    ;;      ))
+    )
 #+END_SRC
 ** socks.el
 SOCK プロトコル実装．
