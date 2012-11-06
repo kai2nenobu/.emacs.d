@@ -4028,6 +4028,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
   (setq org-edit-src-content-indentation 0) ; Indentation for the content of a source code block
   (setq org-export-htmlize-output-type 'css) ; src のハイライトに css を使う
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
+  (add-to-list 'org-export-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
   ;; agenda で参照する org ファイル達
   (setq org-agenda-files `(,org-default-notes-file
                            ,(expand-file-name "task.org" org-directory)
