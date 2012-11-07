@@ -1524,10 +1524,10 @@ shift+カーソルキー でウィンドウを移動する．
             Info-default-directory-list))
 #+END_SRC
 ** スクロールバー
-ウィンドウの左にスクロールバーを表示する．やっぱり非表示に変更．
+やっぱり非表示に変更．`scroll-bar-mode' を関数として使えば，全フレームに対し
+て設定が反映されるようだ．
 #+BEGIN_SRC emacs-lisp
-(setq scroll-bar-mode 'left)
-(toggle-scroll-bar 0)
+(scroll-bar-mode 0)
 #+END_SRC
 ** customize によって変更される設定
 #+BEGIN_SRC emacs-lisp
