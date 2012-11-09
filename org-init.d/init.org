@@ -4490,12 +4490,10 @@ Hit a Hint でカーソル移動するライブラリ．
   (define-key global-map (kbd "M-9") '(lambda () (interactive) (elscreen-goto 9)))
   (define-key global-map (kbd "M-0") '(lambda () (interactive) (elscreen-goto 10)))  ; なんか愚直すぎるので何とかしたいですね
 
-  ;; 起動時にスクリーンを9個作っておく
+  ;; 起動時にスクリーンを10個作っておく
   (defun my-elscreen-startup ()
-    (let ((i 1))
-      (while (< i 10)
-        (elscreen-create)
-        (setq i (1+ i)))))
+    (elscreen-start)
+    (dotimes (i 9) (elscreen-create)))
   (add-hook 'after-init-hook 'my-elscreen-startup)
 
   ;; elscreen のタブの並びと数字キーの並びを合わせる
