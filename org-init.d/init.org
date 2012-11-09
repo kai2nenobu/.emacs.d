@@ -2254,19 +2254,19 @@ generic を用いて予め定義されているモード．
   (setq mu4e-view-prefer-html t)
   (setq mu4e-html2text-command "html2text -utf8 -width 72")
   ;; フォルダ設定
-  (setq mu4e-maildir       "~/Maildir/gavo"        ;; top-level Maildir
-        mu4e-sent-folder   "/INBOX.Sent"      ;; folder for sent messages
-        mu4e-drafts-folder "/INBOX.Drafts"    ;; unfinished messages
-        mu4e-trash-folder  "/INBOX.Trash"     ;; trashed messages
-        mu4e-refile-folder "/INBOX.Archives") ;; saved messages
+  (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
+        mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
+        mu4e-drafts-folder "/gavo/INBOX.Drafts"    ;; unfinished messages
+        mu4e-trash-folder  "/gavo/INBOX.Trash"     ;; trashed messages
+        mu4e-refile-folder "/gavo/INBOX.Archives") ;; saved messages
   ;; 受信設定
   (setq mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
         mu4e-update-interval 120)             ;; update every 5 minutes
   ;; フォルダ設定
   (setq mu4e-search-results-limit 500) ;; -1 にすると無制限
   (setq mu4e-maildir-shortcuts
-        '(("/INBOX" . ?i)
-          ("/INBOX.onsei-mail" . ?O)))
+        '(("/gavo/INBOX" . ?i)
+          ("/gavo/INBOX.onsei-mail" . ?O)))
   ;; 送信設定
   (add-to-list 'mu4e-user-mail-address-list "kai@gavo.t.u-tokyo.ac.jp")
   (my-safe-require 'smtpmail
