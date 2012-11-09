@@ -235,45 +235,65 @@ elisp のパッケージ管理をするライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
-  ;; 標準のフォントサイズ
-  (defvar my-font-size nil "Standard font size")
-  (defvar my-font-str nil "Standard font string")
-  (defvar my-font-set-str nil "Font string to create fontset")
-  (cond ((linuxp)
-         (setq my-font-size 16)
-         (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
-        ((winp)
-         (setq my-font-size 18)
-         (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
-  ;; それぞれのフォントサイズに対応したフォントセットを作る
-  ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
-  (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
-  (let (size
-        (size-list my-font-size-list))
-    (while size-list
-      (setq size (car size-list))
-      (setq size-list (cdr size-list))
-      (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
-  ;; 発音記号のフォント
-  (set-fontset-font "fontset-myfont"
-                    'ipa
-                    (font-spec :family "SILDoulos IPA93")) ; うまくいかん
-  ;; (set-fontset-font "fontset-default"
-  ;;                  'japanese-jisx0208
-  ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
-  (defvar nandemo "あいうえおかきくけこさしすせそ")
-  ;; フォントを設定
-  (cond ((linuxp)
-         (add-to-list 'default-frame-alist
-               '(font . "-*-*-normal-normal-normal-*-16-*-*-*-*-*-fontset-myfont")))
-        ((winp)
-         (add-to-list 'default-frame-alist
-               '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
-  ;; ;; アスキーフォント設定
-  ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
-  ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
-  ;; ;; 日本語フォント設定
-  ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
+  (defvar my-default-font-size 12 "Default font size")
+  (defvar my-font-size my-default-font-size "Current font size")
+  (set-frame-font (format "Ricty %d" my-font-size) nil t)
+
+  (defun my-resize-frame-font ()
+    "対話的にフォントのサイズを変更するコマンド"
+    (interactive)
+    (catch 'end-flag
+      (while t
+        (setq key (aref (read-key-sequence-vector "Press +,-,0") 0))
+        (cond ((= key ?+)
+               (setq my-font-size (min (+ my-font-size 3) 33)))
+              ((= key ?-)
+               (setq my-font-size (max (- my-font-size 3) 9)))
+              ((= key ?0)
+               (setq my-font-size my-default-font-size))
+              (t
+               (message "Quit")
+               (throw 'end-flag t)))
+        (set-frame-font (format "Ricty %d" my-font-size) nil t))))
+  ;; ;; 標準のフォントサイズ
+  ;; (defvar my-font-size nil "Standard font size")
+  ;; (defvar my-font-str nil "Standard font string")
+  ;; (defvar my-font-set-str nil "Font string to create fontset")
+  ;; (cond ((linuxp)
+  ;;        (setq my-font-size 16)
+  ;;        (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
+  ;;       ((winp)
+  ;;        (setq my-font-size 18)
+  ;;        (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
+  ;; ;; それぞれのフォントサイズに対応したフォントセットを作る
+  ;; ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
+  ;; (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
+  ;; (let (size
+  ;;       (size-list my-font-size-list))
+  ;;   (while size-list
+  ;;     (setq size (car size-list))
+  ;;     (setq size-list (cdr size-list))
+  ;;     (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
+  ;; ;; 発音記号のフォント
+  ;; (set-fontset-font "fontset-myfont"
+  ;;                   'ipa
+  ;;                   (font-spec :family "SILDoulos IPA93")) ; うまくいかん
+  ;; ;; (set-fontset-font "fontset-default"
+  ;; ;;                  'japanese-jisx0208
+  ;; ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
+  ;; (defvar nandemo "あいうえおかきくけこさしすせそ")
+  ;; ;; フォントを設定
+  ;; (cond ((linuxp)
+  ;;        (add-to-list 'default-frame-alist
+  ;;              '(font . "-*-*-normal-normal-normal-*-16-*-*-*-*-*-fontset-myfont")))
+  ;;       ((winp)
+  ;;        (add-to-list 'default-frame-alist
+  ;;              '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
+  ;; ;; ;; アスキーフォント設定
+  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
+  ;; ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
+  ;; ;; ;; 日本語フォント設定
+  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
   )
 
 ;;; list-faces-display 用の文字列
