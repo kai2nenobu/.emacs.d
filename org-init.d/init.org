@@ -235,7 +235,8 @@ elisp のパッケージ管理をするライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
-  (defvar my-default-font-size 12 "Default font size")
+  (defvar my-default-font-size (cond ((winp) 14)
+                                     (t 12)) "Default font size")
   (defvar my-font-size my-default-font-size "Current font size")
   (set-frame-font (format "Ricty %d" my-font-size) nil t)
 
