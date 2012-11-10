@@ -3112,6 +3112,20 @@ diff が見やすくなるように各フェイスの色を設定．
 #+END_SRC
 *** 自作関数
 #+BEGIN_SRC emacs-lisp
+  (defun magit-my-commit-current-file ()
+    "Commit changes in acurrent file.
+  Changes are displayed in `magit-log-edit-buffer'."
+    (interactive)
+    (let ((file (buffer-file-name)))
+      (when file
+        (magit-run-git "add" file)
+        (magit-log-edit)
+        (shell-command (format "%s diff --cached %s | sed 's/^/# /'"
+                               magit-git-executable file)
+                       (current-buffer))
+        (insert "\n")
+        (goto-char (point-min)))))
+
   (defun magit-view-item-other-window ()
     "View item in other window."
     (interactive)
