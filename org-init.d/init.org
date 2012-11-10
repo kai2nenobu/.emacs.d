@@ -2077,22 +2077,32 @@ Creates a buffer if necessary."
 ;;; C-t が image-なんたら の prefix で潰れているので unset
 (define-key dired-mode-map (kbd "C-t") nil)
 #+END_SRC
-*** Dired で Windows に関連付けられたファイルを起動する。
-- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20fiber][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+*** Dired で関連付けられたファイルを起動する
+- [[http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html][Emacs Dired: Opening Files in External Apps]]
 #+BEGIN_SRC emacs-lisp
-(defun my-dired-start ()
-  "Type '\\[my-dired-start]': start the current line's file."
+(defun my-open-file-dwim (file)
+  "Open FILE with an appropriate application.
+Works in Microsoft Windows, Mac OS X, Linux."
+  (cond ((string-equal system-type "windows-nt")
+         (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" file t t)))
+        ((string-equal system-type "darwin")
+         (let ((process-connection-type nil))
+           (start-process "" nil "open" file)))
+        ((string-equal system-type "gnu/linux")
+         (let ((process-connection-type nil))
+           (start-process "" nil "xdg-open" file)))))
+(defun my-open-in-external-app ()
+  "Open the current file or dired marked files in external application."
   (interactive)
-  (when (eq major-mode 'dired-mode)
-    (let ((fname (dired-get-filename))
-          (coding-system-for-read 'utf-8-unix)     ; この2行がないと日本語名の
-          (coding-system-for-write 'utf-8-unix))   ; ファイルが開けないので設定しとく
-      (cond ((winp) (w32-shell-execute "open" fname))
-            ((linuxp) (start-process "dired-start" nil "xdg-open" fname)))
-      (message "started %s" fname))))
+  (let ((file-list
+         (cond ((string-equal major-mode "dired-mode") (dired-get-marked-files))
+               (t (list (buffer-file-name))))))
+    (when (or (<= (length file-list) 5)
+              (y-or-n-p "Open more than 5 files?"))
+      (mapc 'my-open-file-dwim file-list))))
 (add-hook 'dired-mode-hook
           (lambda ()
-            (define-key dired-mode-map "z" 'my-dired-start))) ;;; 関連付け
+            (define-key dired-mode-map "z" 'my-open-in-external-app))) ;;; 関連付け
 #+END_SRC
 *** スペースでマークする (FD like)
 #+BEGIN_SRC emacs-lisp
