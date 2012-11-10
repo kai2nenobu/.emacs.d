@@ -245,16 +245,17 @@ elisp のパッケージ管理をするライブラリ．
     (interactive)
     (catch 'end-flag
       (while t
-        (setq key (aref (read-key-sequence-vector "Press +,-,0") 0))
-        (cond ((= key ?+)
-               (setq my-font-size (min (+ my-font-size 3) 33)))
-              ((= key ?-)
-               (setq my-font-size (max (- my-font-size 3) 9)))
-              ((= key ?0)
-               (setq my-font-size my-default-font-size))
-              (t
-               (message "Quit")
-               (throw 'end-flag t)))
+        (let ((key (aref (read-key-sequence-vector
+                          (format "Font size %d: Press +,-,0" my-font-size)) 0)))
+          (cond ((= key ?+)
+                 (setq my-font-size (min (+ my-font-size 1) 33)))
+                ((= key ?-)
+                 (setq my-font-size (max (- my-font-size 1) 9)))
+                ((= key ?0)
+                 (setq my-font-size my-default-font-size))
+                (t
+                 (message "Quit")
+                 (throw 'end-flag t))))
         (set-frame-font (format "Ricty %d" my-font-size) nil t))))
   ;; ;; 標準のフォントサイズ
   ;; (defvar my-font-size nil "Standard font size")
