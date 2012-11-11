@@ -245,8 +245,7 @@ elisp のパッケージ管理をするライブラリ．
     (interactive)
     (catch 'end-flag
       (while t
-        (let ((key (aref (read-key-sequence-vector
-                          (format "Font size %d: Press +,-,0" my-font-size)) 0)))
+        (let ((key (read-char (format "Font size %d: Press +,-,0" my-font-size))))
           (cond ((= key ?+)
                  (setq my-font-size (min (+ my-font-size 1) 33)))
                 ((= key ?-)
