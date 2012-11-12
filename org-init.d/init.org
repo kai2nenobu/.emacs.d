@@ -308,7 +308,7 @@ elisp のパッケージ管理をするライブラリ．
 #+BEGIN_SRC emacs-lisp
 (setq default-major-mode 'lisp-interaction-mode)
 #+END_SRC
-** 文字コードにを UTF-8 にする
+** 言語，文字コードの設定
 #+BEGIN_SRC emacs-lisp
 (set-default-coding-systems 'utf-8)
 (coding-system-put 'utf-8 'category 'utf-8)
@@ -327,6 +327,16 @@ elisp のパッケージ管理をするライブラリ．
 (add-hook 'shell-mode-hook (lambda () (set-buffer-process-coding-system 'utf-8 'utf-8)))
 ;; process coding system
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+#+END_SRC
+*** Windows で LANG を設定
+- [[http://d.hatena.ne.jp/kkobayashi_a/20100727/p1][Cygwinのls -lで文字化けする話 - XXXannex]]
+Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired を表示させよう
+とすると，LANG を ja_JP.SJIS にしたほうがいいようだ．これを設定すると日本語も
+正しく表示され開くこともできるようになった．ただし，dired+.el のフェイスがちょっ
+と変になってる．
+#+BEGIN_SRC emacs-lisp
+(if (winp)
+    (setenv "LANG" "ja_JP.SJIS"))
 #+END_SRC
 ** frame configure
 #+BEGIN_SRC emacs-lisp
@@ -1990,8 +2000,7 @@ dired.el, dired-x.el, dired-aux.el の拡張
 ;;; (auto-install-from-emacswiki "dired+.el")
 (my-safe-require 'dired+)
 
-(setq ls-lisp-ignore-case t)            ; ファイル名の大文字小文字無視でソート
-(setq ls-lisp-dirs-first t)             ; ディレクトリとファイルを分けて表示
+(setq ls-lisp-use-insert-directory-program t) ; Windows でも ls コマンドを使用する
 ;; set ls option. Not display . and .. directories, and human readable file size.
 (setq dired-listing-switches "-lA -h --group-directories-first")
 #+END_SRC
