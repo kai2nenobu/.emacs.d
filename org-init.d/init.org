@@ -2352,6 +2352,9 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** web-mode.el
+- [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
+package.el からインストール．
 ** mu4e.el
 新しいメーラー．
 #+BEGIN_SRC emacs-lisp
