@@ -1993,7 +1993,7 @@ dired.el, dired-x.el, dired-aux.el の拡張
 (setq ls-lisp-ignore-case t)            ; ファイル名の大文字小文字無視でソート
 (setq ls-lisp-dirs-first t)             ; ディレクトリとファイルを分けて表示
 ;; set ls option. Not display . and .. directories, and human readable file size.
-(setq dired-listing-switches "-lAh")
+(setq dired-listing-switches "-lA -h --group-directories-first")
 #+END_SRC
 *** dired-dd.el
 dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使えるマウ
