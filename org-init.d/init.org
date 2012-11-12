@@ -2161,7 +2161,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
   (interactive)
   (let ((file-list
          (cond ((string-equal major-mode "dired-mode") (dired-get-marked-files))
-               (t (list (buffer-file-name))))))
+               (t (list (or (buffer-file-name)
+                            (error "This buffer isn't visiting a file")))))))
     (when (or (<= (length file-list) 5)
               (y-or-n-p "Open more than 5 files?"))
       (mapc 'my-open-file-dwim file-list))))
