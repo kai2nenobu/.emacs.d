@@ -4242,12 +4242,15 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
       (cfw:ical-create-source "Kenkyuu" "https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" "Orange")
       )))
   )
-
-;;; org-mode.el
-;;; org-mode 自体は標準であるが非標準elispも必要そうなので
-;;; ここに書いておく
+#+END_SRC
+** org-mode.el
+org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'org-install)
 (my-safe-require 'org
+#+END_SRC
+*** 一般的設定
+#+BEGIN_SRC emacs-lisp
   (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
   (setq org-startup-truncated nil)
   (setq org-return-follows-link t)
@@ -4306,6 +4309,11 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
                         ("Ruby" . ?) ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
+
+
+#+END_SRC
+*** capture 関連
+#+BEGIN_SRC emacs-lisp
   (setq org-capture-templates
         `(("m" "Today's memo" entry
            (file+function nil my-search-org-headline)
@@ -4339,7 +4347,9 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
           ("i" "Idea" entry
            (file+headline nil "New Ideas")
            "** %?\n   %a\n   %t")))
-  ;; publish の設定
+#+END_SRC
+*** publish 関連
+#+BEGIN_SRC emacs-lisp
   (setq org-publish-project-alist
         `(("orgfiles"
            :base-directory ,org-directory
@@ -4364,6 +4374,9 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
           :publishing-directory ,(concat org-directory "/html")
           :publishing-function org-publish-attachment)
          ("website" :components ("orgfiles" "images" "others"))))
+#+END_SRC
+*** export 関連
+#+BEGIN_SRC emacs-lisp
   ;; config about latex exporting
   (setcdr (assoc "\\.pdf\\'" org-file-apps) "/usr/bin/acroread %s")
   (setq org-export-latex-coding-system 'utf-8-unix)
@@ -4503,7 +4516,9 @@ If specify ARG, the subtree starts ARGth level headline."
       ;(backward-char)
 
       )))
-
+#+END_SRC
+** 
+#+BEGIN_SRC emacs-lisp
 ;; はてなへのエクスポート
 (my-safe-require 'org-export-hatena)
 
