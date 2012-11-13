@@ -2789,15 +2789,15 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (smartrep-define-key
       global-map "C-q" '(("[" . (backward-paragraph))
                          ("]" . (forward-paragraph))
-                         ("b" . 'moz-scroll-up)
-                         ("f" . 'moz-scroll-down)
-                         ("h" . 'moz-prev-tab)
-                         ("l" . 'moz-next-tab)
-                         ("C-n" . 'outline-next-visible-heading)
-                         ("C-p" . 'outline-previous-visible-heading)
-                         ("C-f" . 'org-forward-same-level)
-                         ("C-b" . 'org-backward-same-level)
-                         ("C-u" . 'outline-up-heading)))
+                         ("b" . moz-scroll-up)
+                         ("f" . moz-scroll-down)
+                         ("h" . moz-prev-tab)
+                         ("l" . moz-next-tab)
+                         ("C-n" . outline-next-visible-heading)
+                         ("C-p" . outline-previous-visible-heading)
+                         ("C-f" . org-forward-same-level)
+                         ("C-b" . org-backward-same-level)
+                         ("C-u" . outline-up-heading)))
 
   (smartrep-define-key
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
@@ -2811,7 +2811,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                         ("K" . (scroll-other-window -4))
                         ("d" . (scroll-other-window (/ (window-height) 2)))
                         ("u" . (scroll-other-window (- (/ (window-height) 2))))
-                        ("f" . 'scroll-other-window)
+                        ("f" . scroll-other-window)
                         ("b" . (scroll-other-window '-))
                         ("g" . (beginning-of-buffer-other-window 0))
                         ("G" . (end-of-buffer-other-window 0))))
@@ -2819,11 +2819,11 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (eval-after-load "org"
     '(progn
        (smartrep-define-key
-           org-mode-map "C-c" '(("C-n" . 'outline-next-visible-heading)
-                                ("C-p" . 'outline-previous-visible-heading)
-                                ("C-f" . 'org-forward-same-level)
-                                ("C-b" . 'org-backward-same-level)
-                                ("C-u" . 'outline-up-heading)))
+           org-mode-map "C-c" '(("C-n" . outline-next-visible-heading)
+                                ("C-p" . outline-previous-visible-heading)
+                                ("C-f" . org-forward-same-level)
+                                ("C-b" . org-backward-same-level)
+                                ("C-u" . outline-up-heading)))
        ))
 
   ;; (eval-after-load "yatex"
