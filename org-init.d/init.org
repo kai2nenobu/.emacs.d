@@ -4349,30 +4349,34 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+END_SRC
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
+  (defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
+  (defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
   (setq org-publish-project-alist
-        `(("orghtml"
-         :base-directory ,(concat org-directory "/wiki")
-         :publishing-directory "/rubner-web:public_html/orghtml"
+        `(("html"
+         :base-directory ,org-publish-my-web-base-dir
+         :publishing-directory ,org-publish-my-web-publishing-dir
          :base-extension "org"
          :publishing-function org-publish-org-to-html
          :headline-levels 3
          :section-numbers nil
          :table-of-contents nil
-         :style "<link rel=stylesheet type=\"text/css\" href=\"stylesheet.css\" >"
+         :recursive t
+         :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
          :exclude-tags ("noexport" "Note")
          :auto-preamble t
          :auto-postamble nil)
         ("images"
-        :base-directory ,(concat org-directory "/wiki/img")
-        :publishing-directory "/rubner-web:public_html/orghtml/img"
+        :base-directory ,(expand-file-name "img" org-publish-my-web-base-dir)
+        :publishing-directory ,(expand-file-name "img" org-publish-my-web-publishing-dir)
         :base-extension "jpg\\|jpeg\\|png"
         :publishing-function org-publish-attachment)
        ("others"
-        :base-directory ,(concat org-directory "/wiki")
-        :publishing-directory "/rubner-web:public_html/orghtml"
+        :base-directory ,org-publish-my-web-base-dir
+        :publishing-directory ,org-publish-my-web-publishing-dir
         :base-extension "css"
-        :publishing-function org-publish-attachment)
-       ("website" :components ("orghtml" "images" "others"))))
+        :publishing-function org-publish-attachment
+        :recursive t)
+       ("kaichan" :components ("html" "images" "others"))))
 #+END_SRC
 *** export 関連
 #+BEGIN_SRC emacs-lisp
