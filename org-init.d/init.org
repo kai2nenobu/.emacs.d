@@ -4246,7 +4246,6 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ** org-mode.el
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'org-install)
 (my-safe-require 'org
 #+END_SRC
 *** 一般的設定
