@@ -4350,8 +4350,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+END_SRC
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
-(setq org-publish-project-alist
-      `(("orghtml"
+  (setq org-publish-project-alist
+        `(("orghtml"
          :base-directory ,(concat org-directory "/wiki")
          :publishing-directory "/rubner-web:public_html/orghtml"
          :base-extension "org"
