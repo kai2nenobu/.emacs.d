@@ -4350,30 +4350,30 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+END_SRC
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
-  (setq org-publish-project-alist
-        `(("orgfiles"
-           :base-directory ,org-directory
-           :publishing-directory ,(concat org-directory "/html")
-           :base-extension "org"
-           :publishing-function org-publish-org-to-html
-           :headline-levels 3
-           :section-numbers nil
-           :table-of-contents t
-           :style "<link rel=stylesheet type=\"text/css\" href=\"stylesheet.css\" >"
-           :exclude-tags ("noexport" "Note")
-           :auto-preamble t
-           :auto-postamble nil)
-          ("images"
-          :base-directory ,(concat org-directory "/html")
-          :base-extension "jpg\\|jpeg\\|png"
-          :publishing-directory ,(concat org-directory "/html/img")
-          :publishing-function org-publish-attachment)
-         ("others"
-          :base-directory ,org-directory
-          :base-extension "css"
-          :publishing-directory ,(concat org-directory "/html")
-          :publishing-function org-publish-attachment)
-         ("website" :components ("orgfiles" "images" "others"))))
+(setq org-publish-project-alist
+      `(("orghtml"
+         :base-directory ,(concat org-directory "/wiki")
+         :publishing-directory "/rubner-web:public_html/orghtml"
+         :base-extension "org"
+         :publishing-function org-publish-org-to-html
+         :headline-levels 3
+         :section-numbers nil
+         :table-of-contents nil
+         :style "<link rel=stylesheet type=\"text/css\" href=\"stylesheet.css\" >"
+         :exclude-tags ("noexport" "Note")
+         :auto-preamble t
+         :auto-postamble nil)
+        ("images"
+        :base-directory ,(concat org-directory "/wiki/img")
+        :publishing-directory "/rubner-web:public_html/orghtml/img"
+        :base-extension "jpg\\|jpeg\\|png"
+        :publishing-function org-publish-attachment)
+       ("others"
+        :base-directory ,(concat org-directory "/wiki")
+        :publishing-directory "/rubner-web:public_html/orghtml"
+        :base-extension "css"
+        :publishing-function org-publish-attachment)
+       ("website" :components ("orghtml" "images" "others"))))
 #+END_SRC
 *** export 関連
 #+BEGIN_SRC emacs-lisp
