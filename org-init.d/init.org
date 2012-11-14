@@ -4540,11 +4540,6 @@ If specify ARG, the subtree starts ARGth level headline."
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp
-;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=google-maps-base.el;hb=HEAD")
-;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=google-maps-geocode.el;hb=HEAD")
-;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=google-maps-static.el;hb=HEAD")
-;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=google-maps.el;hb=HEAD")
-;; (auto-install-from-url "http://git.naquadah.org/?p=google-maps.git;a=blob_plain;f=org-location-google-maps.el;hb=HEAD")
 (my-safe-require 'google-maps)
 #+END_SRC
 ** jaunte.el
