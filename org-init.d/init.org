@@ -2035,7 +2035,7 @@ dired のソートを拡張する．
 *** 対話的にls オプションを変更
 `dired-sort-toggle' の代わりのつもり．
 #+BEGIN_SRC emacs-lisp
-(defvar dired-my-change-prompt
+(defvar dired-my-switch-prompt
   (concat
    (propertize "-n" 'face font-lock-builtin-face) ": name   "
    (propertize "-t" 'face font-lock-builtin-face) ": date   "
@@ -2051,29 +2051,31 @@ dired のソートを拡張する．
    (propertize "Switches: " 'face font-lock-keyword-face)
    "%s"))
 
-(defun dired-my-change-ls-switches-interactive ()
+(defun dired-my-switch-change-interactive ()
   "Change dired sort switch interactively."
   (interactive)
   (let ((switch dired-actual-switches) key)
     (catch 'quit
       (while t
-        (case (setq key (read-char (format dired-my-change-prompt switch)))
+        (case (setq key (read-char (format dired-my-switch-prompt switch)))
           (?\C-m (setq dired-actual-switches switch)
+                 (setq mode-name
+                       (concat "Dired/" (dired-my-switch-short-expression)))
                  (dired-revert)
                  (throw 'quit t))
           (?q (throw 'quit t))
-          ((?a ?A) (setq switch (dired-my-change-all-switch switch key)))
-          ((?h ?r ?g) (setq switch (dired-my-change-toggle-switch switch key)))
-          ((?  ?n ?t ?v ?S ?X) (setq switch (dired-my-change-sort-switch switch key)))
+          ((?a ?A) (setq switch (dired-my-switch-all-option switch key)))
+          ((?h ?r ?g) (setq switch (dired-my-switch-toggle-option switch key)))
+          ((?  ?n ?t ?v ?S ?X) (setq switch (dired-my-switch-sort-option switch key)))
           (otherwise nil))))))
 
-(defun dired-my-change-all-switch (switch key)
+(defun dired-my-switch-all-option (switch key)
   "Change all switch."
   (case key
     (?a (dired-replace-in-string "-lA" "-la" switch))
     (?A (dired-replace-in-string "-la" "-lA" switch))))
 
-(defun dired-my-change-toggle-switch (switch key)
+(defun dired-my-switch-toggle-option (switch key)
   "Change toggle switch."
   (case key
     ((?h ?r)
@@ -2085,7 +2087,7 @@ dired のソートを拡張する．
          (replace-match "" nil nil switch)
        (concat switch " --group-directories-first")))))
 
-(defun dired-my-change-sort-switch (switch key)
+(defun dired-my-switch-sort-option (switch key)
   "Change sort switch."
   (case key
     ((?  ?n)
@@ -2094,9 +2096,18 @@ dired のソートを拡張する．
      (if (string-match " -[tvSX]" switch)
          (replace-match (format " -%s" (char-to-string key)) nil nil switch)
        (concat switch (format " -%s" (char-to-string key)))))))
+
+(defun dired-my-switch-short-expression ()
+  "Return short expression of `dired-actual-switches'."
+  (let ((str dired-actual-switches))
+    (setq str (replace-regexp-in-string "^-l" "" str))
+    (setq str (replace-regexp-in-string " -\\([a-zA-Z]\\)" "\\1" str))
+    (setq str (replace-regexp-in-string " --group-directories-first" "g" str))))
+
 (add-hook 'dired-mode-hook
           (lambda ()
-            (define-key dired-mode-map (kbd "c") 'dired-my-change-ls-switches-interactive)))
+            (setq mode-name (concat "Dired/" (dired-my-switch-short-expression)))
+            (define-key dired-mode-map (kbd "c") 'dired-my-switch-change-interactive)))
 #+END_SRC
 *** バッファ名に [Dired] を付加
 #+BEGIN_SRC emacs-lisp
