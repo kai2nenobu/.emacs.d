@@ -3406,6 +3406,9 @@ hilight current column.
   (defun moz-next-tab ()
     (interactive)
     (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(1, true)"))
+  (defun moz-page-reload ()
+    (interactive)
+    (moz-send-line "BrowserReload()"))
 
   ;; http://blogs.openaether.org/?p=236
   (defun jk/moz-get (attr)
