@@ -2470,7 +2470,17 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
            :tags-as-categories nil)
           ))
   ;; my function
-  (defun org2blog/wp-my-preview-current-subtree ()
+  (defun org2blog/wp-my-post-current-subtree ()
+    "Preview current subtree."
+    (interactive)
+    (save-excursion
+      ;; move to top level of the outline
+      (ignore-errors
+        (while (> (progn (outline-up-heading 1)
+                         (funcall outline-level)) 1)))
+      (let ((org2blog/wp-show-post-in-browser nil))
+        (org2blog/wp-post-subtree))))
+  (defun org2blog/wp-my-post-current-subtree-and-preview ()
     "Preview current subtree."
     (interactive)
     (save-excursion
@@ -2480,7 +2490,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                          (funcall outline-level)) 1)))
       (let ((org2blog/wp-show-post-in-browser 'show))
         (org2blog/wp-post-subtree))))   ; preview
-  (defun org2blog/wp-my-post-current-subtree ()
+  (defun org2blog/wp-my-post-current-subtree-and-publish ()
     "Post current subtree."
     (interactive)
     (save-excursion
