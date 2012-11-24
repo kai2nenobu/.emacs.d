@@ -2168,6 +2168,7 @@ Creates a buffer if necessary."
 (defun my-open-file-dwim (file)
   "Open FILE with an appropriate application.
 Works in Microsoft Windows, Mac OS X, Linux."
+  (interactive "fOpen file with external application: ")
   (cond ((string-equal system-type "windows-nt")
          (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" file t t)))
         ((string-equal system-type "darwin")
