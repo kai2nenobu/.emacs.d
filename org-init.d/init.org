@@ -256,6 +256,7 @@ elisp のパッケージ管理をするライブラリ．
                  (message "Quit")
                  (throw 'end-flag t))))
         (set-frame-font (format "Ricty %d" my-font-size) nil t))))
+  (define-key my-original-map (kbd "+") 'my-resize-frame-font)
   ;; ;; 標準のフォントサイズ
   ;; (defvar my-font-size nil "Standard font size")
   ;; (defvar my-font-str nil "Standard font string")
