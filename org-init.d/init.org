@@ -359,42 +359,42 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 #+END_SRC
 ** キーバインド
 #+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "C-0") 'delete-window)
-(define-key global-map (kbd "C-1") 'delete-other-windows)
-(define-key global-map (kbd "C-2") 'split-window-vertically)
-(define-key global-map (kbd "C-3") 'split-window-horizontally)
-(define-key global-map (kbd "C-4") 'ctl-x-4-prefix)
-(define-key global-map (kbd "C-5") 'ctl-x-5-prefix)
+(global-set-key (kbd "C-0") 'delete-window)
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+(global-set-key (kbd "C-4") 'ctl-x-4-prefix)
+(global-set-key (kbd "C-5") 'ctl-x-5-prefix)
 (defalias 'ctl-x-r-prefix ctl-x-r-map)
-(define-key global-map (kbd "S-C-r") 'ctl-x-r-prefix)
-(define-key global-map (kbd "C-t") 'other-window-or-split)
-(define-key global-map (kbd "C-h") 'delete-backward-char)
-(define-key global-map (kbd "M-h") 'backward-kill-word)
-;(define-key global-map (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
-(define-key global-map (kbd "C-M-;") 'comment-or-uncomment-region)
-(define-key global-map (kbd "H-n") '(lambda (arg) (interactive "p") (scroll-up arg)))
-(define-key global-map (kbd "H-p") '(lambda (arg) (interactive "p") (scroll-down arg)))
-(define-key global-map (kbd "H-u")
+(global-set-key (kbd "S-C-r") 'ctl-x-r-prefix)
+(global-set-key (kbd "C-t") 'other-window-or-split)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+;(global-set-key (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
+(global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
+(global-set-key (kbd "H-n") '(lambda (arg) (interactive "p") (scroll-up arg)))
+(global-set-key (kbd "H-p") '(lambda (arg) (interactive "p") (scroll-down arg)))
+(global-set-key (kbd "H-u")
   '(lambda () (interactive) (scroll-down (/ (window-height) 2))))
-(define-key global-map (kbd "H-d")
+(global-set-key (kbd "H-d")
   '(lambda () (interactive) (scroll-up (/ (window-height) 2))))
 (if (winp)
     (setq w32-apps-modifier 'hyper      ; apps キーを hyper キーにする
                                         ; nodoka でカタカナひらがなを app にしている前提
           w32-lwindow-modifier 'super)) ; 左Windows キーを super キーにする
-(define-key global-map (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
+(global-set-key (kbd "S-SPC") 'self-insert-command) ; これがないと S-SPC が SPC に translate される
 
 ;;; H-数字 を digit-argument にバインド
-(define-key global-map (kbd "H-0") 'digit-argument)
-(define-key global-map (kbd "H-1") 'digit-argument)
-(define-key global-map (kbd "H-2") 'digit-argument)
-(define-key global-map (kbd "H-3") 'digit-argument)
-(define-key global-map (kbd "H-4") 'digit-argument)
-(define-key global-map (kbd "H-5") 'digit-argument)
-(define-key global-map (kbd "H-6") 'digit-argument)
-(define-key global-map (kbd "H-7") 'digit-argument)
-(define-key global-map (kbd "H-8") 'digit-argument)
-(define-key global-map (kbd "H-9") 'digit-argument)
+(global-set-key (kbd "H-0") 'digit-argument)
+(global-set-key (kbd "H-1") 'digit-argument)
+(global-set-key (kbd "H-2") 'digit-argument)
+(global-set-key (kbd "H-3") 'digit-argument)
+(global-set-key (kbd "H-4") 'digit-argument)
+(global-set-key (kbd "H-5") 'digit-argument)
+(global-set-key (kbd "H-6") 'digit-argument)
+(global-set-key (kbd "H-7") 'digit-argument)
+(global-set-key (kbd "H-8") 'digit-argument)
+(global-set-key (kbd "H-9") 'digit-argument)
 #+END_SRC
 *** C-c (mode-specific-map)
 #+BEGIN_SRC emacs-lisp
@@ -407,7 +407,7 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (defvar my-original-map (make-sparse-keymap)
   "My original keymap binded to C-q.")
 (defalias 'my-original-prefix my-original-map)
-(define-key global-map (kbd "C-q") 'my-original-prefix)
+(global-set-key (kbd "C-q") 'my-original-prefix)
 (define-key my-original-map (kbd "C-q") 'quoted-insert)
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
@@ -460,10 +460,10 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
     (goto-char (mark t))
     (setq mark-ring (nreverse mark-ring))))
 
-(define-key global-map (kbd "H-O") 'pop-global-mark)
-(define-key global-map (kbd "H-I") 'pop-global-mark-reverse)
-(define-key global-map (kbd "H-o") 'pop-to-mark-command)
-(define-key global-map (kbd "H-i") 'pop-to-mark-reverse-command)
+(global-set-key (kbd "H-O") 'pop-global-mark)
+(global-set-key (kbd "H-I") 'pop-global-mark-reverse)
+(global-set-key (kbd "H-o") 'pop-to-mark-command)
+(global-set-key (kbd "H-i") 'pop-to-mark-reverse-command)
 #+END_SRC
 ** mecab で段落を形態素解析
 #+BEGIN_SRC emacs-lisp
@@ -501,7 +501,7 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
   (condition-case nil
       (switch-to-buffer (cdr last-buffer-saved))
     (error (switch-to-buffer (other-buffer)))))
-(define-key global-map (kbd "C-^") 'switch-to-last-buffer)
+(global-set-key (kbd "C-^") 'switch-to-last-buffer)
 #+END_SRC
 あまりうまく動かない．なぜか *scratch* バッファがラストバッファに記録されてし
 まう．
@@ -546,7 +546,7 @@ Leave one space or none, according to the context."
     (dotimes (i n)
       (insert str))
     (goto-char (- (point-max) pos))))
-(define-key global-map (kbd "H-y") 'my-duplicate-thing)
+(global-set-key (kbd "H-y") 'my-duplicate-thing)
 #+END_SRC
 ** リージョン全体に対する org-edit-src-code
 #+BEGIN_SRC emacs-lisp
@@ -764,7 +764,7 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
       (replace-match
        (number-to-string (+ p (string-to-number (match-string 0)))))
     (move-to-column col)))
-(define-key global-map (kbd "M-i") 'my-increment-string-as-number)
+(global-set-key (kbd "M-i") 'my-increment-string-as-number)
 #+END_SRC
 ** ウィンドウを対話的にリサイズ
 - [[http://d.hatena.ne.jp/khiker/20100119/window_resize][Re: 分割したウィンドウの大きさをインタラクティヴに変更する - とりあえず暇だったし何となく始めたブログ]]
@@ -1087,7 +1087,7 @@ generic で簡単にメジャーモードを作れる．
   (interactive)
   (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
                                             nil 'fullboth)))
-(define-key global-map (kbd "<f11>") 'toggle-fullscreen)
+(global-set-key (kbd "<f11>") 'toggle-fullscreen)
 #+END_SRC
 ** ChangeLog と同じ形式で日付曜日挿入
 #+BEGIN_SRC emacs-lisp
@@ -2327,7 +2327,7 @@ generic を用いて予め定義されているモード．
 #+BEGIN_SRC emacs-lisp
 ;; (setq skk-user-directory "~/.emacs.d/ddskk/")
 ;; (when (require 'skk-autoloads nil t)
-;;   (define-key global-map (kbd "C-x C-j") 'skk-mode)
+;;   (global-set-key (kbd "C-x C-j") 'skk-mode)
 ;;   (setq skk-byte-compile-init-file t))
 #+END_SRC
 ** desktop.el
@@ -2671,7 +2671,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (defadvice emoji-complete-pictogram (after display-image-buffer activate)
     (emoji-display-images-buffer emoji-my-carrier))
   )
-(define-key global-map (kbd "C-x 8 e") 'emoji-complete-pictogram)
+(global-set-key (kbd "C-x 8 e") 'emoji-complete-pictogram)
 
 ;;; highlight-indentation.el
 (lazyload (highlight-indentation-mode
@@ -2712,7 +2712,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;;; http://sites.google.com/site/fudist/Home/vimpulse
 ;; (my-safe-require 'vimpulse
 ;;   (viper-go-away)
-;;   (define-key global-map (kbd "<M-delete>") 'toggle-viper-mode)
+;;   (global-set-key (kbd "<M-delete>") 'toggle-viper-mode)
 ;;   )
 #+END_SRC
 
@@ -2801,7 +2801,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 [[https://github.com/magnars/expand-region.el]]
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'expand-region
-  (define-key global-map (kbd "M-@") 'er/expand-region))
+  (global-set-key (kbd "M-@") 'er/expand-region))
 #+END_SRC
 ** auto-save-buffers.el
 アイドル時に自動保存
@@ -2834,7 +2834,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
                       ("}" . (enlarge-window-horizontally 1))))
 
-  (define-key global-map (kbd "C-M-v") nil)
+  (global-set-key (kbd "C-M-v") nil)
   (smartrep-define-key
    global-map "C-M-v" '(("j" . (scroll-other-window 1))
                         ("k" . (scroll-other-window -1))
@@ -2869,7 +2869,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ワンタッチでスクリプト実行．marmalade からインストール
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'quickrun
-  (define-key global-map (kbd "<f8>") 'quickrun)
+  (global-set-key (kbd "<f8>") 'quickrun)
   )
 #+END_SRC
 ** cycle-buffer.el
@@ -2877,8 +2877,8 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "cycle-buffer.el")
 (my-safe-require 'cycle-buffer
-  (define-key global-map (kbd "C-.") 'cycle-buffer)
-  (define-key global-map (kbd "C-,") 'cycle-buffer-backward)
+  (global-set-key (kbd "C-.") 'cycle-buffer)
+  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
   )
 #+END_SRC
 ** anything-advent-calendar.el
@@ -3100,7 +3100,7 @@ IDE的なウィンドウ管理をしてくれるライブラリ．設定され�
 ;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
 ;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
 (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
-(define-key global-map (kbd "M-+") 'e2wm:start-management)
+(global-set-key (kbd "M-+") 'e2wm:start-management)
 (lazyload (e2wm:start-management) "e2wm"
 #+END_SRC
 *** e2wm-vcs.el
@@ -3306,7 +3306,7 @@ hilight current column.
   (custom-set-faces
    '(col-highlight ((t (:background "gray10")))))
   (setq col-highlight-period 4)
-  (define-key global-map (kbd "C-+") 'flash-column-highlight)
+  (global-set-key (kbd "C-+") 'flash-column-highlight)
   (define-key my-original-map (kbd "C-c") 'column-highlight-mode)
   )
 #+END_SRC
@@ -3514,7 +3514,7 @@ hilight current column.
   (define-key anything-command-map (kbd "a") 'anything-apropos)
   (define-key anything-command-map (kbd "g") 'anything-grep)
   (define-key anything-command-map (kbd "R") 'anything-resume)
-  (define-key global-map (kbd "C-S-a") 'anything-command-map)
+  (global-set-key (kbd "C-S-a") 'anything-command-map)
   (eval-after-load "key-chord"
     '(progn
        (defalias 'anything-command-prefix anything-command-map)
@@ -3543,7 +3543,7 @@ hilight current column.
   (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
 
   ;; anything-show-kill-ring
-  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
   (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
 
   ;;;; external elisp
@@ -3636,9 +3636,9 @@ hilight current column.
 ;;; (auto-install-from-url "https://github.com/imakado/emacs-smartchr/raw/master/smartchr.el")
 ;;; 1つのキーに様々な文字列を割り当てることができる
 ;; (my-safe-require 'smartchr
-;;   (define-key global-map (kbd "=") (smartchr '(" = " " == " "=")))
-;;   (define-key global-map (kbd "{") (smartchr '("{`!!'}" "{")))
-;;   (define-key global-map (kbd "(") (smartchr '("(`!!')" "(")))
+;;   (global-set-key (kbd "=") (smartchr '(" = " " == " "=")))
+;;   (global-set-key (kbd "{") (smartchr '("{`!!'}" "{")))
+;;   (global-set-key (kbd "(") (smartchr '("(`!!')" "(")))
 ;;   )
 ;; 若干使いにくい。プログラミングの時だけ有効とかにしたほうがいいか
 
@@ -3682,10 +3682,10 @@ hilight current column.
 ;;; 辞書をひく
 ;; (autoload 'sdic-describe-word
 ;;   "sdic" "英単語の意味を調べる" t nil)
-;; (define-key global-map  (kbd "C-c d") 'sdic-describe-word)
+;; (global-set-key  (kbd "C-c d") 'sdic-describe-word)
 ;; (autoload 'sdic-describe-word-at-point
 ;;   "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
-;; (define-key global-map (kbd "C-c D") 'sdic-describe-word-at-point)
+;; (global-set-key (kbd "C-c D") 'sdic-describe-word-at-point)
 ;; ;; 英和検索で使用する辞書
 ;; (setq sdic-eiwa-dictionary-list
 ;;       '((sdicf-client "~/.emacs.d/dict/gene.sdic")))
@@ -3801,7 +3801,7 @@ hilight current column.
 ;;; 同一フレーム内に speedbar を作る
 ;;; そんなに使い方を理解していない
 (my-safe-require 'sr-speedbar
-  (define-key global-map (kbd "H-s") 'sr-speedbar-toggle))
+  (global-set-key (kbd "H-s") 'sr-speedbar-toggle))
 
 ;;; cacoo.el
 ;;; 2011-02-11 (Fri)
@@ -3823,7 +3823,7 @@ hilight current column.
   (setq cacoo:external-viewer nil)
   (setq cacoo:img-dir (concat user-emacs-directory ".cacoo-cache"))
   (setq cacoo:img-dir-ok t) ; 画像フォルダは確認無しで作る(my-safe-require 'cacoo
-  (define-key global-map (kbd "M-c") 'toggle-cacoo-minor-mode)
+  (global-set-key (kbd "M-c") 'toggle-cacoo-minor-mode)
   (add-to-list 'cacoo:translation-exts "pdf") ; imagemagick で png 形式に変換して表示するファイルの拡張子を登録する
                                               ; デフォルトでは ("ps" "eps" "svg")
   (setq cacoo:png-background "white")
@@ -4034,15 +4034,15 @@ view-mode を便利に．
 ;;   (setq one-key-help-window-max-height 40)         ; ウィンドウの最大高さ
 ;;                                         ; nil だとものすごい大きい *One-Key* バッファが一面に広がってしまうことがあるので。
 ;;   (setq one-key-items-per-line nil)
-;;   (define-key global-map (kbd "C-S-r") 'one-key-menu-C-x-r) ; C-S-r を C-x r と同じにする
-;;   (define-key global-map (kbd "C-4") 'one-key-menu-C-x-4) ; C-4 を C-x 4 と同じにする
-;;   (define-key global-map (kbd "C-5") 'one-key-menu-C-x-5) ; C-5 を C-x 5 と同じにする
-;;   (define-key global-map (kbd "<C-return>") 'one-key-menu-C-x-RET) ; C-RET を C-x RET と同じにする
+;;   (global-set-key (kbd "C-S-r") 'one-key-menu-C-x-r) ; C-S-r を C-x r と同じにする
+;;   (global-set-key (kbd "C-4") 'one-key-menu-C-x-4) ; C-4 を C-x 4 と同じにする
+;;   (global-set-key (kbd "C-5") 'one-key-menu-C-x-5) ; C-5 を C-x 5 と同じにする
+;;   (global-set-key (kbd "<C-return>") 'one-key-menu-C-x-RET) ; C-RET を C-x RET と同じにする
 
 ;;   ;; (my-safe-load "one-key-menu-my-mode-specific")                   ; 自作 mode-specific キーバインド
 ;;   ;; (add-to-list 'one-key-mode-alist '(mode-specific . one-key-menu-my-mode-specific))
 ;;   ;; (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-mode-specific") . one-key-menu-my-mode-specific))
-;;   ;; (define-key global-map (kbd "C-c") 'one-key-menu-my-mode-specific)
+;;   ;; (global-set-key (kbd "C-c") 'one-key-menu-my-mode-specific)
 
 ;;   (eval-after-load "yatex"
 ;;     '(progn
@@ -4068,7 +4068,7 @@ view-mode を便利に．
 ;;        (my-safe-load "one-key-menu-my-elscreen") ; template elscreen 用キーバインド表
 ;;        (add-to-list 'one-key-mode-alist '(elscreen . one-key-menu-my-elscreen))
 ;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-elscreen") . one-key-menu-my-elscreen))
-;;        (define-key global-map (kbd "C-z") 'one-key-menu-my-elscreen)))
+;;        (global-set-key (kbd "C-z") 'one-key-menu-my-elscreen)))
 ;;   )
 #+END_SRC
 ** key-chord.el
@@ -4478,10 +4478,10 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; hook
   (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; key bind
-  (define-key global-map (kbd "C-c a") 'org-agenda)
-  (define-key global-map (kbd "C-c b") 'org-iswitchb)
-  (define-key global-map (kbd "C-c l") 'org-store-link)
-  (define-key global-map (kbd "C-c C-SPC") 'org-mark-ring-goto)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c C-SPC") 'org-mark-ring-goto)
 
   ;; from info
   (defun org-summary-todo (n-done n-not-done)
@@ -4640,8 +4640,8 @@ Hit a Hint でカーソル移動するライブラリ．
 ;;   ;(win:startup-with-window)               ; 起動時に window1 を選択する？
 ;;   (define-key ctl-x-map (kbd "C-c") 'see-you-again)
 ;;   (define-key ctl-x-map (kbd "C") 'save-buffers-kill-emacs)
-;;   (define-key global-map (kbd "C-S-n") 'win-next-window)
-;;   (define-key global-map (kbd "C-S-p") 'win-prev-window)
+;;   (global-set-key (kbd "C-S-n") 'win-next-window)
+;;   (global-set-key (kbd "C-S-p") 'win-prev-window)
 ;;   ;; revive.el によりレジューム
 ;;   ;(add-hook 'after-init-hook 'resume-windows)      ; 起動時にレジュームする
 ;;   ;; これをつけるとエラーが起きる。なんか bm のところで止まってる？
@@ -4655,20 +4655,20 @@ Hit a Hint でカーソル移動するライブラリ．
 (my-safe-load "elscreen"
   (setq elscreen-display-tab 10)
   (setq elscreen-tab-display-kill-screen nil) ; タブのXを非表示
-  (define-key global-map (kbd "C-S-n") 'elscreen-next)
-  (define-key global-map (kbd "C-S-p") 'elscreen-previous)
-  (define-key global-map (kbd "M-n") 'elscreen-next)
-  (define-key global-map (kbd "M-p") 'elscreen-previous)
-  (define-key global-map (kbd "M-1") '(lambda () (interactive) (elscreen-goto 1)))
-  (define-key global-map (kbd "M-2") '(lambda () (interactive) (elscreen-goto 2)))
-  (define-key global-map (kbd "M-3") '(lambda () (interactive) (elscreen-goto 3)))
-  (define-key global-map (kbd "M-4") '(lambda () (interactive) (elscreen-goto 4)))
-  (define-key global-map (kbd "M-5") '(lambda () (interactive) (elscreen-goto 5)))
-  (define-key global-map (kbd "M-6") '(lambda () (interactive) (elscreen-goto 6)))
-  (define-key global-map (kbd "M-7") '(lambda () (interactive) (elscreen-goto 7)))
-  (define-key global-map (kbd "M-8") '(lambda () (interactive) (elscreen-goto 8)))
-  (define-key global-map (kbd "M-9") '(lambda () (interactive) (elscreen-goto 9)))
-  (define-key global-map (kbd "M-0") '(lambda () (interactive) (elscreen-goto 10)))  ; なんか愚直すぎるので何とかしたいですね
+  (global-set-key (kbd "C-S-n") 'elscreen-next)
+  (global-set-key (kbd "C-S-p") 'elscreen-previous)
+  (global-set-key (kbd "M-n") 'elscreen-next)
+  (global-set-key (kbd "M-p") 'elscreen-previous)
+  (global-set-key (kbd "M-1") '(lambda () (interactive) (elscreen-goto 1)))
+  (global-set-key (kbd "M-2") '(lambda () (interactive) (elscreen-goto 2)))
+  (global-set-key (kbd "M-3") '(lambda () (interactive) (elscreen-goto 3)))
+  (global-set-key (kbd "M-4") '(lambda () (interactive) (elscreen-goto 4)))
+  (global-set-key (kbd "M-5") '(lambda () (interactive) (elscreen-goto 5)))
+  (global-set-key (kbd "M-6") '(lambda () (interactive) (elscreen-goto 6)))
+  (global-set-key (kbd "M-7") '(lambda () (interactive) (elscreen-goto 7)))
+  (global-set-key (kbd "M-8") '(lambda () (interactive) (elscreen-goto 8)))
+  (global-set-key (kbd "M-9") '(lambda () (interactive) (elscreen-goto 9)))
+  (global-set-key (kbd "M-0") '(lambda () (interactive) (elscreen-goto 10)))  ; なんか愚直すぎるので何とかしたいですね
 
   ;; 起動時にスクリーンを10個作っておく
   (defun my-elscreen-startup ()
@@ -4746,7 +4746,7 @@ Emacsでibusを使えるようにする．これで mozc が使える．
     ;; Change cursor color depending on IBus status
     (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
     ;; Use C-\ for ibus-toggle
-    (define-key global-map (kbd "C-\\") 'ibus-toggle)
+    (global-set-key (kbd "C-\\") 'ibus-toggle)
     ;; `ibus-common-function-key-list' に ibus で使いたいキーを追加する？
     (add-to-list 'ibus-common-function-key-list '(meta "v"))
     ;; isearch で ibus を無効にする
