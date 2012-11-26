@@ -3,7 +3,7 @@
 #+TITLE: Emacs の初期設定
 #+STYLE: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
 #+STYLE: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
-#+OPTIONS: toc:2 num:nil ^:nil
+#+OPTIONS: toc:1 num:nil ^:nil
 
 * Future work                                                      :noexport:
 ** iserach などで perl 正規表現を使う
@@ -47,6 +47,14 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ** ミニバッファのヒストリを anything 検索
 : (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
 は設定しているが，有効な時と無効な時がある．map が違うのか？
+* はじめに
+org-babel を使って org-mode で設定ファイルを記述しています．
+
+1. ~/.emacs.d/init.el 読み込み
+2. `org-babel-load-file' で  ~/.emacs.d/org-init.d/init.org から
+   ~/.emacs.d/org-init/init.el を生成
+3. ~/.emacs.d/org-init/init.el を読み込み
+#+INCLUDE: "~/.emacs.d/init.el" src emacs-lisp
 * 参考URL
 ** MELPA でリリース
 - [[http://qiita.com/items/0502030e0875b6902fe1][emacsのプラグイン置き場、MELPAに自作の.elを登録する #elisp #Emacs - Qiita]]
