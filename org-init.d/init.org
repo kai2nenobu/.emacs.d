@@ -2627,10 +2627,9 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 - かなり多くの ruby 関連の設定が書いてある [[http://d.hatena.ne.jp/eiel/20101106][Rubyに関するEmacsの設定を晒してみ
   る - そんなこと覚えてるわけがない。]]
 ** hl-line.el
+- [[http://d.hatena.ne.jp/khiker/20070409/emacs_hl_line][現在行のハイライト - とりあえず暇だったし何となく始めたブログ]]
 カーソルのある行をハイライトする
 #+BEGIN_SRC emacs-lisp
-;;; hilight current line
-;;; http://d.hatena.ne.jp/khiker/20070409/emacs_hl_line
 (my-safe-require 'hl-line
   (global-hl-line-mode t)
   (defface my-hl-line-face
@@ -2640,7 +2639,6 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
        (:background "gray90" t))          ; 背景を ForestGreen に.
       (t (:bold t)))
     "hl-line's my face")
-
   (setq hl-line-face 'my-hl-line-face)
   )
 #+END_SRC
