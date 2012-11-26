@@ -2626,12 +2626,13 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   ルRsenseをMac に入れてみた]]
 - かなり多くの ruby 関連の設定が書いてある [[http://d.hatena.ne.jp/eiel/20101106][Rubyに関するEmacsの設定を晒してみ
   る - そんなこと覚えてるわけがない。]]
-** hl-line.el
+** hl-line+.el
 - [[http://d.hatena.ne.jp/khiker/20070409/emacs_hl_line][現在行のハイライト - とりあえず暇だったし何となく始めたブログ]]
-カーソルのある行をハイライトする
+カーソルのある行をハイライトする．hl-line+ は hl-line を拡張する．オーバーレ
+イの優先度を設定したり，アイドル時のみハイライトしたりできる．
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'hl-line
-  (global-hl-line-mode t)
+(my-safe-require 'hl-line+   ; hl-line is also loaded
+  (global-hl-line-mode 1)
   (defface my-hl-line-face
     '((((class color) (background dark))  ; カラーかつ, 背景が dark ならば,
        (:background "gray10" t))          ; 背景を黒に.
@@ -2640,6 +2641,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
       (t (:bold t)))
     "hl-line's my face")
   (setq hl-line-face 'my-hl-line-face)
+  (setq hl-line-overlay-priority 1)  ; ハイライトの優先度．個人的には低くしたい
   )
 #+END_SRC
 ** editable-help.el
