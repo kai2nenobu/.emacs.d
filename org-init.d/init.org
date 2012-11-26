@@ -2404,6 +2404,7 @@ package.el からインストール．
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
   ;; 拡張
   (my-safe-require 'org-mu4e)   ; org-mode との協調
+  (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
   )
 #+END_SRC(my-safe-require 'mu4e
 ** fill-column-indicator
