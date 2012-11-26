@@ -256,7 +256,6 @@ elisp のパッケージ管理をするライブラリ．
                  (message "Quit")
                  (throw 'end-flag t))))
         (set-frame-font (format "Ricty %d" my-font-size) nil t))))
-  (define-key my-original-map (kbd "+") 'my-resize-frame-font)
   ;; ;; 標準のフォントサイズ
   ;; (defvar my-font-size nil "Standard font size")
   ;; (defvar my-font-str nil "Standard font string")
@@ -412,6 +411,7 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
 (define-key my-original-map (kbd "C-w") 'my-window-resizer)
+(define-key my-original-map (kbd "+") 'my-resize-frame-font)
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
@@ -2377,6 +2377,8 @@ package.el からインストール．
   (setq mu4e-headers-date-format "%Y/%m/%d (%a)")
   (setq mu4e-view-prefer-html t)
   (setq mu4e-html2text-command "html2text -utf8 -width 72")
+  (setq mu4e-split-view 'vertical)  ;; ヘッダバッファの分割方法．左右に分割する
+  (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
   ;; フォルダ設定
   (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
         mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
@@ -2400,6 +2402,8 @@ package.el からインストール．
           smtpmail-stream-type 'starttls
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
+  ;; 拡張
+  (my-safe-require 'org-mu4e)   ; org-mode との協調
   )
 #+END_SRC(my-safe-require 'mu4e
 ** fill-column-indicator
