@@ -5,7 +5,7 @@
 #+STYLE: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
 #+OPTIONS: toc:2 num:nil ^:nil
 
-* Future work
+* Future work                                                      :noexport:
 ** iserach などで perl 正規表現を使う
 - [[http://fukuyama.co/foreign-regexp][Emacs正規表現から解放されました]]
 foreign-regexp.el ので実現できるらしので，そのうち導入しよう．
@@ -33,7 +33,7 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ** one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ** yatex のキー割り当てが ??? なのを修正する
 
-* Question                                                         :Question:
+* Question                                                :noexport:Question:
 ** ミニバッファ中に anything を発動させるには？
 ミニバッファの再帰的な利用法を知りたい．
 ** なんか anything のバッファが bottom に固定表示される？
@@ -2448,7 +2448,7 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 (my-safe-require 'org-google-weather)
 #+END_SRC
 ** hiwin.el
-- [[http://d.hatena.ne.jp/ksugita0510/20111223][2011-12-23 - gnupackの開発メモ]]
+- [[http://d.hatena.ne.jp/ksugita0510/20111223][gnupackの開発メモ]]
 非アクティブなウィンドウの背景色を変更する．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'hiwin
@@ -2805,7 +2805,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 (autoload 'bashdb "bashdb" "BASH Debugger mode via GUD and bashdb" t)
 #+END_SRC
 ** expand-region.el
-[[https://github.com/magnars/expand-region.el]]
+- [[https://github.com/magnars/expand-region.el][magnars/expand-region.el]]
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'expand-region
   (global-set-key (kbd "M-@") 'er/expand-region))
@@ -2912,7 +2912,8 @@ advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/
 ;;   )
 #+END_SRC
 ** cedet.el
-Emacs で開発環境．[[http://cedet.sourceforge.net/]]
+- [[http://cedet.sourceforge.net/][Collection of Emacs Development Environment Tools Homepage]]
+Emacs で開発環境．
 #+BEGIN_SRC emacs-lisp
 ;; (my-safe-load (expand-file-name "repo/cedet-1.0/common/cedet.el" dropbox-directory)
 ;;   (global-ede-mode 1)                      ; Enable the Project management system
@@ -2952,7 +2953,8 @@ Emacs で開発環境．[[http://cedet.sourceforge.net/]]
 paredit.el をつけておくとファイルを開くときにメジャーモードの判定に失敗したり
 する．何でかは分からんが不便なのでコメントアウトしとく
 ** undo-tree.el
-編集履歴を木構造で視覚的に表示しアンドゥできる．[[http://www.dr-qubit.org/emacs.php]]
+- [[http://www.emacswiki.org/emacs/UndoTree][EmacsWiki: Undo Tree]]
+編集履歴を木構造で視覚的に表示しアンドゥできる．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'undo-tree
   (global-undo-tree-mode)
@@ -2964,7 +2966,8 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   )
 #+END_SRC
 ** egg.el
-git クライアント．[[https://github.com/bogolisk/egg]]
+- [[https://github.com/bogolisk/egg][bogolisk/egg]]
+git クライアント．
 #+BEGIN_SRC emacs-lisp
 ;(my-safe-require 'egg)
 #+END_SRC
@@ -2981,7 +2984,8 @@ git クライアント．[[https://github.com/bogolisk/egg]]
   (setq highlight-80+-columns fill-column))
 #+END_SRC
 ** ya-hatena-mode.el
-Emacs からはてなダイアリーに投稿する．[[https://github.com/takaishi/ya-hatena-mode]]
+- [[https://github.com/takaishi/ya-hatena-mode][takaishi/ya-hatena-mode]]
+Emacs からはてなダイアリーに投稿する．
 #+BEGIN_SRC emacs-lisp
 (setq *yhtn:account-info-file* "~/.yhtn-account-info.el") ; デフォルトは .yhtn:account-~~~ だが Ubuntu 環境だと
                                                           ; そのファイル名が認識できない？のかロードできない
@@ -3004,7 +3008,7 @@ Emacs からはてなダイアリーに投稿する．[[https://github.com/takai
 (my-safe-load "marmalade")
 #+END_SRC
 ** kogiku.el
-[[http://kogiku.sourceforge.jp/]]
+- [[http://kogiku.sourceforge.jp/][小菊]]
 #+BEGIN_SRC emacs-lisp
 ;; (my-safe-require 'kogiku
 ;;   (setq kogiku-enable-once nil))
@@ -3031,7 +3035,9 @@ Emacs からはてなダイアリーに投稿する．[[https://github.com/takai
   (setq simple-hatena-default-id "kbkbkbkb1"))
 #+END_SRC
 ** judge-indent.el
-インデントの幅やタブを操作，モードラインに表示．[[http://d.hatena.ne.jp/yascentur/20110626/1309099966]]
+- [[http://d.hatena.ne.jp/yascentur/20110626/1309099966][Emacs でインデント幅とタブ幅を自動判定するマイナーモード judge-indent.el -
+  キーボードをたたくとき]]
+インデントの幅やタブを操作，モードラインに表示．
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://raw.github.com/yascentur/judge-indent-el/1.0.0/judge-indent.el")
 (my-safe-require 'judge-indent
@@ -3061,10 +3067,10 @@ Emacs からはてなダイアリーに投稿する．[[https://github.com/takai
 ;; やっぱ常に改行文字はうざかった
 #+END_SRC
 ** thing-opt.el
+- [[http://dev.ariel-networks.com/articles/emacs/part5/][リージョン選択(松山智大) — ありえるえりあ]]
 thing を定義，操作する．
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/thing-opt.el")
-;;; http://dev.ariel-networks.com/articles/emacs/part5/
 (my-safe-require 'thing-opt
   (define-thing-commands)
   (eval-after-load "key-chord"
@@ -3084,7 +3090,7 @@ thing を定義，操作する．
   )
 #+END_SRC
 ** nav.el
-- [[http://code.google.com/p/emacs-nav/]]
+- [[http://code.google.com/p/emacs-nav/][emacs-nav - Emacs mode for filesystem navigation - Google Project Hosting]]
 ディレクトリのファイル一覧を表示
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'nav)
@@ -3098,10 +3104,10 @@ bookmark.el の拡張．
 #+END_SRC
 使い方がよう分からん．
 ** e2wm.el
-IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
-ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
 - [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
   （旧名称 ewm.el） - 技術日記＠kiwanami]]
+IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
+ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
 #+BEGIN_SRC emacs-lisp
 ;; e2wm.el
 ;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
@@ -3110,9 +3116,10 @@ IDE的なウィンドウ管理をしてくれるライブラリ．設定され�
 (global-set-key (kbd "M-+") 'e2wm:start-management)
 (lazyload (e2wm:start-management) "e2wm"
 #+END_SRC
+どうも elscreen などのフレーム制御系のライブラリと相性が悪そう．
 *** e2wm-vcs.el
-magit 用のパースペクティブ．
 - [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
+magit 用のパースペクティブ．
 #+BEGIN_SRC emacs-lisp
   ;; e2wm-vcs.el
   ;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
@@ -3143,6 +3150,7 @@ diff が見やすくなるように各フェイスの色を設定．
   (set-face-background 'magit-item-highlight "gray20")
 #+END_SRC
 *** magit のファイル名をマークする
+- [[http://d.hatena.ne.jp/ken_m/20111225/1324833439][Magit で複数のファイルに対して操作する - ”E” for ...]]
 複数ファイルを一度にステージしたりするのに便利．自分用に若干改造．
 #+BEGIN_SRC emacs-lisp
   (defvar my-magit-selected-files ()
@@ -4361,8 +4369,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
                         ("Ruby" . ?) ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
   (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
-
-
 #+END_SRC
 *** capture 関連
 #+BEGIN_SRC emacs-lisp
@@ -4847,7 +4853,7 @@ do nothing. And suppress the output from `message' and
   (run-with-idle-timer 60 t 'recentf-save-list)
   )
 #+END_SRC
-** pukiwiki-mode
+** pukiwiki-mode                                                   :noexport:
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'http)
 (lazyload (pukiwiki-edit pukiwiki-index pukiwki-edit-url) "pukiwiki-mode"
@@ -4877,7 +4883,7 @@ do nothing. And suppress the output from `message' and
                                  (toggle-truncate-lines 1)
                                  (orgtbl-mode 1)))
 #+END_SRC
-** clmemo.el
+** clmemo.el                                                       :noexport:
 ChangeLogでメモを取るモード．
 #+BEGIN_SRC emacs-lisp
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
@@ -5171,7 +5177,7 @@ ChangeLogでメモを取るモード．
 #+END_SRC
 * 外部プログラムが必要そうなライブラリ
 ポータブルにはしにくそうなやつ
-** lookup.el
+** lookup.el                                                       :noexport:
 多機能辞書引きプログラム．
 #+BEGIN_SRC emacs-lisp
 ;; オートロードの設定
