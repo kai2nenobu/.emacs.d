@@ -2379,6 +2379,8 @@ package.el からインストール．
   (setq mu4e-html2text-command "html2text -utf8 -width 72")  ;; html をテキスト表示
   (setq mu4e-split-view 'vertical)  ;; ヘッダバッファの分割方法．左右に分割する
   (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
+  (setq mu4e-show-images t)  ;; 添付された画像をインライン表示する
+  (setq mu4e-view-image-max-width 100)  ;; 画像の最大幅
   ;; フォルダ設定
   (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
         mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
