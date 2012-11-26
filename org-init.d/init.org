@@ -1123,10 +1123,10 @@ generic で簡単にメジャーモードを作れる．
 ** Emacs24 で動作が重くなったのを改善
 どうも右から左に書く言語のための設定のようだが，デフォルトでは無効にしたほう
 が動作が軽快なようですね．
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC emacs-lisp
 (setq-default bidi-display-reordering nil
               bidi-paragraph-direction (quote left-to-right))
-#+END_EXAMPLE
+#+END_SRC
 ** タイムスタンプ
 ファイルに Time-stamp: <> があれば自動的にタイムスタンプを追加する
 #+BEGIN_SRC emacs-lisp
