@@ -2375,8 +2375,8 @@ package.el からインストール．
 (my-safe-require 'mu4e
   ;; 基本設定
   (setq mu4e-headers-date-format "%Y/%m/%d (%a)")
-  (setq mu4e-view-prefer-html t)
-  (setq mu4e-html2text-command "html2text -utf8 -width 72")
+  (setq mu4e-view-prefer-html nil)  ;; html を html のままで表示しない
+  (setq mu4e-html2text-command "html2text -utf8 -width 72")  ;; html をテキスト表示
   (setq mu4e-split-view 'vertical)  ;; ヘッダバッファの分割方法．左右に分割する
   (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
   ;; フォルダ設定
