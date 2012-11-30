@@ -1738,9 +1738,9 @@ shift+カーソルキー でウィンドウを移動する．
   (add-to-list 'tramp-default-proxies-alist
                '("poseidon\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
   (add-to-list 'tramp-default-proxies-alist
-               '("rubner" "\\`root\\'" "/kai@%h:"))
-  (add-to-list 'tramp-default-proxies-alist
-               '("rubner-\\(dns\\|web\\)\\(.kaichan.mydns.jp\\)?" nil "/kai@rubner:"))
+               '("\\`rubner\\'" "\\`root\\'" "/kai@%h:"))
+  ;(add-to-list 'tramp-default-proxies-alist
+  ;             '("rubner-\\(dns\\|web\\)\\(.kaichan.mydns.jp\\)?" nil "/kai@rubner:"))
   )
 #+END_SRC
 ** doc-view.el
