@@ -1128,6 +1128,11 @@ generic で簡単にメジャーモードを作れる．
 (my-measure-message-time "My original function.")
 #+END_SRC
 * その他一般的な動作設定
+** ファイルの削除はごみ箱を使う
+完全にファイルが消えるのは心臓に悪いので設定しておく．
+#+BEGIN_SRC emacs-lisp
+(setq delete-by-moving-to-trash t)
+#+END_SRC
 ** Emacs24 で動作が重くなったのを改善
 どうも右から左に書く言語のための設定のようだが，デフォルトでは無効にしたほう
 が動作が軽快なようですね．
