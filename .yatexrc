@@ -12,6 +12,7 @@
 ("frame")
 ))
 (setq user-section-table '(
+("beamerroundbox")
 ("frametitle")
 ))
 
