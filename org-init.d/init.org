@@ -2196,6 +2196,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
   (interactive)
   (let ((file-list
          (cond ((string-equal major-mode "dired-mode") (dired-get-marked-files))
+               ((and (featurep 'ffap) (ffap-file-at-point))
+                (list (expand-file-name (ffap-file-at-point) default-directory)))
                (t (list (or (buffer-file-name)
                             (error "This buffer isn't visiting a file")))))))
     (when (or (<= (length file-list) 5)
