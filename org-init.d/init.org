@@ -2108,7 +2108,9 @@ dired のソートを拡張する．
      (dired-replace-in-string " -[tvSX]" "" switch))
     ((?t ?v ?S ?X)
      (if (string-match " -[tvSX]" switch)
-         (replace-match (format " -%s" (char-to-string key)) nil nil switch)
+         (if (string= (match-string 0 switch) (format " -%s" (char-to-string key)))
+             (replace-match "" nil nil switch)
+           (replace-match (format " -%s" (char-to-string key)) nil nil switch))
        (concat switch (format " -%s" (char-to-string key)))))))
 
 (defun dired-my-switch-short-expression ()
