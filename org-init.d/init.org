@@ -3082,6 +3082,13 @@ Emacs からはてなダイアリーに投稿する．
   (global-judge-indent-mode t)
   (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
 #+END_SRC
+** longlines.el
+長い行の折り返し．英語でもあると便利そうなので設定しておく．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'longlines
+  (setq longlines-show-hard-newlines t)
+  (define-key my-original-map (kbd "M-j") 'longlines-mode))
+#+END_SRC
 ** longlines-jp.el
 長い行の仮想折り返し，日本語バージョン．
 #+BEGIN_SRC emacs-lisp
