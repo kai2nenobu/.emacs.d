@@ -2424,6 +2424,22 @@ package.el からインストール．
   ;; 拡張
   (my-safe-require 'org-mu4e)   ; org-mode との協調
   (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
+  ;; anything でディレクトリ選択
+  (defvar anything-c-source-mu4e-maildir
+    '((name . "mu4e-maildir")
+      (candidates . mu4e-get-maildirs)
+      (action . mu4e~headers-jump-to-maildir)
+      (migemo))
+    "Anything source for mu4e maildir.")
+
+  (defun anything-mu4e-maildir ()
+    "Anything command for mu4e maildir."
+    (interactive)
+    (anything-other-buffer '(anything-c-source-mu4e-maildir)
+                           "*anything-mu4e-maildir*"))
+  (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
+  (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
+  (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
   )
 #+END_SRC(my-safe-require 'mu4e
 ** fill-column-indicator
