@@ -2398,6 +2398,7 @@ package.el からインストール．
   (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
   (setq mu4e-show-images t)  ;; 添付された画像をインライン表示する
   (setq mu4e-view-image-max-width 800)  ;; 画像の最大幅．単位はおそらくピクセル
+  (set-face-foreground 'mu4e-title-face "deep pink")  ;; タイトル用のフェイス
   ;; フォルダ設定
   (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
         mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
