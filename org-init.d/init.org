@@ -2410,8 +2410,13 @@ package.el からインストール．
   ;; フォルダ設定
   (setq mu4e-search-results-limit 500) ;; -1 にすると無制限
   (setq mu4e-maildir-shortcuts
-        '(("/gavo/INBOX" . ?i)
-          ("/gavo/INBOX.onsei-mail" . ?O)))
+        '(("/gavo/INBOX" . ?g)
+          ("/gavo/INBOX.onsei-mail" . ?O)
+          ("/kbkbkbkb1/INBOX" . ?k)
+          ("/kbkbkbkb1/INBOX.mailing-list.Emacs-devel" . ?e)
+          ("/kbkbkbkb1/INBOX.mailing-list.Emacs-orgmode" . ?)
+          ("/cellphone/INBOX" . ?c)
+          ))
   ;; 送信設定
   (add-to-list 'mu4e-user-mail-address-list "kai@gavo.t.u-tokyo.ac.jp")
   (my-safe-require 'smtpmail
