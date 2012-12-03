@@ -2459,6 +2459,7 @@ package.el からインストール．
   (global-fci-mode)
   (add-hook 'org-mode-hook 'turn-off-fci-mode)
   (add-hook 'dired-mode-hook 'turn-off-fci-mode)
+  (define-key my-original-map (kbd "M-f") 'fci-mode)
   )
 #+END_SRC
 org-mode で有効にするといろいろな動作で重くなる．折りたたみされているのが良く
