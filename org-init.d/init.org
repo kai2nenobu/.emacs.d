@@ -2422,9 +2422,9 @@ package.el からインストール．
   (add-to-list 'mu4e-user-mail-address-list "kai@gavo.t.u-tokyo.ac.jp")
   (my-safe-require 'smtpmail
     (setq message-send-mail-function   'smtpmail-send-it
+          smtpmail-stream-type 'ssl
           smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
-          smtpmail-stream-type 'starttls
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
   ;; 拡張
