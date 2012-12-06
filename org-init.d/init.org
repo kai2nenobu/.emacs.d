@@ -2130,12 +2130,11 @@ dired のソートを拡張する．
 (defun dired-my-add-buffer-name ()
   "Add a auxiliary string to a name of dired buffer."
   (when (eq major-mode 'dired-mode)
-    (rename-buffer (format "%s [%sDired]"
-                           (buffer-name)
-                           ;; Windows の場合はドライブレターを追加
-                           (if (winp)
-                               (substring (expand-file-name default-directory) 0 2)
-                             "")) t)))
+    (let* ((dir (expand-file-name default-directory))
+           (drive (if (and (winp) ;; Windows の場合はドライブレターを追加
+                           (string-match "^\\([a-zA-Z]:\\)/" dir))
+                      (match-string 1 dir) "")))
+      (rename-buffer (concat (buffer-name) " [" drive "Dired]")))))
 (add-hook 'dired-mode-hook 'dired-my-add-buffer-name)
 #+END_SRC
 *** 新しいバッファを作らないバッファ移動
