@@ -2400,6 +2400,8 @@ package.el からインストール．
   (setq mu4e-view-image-max-width 800)  ;; 画像の最大幅．単位はおそらくピクセル
   (set-face-foreground 'mu4e-title-face "deep pink")  ;; タイトル用のフェイス
   (setq mu4e-use-fancy-chars t) ;; ASCII 文字以外を使って表示する
+  (define-key mu4e-headers-mode-map (kbd "m") 'mu4e-headers-mark-for-something) ;; マークしやすいようにキーバインド変更
+  (define-key mu4e-headers-mode-map (kbd "M") 'mu4e-headers-mark-for-move)
   ;; フォルダ設定
   (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
         mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
