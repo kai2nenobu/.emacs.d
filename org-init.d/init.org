@@ -2425,6 +2425,7 @@ package.el からインストール．
   (my-safe-require 'smtpmail
     (setq message-send-mail-function   'smtpmail-send-it
           smtpmail-stream-type 'ssl
+          smtpmail-smtp-user           "kai"
           smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-service        465
