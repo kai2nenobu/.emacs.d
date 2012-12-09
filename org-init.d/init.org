@@ -2382,6 +2382,13 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** mark-multiple.el
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'mark-multiple
+  (global-set-key (kbd "C-<") 'mark-previous-like-this)
+  (global-set-key (kbd "C->") 'mark-next-like-this)
+  )
+#+END_SRC
 ** web-mode.el
 - [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
 package.el からインストール．
