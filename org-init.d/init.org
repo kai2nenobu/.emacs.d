@@ -2539,6 +2539,43 @@ anything で mu4e のフォルダを選択する．
   (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
 #+END_SRC
 
+anything でメールアドレスの補完をする．メールアドレスは
+`mu4e~contacts-for-completion' に文字列のリストで格納されているので簡単にかけ
+た．はじめて history を作ってみたが，まずまず動いていると思う．
+`mu4e-my-insert-contact-and-save-history' で直接履歴を保存しているのが少しダ
+サイ気がする．
+#+BEGIN_SRC emacs-lisp
+  (defvar mu4e-my-contact-history nil "Contact history for mu4e")
+
+  (defun mu4e-my-insert-contact-and-save-history (candidate)
+    "Insert contact and save hisroty"
+    (setq mu4e-my-contact-history (delete candidate mu4e-my-contact-history))
+    (add-to-list 'mu4e-my-contact-history candidate)
+    (insert candidate))
+
+  (defvar anything-c-source-mu4e-my-contact-history
+    '((name . "mu4e Contact History")
+      (candidates . mu4e-my-contact-history)
+      (action . mu4e-my-insert-contact-and-save-history)
+      (migemo))
+    "Anything source for mu4e contact history.")
+
+  (defvar anything-c-source-mu4e-contact
+    '((name . "mu4e Contact Completion")
+      (candidates . mu4e~contacts-for-completion)
+      (action . mu4e-my-insert-contact-and-save-history)
+      (migemo))
+    "Anything source for mu4e contact.")
+
+  (defun anything-mu4e-contact ()
+    "Anything command for mu4e contact."
+    (interactive)
+    (anything-other-buffer '(anything-c-source-mu4e-my-contact-history
+                             anything-c-source-mu4e-contact)
+                           "*anything-mu4e-conntact*"))
+  (define-key mu4e-compose-mode-map (kbd "C-c c") 'anything-mu4e-contact)
+#+END_SRC
+
 最後のカッコ．
 #+BEGIN_SRC emacs-lisp
   )
