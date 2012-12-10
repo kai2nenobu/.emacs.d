@@ -1616,7 +1616,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** 名前，メールの設定                                              :noexport:
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Tsunenobu Kai")
-(setq user-mail-address "kbkbkbkb1@gmail.com")
+(setq user-mail-address "kai@gavo.t.u-tokyo.ac.jp")
 #+END_SRC
 ** info を追加する
 `Info-default-directory-list' に追加したディレクトリの texinfo が読めるように
@@ -2501,7 +2501,7 @@ package.el からインストール．
   ;; デフォルトの送信メールアドレスを変更する
   (defvar mu4e-my-email-address "kai@gavo.t.u-tokyo.ac.jp"
     "Default mail address for mu4e.")
-  (defadvice mu4e~compose-from-construct (around replace-my-address activate)
+  (defadvice mu4e~compose-from-construct (around replace-my-address disable)
     "Replace a default mail address of mu4e from `user-mail-address'."
     (let ((user-mail-address mu4e-my-email-address))
       ad-do-it))
