@@ -2504,10 +2504,16 @@ package.el からインストール．
     "Replace a default mail address of mu4e from `user-mail-address'."
     (let ((user-mail-address mu4e-my-email-address))
       ad-do-it))
-  ;; 拡張
+#+END_SRC
+*** 拡張
+org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
+#+BEGIN_SRC emacs-lisp
   (my-safe-require 'org-mu4e)   ; org-mode との協調
   (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
-  ;; anything でディレクトリ選択
+#+END_SRC
+
+anything で mu4e のフォルダを選択する．
+#+BEGIN_SRC emacs-lisp
   (defvar anything-c-source-mu4e-maildir
     '((name . "mu4e-maildir")
       (candidates . mu4e-get-maildirs)
@@ -2523,8 +2529,12 @@ package.el からインストール．
   (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
   (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
   (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
-  )
 #+END_SRC(my-safe-require 'mu4e
+
+最後のカッコ．
+#+BEGIN_SRC emacs-lisp
+  )
+#+END_SRC
 ** fill-column-indicator
 - [[https://github.com/alpaker/Fill-Column-Indicator][alpaker/Fill-Column-Indicator]]
 `fill-column' の桁を明示してくれるライブラリ．すばらしい．package.el でインス
