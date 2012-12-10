@@ -2497,6 +2497,7 @@ package.el からインストール．
           smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
+  (global-set-key (kbd "C-x m") 'mu4e-compose-new)
   ;; デフォルトの送信メールアドレスを変更する
   (defvar mu4e-my-email-address "kai@gavo.t.u-tokyo.ac.jp"
     "Default mail address for mu4e.")
