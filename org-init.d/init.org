@@ -2505,7 +2505,7 @@ package.el からインストール．
     (let ((user-mail-address mu4e-my-email-address))
       ad-do-it))
 #+END_SRC
-*** 拡張
+*** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
 #+BEGIN_SRC emacs-lisp
   (my-safe-require 'org-mu4e)   ; org-mode との協調
@@ -2529,7 +2529,7 @@ anything で mu4e のフォルダを選択する．
   (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
   (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
   (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
-#+END_SRC(my-safe-require 'mu4e
+#+END_SRC
 
 最後のカッコ．
 #+BEGIN_SRC emacs-lisp
