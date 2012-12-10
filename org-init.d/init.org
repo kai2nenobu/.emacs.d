@@ -2505,6 +2505,13 @@ package.el からインストール．
     "Replace a default mail address of mu4e from `user-mail-address'."
     (let ((user-mail-address mu4e-my-email-address))
       ad-do-it))
+  ;; guide-key を使う
+  (eval-after-load "guide-key"
+    '(progn
+       (defun guide-key/my-hook-function-for-mu4e-compose ()
+         (dolist (key '("C-c" "C-c C-f"))
+           (guide-key/add-local-guide-key-sequence key)))
+       (add-hook 'mu4e-compose-mode-hook 'guide-key/my-hook-function-for-mu4e-compose)))
 #+END_SRC
 *** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
