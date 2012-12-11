@@ -2498,13 +2498,6 @@ package.el からインストール．
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
   (global-set-key (kbd "C-x m") 'mu4e-compose-new)
-  ;; デフォルトの送信メールアドレスを変更する
-  (defvar mu4e-my-email-address "kai@gavo.t.u-tokyo.ac.jp"
-    "Default mail address for mu4e.")
-  (defadvice mu4e~compose-from-construct (around replace-my-address disable)
-    "Replace a default mail address of mu4e from `user-mail-address'."
-    (let ((user-mail-address mu4e-my-email-address))
-      ad-do-it))
   ;; guide-key を使う
   (eval-after-load "guide-key"
     '(progn
@@ -2512,6 +2505,24 @@ package.el からインストール．
          (dolist (key '("C-c" "C-c C-f"))
            (guide-key/add-local-guide-key-sequence key)))
        (add-hook 'mu4e-compose-mode-hook 'guide-key/my-hook-function-for-mu4e-compose)))
+#+END_SRC
+*** 動的に From を変更する
+[[info:mu4e#Compose%20hooks][info:mu4e#Compose hooks]] を参考にして，返信，転送時などは元のメールに応じて
+From アドレスを変更することができた．`user-mail-address' を直接設定しているの
+で注意．新規作成時には元のメールがないので，どうやって From アドレスを設定す
+るか悩みどころ．
+#+BEGIN_SRC emacs-lisp
+(defun mu4e-my-set-from-address ()
+  "Set the From address based on the To address of the original."
+  (when mu4e-compose-parent-message
+    (let (mdir)
+      (setq mdir (mu4e-message-field mu4e-compose-parent-message :maildir))
+      (setq user-mail-address
+            (cond ((string-match "^/gavo/" mdir) "kai@gavo.t.u-tokyo.ac.jp")
+                  ((string-match "^/kbkbkbkb1/" mdir) "kbkbkbkb1@gmail.com")
+                  ((string-match "^/cellphone/" mdir) "giovanni-franz@ezweb.ne.jp"))
+            ))))
+(add-hook 'mu4e-compose-pre-hook 'mu4e-my-set-from-address)
 #+END_SRC
 *** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
