@@ -2488,7 +2488,8 @@ package.el からインストール．
           ))
   ;; 送信設定
   (setq auth-source-save-behavior nil) ; 認証情報を ~/.authinfo に保存しない
-  (add-to-list 'mu4e-user-mail-address-list "kai@gavo.t.u-tokyo.ac.jp")
+  (add-to-list 'mu4e-user-mail-address-list "kbkbkbkb1@gmail.com")
+  (add-to-list 'mu4e-user-mail-address-list "giovanni-franz@ezweb.ne.jp")
   (my-safe-require 'smtpmail
     (setq message-send-mail-function   'smtpmail-send-it
           smtpmail-stream-type 'ssl
