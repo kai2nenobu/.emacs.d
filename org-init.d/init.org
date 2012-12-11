@@ -2507,6 +2507,24 @@ package.el からインストール．
            (guide-key/add-local-guide-key-sequence key)))
        (add-hook 'mu4e-compose-mode-hook 'guide-key/my-hook-function-for-mu4e-compose)))
 #+END_SRC
+*** 送信メールを元メールと同じフォルダにコピーする
+thunderbird のこの機能がとっても便利なのでまねしてみる．
+#+BEGIN_SRC emacs-lisp
+(defun mu4e-my-save-message-in-same-folder ()
+  "Save a sent message in same folder as a parent message.
+This function derives from `mu4e~setup-fcc-maybe'."
+  (when mu4e-compose-parent-message
+    (let* ((mpath (mu4e-message-field mu4e-compose-parent-message :path))
+           (fccfile (and mpath
+                         (concat (file-name-directory mpath)
+                                 (mu4e~compose-message-filename-construct "S")))))
+      (when fccfile
+        (message-add-header (concat "Fcc: " fccfile "\n"))))))
+(add-hook 'mu4e-compose-mode-hook 'mu4e-my-save-message-in-same-folder)
+#+END_SRC
+とりあえず作ってみたが，`mu4e-compose-mode-hook' 中で
+`mu4e-compose-parent-message' が nil になる．info では使えると書いてあるんだ
+が．
 *** 動的に From を変更する
 [[info:mu4e#Compose%20hooks][info:mu4e#Compose hooks]] を参考にして，返信，転送時などは元のメールに応じて
 From アドレスを変更することができた．`user-mail-address' を直接設定しているの
