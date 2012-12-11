@@ -2525,37 +2525,77 @@ This function derives from `mu4e~setup-fcc-maybe'."
 とりあえず作ってみたが，`mu4e-compose-mode-hook' 中で
 `mu4e-compose-parent-message' が nil になる．info では使えると書いてあるんだ
 が．
-*** 動的に From を変更する
+*** 動的にアカウントを変更する
 [[info:mu4e#Compose%20hooks][info:mu4e#Compose hooks]] を参考にして，返信，転送時などは元のメールに応じて
-From アドレスを変更することができた．`user-mail-address' を直接設定しているの
-で注意．新規作成時には元のメールがないので，どうやって From アドレスを設定す
-るか悩みどころ．
+アカウントを変更することができた．`user-mail-address' を直接設定しているの
+で注意．
+
+`compose-new' 時にアカウントを設定する．デフォルトでは `user-mail-address' を
+利用するが，前置引数をつけて呼び出すとアカウントを選択することができる．
 #+BEGIN_SRC emacs-lisp
-(defun mu4e-my-set-from-address ()
-  "Set the From address based on the To address of the original."
-  (when mu4e-compose-parent-message
-    (let (mdir)
-      (setq mdir (mu4e-message-field mu4e-compose-parent-message :maildir))
-      (setq user-mail-address
-            (cond ((string-match "^/gavo/" mdir) "kai@gavo.t.u-tokyo.ac.jp")
-                  ((string-match "^/kbkbkbkb1/" mdir) "kbkbkbkb1@gmail.com")
-                  ((string-match "^/cellphone/" mdir) "giovanni-franz@ezweb.ne.jp"))
-            ))))
-(add-hook 'mu4e-compose-pre-hook 'mu4e-my-set-from-address)
+(defadvice mu4e-compose-new (before set-account (arg) activate)
+  "Before executing `mu4e-commpose-new', set account information.
+If ARG is non-nil, select an account from `mu4e-user-mail-address-list'."
+  (interactive "P")
+  (let ((address (if arg
+                     (completing-read "Mail account: " mu4e-user-mail-address-list
+                                      nil t nil nil user-mail-address)
+                   user-mail-address)))
+    (mu4e-my-set-account-dynamically address)))
 #+END_SRC
 
-From だけじゃなくて，smtp サーバー設定なんかも一緒に変えたほうがいいのかも．
-#+BEGIN_EXAMPLE
-(setq smtpmail-stream-type         'ssl
-      smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server         "smtp.gmail.com"
-      smtpmail-smtp-service        465)
+返信時に返信元のメールの場所に応じてアカウントを切り替える．
+#+BEGIN_SRC emacs-lisp
+(defun mu4e-my-change-account-for-maildir ()
+  "Change my account according to maildir of a parent message."
+  (when mu4e-compose-parent-message
+    (let ((mdir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+      (cond ((string-match "^/gavo/" mdir)
+             (mu4e-my-set-account-dynamically "kai@gavo.t.u-tokyo.ac.jp"))
+            ((string-match "^/kbkbkbkb1/" mdir)
+             (mu4e-my-set-account-dynamically "kbkbkbkb1@gmail.com"))
+            ((string-match "^/cellphone/" mdir)
+             (mu4e-my-set-account-dynamically "giovanni-franz@ezweb.ne.jp"))
+            ))))
+(add-hook 'mu4e-compose-pre-hook 'mu4e-my-change-account-for-maildir)
+#+END_SRC
 
-(setq mu4e-drafts-folder "/kbkbkbkb1/[Gmail].下書き"
-      mu4e-sent-folder   "/kbkbkbkb1/[Gmail].送信済みメール"
-      mu4e-trash-folder  "/kbkbkbkb1/[Gmail].ゴミ箱")
-#+END_EXAMPLE
+メールアドレスに応じてアカウントを変更する関数．
+#+BEGIN_SRC emacs-lisp
+(defun mu4e-my-set-account-dynamically (address)
+  "Set up an account according to ADDRESS."
+  (cond ((string= address "kai@gavo.t.u-tokyo.ac.jp")
+         (setq mu4e-sent-folder   "/gavo/INBOX.Sent"
+               mu4e-drafts-folder "/gavo/INBOX.Drafts"
+               mu4e-trash-folder  "/gavo/INBOX.Trash"
+               user-mail-address            address
+               smtpmail-stream-type         'ssl
+               smtpmail-smtp-user           "kai"
+               smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
+               smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
+               smtpmail-smtp-service        465
+               smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
+        ((string= address "kbkbkbkb1@gmail.com")
+         (setq mu4e-drafts-folder "/kbkbkbkb1/[Gmail].下書き"
+               mu4e-sent-folder   "/kbkbkbkb1/[Gmail].送信済みメール"
+               mu4e-trash-folder  "/kbkbkbkb1/[Gmail].ゴミ箱"
+               user-mail-address            address
+               smtpmail-stream-type         'ssl
+               smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
+               smtpmail-default-smtp-server "smtp.gmail.com"
+               smtpmail-smtp-server         "smtp.gmail.com"
+               smtpmail-smtp-service        465))
+        ((string= address "giovanni-franz@ezweb.ne.jp")
+         (setq mu4e-drafts-folder "/cellphone/[Gmail].下書き"
+               mu4e-sent-folder   "/cellphone/[Gmail].送信済みメール"
+               mu4e-trash-folder  "/cellphone/[Gmail].ゴミ箱"
+               user-mail-address            address
+               smtpmail-stream-type         'ssl
+               smtpmail-smtp-user           "giovanni-franz@auone.jp"
+               smtpmail-default-smtp-server "smtp.gmail.com"
+               smtpmail-smtp-server         "smtp.gmail.com"
+               smtpmail-smtp-service        465))))
+#+END_SRC
 *** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
 #+BEGIN_SRC emacs-lisp
