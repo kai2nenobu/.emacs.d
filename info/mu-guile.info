@@ -205,13 +205,13 @@ File: mu-guile.info,  Node: Initializing mu-guile,  Next: Messages,  Prev: Getti
 2 Initializing mu-guile
 ***********************
 
-In the previous, we have installed mu-guile, and in *note Making sure
-it works:: tried some simple script, to make sure everything works as
-expected. In this and the following chapters, we take a closer look
-programming with mu-guile.
+We now have installed mu-guile, and in *note Making sure it works::
+confirmed that things work by trying some simple script. In this and the
+following chapters, we take a closer look at programming with mu-guile.
 
    It is possible to write separate programs with mu-guile, but for now
-we'll do things _interactively_, i.e., from the Guile-prompt ("REPL").
+we'll do things _interactively_, that is, from the Guile-prompt
+("REPL").
 
    As we have seen, we start our mu-guile session by starting guile:
 
@@ -229,32 +229,29 @@ scheme@(guile-user)>
 
    The first thing we need to do is loading the modules. All the basics
 are in the (mu) module, with some statistical extras in (mu stats), and
-some graph plotting functionality in (mu plot)(1).
-
-   Let's load all of them:
-
+some graph plotting functionality in (mu plot)(1). Let's load all of
+them:
 scheme@(guile-user)> (use-modules (mu) (mu stats) (mu plot))
 
    The first time you do this, guile will probably respond by showing
 some messages about compiling the modules, and then return to you with
 another prompt. Before we can do anything with mu guile, we need to
-initialize the system. This goes like this:
+initialize the system:
 
 scheme@(guile-user)> (mu:initialize)
 
    This opens the database for reading, using the default location of
-`~/.mu'.
+`~/.mu'(2)
 
-   If you keep your mu database in a non-standard place:
-
-scheme@(guile-user)> (mu:initialize "/path/to/my/mu/")
-
-   If all worked up until here, we're ready to go with mu-guile -
-hurray! In the next chapters we'll walk through all the modules.
+   Now, mu-guile is ready to go. In the next chapter, we go through the
+modules and show what you can do with them.
 
    ---------- Footnotes ----------
 
    (1) `(mu plot)' requires the gnuplot program
+
+   (2) If you keep your mu database in a non-standard place, use
+`(mu:initialize "/path/to/my/mu/")'
 
 
 File: mu-guile.info,  Node: Messages,  Next: Contacts,  Prev: Initializing mu-guile,  Up: Top
@@ -262,14 +259,14 @@ File: mu-guile.info,  Node: Messages,  Next: Contacts,  Prev: Initializing mu-gu
 3 Messages
 **********
 
-In this chapter, we discuss how to find messages and how to do various
-things with them.
+In this chapter, we discuss searching messages and doing things with
+them.
 
 * Menu:
 
-* Finding messages::
-* Message methods::
-* Example - the longest subject::
+* Finding messages:: query for messages in the databse
+* Message methods::  what methods are available for messages?
+* Example - the longest subject:: find the messages with the longest subject
 
 
 File: mu-guile.info,  Node: Finding messages,  Next: Message methods,  Up: Messages
@@ -284,21 +281,19 @@ two main functions to do this:
 
    * `(mu:for-each-message <function> [<search-expression>])'
 
-   The first function, `mu:message-list' returns a list of all messages
+The first function, `mu:message-list' returns a list of all messages
 matching <search-expression>; if you leave <search-expression> out, it
-returns _all_ messages.
-
-   For example, to get all messages with _coffee_ in the subject line,
-you could do:
+returns _all_ messages. For example, to get all messages with coffee in
+the subject line:
 
 scheme@(guile-user)> (mu:message-list "subject:coffee")
 $1 = (#<<mu:message> 9040640> #<<mu:message> 9040630>
       #<<mu:message> 9040570>)
 
-   So, since apparently we have three messages matching subject:coffee,
-we get a list of three <mu:message> objects. Let's just use the
-`mu:subject' function ('method') provided by <mu:message> objects to
-retrieve the subject-field (more about methods in the next section).
+Apparently, we have three messages matching subject:coffee, so we get a
+list of three `<mu:message>' objects. Let's just use the `mu:subject'
+function ('method') provided by `<mu:message>' objects to retrieve the
+subject-field (more about methods in the next section).
 
    For your convenience, guile has saved the result of our last query
 in a variable called $1, so to get the subject of the first message in
@@ -307,9 +302,9 @@ the list, we can do:
 scheme@(guile-user)> (mu:subject (car $1))
 $2 = "Re: best coffee ever!"
 
-   The second function we mentioned, `mu:for-each-message', executes
-some function for each message matched by the search expression (or
-_all_ messages if the search expression is omitted).
+The second function we mentioned, `mu:for-each-message', executes some
+function for each message matched by the search expression (or _all_
+messages if the search expression is omitted):
 
 scheme@(guile-user)> (mu:for-each-message
                        (lambda(msg)
@@ -321,9 +316,9 @@ best coffee ever!
 Coffee beans
 scheme@(guile-user)>
 
-   Using `mu:message-list' and/or `mu:for-each-message'(1) and a couple
-of <mu:message> methods, together with what Guile/Scheme provides,
-should allow for many interesting programs.
+Using `mu:message-list' and/or `mu:for-each-message'(1) and a couple of
+<mu:message> methods, together with what Guile/Scheme provides, should
+allow for many interesting programs.
 
    ---------- Footnotes ----------
 
@@ -712,13 +707,29 @@ File: mu-guile.info,  Node: Statistics,  Next: Plotting data,  Prev: Attachments
 mu-guile offers some convenience functions to determine various
 statistics about the messages in the database.
 
-   `(mu:tabulate <function> [<search-expr>])' applies <function> to
-each message matching <search-expr> (leave empty to match _all_
-messages), and returns a associative list (a list of pairs) with each
-of the different results of <function> and their frequencies.
+* Menu:
 
-   This can best be demonstrated with a little example. Suppose we want
-to know how many messages we receive per weekday:
+* Tabulating values:: `mu:tabulate'
+* Most frequent values:: `mu:top-n-most-frequent'
+
+
+File: mu-guile.info,  Node: Tabulating values,  Next: Most frequent values,  Up: Statistics
+
+6.1 Tabulating values
+=====================
+
+`(mu:tabulate <function> [<search-expr>])' applies <function> to each
+message matching <search-expr> (leave empty to match _all_ messages),
+and returns a associative list (a list of pairs) with each of the
+different results of <function> and their frequencies. For fields that
+contain lists of values (such as address-fields), each of the values in
+the list is added separately.
+
+6.1.1 Example: messages per weekday
+-----------------------------------
+
+We demonstrate `mu:tabulate' with an example. Suppose we want to know
+how many messages we receive per weekday:
 
      #!/bin/sh
      exec guile -s $0 $ !#
@@ -762,6 +773,38 @@ Sat: 1856
    Clearly, Saturday is a slow day for e-mail...
 
 
+File: mu-guile.info,  Node: Most frequent values,  Prev: Tabulating values,  Up: Statistics
+
+6.2 Most frequent values
+========================
+
+In the above example, the number of values is small (the seven
+weekdays); however, in many cases there can be many different values
+(for example, all different message subjects), many of which may not be
+very interesting - all we need to know is the top-10 of most frequently
+seen values.
+
+   This is fairly easy to achieve using `mu:tabulate' - to get the
+top-10 subjects(1), we can use something like this:
+     (take
+       (sort
+         (mu:tabulate mu:subject)
+         (lambda (a b) (> (cdr a) (cdr b))))
+       10)
+
+   If this is not short enough, mu-guile offers a convenience function
+to do this: `mu:top-n-most-frequent'. For example, to get the top-10
+people we sent mail to most often:
+
+     (mu:top-n-most-frequent mu:to 10 "maildir:/sent")
+
+   Can't make it much easier than that!
+
+   ---------- Footnotes ----------
+
+   (1) this requires the `(srfi srfi-1)'-module
+
+
 File: mu-guile.info,  Node: Plotting data,  Next: GNU Free Documentation License,  Prev: Statistics,  Up: Top
 
 7 Plotting data
@@ -771,9 +814,10 @@ You can plot the results in the format produced by `mu:tabulate' with
 the (mu plot) module, an experimental module that requires the
 gnuplot(1) program to be installed on your system.
 
-   The `mu:plot' function takes the following arguments:
+   The `mu:plot-histogram' function takes the following arguments:
 
-   `(mu:plot <data> <title> <x-label> <y-label> [<want-ascii>])'
+   `(mu:plot-histogram <data> <title> <x-label> <y-label>
+[<want-ascii>])'
 
    Here, `<data>' is a table of data in the format that `mu:tabulate'
 produces. `<title>', `<x-label>' and `<y-lablel>' are, respectively,
@@ -798,7 +842,8 @@ number of message per hour:
      	(tm:hour (localtime (mu:date msg)))))
          (lambda (x y) (< (car x) (car y)))))
 
-     (mu:plot (mail-per-hour-table) "Mail per hour" "Hour" "Frequency" #t)
+     (mu:plot-histogram (mail-per-hour-table) "Mail per hour" "Hour" "Frequency"
+     #t)
 
 				 Mail per hour
 Frequency
@@ -1269,26 +1314,30 @@ Ref: Installation-Footnote-14844
 Ref: Installation-Footnote-24905
 Node: Making sure it works5033
 Node: Initializing mu-guile6302
-Ref: Initializing mu-guile-Footnote-18176
-Node: Messages8225
-Node: Finding messages8520
-Ref: Finding messages-Footnote-110462
-Node: Message methods10712
-Node: Example - the longest subject13556
-Node: Contacts14816
-Node: Contact functions and objects15328
-Node: All contacts16721
-Node: Utility functions18100
-Node: Example - mutt export18650
-Ref: Example - mutt export-Footnote-120362
-Node: Attachments and other parts20393
-Node: Parts and their methods20712
-Ref: Parts and their methods-Footnote-121822
-Node: Attachment example21914
-Node: Statistics23107
-Node: Plotting data24890
-Ref: Plotting data-Footnote-127440
-Node: GNU Free Documentation License27475
+Ref: Initializing mu-guile-Footnote-18004
+Ref: Initializing mu-guile-Footnote-28053
+Node: Messages8155
+Node: Finding messages8555
+Ref: Finding messages-Footnote-110463
+Node: Message methods10713
+Node: Example - the longest subject13557
+Node: Contacts14817
+Node: Contact functions and objects15329
+Node: All contacts16722
+Node: Utility functions18101
+Node: Example - mutt export18651
+Ref: Example - mutt export-Footnote-120363
+Node: Attachments and other parts20394
+Node: Parts and their methods20713
+Ref: Parts and their methods-Footnote-121823
+Node: Attachment example21915
+Node: Statistics23108
+Node: Tabulating values23453
+Node: Most frequent values25305
+Ref: Most frequent values-Footnote-126284
+Node: Plotting data26333
+Ref: Plotting data-Footnote-128918
+Node: GNU Free Documentation License28953
 
 End Tag Table
 

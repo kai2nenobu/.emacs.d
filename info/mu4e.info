@@ -417,9 +417,7 @@ everything worked, by trying some command-line searches, for example
 
    which should list all messages that match hello. For more examples of
 searches, see *note Queries::, or check the mu-find and mu-easy man
-pages.
-
-   If all of this worked well, we are well on our way setting up mu;
+pages. If all of this worked well, we are well on our way setting up mu;
 the next step is to do some basic configuration for mu4e.
 
    ---------- Footnotes ----------
@@ -484,15 +482,19 @@ As we have seen, we can do all of the mail retrieval _outside_ of
 `emacs'/mu4e. However, you can also do it from within mu4e. For that,
 set the variable `mu4e-get-mail-command' to the program or shell
 command you want to use for retrieving mail. You can then retrieve your
-e-mail from the *note Main view::. You can also set
+e-mail using `M-x mu4e-update-mail-and-index', or `C-S-u' in all
+mu4e-views.
+
+   If you don't have a specific command for getting mail, for example
+because you are running your own mail-server, you can set
 `mu4e-get-mail-command' to "true", in which case mu4e won't try to get
 new mail, but still re-index your messages.
 
-   You can also have this command run periodically in the background,
-by setting the variable `mu4e-update-interval' to the number of seconds
-between these updates. If set to `nil', it won't update at all. After
-you make changes to `mu4e-update-interval', mu4e must be restarted
-before the changes take effect.
+   You can also update your mail and index periodically in the
+background, by setting the variable `mu4e-update-interval' to the
+number of seconds between these updates. If set to `nil', it won't
+update at all. After you make changes to `mu4e-update-interval', mu4e
+must be restarted before the changes take effect.
 
    A simple setup could look something like:
 
@@ -697,7 +699,7 @@ Finally, there are some _Misc_ (miscellaneous) actions:
    * [U]pdate email & database executes the shell-command in the
      variable  `mu4e-get-mail-command', and afterwards updates the mu
      database; see *note Indexing your messages:: and *note Getting
-     mail:: for details
+     mail:: for details.
 
    * toggle [m]ail sending mode (direct) toggles between sending mail
      directly, and queuing it first (for example, when you are
@@ -763,7 +765,7 @@ End of search results
      you can use the :date field instead.
 
    * You can customize the date and time formats with the variable
-     mu4e-headers-date-format and mu4e-headers-time-format,
+     `mu4e-headers-date-format' and `mu4e-headers-time-format',
      respectively.
 
    * The header field used for sorting is indicated by "V" or "^"(1),
@@ -787,6 +789,11 @@ End of search results
      tooltip for this field also contains this information.
 
    * The subject field also indicates the discussion threads (3).
+
+   * The headers view is _automatically updated_ if any changes are
+     found during the indexing process, and if there is not current
+     user-interaction. If you do not want such automatic updates, set
+     `mu4e-headers-auto-update' to `nil'.
 
    ---------- Footnotes ----------
 
@@ -863,6 +870,7 @@ a            execute some custom action on a header
 |            pipe message through shell command
 C-+,C--      increase / decrease the number of headers shown
 H            get help
+C-S-u        update mail & reindex
 q,z          leave the headers buffer
 
 
@@ -1127,6 +1135,7 @@ v            show details about the cryptographic signature
 .            show the raw message view. 'q' takes you back.
 C-+,C--      increase / decrease the number of headers shown
 H            get help
+C-S-u        update mail & reindex
 q,z          leave the message view
 
    For the marking commands, please refer to *note Marking messages::.
@@ -1246,19 +1255,26 @@ your outgoing messages, see *note Signing and encrypting::.
 
    Currently, only PGP/MIME is supported; PGP-inline and S/MIME are not.
 
+   For all of this to work, `gpg-agent' must be running, and it must set
+the environment variable GPG_AGENT_INFO. You can check from `emacs'
+with <M-x getenv GPG_AGENT_INFO>.
+
+   In many mainstream Linux/Unix desktop environments, everything works
+out-of-the-box, but if your environment does not automatically start
+`gpg-agent', you can do so by hand:
+$ eval $(gpg-agent --daemon)
+
+This starts the daemon, and sets the environment variable.
+
 5.6.1 Decryption
 ----------------
 
 If you receive messages that are encrypted (using PGP/MIME), mu4e can
-try to decrypt them. For this, gnupg-agent must be running; in many
-mainstream Linux/Unix desktop environments this should work
-automatically.
-
-   You can influence how mu4e deals with encrypted messages using
-`mu4e-decryption-policy'. If you set it to t, mu4e attempts to decrypt
-messages automatically; this is the default. If you set it to nil, mu4e
-_won't_ attempt to decrypt anything. Finally, if you set it to 'ask, it
-asks you what to do, each time an encrypted message is encountered.
+try to decrypt them, base on the setting of `mu4e-decryption-policy'.
+If you set it to t, mu4e attempts to decrypt messages automatically;
+this is the default. If you set it to nil, mu4e _won't_ attempt to
+decrypt anything. Finally, if you set it to 'ask, it asks you what to
+do, each time an encrypted message is encountered.
 
    When opening an encrypted message, mu consults gpg-agent to see if it
 already has unlocked the key needed to decrypt the message; if not, it
@@ -1386,6 +1402,9 @@ C-c C-d      save to drafts and leave
 C-c C-k      kill the message
 C-c C-a      attach a file (pro-tip: drag & drop works as well)
 
+(mu4e-specific)
+C-S-u        update mail & reindex
+
 
 File: mu4e.info,  Node: Address autocompletion,  Next: Compose hooks,  Prev: Useful keybindings,  Up: Editor view
 
@@ -1459,7 +1478,7 @@ offers two hooks:
      good place for editing-related settings.
      `mu4e-compose-parent-message' (see above) is also at your disposal.
 
-Let's look at some examples. First, let's suppose we want to set the
+Let's look at some examples. First, suppose we want to set the
 From:-address for a reply message based on the receiver of the original:
      ;; 1) messages to me@foo.com should be replied with From:me@foo.com
      ;; 2) messages to me@bar.com should be replied with From:me@bar.com
@@ -1467,14 +1486,14 @@ From:-address for a reply message based on the receiver of the original:
      (add-hook 'mu4e-compose-pre-hook
        (defun my-set-from-address ()
          "Set the From address based on the To address of the original."
-         (let ((msg mu4e-compose-parent-message) ;; msg is shorter...
+         (let ((msg mu4e-compose-parent-message)) ;; msg is shorter...
            (setq user-mail-address
      	(cond
-               ((mu4e-contact-field-matches msg :to "me@foo.com")
+               ((mu4e-message-contact-field-matches msg :to "me@foo.com")
                 "me@foo.com")
-               ((mu4e-contact-field-matches msg :to "me@bar.com")
+               ((mu4e-message-contact-field-matches msg :to "me@bar.com")
                 "me@bar.com")
-     	  (t "me@cuux.com")))))))
+     	  (t "me@cuux.com"))))))
 
    Second, as mentioned, `mu4e-compose-mode-hook' is especially useful
 for editing-related settings. For example:
@@ -1492,7 +1511,7 @@ add a Bcc:-header, you could add something like the following, using
      (add-hook 'mu4e-compose-mode-hook
        (defun my-add-bcc ()
          "Add a Bcc: header."
-         (message-add-header "Bcc: me@example.com\n")))
+         (save-excursion (message-add-header "Bcc: me@example.com\n"))))
 
 For a more general discussion about extending mu4e, see *note Extending
 mu4e::.
@@ -2888,7 +2907,7 @@ Next step: let's make a mu4e configuration for this:
      (require 'mu4e)
 
      ;; default
-     ;; (setq mu4e-maildir ("~/Maildir")
+     ;; (setq mu4e-maildir "~/Maildir")
 
      (setq mu4e-drafts-folder "/[Gmail].Drafts")
      (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
@@ -3015,12 +3034,19 @@ C.1 General
             (defun new-mail-sound ()
               (shell-command "aplay ~/Sounds/boing.wav&")))
 
-  4. _I don't use offlineimap, fetchmail etc., I get my mail through my
+  4. _It seems my headers-buffer is automatically updated when new
+     messages are found during the indexing process - can I disable this
+      somehow?_ Yes - set `mu4e-headers-auto-update' to `nil'.
+
+  5. _I don't use offlineimap, fetchmail etc., I get my mail through my
      own mailserver. What should I use for `mu4e-get-mail-command'_?
      Use "true" (or don't do anything, it's the default). This makes
      getting mail a no-op, but the messages are still re-indexed.
 
-  5. _When I try to run mu index while mu4e is running I get errors
+  6. _How can I re-index my messages without getting new mail?_ Use
+     `M-x mu4e-update-index'
+
+  7. _When I try to run mu index while mu4e is running I get errors
      like:_ mu: mu_store_new_writable: xapian error
        'Unable to get write lock on ~/.mu/xapian: already locked
       _What to do about this?_  You get this error because the
@@ -3033,17 +3059,17 @@ C.1 General
       mu4e automatically restarts mu when it needs it. In practice, this
      seems to work quite well.
 
-  6. _Can I automatically apply the marks on messages when leaving the
+  8. _Can I automatically apply the marks on messages when leaving the
      headers buffer?_ Yes you can - see the documentation for the
      variable mu4e-headers-leave-behavior.
 
-  7. _Is there context-sensitive help available?_ Yes - pressing <H>
+  9. _Is there context-sensitive help available?_ Yes - pressing <H>
      should take you to the right place in this manual.
 
-  8. _How can I set mu4e as the default e-mail client in `emacs'?_ See
+ 10. _How can I set mu4e as the default e-mail client in `emacs'?_ See
      *note Setting the default emacs mail program::.
 
-  9. _Can mu4e use some fancy Unicode characters instead of these
+ 11. _Can mu4e use some fancy Unicode characters instead of these
      boring plain-ASCII ones?_ Glad you asked! Yes, if you set
      `mu4e-use-fancy-chars' to t, mu4e uses such fancy characters in a
      number of places.
@@ -3840,120 +3866,120 @@ Ref: Installation-Footnote-212091
 Node: Getting mail12197
 Ref: Getting mail-Footnote-113285
 Node: Indexing your messages13451
-Ref: Indexing your messages-Footnote-114945
-Node: Basic configuration15086
-Node: Folders15694
-Ref: Folders-Footnote-116466
-Node: Retrieval and indexing16737
-Node: Sending mail18053
-Node: Running mu4e20053
-Node: Main view21359
-Node: MV Overview21794
-Node: Basic actions22891
-Node: MV Bookmarks23727
-Node: Miscellaneous24355
-Node: Headers view25218
-Node: HV Overview25724
-Ref: HV Overview-Footnote-128353
-Ref: HV Overview-Footnote-228440
-Ref: HV Overview-Footnote-328543
-Node: Keybindings28640
-Node: Marking messages30455
-Node: Sort order and threading31658
-Ref: Sort order and threading-Footnote-132893
-Node: HV Actions32980
-Node: Split view33670
-Node: Message view34749
-Node: MSGV Overview35236
-Node: MSGV Keybindings37075
-Node: Opening and saving attachments39522
-Ref: Opening and saving attachments-Footnote-140936
-Ref: Opening and saving attachments-Footnote-240984
-Node: Viewing images inline41092
-Ref: Viewing images inline-Footnote-141931
-Node: Displaying rich-text messages41968
-Ref: Displaying rich-text messages-Footnote-143324
-Ref: Displaying rich-text messages-Footnote-243421
-Node: MSGV Crypto43463
-Ref: Decryption43912
-Ref: Verifying signatures44787
-Ref: MSGV Crypto-Footnote-145479
-Node: MSGV Actions45582
-Node: Editor view47069
-Node: EV Overview47585
-Node: Useful keybindings47969
-Node: Address autocompletion48505
-Ref: Address autocompletion-Footnote-150767
-Node: Compose hooks50810
-Node: Signing and encrypting53417
-Node: Queuing mail54227
-Node: Other settings55512
-Node: Searching55979
-Node: Queries56911
-Ref: Queries-Footnote-158838
-Node: Bookmarks58950
-Ref: Bookmarks-Footnote-161292
-Node: Maildir searches61335
-Node: Other search functionality63456
-Node: Marking65259
-Node: Selecting messages for marking65828
-Node: What to mark for66645
-Ref: What to mark for-Footnote-168194
-Ref: What to mark for-Footnote-268293
-Node: Executing the marks68477
-Node: Leaving the headers buffer68746
-Node: Built-in marking functions69175
-Node: Custom mark functions69708
-Node: Dynamic folders71999
-Node: Smart refiling73139
-Ref: Smart refiling-Footnote-175368
-Node: Other dynamic folders75413
-Node: Actions76700
-Node: Defining actions77517
-Ref: Defining actions-Footnote-178776
-Ref: Defining actions-Footnote-278948
-Node: Adding an action in the headers view79135
-Node: Adding an action in the message view80128
-Node: Adding an attachment action81024
-Node: More example actions81855
-Node: Extending mu4e82259
-Node: Extension points82667
-Node: Available functions83971
-Node: Message functions84871
-Node: Utility functions86103
-Ref: Utility functions-Footnote-187294
-Node: Interaction with other tools87398
-Node: Setting the default emacs mail program87981
-Node: Creating org-mode links88544
-Node: Rich-text messages with org-mode89493
-Ref: Rich-text messages with org-mode-Footnote-191675
-Ref: Rich-text messages with org-mode-Footnote-291734
-Node: Maintaining an address-book with org-contacts91857
-Ref: Maintaining an address-book with org-contacts-Footnote-193098
-Node: Getting new mail notifications with Sauron93159
-Ref: Getting new mail notifications with Sauron-Footnote-194908
-Node: Speedbar support95051
-Node: Citations with mu-cite96042
-Ref: Citations with mu-cite-Footnote-196793
-Node: Attaching files with dired96869
-Node: Example configurations98208
-Node: Minimal configuration98662
-Node: Longer configuration99892
-Node: Gmail configuration102760
-Node: Some other useful settings107583
-Node: FAQ108210
-Node: General108558
-Node: Reading messages111682
-Node: Writing messages112944
-Node: Known issues114638
-Node: How it works115486
-Node: High-level overview115841
-Node: mu server117335
-Node: Reading from the server118342
-Node: The message s-expression120595
-Ref: The message s-expression-Footnote-1123762
-Node: Logging and debugging123951
-Node: GNU Free Documentation License125006
+Ref: Indexing your messages-Footnote-114941
+Node: Basic configuration15082
+Node: Folders15690
+Ref: Folders-Footnote-116462
+Node: Retrieval and indexing16733
+Node: Sending mail18208
+Node: Running mu4e20208
+Node: Main view21514
+Node: MV Overview21949
+Node: Basic actions23046
+Node: MV Bookmarks23882
+Node: Miscellaneous24510
+Node: Headers view25374
+Node: HV Overview25880
+Ref: HV Overview-Footnote-128762
+Ref: HV Overview-Footnote-228849
+Ref: HV Overview-Footnote-328952
+Node: Keybindings29049
+Node: Marking messages30899
+Node: Sort order and threading32102
+Ref: Sort order and threading-Footnote-133337
+Node: HV Actions33424
+Node: Split view34114
+Node: Message view35193
+Node: MSGV Overview35680
+Node: MSGV Keybindings37519
+Node: Opening and saving attachments40001
+Ref: Opening and saving attachments-Footnote-141415
+Ref: Opening and saving attachments-Footnote-241463
+Node: Viewing images inline41571
+Ref: Viewing images inline-Footnote-142410
+Node: Displaying rich-text messages42447
+Ref: Displaying rich-text messages-Footnote-143803
+Ref: Displaying rich-text messages-Footnote-243900
+Node: MSGV Crypto43942
+Ref: Decryption44834
+Ref: Verifying signatures45543
+Ref: MSGV Crypto-Footnote-146235
+Node: MSGV Actions46338
+Node: Editor view47825
+Node: EV Overview48341
+Node: Useful keybindings48725
+Node: Address autocompletion49313
+Ref: Address autocompletion-Footnote-151575
+Node: Compose hooks51618
+Node: Signing and encrypting54252
+Node: Queuing mail55062
+Node: Other settings56347
+Node: Searching56814
+Node: Queries57746
+Ref: Queries-Footnote-159673
+Node: Bookmarks59785
+Ref: Bookmarks-Footnote-162127
+Node: Maildir searches62170
+Node: Other search functionality64291
+Node: Marking66094
+Node: Selecting messages for marking66663
+Node: What to mark for67480
+Ref: What to mark for-Footnote-169029
+Ref: What to mark for-Footnote-269128
+Node: Executing the marks69312
+Node: Leaving the headers buffer69581
+Node: Built-in marking functions70010
+Node: Custom mark functions70543
+Node: Dynamic folders72834
+Node: Smart refiling73974
+Ref: Smart refiling-Footnote-176203
+Node: Other dynamic folders76248
+Node: Actions77535
+Node: Defining actions78352
+Ref: Defining actions-Footnote-179611
+Ref: Defining actions-Footnote-279783
+Node: Adding an action in the headers view79970
+Node: Adding an action in the message view80963
+Node: Adding an attachment action81859
+Node: More example actions82690
+Node: Extending mu4e83094
+Node: Extension points83502
+Node: Available functions84806
+Node: Message functions85706
+Node: Utility functions86938
+Ref: Utility functions-Footnote-188129
+Node: Interaction with other tools88233
+Node: Setting the default emacs mail program88816
+Node: Creating org-mode links89379
+Node: Rich-text messages with org-mode90328
+Ref: Rich-text messages with org-mode-Footnote-192510
+Ref: Rich-text messages with org-mode-Footnote-292569
+Node: Maintaining an address-book with org-contacts92692
+Ref: Maintaining an address-book with org-contacts-Footnote-193933
+Node: Getting new mail notifications with Sauron93994
+Ref: Getting new mail notifications with Sauron-Footnote-195743
+Node: Speedbar support95886
+Node: Citations with mu-cite96877
+Ref: Citations with mu-cite-Footnote-197628
+Node: Attaching files with dired97704
+Node: Example configurations99043
+Node: Minimal configuration99497
+Node: Longer configuration100727
+Node: Gmail configuration103595
+Node: Some other useful settings108417
+Node: FAQ109044
+Node: General109392
+Node: Reading messages112818
+Node: Writing messages114080
+Node: Known issues115774
+Node: How it works116622
+Node: High-level overview116977
+Node: mu server118471
+Node: Reading from the server119478
+Node: The message s-expression121731
+Ref: The message s-expression-Footnote-1124898
+Node: Logging and debugging125087
+Node: GNU Free Documentation License126142
 
 End Tag Table
 
