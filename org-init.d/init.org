@@ -2451,7 +2451,7 @@ generic を用いて予め定義されているモード．
 ** web-mode.el
 - [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
 package.el からインストール．
-** mu4e.el
+** mu4e.el                                                         :noexport:
 新しいメーラー．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'mu4e
