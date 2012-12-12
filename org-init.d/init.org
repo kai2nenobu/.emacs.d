@@ -2555,8 +2555,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
               ((string-match "^/kbkbkbkb1/" mdir)
                (mu4e-my-set-account-dynamically "kbkbkbkb1@gmail.com"))
               ((string-match "^/cellphone/" mdir)
-               (mu4e-my-set-account-dynamically "giovanni-franz@ezweb.ne.jp"))
-              ))))
+               (mu4e-my-set-account-dynamically "giovanni-franz@ezweb.ne.jp"))))))
   (add-hook 'mu4e-compose-pre-hook 'mu4e-my-change-account-for-maildir)
 #+END_SRC
 
