@@ -2596,7 +2596,8 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
                  smtpmail-default-smtp-server "smtp.gmail.com"
                  smtpmail-smtp-server         "smtp.gmail.com"
                  smtpmail-smtp-service        465
-                 smtpmail-local-domain        "ezweb.ne.jp"))))
+                 smtpmail-local-domain        "ezweb.ne.jp"))
+          (t (error (format "Unknown mail address: %s" address)))))
 #+END_SRC
 *** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
