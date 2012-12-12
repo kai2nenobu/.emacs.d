@@ -2584,7 +2584,8 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
                  smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
                  smtpmail-default-smtp-server "smtp.gmail.com"
                  smtpmail-smtp-server         "smtp.gmail.com"
-                 smtpmail-smtp-service        465))
+                 smtpmail-smtp-service        465
+                 smtpmail-local-domain        "gmail.com"))
           ((string= address "giovanni-franz@ezweb.ne.jp")
            (setq mu4e-drafts-folder "/cellphone/[Gmail].下書き"
                  mu4e-sent-folder   "/cellphone/[Gmail].送信済みメール"
@@ -2594,7 +2595,8 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
                  smtpmail-smtp-user           "giovanni-franz@auone.jp"
                  smtpmail-default-smtp-server "smtp.gmail.com"
                  smtpmail-smtp-server         "smtp.gmail.com"
-                 smtpmail-smtp-service        465))))
+                 smtpmail-smtp-service        465
+                 smtpmail-local-domain        "ezweb.ne.jp"))))
 #+END_SRC
 *** 独自拡張
 org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
