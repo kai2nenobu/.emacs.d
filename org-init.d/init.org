@@ -2593,6 +2593,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
            (setq mu4e-sent-folder   "/gavo/INBOX.Sent"
                  mu4e-drafts-folder "/gavo/INBOX.Drafts"
                  mu4e-trash-folder  "/gavo/INBOX.Trash"
+                 mu4e-sent-messages-behavior  'sent
                  user-mail-address            address
                  smtpmail-stream-type         'ssl
                  smtpmail-smtp-user           "kai"
@@ -2604,6 +2605,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
            (setq mu4e-drafts-folder "/kbkbkbkb1/[Gmail].下書き"
                  mu4e-sent-folder   "/kbkbkbkb1/[Gmail].送信済みメール"
                  mu4e-trash-folder  "/kbkbkbkb1/[Gmail].ゴミ箱"
+                 mu4e-sent-messages-behavior  'trash
                  user-mail-address            address
                  smtpmail-stream-type         'ssl
                  smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
@@ -2615,6 +2617,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
            (setq mu4e-drafts-folder "/cellphone/[Gmail].下書き"
                  mu4e-sent-folder   "/cellphone/[Gmail].送信済みメール"
                  mu4e-trash-folder  "/cellphone/[Gmail].ゴミ箱"
+                 mu4e-sent-messages-behavior  'trash
                  user-mail-address            address
                  smtpmail-stream-type         'ssl
                  smtpmail-smtp-user           "giovanni-franz@auone.jp"
