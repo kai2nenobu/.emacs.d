@@ -2510,6 +2510,29 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
            (guide-key/add-local-guide-key-sequence key)))
        (add-hook 'mu4e-compose-mode-hook 'guide-key/my-hook-function-for-mu4e-compose)))
 #+END_SRC
+*** 次のフォルダに移動するコマンド
+何かとあれば便利かと思って次のフォルダに直接移動するコマンドを作った．大きく
+移動する場合は anything で移動がよろしい．
+#+BEGIN_SRC emacs-lisp
+  (defun mu4e-my-next-folder (arg)
+    "Move to a next folder."
+    (interactive "p")
+    (let* ((mdir (mu4e-field-at-point :maildir))
+           (mdir-list (or mu4e~maildir-list
+                          (mu4e-get-maildirs)))
+           (index (- (length mdir-list) (length (member mdir mdir-list))))
+           (next-dir (nth (mod (+ index arg) (length mdir-list)) mdir-list)))
+      (mu4e~headers-search-execute (concat "maildir:" next-dir) t)))
+  (defun mu4e-my-previous-folder (arg)
+    "Move to a previous folder."
+    (interactive "p")
+    (mu4e-my-next-folder (- arg)))
+
+  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-folder)
+  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
+  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-folder)
+  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
+#+END_SRC
 *** 送信メールを元メールと同じフォルダにコピーする
 thunderbird のこの機能がとっても便利なのでまねしてみる．
 #+BEGIN_SRC emacs-lisp
