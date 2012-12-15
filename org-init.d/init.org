@@ -2639,7 +2639,8 @@ anything で mu4e のフォルダを選択する．
   (defvar anything-c-source-mu4e-maildir
     '((name . "mu4e-maildir")
       (candidates . mu4e-get-maildirs)
-      (action . mu4e~headers-jump-to-maildir)
+      (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
+                 ("Insert maildir" . insert)))
       (migemo))
     "Anything source for mu4e maildir.")
 
