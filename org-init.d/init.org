@@ -2646,8 +2646,13 @@ anything で mu4e のフォルダを選択する．
   (defun anything-mu4e-maildir ()
     "Anything command for mu4e maildir."
     (interactive)
-    (anything-other-buffer '(anything-c-source-mu4e-maildir)
-                           "*anything-mu4e-maildir*"))
+  (defun anything-mu4e-maildir ()
+    "Anything command for mu4e maildir."
+    (interactive)
+    (anything :sources   'anything-c-source-mu4e-maildir
+              :buffer    "*anything-mu4e-maildir*"
+              :preselect (let ((msg (mu4e-message-at-point t)))
+                           (and msg (mu4e-msg-field msg :maildir)))))
   (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
   (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
   (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
