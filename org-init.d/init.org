@@ -2595,11 +2595,12 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
   (add-hook 'mu4e-compose-pre-hook 'mu4e-my-change-account-for-maildir)
 #+END_SRC
 
-メールアドレスに応じてアカウント情報を設定する関数．
+メールアドレスに応じてアカウント情報を設定するコマンド．
 #+BEGIN_SRC emacs-lisp
   (defun mu4e-my-set-account-dynamically (&optional address)
     "Set up an account according to ADDRESS.
 If ADDRESS is nil, read ADDRESS from `mu4e-user-mail-address-list'."
+    (interactive)
     (unless address
       (setq address (completing-read "Mail account: " mu4e-user-mail-address-list
                                      nil t nil nil user-mail-address)))
