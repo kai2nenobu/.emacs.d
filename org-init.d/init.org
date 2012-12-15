@@ -503,6 +503,16 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** org-init.d/init.el を更新するコマンド
+org-init.d/init.org を更新したら，明示的に init.el を更新したい時があるので作っ
+た．
+#+BEGIN_SRC emacs-lisp
+(defun my-update-org-init ()
+  (interactive)
+  (org-babel-tangle-file (expand-file-name "init.org" org-init-directory)
+                         (expand-file-name "init.el" org-init-directory)
+                         "emacs-lisp"))
+#+END_SRC
 ** 順方向に mark-ring をたどる
 `pop-to-mark-command' は逆方向にしか 'mark-ring' をたどれないので，順方向にも
 たどれるコマンドを作った．グローバル版もあり．なかなか快適．ただ，"H-O" とい
