@@ -2573,11 +2573,9 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
     "Before executing `mu4e-commpose-new', set account information.
   If ARG is non-nil, select an account from `mu4e-user-mail-address-list'."
     (interactive "P")
-    (let ((address (if arg
-                       (completing-read "Mail account: " mu4e-user-mail-address-list
-                                        nil t nil nil user-mail-address)
-                     user-mail-address)))
-      (mu4e-my-set-account-dynamically address)))
+    (if arg
+        (mu4e-my-set-account-dynamically)
+      (mu4e-my-set-account-dynamically user-mail-address)))
 #+END_SRC
 
 返信時に返信元のメールの場所に応じてアカウントを切り替える．
