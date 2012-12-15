@@ -2660,9 +2660,6 @@ anything で mu4e のフォルダを選択する．
   (defun anything-mu4e-maildir ()
     "Anything command for mu4e maildir."
     (interactive)
-  (defun anything-mu4e-maildir ()
-    "Anything command for mu4e maildir."
-    (interactive)
     (anything :sources   'anything-c-source-mu4e-maildir
               :buffer    "*anything-mu4e-maildir*"
               :preselect (let ((msg (mu4e-message-at-point t)))
