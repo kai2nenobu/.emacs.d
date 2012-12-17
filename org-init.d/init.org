@@ -2618,7 +2618,7 @@ If ADDRESS is nil, read ADDRESS from `mu4e-user-mail-address-list'."
            (setq mu4e-drafts-folder "/kbkbkbkb1/[Gmail].下書き"
                  mu4e-sent-folder   "/kbkbkbkb1/[Gmail].送信済みメール"
                  mu4e-trash-folder  "/kbkbkbkb1/[Gmail].ゴミ箱"
-                 mu4e-sent-messages-behavior  'trash
+                 mu4e-sent-messages-behavior  'sent
                  user-mail-address            address
                  smtpmail-stream-type         'ssl
                  smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
@@ -2630,7 +2630,7 @@ If ADDRESS is nil, read ADDRESS from `mu4e-user-mail-address-list'."
            (setq mu4e-drafts-folder "/cellphone/[Gmail].下書き"
                  mu4e-sent-folder   "/cellphone/[Gmail].送信済みメール"
                  mu4e-trash-folder  "/cellphone/[Gmail].ゴミ箱"
-                 mu4e-sent-messages-behavior  'trash
+                 mu4e-sent-messages-behavior  'sent
                  user-mail-address            address
                  smtpmail-stream-type         'ssl
                  smtpmail-smtp-user           "giovanni-franz@auone.jp"
