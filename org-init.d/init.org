@@ -3696,19 +3696,19 @@ cygwin のパスを使えるようにする．
 ミニバッファでの補完を zsh ライクにする．
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/mooz/emacs-zlc/raw/master/zlc.el")
-;; (my-safe-require 'zlc
-;;   (let ((map minibuffer-local-map))
-;;     ;; like menu select
-;;     (define-key map (kbd "<down>")  'zlc-select-next-vertical)
-;;     (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
-;;     (define-key map (kbd "<right>") 'zlc-select-next)
-;;     (define-key map (kbd "<left>")  'zlc-select-previous)
-;;
-;;     (define-key map (kbd "H-n")  'zlc-select-next-vertical)
-;;     (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
-;;     (define-key map (kbd "H-f") 'zlc-select-next)
-;;     (define-key map (kbd "H-b")  'zlc-select-previous)
-;;     ))
+(my-safe-require 'zlc
+  (let ((map minibuffer-local-map))
+    ;; like menu select
+    (define-key map (kbd "<down>")  'zlc-select-next-vertical)
+    (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
+    (define-key map (kbd "<right>") 'zlc-select-next)
+    (define-key map (kbd "<left>")  'zlc-select-previous)
+
+    (define-key map (kbd "H-n")  'zlc-select-next-vertical)
+    (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
+    (define-key map (kbd "H-f") 'zlc-select-next)
+    (define-key map (kbd "H-b")  'zlc-select-previous)
+    ))
 #+END_SRC
 ** moz.el
 mozrepl を通して firefox を操作する
