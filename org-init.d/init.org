@@ -3684,39 +3684,36 @@ hilight current column.
   )
 (global-set-key (kbd "C-c y") 'anything-c-yas-complete) ; C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
 #+END_SRC
+** cygwin-mount.el
+cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp
-;;; cygwin-mount.el
-;;; 2011-05-18 (Wed)
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
-;;; cygwin のパスを使えるようにする
 (when (winp)
   (my-safe-require 'cygwin-mount
     (cygwin-mount-activate)))
-;; 一部しかして欲しくないパスの展開を全部やっちゃうので却下
-
-
-;;; zlc.el
-;;; 2011-05-06 (Fri)
+#+END_SRC
+** zlc.el
+ミニバッファでの補完を zsh ライクにする．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/mooz/emacs-zlc/raw/master/zlc.el")
-;;; ミニバッファでの補完を zsh ライクにする
-(my-safe-require 'zlc
-  (let ((map minibuffer-local-map))
-    ;; like menu select
-    (define-key map (kbd "<down>")  'zlc-select-next-vertical)
-    (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
-    (define-key map (kbd "<right>") 'zlc-select-next)
-    (define-key map (kbd "<left>")  'zlc-select-previous)
-
-    (define-key map (kbd "H-n")  'zlc-select-next-vertical)
-    (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
-    (define-key map (kbd "H-f") 'zlc-select-next)
-    (define-key map (kbd "H-b")  'zlc-select-previous)
-    ))
-
-;;; moz.el
-;;; 2011-05-03 (Tue)
+;; (my-safe-require 'zlc
+;;   (let ((map minibuffer-local-map))
+;;     ;; like menu select
+;;     (define-key map (kbd "<down>")  'zlc-select-next-vertical)
+;;     (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
+;;     (define-key map (kbd "<right>") 'zlc-select-next)
+;;     (define-key map (kbd "<left>")  'zlc-select-previous)
+;;
+;;     (define-key map (kbd "H-n")  'zlc-select-next-vertical)
+;;     (define-key map (kbd "H-p")    'zlc-select-previous-vertical)
+;;     (define-key map (kbd "H-f") 'zlc-select-next)
+;;     (define-key map (kbd "H-b")  'zlc-select-previous)
+;;     ))
+#+END_SRC
+** moz.el
+mozrepl を通して firefox を操作する
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
-;;; mozrepl を通して firefox を操作する
 (my-safe-require 'moz
   (defvar moz-scroll-ratio "80") ;; スクロール量の比率。100(%)で1ページ毎のスクロール。
   (defvar moz-scroll-time "15") ;; アニメーション時間。高いほどゆっくりに。
@@ -3782,12 +3779,11 @@ hilight current column.
     (w3m-browse-url (jk/moz-url)))
 
   )
-
-
-;;; anything-books.el
-;;; 2011-04-21 (Thu)
+#+END_SRC
+** anything-books.el
+anything で本管理．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
-;;; anything で本管理
 (my-safe-require 'anything-books
   (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
   (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
@@ -3811,22 +3807,23 @@ hilight current column.
 ;; Ubuntu でもほぼ同じ症状のようだ。
 ;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
 ;; 問題ないようだ。
-
-;;; concurrent.el
-;;; 非同期処理フレームワーク
+#+END_SRC
+** concurrent.el
+非同期処理フレームワーク．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/concurrent.el")
 (my-safe-require'concurrent)
-
-;;; deferred.el
-;;; 2011-04-21 (Thu)
+#+END_SRC
+** deferred.el
+非同期処理ライブラリ．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
-;;; 非同期処理ライブラリ
 (my-safe-require 'deferred)
-
-;;; anything.el
-;;; 2011-04-21 (Thu)
+#+END_SRC
+** anything.el
+1つでなんでもできる，汎用インターフェース．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-batch "anything")
-;;; 1つでなんでもできる，汎用インターフェース
 (my-safe-require 'anything-startup
   (when (executable-find "cmigemo")
     (my-safe-require 'anything-migemo))
@@ -3926,12 +3923,12 @@ hilight current column.
        '(anything-c-source-bibtex)
        "*anything bibtex:")))
   )
-
-;;; Inertial-scroll.el
-;;; 2011-04-21 (Thu)
+#+END_SRC
+** Inertial-scroll.el
+- [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
+慣性スクロール．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-inertial-scroll/raw/master/inertial-scroll.el")
-;;; http://d.hatena.ne.jp/kiwanami/20101008/1286518936 より
-;;; 慣性スクロール
 ;; (my-safe-require 'inertial-scroll
 ;;   (setq inertias-global-minor-mode-map
 ;;         (inertias-define-keymap
@@ -3953,56 +3950,57 @@ hilight current column.
 ;;   (setq inertias-update-time 1)      ; 画面描画のwait時間（msec）
 ;;   )
 ;; 見た目はおもろいし、わかりやすくなる。しかし、スクロールするのに多少の時間がかかるので、常用するのは微妙かもしれん。
-
-;;; smartchr.el
-;;; 2011-04-18 (Mon)
+#+END_SRC
+** smartchr.el
+1つのキーに様々な文字列を割り当てることができる．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/imakado/emacs-smartchr/raw/master/smartchr.el")
-;;; 1つのキーに様々な文字列を割り当てることができる
 ;; (my-safe-require 'smartchr
 ;;   (global-set-key (kbd "=") (smartchr '(" = " " == " "=")))
 ;;   (global-set-key (kbd "{") (smartchr '("{`!!'}" "{")))
 ;;   (global-set-key (kbd "(") (smartchr '("(`!!')" "(")))
 ;;   )
 ;; 若干使いにくい。プログラミングの時だけ有効とかにしたほうがいいか
-
-;;; switch-window.el
-;;; 2011-04-18 (Mon)
+#+END_SRC
+** switch-window.el
+ウィンドウの移動を番号で指定して移動する．C-x o の代替としてはまあまあいいか
+もしれない．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/dimitri/switch-window/raw/master/switch-window.el")
-;;; ウィンドウの移動を番号で指定して移動する
 (my-safe-require 'switch-window)
-;; C-x o の代替としてはまあまあいいかもしれない
-
-;;; hatena-diary-mode.el
-;;; 2011-04-15 (Fri)
+#+END_SRC
+** hatena-diary-mode.el
+- [[http://hatena-diary-el.sourceforge.jp/][hatena-diary-mode For Emacs]]
+はてなダイアリーを編集，投稿するメジャーモード．
+#+BEGIN_SRC emacs-lisp
 ;;; http://hatena-diary-el.sourceforge.jp/
-;;; はてなダイアリーを編集、投稿するメジャーモード
 (my-safe-require 'hatena-diary-mode
   (setq hatena-usrid "kbkbkbkb1")
   (setq hatena-twitter-flag t)
   (setq hatena-change-day-offset 0)
   (setq hatena-default-coding-system 'utf-8-unix)
   )
-;; simple-hatena-mode のほうが良さそう．ただし，simple-hatena には web から日記を
-;; ダウンロードする機能がないので，そのために hatena-diary の方を残しておく．
-
-;;; hatenahelper-mode.el
-;;; 2011-04-15 (Fri)
-;;; http://d.hatena.ne.jp/amt/20060115/HatenaHelperMode
-;;; はてなダイアリーの編集を支援するマイナーモード
+#+END_SRC
+simple-hatena-mode のほうが良さそう．ただし，simple-hatena には web から日記を
+ダウンロードする機能がないので，そのために hatena-diary の方を残しておく．
+** hatenahelper-mode.el
+- [[http://d.hatena.ne.jp/amt/20060115/HatenaHelperMode][はてな記法を入力支援する hatenahelper-mode - おもてなしの空間]]
+はてなダイアリーの編集を支援するマイナーモード．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'hatenahelper-mode
   (add-hook 'hatena-diary-mode-hook
             '(lambda ()
                (hatenahelper-mode 1))))
-
-;;; matlab-eldoc.el
-;;; 2011-04-15 (Fri)
-;;; http://d.hatena.ne.jp/uhiaha888/20101108/1289223580
-;;; matlab の引数を表示
+#+END_SRC
+** matlab-eldoc.el
+- [[http://d.hatena.ne.jp/uhiaha888/20101108/1289223580][matlabでもel-doc - uhiaha888の日記]]
+matlab の引数を表示．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'matlab-eldoc)
-
-;;; sdic.el
-;;; 2011-04-13 (Wed)
-;;; 辞書をひく
+#+END_SRC
+** sdic.el
+辞書をひく．
+#+BEGIN_SRC emacs-lisp
 ;; (autoload 'sdic-describe-word
 ;;   "sdic" "英単語の意味を調べる" t nil)
 ;; (global-set-key  (kbd "C-c d") 'sdic-describe-word)
@@ -4017,10 +4015,10 @@ hilight current column.
 ;;       '((sdicf-client "~/.emacs.d/dict/jedict.sdic")))
 ;; ;; 文字色
 ;; (setq sdic-face-color "pink")
-
-
-;;; navi2ch.el
-;;; 2011-04-11 (Mon)
+#+END_SRC
+** navi2ch.el
+2ch ビューアー．
+#+BEGIN_SRC emacs-lisp
 (autoload 'navi2ch "navi2ch" "Navigator for 2ch for Emacs" t)
 (eval-after-load "navi2ch"
   '(progn
@@ -4031,12 +4029,11 @@ hilight current column.
      (define-key navi2ch-article-mode-map (kbd "]") 'navi2ch-article-next-link)
      (define-key navi2ch-article-mode-map (kbd "[") 'navi2ch-article-previous-link)
      ))
-
-
-;;; color-moccur.el
-;;; 2011-04-11 (Mon)
+#+END_SRC
+** color-moccur.el
+強化版 occur．moccur をもとに改造したらしい．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://www.bookshelf.jp/elc/color-moccur.el")
-;;; 強化版 occur。moccur をもとに改造したらしい。
 (my-safe-require 'color-moccur
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
@@ -4045,25 +4042,26 @@ hilight current column.
   ; moccur-edit
   ; (auto-install-from-url "http://www.bookshelf.jp/elc/moccur-edit.el")
   (my-safe-load "moccur-edit"))
-
-;;; xdoc2txt.el
-;;; http://www.bookshelf.jp/soft/meadow_23.html#SEC238 より
-;;; pdf や word のテキスト部分を抽出して表示する
+#+END_SRC
+** xdoc2txt.el
+- [[http://www.bookshelf.jp/soft/meadow_23.html#SEC238][Meadow/Emacs memo: ファイルを開く関連]]
+pdf や word のテキスト部分を抽出して表示する．Windows 専用．
+#+BEGIN_SRC emacs-lisp
 ;; (when (winp)
 ;;   (my-safe-load "xdoc2txt.el"))
-;; Windows 専用
-
-;;; mcomplete.el
-;;; 2011-04-07 (Thu)
+#+END_SRC
+** mcomplete.el
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el")
 (my-safe-require 'mcomplete
   (turn-on-mcomplete-mode))
-
-;;; popup-kill-ring.el
-;;; 2011-04-07 (Thu)
+#+END_SRC
+** popup-kill-ring.el
+キルリングをポップアップで表示．これの代わりに anything-show-kill-ring を使う
+ことにした．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "pos-tip.el")
 ;;; (auto-install-from-emacswiki "popup-kill-ring.el")
-;;; キルリングをポップアップで表示
 ;; (my-safe-require 'popup)
 ;; (when (null window-system)
 ;;   (my-safe-require 'pos-tip))           ; terminal のときは pos-tip は使えないため．
@@ -4085,55 +4083,56 @@ hilight current column.
 ;;     (when (eq last-command 'yank)
 ;;       (undo)))     ; undo はすこし安直すぎるかもしれない
 ;; )
-;; これの代わりに anything-show-kill-ring を使うことにした
-
-;;; drill-instructor.el
+#+END_SRC
+** drill-instructor.el
+Emacs キーバインドを強制．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "drill-instructor.el")
-;;; Emacs キーバインドを強制
 ;; (my-safe-require 'drill-instructor)
 ;; (setq drill-instructor-global t)
 ;; やっぱやめた
-
-;;; yahtml.el
-;;; html 編集モード
+#+END_SRC
+** yahtml.el
+html 編集モード．
+#+BEGIN_SRC emacs-lisp
 (my-safe-require 'yahtml
   (setq auto-mode-alist
         (cons (cons "\\.html$" 'yahtml-mode) auto-mode-alist))
   (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
   ;(setq yahtml-kanji-code 4)   ; setq で設定すると utf-8 で保存できない．defvar の時点で 4 にしとくといいけどなんでやねん．
   (setq yahtml-www-browser "firefox"))
-
-;;; htmlize.el
-;;; Emacs のハイライトをそのまま html に変換
+#+END_SRC
+** htmlize.el
+Emacs のハイライトをそのまま html に変換
+#+BEGIN_SRC emacs-lisp
 (my-safe-load "htmlize")
-
-;;; approx-search.el
-;;; 2011-02-12 (Sat)
-;;; http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el
-;;; 曖昧検索できる
+#+END_SRC
+** approx-search.el
+- [[http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el][(Scheme) (Lisp)]]
+曖昧検索できる．
+#+BEGIN_SRC emacs-lisp
 ;; (my-safe-require 'approx-search
 ;;   (if (boundp 'isearch-search-fun-function)
 ;;       (my-safe-require 'approx-isearch)
 ;;     (my-safe-require 'approx-old-isearch))
 ;;   (approx-isearch-set-enable))
 ;; Migemo との共存がちょっとめんどいので一旦コメントアウト
-
-;;; sr-speedbar.el
-;;; 2011-02-12 (Sat)
+#+END_SRC
+** sr-speedbar.el
+同一フレーム内に speedbar を作る．そんなに使い方を理解していない．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "sr-speedbar.el")
-;;; 同一フレーム内に speedbar を作る
-;;; そんなに使い方を理解していない
 (my-safe-require 'sr-speedbar
   (global-set-key (kbd "H-s") 'sr-speedbar-toggle))
-
-;;; cacoo.el
-;;; 2011-02-11 (Fri)
-;;; http://d.hatena.ne.jp/kiwanami/20110303/1299174459
+#+END_SRC
+** cacoo.el
+- [[http://d.hatena.ne.jp/kiwanami/20110303/1299174459][cacoo.el v2.0 リリース - 技術日記＠kiwanami]]
+インライン画像表示 & cacoo編集．
+#+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/concurrent.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo-plugins.el")
-;;; インライン画像表示 & cacoo編集
 (my-safe-require 'cacoo ; cacooを読み込み
   (my-safe-require 'cacoo-plugins)      ; 追加機能
   (setq cacoo:api-key "gZhx0gy6pachw6ZOuWyC") ; ←CacooのAPIキーを入れる（使わない人は無くてもOK）
@@ -4203,7 +4202,6 @@ hilight current column.
   (define-key cacoo-minor-mode-keymap (kbd "M-c") 'cacoo-my-minor-mode-keymap)
   )
 #+END_SRC
-
 ** color-theme.el
 Emacs の色付けをいろいろなテーマから選べる． 組み込みのカラーテーマでなかなか
 いいのは，
