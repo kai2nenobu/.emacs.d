@@ -4290,6 +4290,28 @@ view-mode を便利に．
   ;; view-mode の時モードラインを色づけ
   (setq viewer-modeline-color-unwritable "tomato")
   (setq viewer-modeline-color-view "orange")
+  ;; root ユーザ時はモードラインの色を変える
+  (setq viewer-modeline-color-root "magenta")
+  ;; root のため条件を書き加えるために関数を再定義
+  (defun viewer-change-modeline-color ()
+    (interactive)
+    (when (eq (selected-window)
+              (get-buffer-window (current-buffer)))
+      (set-face-background
+       'modeline
+       (cond ((and buffer-file-name view-mode
+                   (not (file-writable-p buffer-file-name)))
+              viewer-modeline-color-unwritable)
+             (view-mode
+              viewer-modeline-color-view)
+             ((let ((name (or list-buffers-directory (buffer-file-name))))
+                (and (tramp-tramp-file-p name)
+                     (string= (tramp-file-name-real-user (tramp-dissect-file-name name))
+                              "root")))
+              viewer-modeline-color-root)
+             (t
+              viewer-modeline-color-default)))))
+
   (viewer-change-modeline-color-setup)
   ;; 閲覧用キーマップ
   (defvar pager-keybind
