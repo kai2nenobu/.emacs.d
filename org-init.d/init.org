@@ -2203,7 +2203,7 @@ dired のソートを拡張する．
            (drive (if (and (winp) ;; Windows の場合はドライブレターを追加
                            (string-match "^\\([a-zA-Z]:\\)/" dir))
                       (match-string 1 dir) "")))
-      (rename-buffer (concat (buffer-name) " [" drive "Dired]")))))
+      (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
 (add-hook 'dired-mode-hook 'dired-my-add-buffer-name)
 #+END_SRC
 *** 新しいバッファを作らないバッファ移動
