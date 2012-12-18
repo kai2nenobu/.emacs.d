@@ -2654,6 +2654,7 @@ anything で mu4e のフォルダを選択する．
       (candidates . mu4e-get-maildirs)
       (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
                  ("Insert maildir" . insert)))
+      (anything-candidate-number-limit)
       (migemo))
     "Anything source for mu4e maildir.")
 
