@@ -1677,6 +1677,326 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** dired.el
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'dired)
+#+END_SRC
+*** dired+.el
+dired.el, dired-x.el, dired-aux.el の拡張
+#+BEGIN_SRC emacs-lisp
+;;; (auto-install-from-emacswiki "dired+.el")
+(my-safe-require 'dired+)
+
+(setq ls-lisp-use-insert-directory-program t) ; Windows でも ls コマンドを使用する
+;; set ls option. Not display . and .. directories, and human readable file size.
+(setq dired-listing-switches "-lA -h --group-directories-first")
+#+END_SRC
+*** dired-dd.el
+dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使えるマウ
+スインターフェースのよう．dired-x を前提としているらしいのでロードしておく．
+
+何故かうまく動かないような気がする．コレ自体の問題じゃないかもだが．
+#+BEGIN_SRC emacs-lisp
+;;; http://www.asahi-net.or.jp/~pi9s-nnb/dired-dd-home.html
+;; (add-hook 'dired-load-hook
+;;           (function
+;;            (lambda ()
+;;              (load "dired-x")
+;;              (if window-system (require 'dired-dd)))))
+#+END_SRC
+*** wdired.el
+dired でファイルのリネームをする．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'wdired
+  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
+  (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
+  )
+#+END_SRC
+*** sorter.el
+dired のソートを拡張する．
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=sorter][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
+;; (auto-install-from-url "http://www.meadowy.org/~shirai/elips/sorter.el")
+;(my-safe-require 'sorter)
+#+END_SRC
+*** 対話的にls オプションを変更
+`dired-sort-toggle' の代わりのつもり．
+#+BEGIN_SRC emacs-lisp
+(defvar dired-my-switch-prompt
+  (concat
+   (propertize "-n" 'face font-lock-builtin-face) ": name   "
+   (propertize "-t" 'face font-lock-builtin-face) ": date   "
+   (propertize "-v" 'face font-lock-builtin-face) ": version   "
+   (propertize "-S" 'face font-lock-builtin-face) ": size   "
+   (propertize "-X" 'face font-lock-builtin-face) ": extension   "
+   (propertize "-a" 'face font-lock-builtin-face) ": all   "
+   (propertize "-A" 'face font-lock-builtin-face) ": almost   "
+   (propertize "-h" 'face font-lock-builtin-face) ": human-readable   "
+   (propertize "-r" 'face font-lock-builtin-face) ": reverse   "
+   (propertize "-g" 'face font-lock-builtin-face) ": group-directory"
+   "\n"
+   (propertize "Switches: " 'face font-lock-keyword-face)
+   "%s"))
+
+(defun dired-my-switch-change-interactive ()
+  "Change dired sort switch interactively."
+  (interactive)
+  (let ((switch dired-actual-switches) key)
+    (catch 'quit
+      (while t
+        (case (setq key (read-char (format dired-my-switch-prompt switch)))
+          (?\C-m (setq dired-actual-switches switch)
+                 (setq mode-name
+                       (concat "Dired/" (dired-my-switch-short-expression)))
+                 (dired-revert)
+                 (throw 'quit t))
+          (?q (throw 'quit t))
+          ((?a ?A) (setq switch (dired-my-switch-all-option switch key)))
+          ((?h ?r ?g) (setq switch (dired-my-switch-toggle-option switch key)))
+          ((?  ?n ?t ?v ?S ?X) (setq switch (dired-my-switch-sort-option switch key)))
+          (otherwise nil))))))
+
+(defun dired-my-switch-all-option (switch key)
+  "Change all switch."
+  (case key
+    (?a (dired-replace-in-string "-lA" "-la" switch))
+    (?A (dired-replace-in-string "-la" "-lA" switch))))
+
+(defun dired-my-switch-toggle-option (switch key)
+  "Change toggle switch."
+  (case key
+    ((?h ?r)
+     (if (string-match (format " -%s" (char-to-string key)) switch)
+         (replace-match "" nil nil switch)
+       (concat switch (format " -%s" (char-to-string key)))))
+    (?g
+     (if (string-match " --group-directories-first" switch)
+         (replace-match "" nil nil switch)
+       (concat switch " --group-directories-first")))))
+
+(defun dired-my-switch-sort-option (switch key)
+  "Change sort switch."
+  (case key
+    ((?  ?n)
+     (dired-replace-in-string " -[tvSX]" "" switch))
+    ((?t ?v ?S ?X)
+     (if (string-match " -[tvSX]" switch)
+         (if (string= (match-string 0 switch) (format " -%s" (char-to-string key)))
+             (replace-match "" nil nil switch)
+           (replace-match (format " -%s" (char-to-string key)) nil nil switch))
+       (concat switch (format " -%s" (char-to-string key)))))))
+
+(defun dired-my-switch-short-expression ()
+  "Return short expression of `dired-actual-switches'."
+  (let ((str dired-actual-switches))
+    (setq str (replace-regexp-in-string "^-l" "" str))
+    (setq str (replace-regexp-in-string " -\\([a-zA-Z]\\)" "\\1" str))
+    (setq str (replace-regexp-in-string " --group-directories-first" "g" str))))
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (setq mode-name (concat "Dired/" (dired-my-switch-short-expression)))
+            (define-key dired-mode-map (kbd "c") 'dired-my-switch-change-interactive)))
+#+END_SRC
+*** バッファ名に [Dired] を付加
+#+BEGIN_SRC emacs-lisp
+(defun dired-my-append-buffer-name-hint ()
+  "Append a auxiliary string to a name of dired buffer."
+  (when (eq major-mode 'dired-mode)
+    (let* ((dir (expand-file-name list-buffers-directory))
+           (drive (if (and (winp) ;; Windows の場合はドライブレターを追加
+                           (string-match "^\\([a-zA-Z]:\\)/" dir))
+                      (match-string 1 dir) "")))
+      (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
+(add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
+#+END_SRC
+*** 新しいバッファを作らないバッファ移動
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20single][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
+(defun dired-my-advertised-find-file ()
+  (interactive)
+  (let ((kill-target (current-buffer))
+        (check-file (dired-get-filename)))
+    (funcall 'dired-advertised-find-file)
+    (if (file-directory-p check-file)
+        (kill-buffer kill-target))))
+
+(defun dired-my-up-directory (&optional other-window)
+  "Run dired on parent directory of current directory.
+Find the parent directory either in this buffer or another buffer.
+Creates a buffer if necessary."
+  (interactive "P")
+  (let* ((dir (dired-current-directory))
+         (up (file-name-directory (directory-file-name dir))))
+    (or (dired-goto-file (directory-file-name dir))
+        ;; Only try dired-goto-subdir if buffer has more than one dir.
+        (and (cdr dired-subdir-alist)
+             (dired-goto-subdir up))
+        (progn
+          (if other-window
+              (dired-other-window up)
+            (progn
+              (kill-buffer (current-buffer))
+              (dired up))
+            (dired-goto-file dir))))))
+#+END_SRC
+*** キーバインド
+#+BEGIN_SRC emacs-lisp
+(define-key dired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
+(define-key dired-mode-map (kbd "^") 'dired-my-up-directory)
+(define-key dired-mode-map (kbd "RET") 'dired-my-advertised-find-file)
+(define-key dired-mode-map (kbd "<left>") 'dired-my-up-directory)
+(define-key dired-mode-map (kbd "<right>") 'dired-my-advertised-find-file)
+;;; C-t が image-なんたら の prefix で潰れているので unset
+(define-key dired-mode-map (kbd "C-t") nil)
+#+END_SRC
+*** Dired で関連付けられたファイルを起動する
+- [[http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html][Emacs Dired: Opening Files in External Apps]]
+#+BEGIN_SRC emacs-lisp
+(defun my-open-file-with-external-app  (file)
+  "Open FILE with an appropriate application.
+Works in Microsoft Windows, Mac OS X, Linux."
+  (interactive "fOpen file with external application: ")
+  (cond ((string-equal system-type "windows-nt")
+         (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" file t t)))
+        ((string-equal system-type "darwin")
+         (let ((process-connection-type nil))
+           (start-process "" nil "open" file)))
+        ((string-equal system-type "gnu/linux")
+         (let ((process-connection-type nil))
+           (start-process "" nil "xdg-open" file)))))
+(defun my-open-file-dwim ()
+  "Open the current file or dired marked files in external application."
+  (interactive)
+  (let ((file-list
+         (cond ((string-equal major-mode "dired-mode") (dired-get-marked-files))
+               ((and (featurep 'ffap) (ffap-file-at-point))
+                (list (expand-file-name (ffap-file-at-point) default-directory)))
+               (t (list (or (buffer-file-name)
+                            (error "This buffer isn't visiting a file")))))))
+    (when (or (<= (length file-list) 5)
+              (y-or-n-p "Open more than 5 files?"))
+      (mapc 'my-open-file-with-external-app file-list))))
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map "z" 'my-open-file-dwim))) ;;; 関連付け
+(define-key my-original-map (kbd "C-o") 'my-open-file-dwim)
+#+END_SRC
+*** スペースでマークする (FD like)
+#+BEGIN_SRC emacs-lisp
+(defun dired-toggle-mark (arg)
+  "Toggle the current (or next ARG) files."
+  ;; S.Namba Sat Aug 10 12:20:36 1996
+  (interactive "P")
+  (let ((dired-marker-char
+         (if (save-excursion (beginning-of-line)
+                             (looking-at " "))
+             dired-marker-char ?\040)))
+    (dired-mark arg)
+    (dired-previous-line 1)))
+(define-key dired-mode-map (kbd "SPC") 'dired-toggle-mark)
+#+END_SRC
+*** ファイル名のみで isearch
+#+BEGIN_SRC emacs-lisp
+(setq dired-isearch-filenames 'dwim)        ; dired-aux で定義されている．これだけで十分だった
+#+END_SRC
+*** dired バッファは折り返さない
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (toggle-truncate-lines 1)))
+#+END_SRC
+*** すべてのファイルにマークする
+#+BEGIN_SRC emacs-lisp
+(defun dired-my-mark-all-files ()
+  "Mark all files in a current dired buffer."
+  (interactive)
+  (dired-mark-files-regexp ""))
+
+(defun dired-my-get-number-of-marked-files ()
+  "Get the number of marked files."
+  (interactive)
+  (let ((case-fold-search nil)
+        (mark-regexp "^\\*\\|^D")
+        (count 0))
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward mark-regexp nil t)
+        (setq count (1+ count))))
+    count))
+
+(defadvice dired-unmark-all-marks (around dired-my-mark-all-marks-dwim activate)
+  "Mark all files or unmark all marks."
+  (if (> (dired-my-get-number-of-marked-files) 0)
+      ad-do-it
+    (dired-my-mark-all-files)))
+(define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
+#+END_SRC
+*** dired で文字コード一括変換
+- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20convert%20code][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
+#+BEGIN_SRC emacs-lisp
+(defvar dired-default-file-coding-system nil
+  "*Default coding system for converting file (s).")
+
+(defvar dired-file-coding-system 'no-conversion)
+
+(defun dired-convert-coding-system ()
+  (let ((file (dired-get-filename))
+        (coding-system-for-write dired-file-coding-system)
+        failure)
+    (condition-case err
+        (with-temp-buffer
+          (insert-file file)
+          (write-region (point-min) (point-max) file))
+      (error (setq failure err)))
+    (if (not failure)
+        nil
+      (dired-log "convert coding system error for %s:\n%s\n" file failure)
+      (dired-make-relative file))))
+
+(defun dired-do-convert-coding-system (coding-system &optional arg)
+  "Convert file (s) in specified coding system."
+  (interactive
+   (list (let ((default (or dired-default-file-coding-system
+                            buffer-file-coding-system)))
+           (read-coding-system
+            (format "Coding system for converting file (s) (default, %s): "
+                    default)
+            default))
+         current-prefix-arg))
+  (check-coding-system coding-system)
+  (setq dired-file-coding-system coding-system)
+  (dired-map-over-marks-check
+   (function dired-convert-coding-system) arg 'convert-coding-system t))
+(define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
+#+END_SRC
+*** 本日変更したファイルを色付け
+- [[http://homepage1.nifty.com/blankspace/emacs/dired.html][dired]]
+#+BEGIN_SRC emacs-lisp
+(defface my-face-f-2 '((t (:foreground "GreenYellow"))) nil)
+(defvar my-face-f-2 'my-face-f-2)
+(defun my-dired-today-search (arg)
+  "Fontlock search function for dired."
+  (search-forward-regexp (concat (format-time-string "%Y-%m-%d" (current-time))
+                                 " [0-9][0-9]:[0-9][0-9]") arg t))
+(add-hook 'dired-mode-hook
+          '(lambda ()
+             (font-lock-add-keywords
+              major-mode
+              (list
+               '(my-dired-today-search . my-face-f-2)
+               ))))
+#+END_SRC
+*** dired-details+.el
+dired のファイル情報の詳細表示をトグルする．
+#+BEGIN_SRC emacs-lisp
+;; (auto-install-from-emacswiki "dired-details.el")
+;; (auto-install-from-emacswiki "dired-details+.el")
+(my-safe-require 'dired-details+
+  (setq dired-details-hidden-string "")
+  (setq dired-details-hide-link-targets nil)
+  )
+#+END_SRC
 ** diff.el
 - [[http://www.clear-code.com/blog/2012/4/3.html][Emacs上でカラフルにdiffを表示する - ククログ(2012-04-03)]]
 #+BEGIN_SRC emacs-lisp
@@ -1815,7 +2135,7 @@ shift+カーソルキー でウィンドウを移動する．
 #+BEGIN_SRC emacs-lisp
   (defun tramp-my-append-buffer-name-hint ()
     "Append a hint (user, hostname) to a buffer name if visiting
-  buffer is a remote file (include directory)."
+file is a remote file (include directory)."
     (let ((name (or list-buffers-directory (buffer-file-name))))
       (when (and name (tramp-tramp-file-p name))
         (let* ((tramp-vec (tramp-dissect-file-name name))
@@ -2090,326 +2410,6 @@ info を Emacs で読む．
 カーソル近くのファイルや URL を find-file で開く．
 #+BEGIN_SRC emacs-lisp
 (ffap-bindings)
-#+END_SRC
-** dired.el
-#+BEGIN_SRC emacs-lisp
-(my-safe-require 'dired)
-#+END_SRC
-*** dired+.el
-dired.el, dired-x.el, dired-aux.el の拡張
-#+BEGIN_SRC emacs-lisp
-;;; (auto-install-from-emacswiki "dired+.el")
-(my-safe-require 'dired+)
-
-(setq ls-lisp-use-insert-directory-program t) ; Windows でも ls コマンドを使用する
-;; set ls option. Not display . and .. directories, and human readable file size.
-(setq dired-listing-switches "-lA -h --group-directories-first")
-#+END_SRC
-*** dired-dd.el
-dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使えるマウ
-スインターフェースのよう．dired-x を前提としているらしいのでロードしておく．
-
-何故かうまく動かないような気がする．コレ自体の問題じゃないかもだが．
-#+BEGIN_SRC emacs-lisp
-;;; http://www.asahi-net.or.jp/~pi9s-nnb/dired-dd-home.html
-;; (add-hook 'dired-load-hook
-;;           (function
-;;            (lambda ()
-;;              (load "dired-x")
-;;              (if window-system (require 'dired-dd)))))
-#+END_SRC
-*** wdired.el
-dired でファイルのリネームをする．
-#+BEGIN_SRC emacs-lisp
-(my-safe-require 'wdired
-  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
-  (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
-  )
-#+END_SRC
-*** sorter.el
-dired のソートを拡張する．
-- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=sorter][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
-#+BEGIN_SRC emacs-lisp
-;; (auto-install-from-url "http://www.meadowy.org/~shirai/elips/sorter.el")
-;(my-safe-require 'sorter)
-#+END_SRC
-*** 対話的にls オプションを変更
-`dired-sort-toggle' の代わりのつもり．
-#+BEGIN_SRC emacs-lisp
-(defvar dired-my-switch-prompt
-  (concat
-   (propertize "-n" 'face font-lock-builtin-face) ": name   "
-   (propertize "-t" 'face font-lock-builtin-face) ": date   "
-   (propertize "-v" 'face font-lock-builtin-face) ": version   "
-   (propertize "-S" 'face font-lock-builtin-face) ": size   "
-   (propertize "-X" 'face font-lock-builtin-face) ": extension   "
-   (propertize "-a" 'face font-lock-builtin-face) ": all   "
-   (propertize "-A" 'face font-lock-builtin-face) ": almost   "
-   (propertize "-h" 'face font-lock-builtin-face) ": human-readable   "
-   (propertize "-r" 'face font-lock-builtin-face) ": reverse   "
-   (propertize "-g" 'face font-lock-builtin-face) ": group-directory"
-   "\n"
-   (propertize "Switches: " 'face font-lock-keyword-face)
-   "%s"))
-
-(defun dired-my-switch-change-interactive ()
-  "Change dired sort switch interactively."
-  (interactive)
-  (let ((switch dired-actual-switches) key)
-    (catch 'quit
-      (while t
-        (case (setq key (read-char (format dired-my-switch-prompt switch)))
-          (?\C-m (setq dired-actual-switches switch)
-                 (setq mode-name
-                       (concat "Dired/" (dired-my-switch-short-expression)))
-                 (dired-revert)
-                 (throw 'quit t))
-          (?q (throw 'quit t))
-          ((?a ?A) (setq switch (dired-my-switch-all-option switch key)))
-          ((?h ?r ?g) (setq switch (dired-my-switch-toggle-option switch key)))
-          ((?  ?n ?t ?v ?S ?X) (setq switch (dired-my-switch-sort-option switch key)))
-          (otherwise nil))))))
-
-(defun dired-my-switch-all-option (switch key)
-  "Change all switch."
-  (case key
-    (?a (dired-replace-in-string "-lA" "-la" switch))
-    (?A (dired-replace-in-string "-la" "-lA" switch))))
-
-(defun dired-my-switch-toggle-option (switch key)
-  "Change toggle switch."
-  (case key
-    ((?h ?r)
-     (if (string-match (format " -%s" (char-to-string key)) switch)
-         (replace-match "" nil nil switch)
-       (concat switch (format " -%s" (char-to-string key)))))
-    (?g
-     (if (string-match " --group-directories-first" switch)
-         (replace-match "" nil nil switch)
-       (concat switch " --group-directories-first")))))
-
-(defun dired-my-switch-sort-option (switch key)
-  "Change sort switch."
-  (case key
-    ((?  ?n)
-     (dired-replace-in-string " -[tvSX]" "" switch))
-    ((?t ?v ?S ?X)
-     (if (string-match " -[tvSX]" switch)
-         (if (string= (match-string 0 switch) (format " -%s" (char-to-string key)))
-             (replace-match "" nil nil switch)
-           (replace-match (format " -%s" (char-to-string key)) nil nil switch))
-       (concat switch (format " -%s" (char-to-string key)))))))
-
-(defun dired-my-switch-short-expression ()
-  "Return short expression of `dired-actual-switches'."
-  (let ((str dired-actual-switches))
-    (setq str (replace-regexp-in-string "^-l" "" str))
-    (setq str (replace-regexp-in-string " -\\([a-zA-Z]\\)" "\\1" str))
-    (setq str (replace-regexp-in-string " --group-directories-first" "g" str))))
-
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (setq mode-name (concat "Dired/" (dired-my-switch-short-expression)))
-            (define-key dired-mode-map (kbd "c") 'dired-my-switch-change-interactive)))
-#+END_SRC
-*** バッファ名に [Dired] を付加
-#+BEGIN_SRC emacs-lisp
-(defun dired-my-add-buffer-name ()
-  "Add a auxiliary string to a name of dired buffer."
-  (when (eq major-mode 'dired-mode)
-    (let* ((dir (expand-file-name default-directory))
-           (drive (if (and (winp) ;; Windows の場合はドライブレターを追加
-                           (string-match "^\\([a-zA-Z]:\\)/" dir))
-                      (match-string 1 dir) "")))
-      (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
-(add-hook 'dired-mode-hook 'dired-my-add-buffer-name)
-#+END_SRC
-*** 新しいバッファを作らないバッファ移動
-- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20single][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
-#+BEGIN_SRC emacs-lisp
-(defun dired-my-advertised-find-file ()
-  (interactive)
-  (let ((kill-target (current-buffer))
-        (check-file (dired-get-filename)))
-    (funcall 'dired-advertised-find-file)
-    (if (file-directory-p check-file)
-        (kill-buffer kill-target))))
-
-(defun dired-my-up-directory (&optional other-window)
-  "Run dired on parent directory of current directory.
-Find the parent directory either in this buffer or another buffer.
-Creates a buffer if necessary."
-  (interactive "P")
-  (let* ((dir (dired-current-directory))
-         (up (file-name-directory (directory-file-name dir))))
-    (or (dired-goto-file (directory-file-name dir))
-        ;; Only try dired-goto-subdir if buffer has more than one dir.
-        (and (cdr dired-subdir-alist)
-             (dired-goto-subdir up))
-        (progn
-          (if other-window
-              (dired-other-window up)
-            (progn
-              (kill-buffer (current-buffer))
-              (dired up))
-            (dired-goto-file dir))))))
-#+END_SRC
-*** キーバインド
-#+BEGIN_SRC emacs-lisp
-(define-key dired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
-(define-key dired-mode-map (kbd "^") 'dired-my-up-directory)
-(define-key dired-mode-map (kbd "RET") 'dired-my-advertised-find-file)
-(define-key dired-mode-map (kbd "<left>") 'dired-my-up-directory)
-(define-key dired-mode-map (kbd "<right>") 'dired-my-advertised-find-file)
-;;; C-t が image-なんたら の prefix で潰れているので unset
-(define-key dired-mode-map (kbd "C-t") nil)
-#+END_SRC
-*** Dired で関連付けられたファイルを起動する
-- [[http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html][Emacs Dired: Opening Files in External Apps]]
-#+BEGIN_SRC emacs-lisp
-(defun my-open-file-with-external-app  (file)
-  "Open FILE with an appropriate application.
-Works in Microsoft Windows, Mac OS X, Linux."
-  (interactive "fOpen file with external application: ")
-  (cond ((string-equal system-type "windows-nt")
-         (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" file t t)))
-        ((string-equal system-type "darwin")
-         (let ((process-connection-type nil))
-           (start-process "" nil "open" file)))
-        ((string-equal system-type "gnu/linux")
-         (let ((process-connection-type nil))
-           (start-process "" nil "xdg-open" file)))))
-(defun my-open-file-dwim ()
-  "Open the current file or dired marked files in external application."
-  (interactive)
-  (let ((file-list
-         (cond ((string-equal major-mode "dired-mode") (dired-get-marked-files))
-               ((and (featurep 'ffap) (ffap-file-at-point))
-                (list (expand-file-name (ffap-file-at-point) default-directory)))
-               (t (list (or (buffer-file-name)
-                            (error "This buffer isn't visiting a file")))))))
-    (when (or (<= (length file-list) 5)
-              (y-or-n-p "Open more than 5 files?"))
-      (mapc 'my-open-file-with-external-app file-list))))
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (define-key dired-mode-map "z" 'my-open-file-dwim))) ;;; 関連付け
-(define-key my-original-map (kbd "C-o") 'my-open-file-dwim)
-#+END_SRC
-*** スペースでマークする (FD like)
-#+BEGIN_SRC emacs-lisp
-(defun dired-toggle-mark (arg)
-  "Toggle the current (or next ARG) files."
-  ;; S.Namba Sat Aug 10 12:20:36 1996
-  (interactive "P")
-  (let ((dired-marker-char
-         (if (save-excursion (beginning-of-line)
-                             (looking-at " "))
-             dired-marker-char ?\040)))
-    (dired-mark arg)
-    (dired-previous-line 1)))
-(define-key dired-mode-map (kbd "SPC") 'dired-toggle-mark)
-#+END_SRC
-*** ファイル名のみで isearch
-#+BEGIN_SRC emacs-lisp
-(setq dired-isearch-filenames 'dwim)        ; dired-aux で定義されている．これだけで十分だった
-#+END_SRC
-*** dired バッファは折り返さない
-#+BEGIN_SRC emacs-lisp
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (toggle-truncate-lines 1)))
-#+END_SRC
-*** すべてのファイルにマークする
-#+BEGIN_SRC emacs-lisp
-(defun dired-my-mark-all-files ()
-  "Mark all files in a current dired buffer."
-  (interactive)
-  (dired-mark-files-regexp ""))
-
-(defun dired-my-get-number-of-marked-files ()
-  "Get the number of marked files."
-  (interactive)
-  (let ((case-fold-search nil)
-        (mark-regexp "^\\*\\|^D")
-        (count 0))
-    (save-excursion
-      (goto-char (point-min))
-      (while (re-search-forward mark-regexp nil t)
-        (setq count (1+ count))))
-    count))
-
-(defadvice dired-unmark-all-marks (around dired-my-mark-all-marks-dwim activate)
-  "Mark all files or unmark all marks."
-  (if (> (dired-my-get-number-of-marked-files) 0)
-      ad-do-it
-    (dired-my-mark-all-files)))
-(define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
-#+END_SRC
-*** dired で文字コード一括変換
-- [[http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=dired%20convert%20code][Meadow/Emacs memo: ディレクトリ表示 ― dired など]]
-#+BEGIN_SRC emacs-lisp
-(defvar dired-default-file-coding-system nil
-  "*Default coding system for converting file (s).")
-
-(defvar dired-file-coding-system 'no-conversion)
-
-(defun dired-convert-coding-system ()
-  (let ((file (dired-get-filename))
-        (coding-system-for-write dired-file-coding-system)
-        failure)
-    (condition-case err
-        (with-temp-buffer
-          (insert-file file)
-          (write-region (point-min) (point-max) file))
-      (error (setq failure err)))
-    (if (not failure)
-        nil
-      (dired-log "convert coding system error for %s:\n%s\n" file failure)
-      (dired-make-relative file))))
-
-(defun dired-do-convert-coding-system (coding-system &optional arg)
-  "Convert file (s) in specified coding system."
-  (interactive
-   (list (let ((default (or dired-default-file-coding-system
-                            buffer-file-coding-system)))
-           (read-coding-system
-            (format "Coding system for converting file (s) (default, %s): "
-                    default)
-            default))
-         current-prefix-arg))
-  (check-coding-system coding-system)
-  (setq dired-file-coding-system coding-system)
-  (dired-map-over-marks-check
-   (function dired-convert-coding-system) arg 'convert-coding-system t))
-(define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
-#+END_SRC
-*** 本日変更したファイルを色付け
-- [[http://homepage1.nifty.com/blankspace/emacs/dired.html][dired]]
-#+BEGIN_SRC emacs-lisp
-(defface my-face-f-2 '((t (:foreground "GreenYellow"))) nil)
-(defvar my-face-f-2 'my-face-f-2)
-(defun my-dired-today-search (arg)
-  "Fontlock search function for dired."
-  (search-forward-regexp (concat (format-time-string "%Y-%m-%d" (current-time))
-                                 " [0-9][0-9]:[0-9][0-9]") arg t))
-(add-hook 'dired-mode-hook
-          '(lambda ()
-             (font-lock-add-keywords
-              major-mode
-              (list
-               '(my-dired-today-search . my-face-f-2)
-               ))))
-#+END_SRC
-*** dired-details+.el
-dired のファイル情報の詳細表示をトグルする．
-#+BEGIN_SRC emacs-lisp
-;; (auto-install-from-emacswiki "dired-details.el")
-;; (auto-install-from-emacswiki "dired-details+.el")
-(my-safe-require 'dired-details+
-  (setq dired-details-hidden-string "")
-  (setq dired-details-hide-link-targets nil)
-  )
 #+END_SRC
 ** generic-x.el
 generic を用いて予め定義されているモード．
