@@ -34,3 +34,6 @@
 	path = site-lisp/ya-hatena-mode
 	url = git://github.com/takaishi/ya-hatena-mode.git
 	ignore = dirty
+[submodule "site-lisp/git-gutter"]
+	path = site-lisp/git-gutter
+	url = git://github.com/syohex/emacs-git-gutter.git
