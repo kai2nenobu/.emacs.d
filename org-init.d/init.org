@@ -4375,6 +4375,7 @@ view-mode を便利に．
 (setq-default bm-buffer-persistence t)
 (setq bm-restore-repository-on-load t)
 (my-safe-require 'bm
+  (setq bm-highlight-style 'bm-highlight-only-fringe)  ; fringe にのみ表示
   (add-hook 'after-init-hook 'bm-repository-load)
   (add-hook 'find-file-hooks 'bm-buffer-restore)
   (add-hook 'after-revert-hook 'bm-buffer-restore)
