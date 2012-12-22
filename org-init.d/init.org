@@ -4372,7 +4372,6 @@ view-mode を便利に．
 ** bm.el
 可視ブックマークをつける。たぶん本来のブックマークとは違うけど。
 #+BEGIN_SRC emacs-lisp
-;;; (auto-install-from-url "http://cvs.savannah.gnu.org/viewvc/*checkout*/bm/bm/bm.el")
 (setq-default bm-buffer-persistence t)
 (setq bm-restore-repository-on-load t)
 (my-safe-require 'bm
