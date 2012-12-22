@@ -3861,7 +3861,7 @@ anything で本管理．
   (eval-after-load "key-chord"
     '(progn
        (defalias 'helm-command-prefix helm-command-map)
-       (key-chord-define-global (kbd ":a") 'helm-command-prefix)))
+       (key-chord-define-global (kbd ":h") 'helm-command-prefix)))
   (add-to-list 'helm-c-source-recentf '(migemo)) ; migemo 化
   (add-to-list 'helm-c-source-buffers+ '(migemo))
 
