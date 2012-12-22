@@ -3863,7 +3863,7 @@ anything で本管理．
        (defalias 'helm-command-prefix helm-command-map)
        (key-chord-define-global (kbd ":h") 'helm-command-prefix)))
   (add-to-list 'helm-c-source-recentf '(migemo)) ; migemo 化
-  (add-to-list 'helm-c-source-buffers+ '(migemo))
+  (add-to-list 'helm-c-source-buffers-list '(migemo))
 
   ;; agrep-goto でアウトラインを開くアドバイス
   (defadvice agrep-goto (after org-reveal activate)
