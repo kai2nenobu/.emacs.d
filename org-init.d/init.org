@@ -3215,7 +3215,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ** anything-advent-calendar.el
 advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/entry/2011/12/12/000301]]
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'anything-advent-calendar)
+;(my-safe-require 'anything-advent-calendar)
 #+END_SRC
 ** sunrise-commander.el
 2ペインファイラー？．package.el で "SC" からインストール．
@@ -3866,10 +3866,10 @@ anything で本管理．
   (add-to-list 'helm-c-source-buffers-list '(migemo))
 
   ;; agrep-goto でアウトラインを開くアドバイス
-  (defadvice agrep-goto (after org-reveal activate)
-     (when (eq major-mode 'org-mode)
-        (org-reveal))
-     (recenter))
+  ;(defadvice agrep-goto (after org-reveal activate)
+  ;   (when (eq major-mode 'org-mode)
+  ;      (org-reveal))
+  ;   (recenter))
   ;; ミニバッファの履歴を helm で絞込みする
   (define-key minibuffer-local-map (kbd "C-r") 'helm-minibuffer-history)
 
