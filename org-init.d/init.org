@@ -38,6 +38,8 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ミニバッファの再帰的な利用法を知りたい．
 ** なんか anything のバッファが bottom に固定表示される？
 なんで？　アップデートしたからか．
+*** Answer
+popwin に anything の設定が追加されているだけだった．popwin の設定を削除した．
 ** anything を使って describe-function, describe-variable
 ** completion-read の anything 化
 って自動的になるんですよね？これのカスタマイズってできない？
