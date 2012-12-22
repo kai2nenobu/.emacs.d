@@ -3682,7 +3682,6 @@ hilight current column.
   ;(ad-deactivate-regexp "anything-c-yas-complete-delete-region")
   ;; (eval-after-load "auto-complete.el"
   ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
-  (yas/initialize)
   (yas/load-directory (expand-file-name "snippets" user-emacs-directory))
   (yas/global-mode 1)
 
