@@ -3856,6 +3856,7 @@ anything で本管理．
   (setq helm-input-idle-delay 0.1)
 
   (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
+  (setq helm-ff-transformer-show-only-basename t) ; basename のみ表示
   (define-key helm-command-map (kbd "o") 'helm-occur)
   (define-key helm-command-map (kbd "g") 'helm-do-grep)
   (eval-after-load "key-chord"
