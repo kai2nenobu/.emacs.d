@@ -2576,7 +2576,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
       (let* ((mpath (mu4e-message-field mu4e-compose-parent-message :path))
              (fccfile (and mpath
                            (concat (file-name-directory mpath)
-                                   (mu4e~compose-message-filename-construct "S")))))
+                                   (mu4e~draft-message-filename-construct "S")))))
         (when fccfile
           (message-add-header (concat "Fcc: " fccfile "\n"))))))
   (add-hook 'mu4e-compose-mode-hook 'mu4e-my-save-message-in-same-folder)
