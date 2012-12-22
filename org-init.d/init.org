@@ -3847,6 +3847,7 @@ anything で本管理．
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'helm-config
+  (helm-mode 1)
   (when (executable-find "cmigemo")
     (my-safe-require 'helm-migemo))
 
