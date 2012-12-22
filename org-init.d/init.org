@@ -3856,10 +3856,7 @@ anything で本管理．
 
   (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
   (define-key helm-command-map (kbd "o") 'helm-occur)
-  (define-key helm-command-map (kbd "a") 'helm-apropos)
-  (define-key helm-command-map (kbd "g") 'helm-grep)
-  (define-key helm-command-map (kbd "R") 'helm-resume)
-  (global-set-key (kbd "C-S-a") 'helm-command-map)
+  (define-key helm-command-map (kbd "g") 'helm-do-grep)
   (eval-after-load "key-chord"
     '(progn
        (defalias 'helm-command-prefix helm-command-map)
