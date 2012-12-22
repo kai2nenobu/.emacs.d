@@ -2544,7 +2544,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 #+END_SRC
 *** 次のフォルダに移動するコマンド
 何かとあれば便利かと思って次のフォルダに直接移動するコマンドを作った．大きく
-移動する場合は anything で移動がよろしい．
+移動する場合は helm で移動がよろしい．
 #+BEGIN_SRC emacs-lisp
   (defun mu4e-my-next-folder (arg)
     "Move to a next folder."
@@ -2669,30 +2669,30 @@ org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
   (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
 #+END_SRC
 
-anything で mu4e のフォルダを選択する．
+helm で mu4e のフォルダを選択する．
 #+BEGIN_SRC emacs-lisp
-  (defvar anything-c-source-mu4e-maildir
+  (defvar helm-c-source-mu4e-maildir
     '((name . "mu4e-maildir")
       (candidates . mu4e-get-maildirs)
       (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
                  ("Insert maildir" . insert)))
-      (anything-candidate-number-limit)
+      (helm-candidate-number-limit)
       (migemo))
-    "Anything source for mu4e maildir.")
+    "Helm source for mu4e maildir.")
 
-  (defun anything-mu4e-maildir ()
-    "Anything command for mu4e maildir."
+  (defun helm-mu4e-maildir ()
+    "Helm command for mu4e maildir."
     (interactive)
-    (anything :sources   'anything-c-source-mu4e-maildir
-              :buffer    "*anything-mu4e-maildir*"
+    (helm :sources   'helm-c-source-mu4e-maildir
+              :buffer    "*helm-mu4e-maildir*"
               :preselect (let ((msg (mu4e-message-at-point t)))
                            (and msg (mu4e-msg-field msg :maildir)))))
-  (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
-  (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
-  (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
+  (define-key mu4e-main-mode-map (kbd "f") 'helm-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
+  (define-key mu4e-headers-mode-map (kbd "f") 'helm-mu4e-maildir)
+  (define-key mu4e-view-mode-map (kbd "f") 'helm-mu4e-maildir)
 #+END_SRC
 
-anything でメールアドレスの補完をする．メールアドレスは
+helm でメールアドレスの補完をする．メールアドレスは
 `mu4e~contacts-for-completion' に文字列のリストで格納されているので簡単にかけ
 た．はじめて history を作ってみたが，まずまず動いていると思う．
 `mu4e-my-insert-contact-and-save-history' で直接履歴を保存しているのが少しダ
@@ -2706,27 +2706,27 @@ anything でメールアドレスの補完をする．メールアドレスは
     (add-to-list 'mu4e-my-contact-history candidate)
     (insert candidate))
 
-  (defvar anything-c-source-mu4e-my-contact-history
+  (defvar helm-c-source-mu4e-my-contact-history
     '((name . "mu4e Contact History")
       (candidates . mu4e-my-contact-history)
       (action . mu4e-my-insert-contact-and-save-history)
       (migemo))
-    "Anything source for mu4e contact history.")
+    "Helm source for mu4e contact history.")
 
-  (defvar anything-c-source-mu4e-contact
+  (defvar helm-c-source-mu4e-contact
     '((name . "mu4e Contact Completion")
       (candidates . mu4e~contacts-for-completion)
       (action . mu4e-my-insert-contact-and-save-history)
       (migemo))
-    "Anything source for mu4e contact.")
+    "Helm source for mu4e contact.")
 
-  (defun anything-mu4e-contact ()
-    "Anything command for mu4e contact."
+  (defun helm-mu4e-contact ()
+    "Helm command for mu4e contact."
     (interactive)
-    (anything-other-buffer '(anything-c-source-mu4e-my-contact-history
-                             anything-c-source-mu4e-contact)
-                           "*anything-mu4e-conntact*"))
-  (define-key mu4e-compose-mode-map (kbd "C-c c") 'anything-mu4e-contact)
+    (helm-other-buffer '(helm-c-source-mu4e-my-contact-history
+                             helm-c-source-mu4e-contact)
+                           "*helm-mu4e-conntact*"))
+  (define-key mu4e-compose-mode-map (kbd "C-c c") 'helm-mu4e-contact)
 #+END_SRC
 
 最後のカッコ．
@@ -3805,32 +3805,32 @@ mozrepl を通して firefox を操作する
 #+END_SRC
 ** anything-books.el
 anything で本管理．
-#+BEGIN_SRC emacs-lisp
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
-(my-safe-require 'anything-books
-  (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
-  (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
+# #+BEGIN_SRC emacs-lisp
+# ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
+# (my-safe-require 'anything-books
+#   (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
+#   (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
 
-  ;; for evince setting (default)
-  ;; (setq abks:cache-pixel "600")
-  ;; (setq abks:mkcover-cmd-pdf-postfix nil)
-  ;; (setq abks:mkcover-cmd '("evince-thumbnailer" "-s" size pdf jpeg))
+#   ;; for evince setting (default)
+#   ;; (setq abks:cache-pixel "600")
+#   ;; (setq abks:mkcover-cmd-pdf-postfix nil)
+#   ;; (setq abks:mkcover-cmd '("evince-thumbnailer" "-s" size pdf jpeg))
 
-  ;; for ImageMagick and GhostScript setting
-  (setq abks:cache-pixel "600x600")
-  (setq abks:mkcover-cmd-pdf-postfix "[0]")
-  (setq abks:mkcover-cmd '("convert" "-resize" size pdf jpeg))
+#   ;; for ImageMagick and GhostScript setting
+#   (setq abks:cache-pixel "600x600")
+#   (setq abks:mkcover-cmd-pdf-postfix "[0]")
+#   (setq abks:mkcover-cmd '("convert" "-resize" size pdf jpeg))
 
-  ;(define-key mode-specific-map (kbd "b") 'anything-books-command) ; キーバインド
-  (setq abks:cmd-copy "cp") ; ファイルコピーのコマンド
-  (setq abks:copy-by-command nil) ; nilにするとEmacsの機能でコピーする（Windowsはnilがいいかも）
-  (setq abks:preview-temp-dir "/tmp") ; 作業ディレクトリ
-  )
-;; うまく動かんので、とりあえず Ubuntu でやってみよう
-;; Ubuntu でもほぼ同じ症状のようだ。
-;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
-;; 問題ないようだ。
-#+END_SRC
+#   ;(define-key mode-specific-map (kbd "b") 'anything-books-command) ; キーバインド
+#   (setq abks:cmd-copy "cp") ; ファイルコピーのコマンド
+#   (setq abks:copy-by-command nil) ; nilにするとEmacsの機能でコピーする（Windowsはnilがいいかも）
+#   (setq abks:preview-temp-dir "/tmp") ; 作業ディレクトリ
+#   )
+# ;; うまく動かんので、とりあえず Ubuntu でやってみよう
+# ;; Ubuntu でもほぼ同じ症状のようだ。
+# ;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
+# ;; 問題ないようだ。
+# #+END_SRC
 ** concurrent.el
 非同期処理フレームワーク．
 #+BEGIN_SRC emacs-lisp
@@ -3843,65 +3843,64 @@ anything で本管理．
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
 (my-safe-require 'deferred)
 #+END_SRC
-** anything.el
-1つでなんでもできる，汎用インターフェース．
+** helm.el
+インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp
-;;; (auto-install-batch "anything")
-(my-safe-require 'anything-startup
+(my-safe-require 'helm-config
   (when (executable-find "cmigemo")
-    (my-safe-require 'anything-migemo))
+    (my-safe-require 'helm-migemo))
 
-  (setq anything-idle-delay 0.1)
-  (setq anything-input-idle-delay 0.1)
-  (define-key anything-command-map (kbd "o") 'anything-occur)
-  (define-key anything-command-map (kbd "a") 'anything-apropos)
-  (define-key anything-command-map (kbd "g") 'anything-grep)
-  (define-key anything-command-map (kbd "R") 'anything-resume)
-  (global-set-key (kbd "C-S-a") 'anything-command-map)
+  (setq helm-idle-delay 0.1)
+  (setq helm-input-idle-delay 0.1)
+  (define-key helm-command-map (kbd "o") 'helm-occur)
+  (define-key helm-command-map (kbd "a") 'helm-apropos)
+  (define-key helm-command-map (kbd "g") 'helm-grep)
+  (define-key helm-command-map (kbd "R") 'helm-resume)
+  (global-set-key (kbd "C-S-a") 'helm-command-map)
   (eval-after-load "key-chord"
     '(progn
-       (defalias 'anything-command-prefix anything-command-map)
-       (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
-  (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
-  (add-to-list 'anything-c-source-buffers+ '(migemo))
+       (defalias 'helm-command-prefix helm-command-map)
+       (key-chord-define-global (kbd ":a") 'helm-command-prefix)))
+  (add-to-list 'helm-c-source-recentf '(migemo)) ; migemo 化
+  (add-to-list 'helm-c-source-buffers+ '(migemo))
 
   ;; agrep-goto でアウトラインを開くアドバイス
   (defadvice agrep-goto (after org-reveal activate)
      (when (eq major-mode 'org-mode)
         (org-reveal))
      (recenter))
-  ;; ミニバッファの履歴を anything で絞込みする
-  (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+  ;; ミニバッファの履歴を helm で絞込みする
+  (define-key minibuffer-local-map (kbd "C-r") 'helm-minibuffer-history)
 
   ;; prefix で候補を選択可能にする
-  (setq anything-enable-shortcuts t)   ; t だと C-number で選択
-  ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
+  (setq helm-enable-shortcuts t)   ; t だと C-number で選択
+  ;(define-key helm-map "@" 'helm-select-with-prefix-shortcut)
 
   ;; for filelist
   ;; (when (linuxp)
-  ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
-  ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+  ;;   (setq helm-grep-candidates-fast-directory-regexp "^/tmp")
+  ;;   (setq helm-c-filelist-file-name "/tmp/all.filelist"))
   ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
-  ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
-  (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+  ;; よし，linux なら locate 使えるので helm-for-files でいいか．current-dir+ も候補に入るし
+  (define-key mode-specific-map (kbd "r") 'helm-for-files) ; recentfile 的に使いたい
 
-  ;; anything-show-kill-ring
-  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
-  (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+  ;; helm-show-kill-ring
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (setq helm-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
 
   ;;;; external elisp
 
-  ;; anything-font-families
+  ;; helm-font-families
   ;; http://d.hatena.ne.jp/mooz/20110320/p1
-  (defun anything-font-families ()
-    "Preconfigured `anything' for font family."
+  (defun helm-font-families ()
+    "Preconfigured `helm' for font family."
     (interactive)
-    (flet ((anything-mp-highlight-match () nil))
-      (anything-other-buffer
-       '(anything-c-source-font-families)
-       "*anything font families*")))
+    (flet ((helm-mp-highlight-match () nil))
+      (helm-other-buffer
+       '(helm-c-source-font-families)
+       "*helm font families*")))
 
-  (defun anything-font-families-create-buffer ()
+  (defun helm-font-families-create-buffer ()
     (with-current-buffer
         (get-buffer-create "*Fonts*")
       (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
@@ -3911,13 +3910,13 @@ anything で本管理．
                             (list :family family :height 2.0 :weight 'bold))))
       (font-lock-mode 1)))
 
-  (defvar anything-c-source-font-families
+  (defvar helm-c-source-font-families
         '((name . "Fonts")
           (init lambda ()
-                (unless (anything-candidate-buffer)
+                (unless (helm-candidate-buffer)
                   (save-window-excursion
-                    (anything-font-families-create-buffer))
-                  (anything-candidate-buffer
+                    (helm-font-families-create-buffer))
+                  (helm-candidate-buffer
                    (get-buffer "*Fonts*"))))
           (candidates-in-buffer)
           (get-line . buffer-substring)
@@ -3927,26 +3926,130 @@ anything で本管理．
             (kill-new candidate))
            ("Insert Name" lambda
             (candidate)
-            (with-current-buffer anything-current-buffer
+            (with-current-buffer helm-current-buffer
               (insert candidate))))))
 
-  ;;; anything-orgcard.el
-  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
-  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
-  (my-safe-require 'anything-orgcard)
-
-  ;; anything-bibtex
-  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
-  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
-  (my-safe-require 'anything-bibtex
-    (defun anything-bibtex-cite ()
-      "Anything command to cite bibliography."
-      (interactive)
-      (anything-other-buffer
-       '(anything-c-source-bibtex)
-       "*anything bibtex:")))
+;  ;;; helm-orgcard.el
+;  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
+;  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+;  (my-safe-require 'helm-orgcard)
+; 
+;  ;; helm-bibtex
+;  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
+;  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+;  (my-safe-require 'helm-bibtex
+;    (defun helm-bibtex-cite ()
+;      "Helm command to cite bibliography."
+;      (interactive)
+;      (helm-other-buffer
+;       '(helm-c-source-bibtex)
+;       "*helm bibtex:")))
   )
 #+END_SRC
+** anything.el
+1つでなんでもできる，汎用インターフェース．
+# #+BEGIN_SRC emacs-lisp
+# ;;; (auto-install-batch "anything")
+# (my-safe-require 'anything-startup
+#   (when (executable-find "cmigemo")
+#     (my-safe-require 'anything-migemo))
+
+#   (setq anything-idle-delay 0.1)
+#   (setq anything-input-idle-delay 0.1)
+#   (define-key anything-command-map (kbd "o") 'anything-occur)
+#   (define-key anything-command-map (kbd "a") 'anything-apropos)
+#   (define-key anything-command-map (kbd "g") 'anything-grep)
+#   (define-key anything-command-map (kbd "R") 'anything-resume)
+#   (global-set-key (kbd "C-S-a") 'anything-command-map)
+#   (eval-after-load "key-chord"
+#     '(progn
+#        (defalias 'anything-command-prefix anything-command-map)
+#        (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
+#   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
+#   (add-to-list 'anything-c-source-buffers+ '(migemo))
+
+#   ;; agrep-goto でアウトラインを開くアドバイス
+#   (defadvice agrep-goto (after org-reveal activate)
+#      (when (eq major-mode 'org-mode)
+#         (org-reveal))
+#      (recenter))
+#   ;; ミニバッファの履歴を anything で絞込みする
+#   (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+
+#   ;; prefix で候補を選択可能にする
+#   (setq anything-enable-shortcuts t)   ; t だと C-number で選択
+#   ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
+
+#   ;; for filelist
+#   ;; (when (linuxp)
+#   ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
+#   ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+#   ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
+#   ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
+#   (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+
+#   ;; anything-show-kill-ring
+#   (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+#   (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+
+#   ;;;; external elisp
+
+#   ;; anything-font-families
+#   ;; http://d.hatena.ne.jp/mooz/20110320/p1
+#   (defun anything-font-families ()
+#     "Preconfigured `anything' for font family."
+#     (interactive)
+#     (flet ((anything-mp-highlight-match () nil))
+#       (anything-other-buffer
+#        '(anything-c-source-font-families)
+#        "*anything font families*")))
+
+#   (defun anything-font-families-create-buffer ()
+#     (with-current-buffer
+#         (get-buffer-create "*Fonts*")
+#       (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
+#             do (insert
+#                 (propertize (concat family "\n")
+#                             'font-lock-face
+#                             (list :family family :height 2.0 :weight 'bold))))
+#       (font-lock-mode 1)))
+
+#   (defvar anything-c-source-font-families
+#         '((name . "Fonts")
+#           (init lambda ()
+#                 (unless (anything-candidate-buffer)
+#                   (save-window-excursion
+#                     (anything-font-families-create-buffer))
+#                   (anything-candidate-buffer
+#                    (get-buffer "*Fonts*"))))
+#           (candidates-in-buffer)
+#           (get-line . buffer-substring)
+#           (action
+#            ("Copy Name" lambda
+#             (candidate)
+#             (kill-new candidate))
+#            ("Insert Name" lambda
+#             (candidate)
+#             (with-current-buffer anything-current-buffer
+#               (insert candidate))))))
+
+#   ;;; anything-orgcard.el
+#   ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
+#   ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+#   (my-safe-require 'anything-orgcard)
+
+#   ;; anything-bibtex
+#   ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
+#   ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+#   (my-safe-require 'anything-bibtex
+#     (defun anything-bibtex-cite ()
+#       "Anything command to cite bibliography."
+#       (interactive)
+#       (anything-other-buffer
+#        '(anything-c-source-bibtex)
+#        "*anything bibtex:")))
+#   )
+# #+END_SRC
 ** Inertial-scroll.el
 - [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
 慣性スクロール．
