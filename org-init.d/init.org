@@ -4548,7 +4548,7 @@ view-mode を便利に．
   (setq key-chord-two-keys-delay 0.05)
   (setq key-chord-one-keys-delay 0.05)
   (key-chord-mode 1)
-  (key-chord-define global-map "nb" 'anything-buffers+)
+  (key-chord-define global-map "nb" 'helm-buffers-list)
   (key-chord-define global-map "jk" 'view-mode)
   (key-chord-define global-map "df" 'describe-function)
   (key-chord-define global-map "dv" 'describe-variable)
