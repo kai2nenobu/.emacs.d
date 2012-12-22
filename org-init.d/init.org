@@ -3853,6 +3853,8 @@ anything で本管理．
 
   (setq helm-idle-delay 0.1)
   (setq helm-input-idle-delay 0.1)
+
+  (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
   (define-key helm-command-map (kbd "o") 'helm-occur)
   (define-key helm-command-map (kbd "a") 'helm-apropos)
   (define-key helm-command-map (kbd "g") 'helm-grep)
