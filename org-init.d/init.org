@@ -2530,7 +2530,8 @@ package.el からインストール．
           smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
-  (global-set-key (kbd "C-x m") 'mu4e-compose-new)
+  (define-key ctl-x-map (kbd "M") 'mu4e)
+  (define-key ctl-x-map (kbd "m") 'mu4e-compose-new)
   (setq message-signature "東京大学情報理工学系研究科電子情報学専攻
 峯松研究室 修士2年 甲斐常伸
 E-mail: kai@gavo.t.u-tokyo.ac.jp")
