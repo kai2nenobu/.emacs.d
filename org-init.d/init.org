@@ -147,8 +147,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 - [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
 #+BEGIN_SRC emacs-lisp
 (defconst my-individual-elisp-directory
-  (list (expand-file-name "site-lisp" user-emacs-directory)
-	(expand-file-name "my-lisp" user-emacs-directory))
+  (list (expand-file-name "my-lisp" user-emacs-directory))
   "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
 (dolist (dir my-individual-elisp-directory)
@@ -158,6 +157,15 @@ ispell が動かなかった。ispell に限らんかもしれんが
       (normal-top-level-add-subdirs-to-load-path))))
 ;; 普通に追加
 (add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
+
+;; site-lisp 以下を追加
+(let ((dir (expand-file-name "site-lisp" user-emacs-directory)))
+  (dolist (file (directory-files dir))
+    (when (and (not (string= file ".."))
+               (file-directory-p (concat dir "/" file)))
+      (add-to-list 'load-path (concat dir "/" file)))))
+(add-to-list 'load-path
+             (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
 
 ;;; setting PATH in Windows
 (when (winp)
