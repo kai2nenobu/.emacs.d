@@ -2555,9 +2555,14 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 移動する場合は helm で移動がよろしい．
 #+BEGIN_SRC emacs-lisp
   (defun mu4e-my-next-folder (arg)
-    "Move to a next folder."
+    "Move to a next folder. This function get a current folder
+  from a message at point or last query."
     (interactive "p")
-    (let* ((mdir (mu4e-field-at-point :maildir))
+    (let* ((last-query (mu4e-last-query))
+           (mdir (or (ignore-errors (mu4e-field-at-point :maildir))
+                     (progn (string-match "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?" last-query)
+                            (match-string 1 last-query))
+                     (error "Cannot get a current maildir")))
            (mdir-list (or mu4e~maildir-list
                           (mu4e-get-maildirs)))
            (index (- (length mdir-list) (length (member mdir mdir-list))))
