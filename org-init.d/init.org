@@ -3057,7 +3057,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                 '("C-x v" "C-c p" "C-x RET" "C-x 8" "C-x 8 ^"
                   "C-q" "C-x r" "C-S-r" "C-x 4" "C-4" "C-S-a" "C-x 5" "C-5"
                   "<key-chord> @ 5" "<key-chord> 5 @" "<key-chord> @ 4" "<key-chord> 4 @"
-                  "<key-chord> : a" "<key-chord> a :" "<key-chord> : p" "<key-chord> p :"))
+                  "<key-chord> : h" "<key-chord> h :" "<key-chord> : p" "<key-chord> p :"))
   ;; (setq guide-key/highlight-command-regexp "rectangle\\|ffap")
   (setq guide-key/popup-window-position 'right
         guide-key/polling-time 0.1)
