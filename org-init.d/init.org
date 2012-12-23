@@ -3959,8 +3959,8 @@ anything で本管理．
 ;       "*helm bibtex:")))
 #+END_SRC
 *** helm-c-apropos の persistent-action を変更
-helm-c-apropos は複数の情報源でできているので，それぞれの persistent-action
-を変更する．helm-c-describe-face が定義されていなかったので，自分で書いた．
+helm-c-apropos は複数の関数による情報源でできているので，それぞれの persistent-action
+を defadvice で変更する．helm-c-describe-face が定義されていなかったので，自分で書いた．
 #+BEGIN_SRC emacs-lisp
   (defadvice helm-c-source-emacs-commands (after change-persisten-action activate)
     "Change a persistent action of helm source"
