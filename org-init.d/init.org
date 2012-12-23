@@ -2554,8 +2554,8 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 何かとあれば便利かと思って次のフォルダに直接移動するコマンドを作った．大きく
 移動する場合は helm で移動がよろしい．
 #+BEGIN_SRC emacs-lisp
-  (defun mu4e-my-next-folder (arg)
-    "Move to a next folder. This function get a current folder
+  (defun mu4e-my-next-maildir (arg)
+    "Move to a next maildir. This function get a current maildir
   from a message at point or last query."
     (interactive "p")
     (let* ((last-query (mu4e-last-query))
@@ -2568,15 +2568,15 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
            (index (- (length mdir-list) (length (member mdir mdir-list))))
            (next-dir (nth (mod (+ index arg) (length mdir-list)) mdir-list)))
       (mu4e~headers-search-execute (concat "maildir:" next-dir) t)))
-  (defun mu4e-my-previous-folder (arg)
-    "Move to a previous folder."
+  (defun mu4e-my-previous-maildir (arg)
+    "Move to a previous maildir."
     (interactive "p")
-    (mu4e-my-next-folder (- arg)))
+    (mu4e-my-next-maildir (- arg)))
 
-  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-folder)
-  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
-  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-folder)
-  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
+  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
+  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
+  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
+  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
 #+END_SRC
 *** 送信メールを元メールと同じフォルダにコピーする
 thunderbird のこの機能がとっても便利なのでまねしてみる．
