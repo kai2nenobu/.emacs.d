@@ -3850,6 +3850,8 @@ anything で本管理．
   (helm-mode 1)
   (when (executable-find "cmigemo")
     (my-safe-require 'helm-migemo))
+  (my-safe-require 'helm-descbinds
+    (helm-descbinds-install))
 
   (setq helm-idle-delay 0.1)
   (setq helm-input-idle-delay 0.1)
