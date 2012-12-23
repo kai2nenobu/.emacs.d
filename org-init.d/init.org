@@ -2559,9 +2559,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
   from a message at point or last query."
     (interactive "p")
     (let* ((last-query (mu4e-last-query))
-           (mdir (or (ignore-errors (mu4e-field-at-point :maildir))
-                     (progn (string-match "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?" last-query)
-                            (match-string 1 last-query))
+           (mdir (or (mu4e-my-guess-maildir)
                      (error "Cannot get a current maildir")))
            (mdir-list (or mu4e~maildir-list
                           (mu4e-get-maildirs)))
@@ -2698,11 +2696,19 @@ helm で mu4e のフォルダを選択する．
     (interactive)
     (helm :sources   'helm-c-source-mu4e-maildir
               :buffer    "*helm-mu4e-maildir*"
-              :preselect (let ((msg (mu4e-message-at-point t)))
-                           (and msg (mu4e-msg-field msg :maildir)))))
+              :preselect (mu4e-my-guess-maildir)))
   (define-key mu4e-main-mode-map (kbd "f") 'helm-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
   (define-key mu4e-headers-mode-map (kbd "f") 'helm-mu4e-maildir)
   (define-key mu4e-view-mode-map (kbd "f") 'helm-mu4e-maildir)
+
+  (defun mu4e-my-guess-maildir ()
+    "Guess a current maildir from a message at point or last search query.
+  If the guess fails, return nil."
+    (let ((maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?") ; This may be wrong
+          (last-query (mu4e-last-query)))
+      (or (ignore-errors (mu4e-field-at-point :maildir))
+          (progn (string-match maildir-regexp last-query)
+                 (match-string 1 last-query)))))
 #+END_SRC
 
 helm でメールアドレスの補完をする．メールアドレスは
