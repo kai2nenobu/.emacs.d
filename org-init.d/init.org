@@ -4182,8 +4182,8 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 ** mcomplete.el
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el")
-(my-safe-require 'mcomplete
-  (turn-on-mcomplete-mode))
+;(my-safe-require 'mcomplete
+;  (turn-on-mcomplete-mode))
 #+END_SRC
 ** popup-kill-ring.el
 キルリングをポップアップで表示．これの代わりに anything-show-kill-ring を使う
