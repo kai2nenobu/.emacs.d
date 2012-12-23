@@ -2707,8 +2707,9 @@ helm で mu4e のフォルダを選択する．
     (let ((maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?") ; This may be wrong
           (last-query (mu4e-last-query)))
       (or (ignore-errors (mu4e-field-at-point :maildir))
-          (progn (string-match maildir-regexp last-query)
-                 (match-string 1 last-query)))))
+          (and last-query
+               (string-match maildir-regexp last-query)
+               (match-string 1 last-query)))))
 #+END_SRC
 
 helm でメールアドレスの補完をする．メールアドレスは
