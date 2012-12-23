@@ -5217,8 +5217,8 @@ Emacsでibusを使えるようにする．これで mozc が使える．
     (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
     ;; Use C-\ for ibus-toggle
     (global-set-key (kbd "C-\\") 'ibus-toggle)
-    ;; `ibus-common-function-key-list' に ibus で使いたいキーを追加する？
-    (add-to-list 'ibus-common-function-key-list '(meta "v"))
+    ;; preedit 中に有効にしたいキーバインドは `ibus-define-preedit-key' で追加する
+    (ibus-define-preedit-key 'A-v t)
     ;; isearch で ibus を無効にする
     (ibus-disable-isearch)
     ;; isearch 中はカーソル形状変更
