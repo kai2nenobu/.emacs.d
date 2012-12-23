@@ -148,8 +148,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 #+BEGIN_SRC emacs-lisp
 (defconst my-individual-elisp-directory
   (list (expand-file-name "site-lisp" user-emacs-directory)
-	(expand-file-name "my-lisp" user-emacs-directory)
-	(expand-file-name "package" user-emacs-directory))
+	(expand-file-name "my-lisp" user-emacs-directory))
   "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
 (dolist (dir my-individual-elisp-directory)
