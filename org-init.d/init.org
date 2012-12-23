@@ -1659,7 +1659,7 @@ shift+カーソルキー でウィンドウを移動する．
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "") (TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (clmemo-mode . t) (TeX-master . t)))))
+ '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "") (TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (TeX-master . t)))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -5395,16 +5395,6 @@ do nothing. And suppress the output from `message' and
 (add-hook 'pukiwiki-edit-mode '(lambda ()
                                  (toggle-truncate-lines 1)
                                  (orgtbl-mode 1)))
-#+END_SRC
-** clmemo.el                                                       :noexport:
-ChangeLogでメモを取るモード．
-#+BEGIN_SRC emacs-lisp
-(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-(setq clmemo-file-name (concat dropbox-directory "/memo/clmemo.txt")) ; a file to edit
-(setq clmemo-title-list '(("survey" . "論文調査") "Emacs" ("kenkyuu" . "研究")
-                          ("idea" . "アイデア"))) ; タイトルのリスト
-(setq clmemo-time-string-with-weekday t) ; add weekday to date
-(define-key ctl-x-map (kbd "M") 'clmemo)
 #+END_SRC
 ** google.el
 #+BEGIN_SRC emacs-lisp
