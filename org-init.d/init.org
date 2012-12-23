@@ -2704,8 +2704,8 @@ helm で mu4e のフォルダを選択する．
   (defun mu4e-my-guess-maildir ()
     "Guess a current maildir from a message at point or last search query.
   If the guess fails, return nil."
-    (let ((maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?") ; This may be wrong
-          (last-query (mu4e-last-query)))
+    (let ((last-query (mu4e-last-query))
+          (maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?")) ; This may be wrong
       (or (ignore-errors (mu4e-field-at-point :maildir))
           (and last-query
                (string-match maildir-regexp last-query)
