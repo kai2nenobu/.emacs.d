@@ -3967,8 +3967,8 @@ helm-c-apropos は複数の情報源でできているので，それぞれの p
     (let ((source ad-return-value)
           (action 'helm-c-describe-function)
           (help "Describe function"))
-      (setcdr (assoc 'persistent-action source) action)
-      (setcdr (assoc 'persistent-help source) help)
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
       (setq ad-return-balue source)))
 
   (defadvice helm-c-source-emacs-functions (after change-persisten-action activate)
@@ -3976,8 +3976,8 @@ helm-c-apropos は複数の情報源でできているので，それぞれの p
     (let ((source ad-return-value)
           (action 'helm-c-describe-function)
           (help "Describe function"))
-      (setcdr (assoc 'persistent-action source) action)
-      (setcdr (assoc 'persistent-help source) help)
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
       (setq ad-return-balue source)))
 
   (defadvice helm-c-source-emacs-variables (after change-persisten-action activate)
@@ -3985,8 +3985,8 @@ helm-c-apropos は複数の情報源でできているので，それぞれの p
     (let ((source ad-return-value)
           (action 'helm-c-describe-variable)
           (help "Describe variable"))
-      (setcdr (assoc 'persistent-action source) action)
-      (setcdr (assoc 'persistent-help source) help)
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
       (setq ad-return-balue source)))
 
   (defadvice helm-c-source-emacs-faces (after change-persisten-action activate)
@@ -3994,8 +3994,8 @@ helm-c-apropos は複数の情報源でできているので，それぞれの p
     (let ((source ad-return-value)
           (action 'helm-c-describe-face)
           (help "Describe face"))
-      (setcdr (assoc 'persistent-action source) action)
-      (setcdr (assoc 'persistent-help source) help)
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
       (setq ad-return-balue source)))
 
   (defun helm-c-describe-face (face)
