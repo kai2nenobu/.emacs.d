@@ -2032,7 +2032,7 @@ dired のファイル情報の詳細表示をトグルする．
 ウィンドウ構成の変更履歴を辿れる．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'winner
-  (define-key my-original-map (kbd "C-u") 'winner-undo)
+  (define-key my-original-map (kbd "C-/") 'winner-undo)
   (winner-mode 1))
 #+END_SRC
 ** whitespace.el
@@ -3167,7 +3167,8 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                          ("C-p" . outline-previous-visible-heading)
                          ("C-f" . (outline-forward-same-level 1))
                          ("C-b" . (outline-backward-same-level 1))
-                         ("C-u" . outline-up-heading)))
+                         ("C-u" . outline-up-heading)
+                         ("C-/" . winner-undo)))
 
   (smartrep-define-key
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
