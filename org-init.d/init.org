@@ -3890,6 +3890,7 @@ anything で本管理．
   (setq helm-split-window-default-side 'right) ; helm バッファのデフォルト位置
   (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
 
+  (global-set-key (kbd "M-x") 'helm-M-x)
   (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
   (setq helm-ff-transformer-show-only-basename t) ; basename のみ表示
   (define-key helm-command-map (kbd "o") 'helm-occur)
