@@ -143,6 +143,31 @@ ispell が動かなかった。ispell に限らんかもしれんが
 #+BEGIN_SRC emacs-lisp
 (setq debian-emacs-flavor 'emacs-snapshot)
 #+END_SRC
+** package.el
+elisp のパッケージ管理をするライブラリ．
+#+BEGIN_SRC emacs-lisp
+;; package.el
+;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
+(when (require 'package nil t)
+  ;; directory to install packages
+  (setq package-user-dir (concat user-emacs-directory "package"))
+  ;; location to get package informations
+  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  ;; key bind
+  (define-key package-menu-mode-map (kbd "k") 'previous-line)
+  (define-key package-menu-mode-map (kbd "j") 'next-line)
+
+  ;; To mark line when cursor is not at beginning-of-line
+  (defadvice package-menu-get-status (before package-menu-get-status-modify activate)
+    (beginning-of-line))
+
+  (package-initialize))
+
+(my-measure-message-time "Basic setting.")
+#+END_SRC
 ** ロードパスの追加
 - [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
 #+BEGIN_SRC emacs-lisp
@@ -173,31 +198,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
                          (getenv "PATH")))
   (add-to-list 'exec-path "c:/cygwin/bin")
   )
-#+END_SRC
-** package.el
-elisp のパッケージ管理をするライブラリ．
-#+BEGIN_SRC emacs-lisp
-;; package.el
-;; (auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el")
-(when (require 'package nil t)
-  ;; directory to install packages
-  (setq package-user-dir (concat user-emacs-directory "package"))
-  ;; location to get package informations
-  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/"))
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  ;; key bind
-  (define-key package-menu-mode-map (kbd "k") 'previous-line)
-  (define-key package-menu-mode-map (kbd "j") 'next-line)
-
-  ;; To mark line when cursor is not at beginning-of-line
-  (defadvice package-menu-get-status (before package-menu-get-status-modify activate)
-    (beginning-of-line))
-
-  (package-initialize))
-
-(my-measure-message-time "Basic setting.")
 #+END_SRC
 ** 安全な require, load, autoload マクロ
 - [[http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro][require/loadに成功/失敗したらメッセージを出すマクロ - とりあえず暇だったし何となく始めたブログ]]
