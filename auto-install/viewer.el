@@ -46,17 +46,17 @@
 ;;  `viewer-aggressive-writable'
 ;;    *When non-nil, aggressive view-mode buffer is writable.
 ;;    default = t
-;;  `viewer-modeline-color-unwritable'
-;;    *Modeline color when file is not writable.
+;;  `viewer-mode-line-color-unwritable'
+;;    *Mode-Line color when file is not writable.
 ;;    default = "tomato"
-;;  `viewer-modeline-color-view'
-;;    *Modeline color for `view-mode'.
+;;  `viewer-mode-line-color-view'
+;;    *Mode-Line color for `view-mode'.
 ;;    default = "orange"
 
 ;; This package provides:
 ;; * specify files to open by `view-mode' by default.
 ;; * stay in `view-mode' in unwritable files.
-;; * indicate `view-mode' by modeline color.
+;; * indicate `view-mode' by mode-line color.
 ;; * override default `view-mode-map' for major modes.
 ;; * open ANY files by `view-mode' for enthusiasts.
 
@@ -71,9 +71,9 @@
 ;;
 ;; (require 'viewer)
 ;; (viewer-stay-in-setup)
-;; (setq viewer-modeline-color-unwritable "tomato"
-;;       viewer-modeline-color-view "orange")
-;; (viewer-change-modeline-color-setup)
+;; (setq viewer-mode-line-color-unwritable "tomato"
+;;       viewer-mode-line-color-view "orange")
+;; (viewer-change-mode-line-color-setup)
 ;;
 ;; If you want to open any file by `view-mode', add the following:
 ;; (viewer-aggressive-setup 'force)
@@ -270,52 +270,52 @@ Stay in `view-mode' when the file is unwritable."
   (viewer-stay-in-unless-writable-advice view-mode-disable))
 
 ;;;; (@* "Change mode-line color")
-(defvar viewer-modeline-color-default (face-background 'modeline))
-(defcustom viewer-modeline-color-unwritable "tomato"
-  "*Modeline color when file is not writable."
+(defvar viewer-mode-line-color-default (face-background 'mode-line))
+(defcustom viewer-mode-line-color-unwritable "tomato"
+  "*Mode-Line color when file is not writable."
   :type 'string
   :group 'viewer)
-(defcustom viewer-modeline-color-view "orange"
-  "*Modeline color for `view-mode'."
+(defcustom viewer-mode-line-color-view "orange"
+  "*Mode-Line color for `view-mode'."
   :type 'string
   :group 'viewer)
 
-(defun viewer-change-modeline-color ()
+(defun viewer-change-mode-line-color ()
   (interactive)
   (when (eq (selected-window)
             (get-buffer-window (current-buffer)))
     (set-face-background
-     'modeline
+     'mode-line
      (cond ((and buffer-file-name view-mode
                  (not (file-writable-p buffer-file-name)))
-            viewer-modeline-color-unwritable)
+            viewer-mode-line-color-unwritable)
            (view-mode
-            viewer-modeline-color-view)
+            viewer-mode-line-color-view)
            (t
-            viewer-modeline-color-default)))))
+            viewer-mode-line-color-default)))))
 
-(defmacro viewer-change-modeline-color-advice (f)
+(defmacro viewer-change-mode-line-color-advice (f)
   `(defadvice ,f (after change-mode-line-color activate)
-     (viewer-change-modeline-color)
+     (viewer-change-mode-line-color)
      (force-mode-line-update)))
 
-(defun viewer-change-modeline-color-setup ()
-  "Setup coloring modeline.
-See also `viewer-modeline-color-unwritable' and `viewer-modeline-color-view'."
-  (viewer-change-modeline-color-advice toggle-read-only)
-  (viewer-change-modeline-color-advice view-mode-enable)
-  (viewer-change-modeline-color-advice view-mode-disable)
-  (viewer-change-modeline-color-advice kill-buffer)
-  (viewer-change-modeline-color-advice switch-to-buffer)
-  (viewer-change-modeline-color-advice pop-to-buffer)
-  (viewer-change-modeline-color-advice bury-buffer)
-  (viewer-change-modeline-color-advice other-window)
-  (viewer-change-modeline-color-advice select-window)
-  (viewer-change-modeline-color-advice display-buffer)
-  (viewer-change-modeline-color-advice set-window-configuration)
-  (viewer-change-modeline-color-advice select-frame)
-  (viewer-change-modeline-color-advice keyboard-quit)
-  (viewer-change-modeline-color-advice exit-minibuffer)
+(defun viewer-change-mode-line-color-setup ()
+  "Setup coloring mode-line.
+See also `viewer-mode-line-color-unwritable' and `viewer-mode-line-color-view'."
+  (viewer-change-mode-line-color-advice toggle-read-only)
+  (viewer-change-mode-line-color-advice view-mode-enable)
+  (viewer-change-mode-line-color-advice view-mode-disable)
+  (viewer-change-mode-line-color-advice kill-buffer)
+  (viewer-change-mode-line-color-advice switch-to-buffer)
+  (viewer-change-mode-line-color-advice pop-to-buffer)
+  (viewer-change-mode-line-color-advice bury-buffer)
+  (viewer-change-mode-line-color-advice other-window)
+  (viewer-change-mode-line-color-advice select-window)
+  (viewer-change-mode-line-color-advice display-buffer)
+  (viewer-change-mode-line-color-advice set-window-configuration)
+  (viewer-change-mode-line-color-advice select-frame)
+  (viewer-change-mode-line-color-advice keyboard-quit)
+  (viewer-change-mode-line-color-advice exit-minibuffer)
   nil)
 
 ;;;; Bug report

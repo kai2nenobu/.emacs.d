@@ -143,30 +143,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
 #+BEGIN_SRC emacs-lisp
 (setq debian-emacs-flavor 'emacs-snapshot)
 #+END_SRC
-** ロードパスの追加
-- [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
-#+BEGIN_SRC emacs-lisp
-(defconst my-individual-elisp-directory
-  (list (expand-file-name "site-lisp" user-emacs-directory)
-	(expand-file-name "my-lisp" user-emacs-directory)
-	(expand-file-name "package" user-emacs-directory))
-  "The directory for my elisp file.")
-; サブディレクトリも含めて追加
-(dolist (dir my-individual-elisp-directory)
-  (when (and (stringp dir) (file-directory-p dir))
-    (let ((default-directory dir))
-      (add-to-list 'load-path dir)
-      (normal-top-level-add-subdirs-to-load-path))))
-;; 普通に追加
-(add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
-
-;;; setting PATH in Windows
-(when (winp)
-  (setenv "PATH" (concat (expand-file-name "c:/cygwin/bin") ";"
-                         (getenv "PATH")))
-  (add-to-list 'exec-path "c:/cygwin/bin")
-  )
-#+END_SRC
 ** package.el
 elisp のパッケージ管理をするライブラリ．
 #+BEGIN_SRC emacs-lisp
@@ -191,6 +167,37 @@ elisp のパッケージ管理をするライブラリ．
   (package-initialize))
 
 (my-measure-message-time "Basic setting.")
+#+END_SRC
+** ロードパスの追加
+- [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
+#+BEGIN_SRC emacs-lisp
+(defconst my-individual-elisp-directory
+  (list (expand-file-name "my-lisp" user-emacs-directory))
+  "The directory for my elisp file.")
+; サブディレクトリも含めて追加
+(dolist (dir my-individual-elisp-directory)
+  (when (and (stringp dir) (file-directory-p dir))
+    (let ((default-directory dir))
+      (add-to-list 'load-path dir)
+      (normal-top-level-add-subdirs-to-load-path))))
+;; 普通に追加
+(add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
+
+;; site-lisp 以下を追加
+(let ((dir (expand-file-name "site-lisp" user-emacs-directory)))
+  (dolist (file (directory-files dir))
+    (when (and (not (string= file ".."))
+               (file-directory-p (concat dir "/" file)))
+      (add-to-list 'load-path (concat dir "/" file)))))
+(add-to-list 'load-path
+             (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
+
+;;; setting PATH in Windows
+(when (winp)
+  (setenv "PATH" (concat (expand-file-name "c:/cygwin/bin") ";"
+                         (getenv "PATH")))
+  (add-to-list 'exec-path "c:/cygwin/bin")
+  )
 #+END_SRC
 ** 安全な require, load, autoload マクロ
 - [[http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro][require/loadに成功/失敗したらメッセージを出すマクロ - とりあえず暇だったし何となく始めたブログ]]
@@ -240,7 +247,7 @@ elisp のパッケージ管理をするライブラリ．
   "Face for version control when modified.")
 
 (defun vc-default-mode-line-string (backend file)
-  "Return string for placement in modeline by `vc-mode-line' for FILE.
+  "Return string for placement in mode line by `vc-mode-line' for FILE.
 Format:
 
   \"BACKEND-REV\"        if the file is up-to-date
@@ -304,42 +311,25 @@ This function assumes that the file is registered."
 #+BEGIN_SRC emacs-lisp
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
-  (defvar my-default-font-size (cond ((winp) 15)
-                                     (t 15)) "Default font size")
-  (defvar my-font-size my-default-font-size "Current font size")
-  (set-frame-font (format "Ricty %d" my-font-size) nil t)
+  (defvar my-default-font-size 15 "Default font size")
+  (defvar my-current-font-size my-default-font-size "Current font size")
+  (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
 
-  (defun my-resize-frame-font ()
-    "対話的にフォントのサイズを変更するコマンド"
-    (interactive)
-    (catch 'end-flag
-      (while t
-        (let ((key (read-char (format "Font size %d: Press +,-,0" my-font-size))))
-          (cond ((= key ?+)
-                 (setq my-font-size (min (+ my-font-size 1) 33)))
-                ((= key ?-)
-                 (setq my-font-size (max (- my-font-size 1) 9)))
-                ((= key ?0)
-                 (setq my-font-size my-default-font-size))
-                (t
-                 (message "Quit")
-                 (throw 'end-flag t))))
-        (set-frame-font (format "Ricty %d" my-font-size) nil t))))
   ;; ;; 標準のフォントサイズ
-  ;; (defvar my-font-size nil "Standard font size")
+  ;; (defvar my-current-font-size nil "Standard font size")
   ;; (defvar my-font-str nil "Standard font string")
   ;; (defvar my-font-set-str nil "Font string to create fontset")
   ;; (cond ((linuxp)
-  ;;        (setq my-font-size 16)
+  ;;        (setq my-current-font-size 16)
   ;;        (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
   ;;       ((winp)
-  ;;        (setq my-font-size 18)
+  ;;        (setq my-current-font-size 18)
   ;;        (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
   ;; ;; それぞれのフォントサイズに対応したフォントセットを作る
   ;; ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
-  ;; (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
+  ;; (defvar my-current-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
   ;; (let (size
-  ;;       (size-list my-font-size-list))
+  ;;       (size-list my-current-font-size-list))
   ;;   (while size-list
   ;;     (setq size (car size-list))
   ;;     (setq size-list (cdr size-list))
@@ -360,10 +350,10 @@ This function assumes that the file is registered."
   ;;        (add-to-list 'default-frame-alist
   ;;              '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
   ;; ;; ;; アスキーフォント設定
-  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
+  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-current-font-size))
   ;; ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
   ;; ;; ;; 日本語フォント設定
-  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
+  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-current-font-size))
   )
 
 ;;; list-faces-display 用の文字列
@@ -480,7 +470,6 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
 (define-key my-original-map (kbd "C-w") 'my-window-resizer)
-(define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
@@ -505,6 +494,36 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** フレーム共通のフォントサイズを対話的に変更するコマンド
+text-scale-adjust のパクリ．
+#+BEGIN_SRC emacs-lisp
+(when window-system
+  (defun my-resize-frame-font ()
+    "対話的にフォントのサイズを変更するコマンド"
+    (interactive)
+    (let ((ev last-command-event)
+          (echo-keystrokes nil)
+          (max-size 33)
+          (min-size 9))
+      (while ev
+        (let ((base (event-basic-type ev)))
+          (cond ((eq base ?+)
+                 (setq my-current-font-size (min (+ my-current-font-size 1) max-size)))
+                ((eq base ?-)
+                 (setq my-current-font-size (max (- my-current-font-size 1) min-size)))
+                ((eq base ?0)
+                 (setq my-current-font-size my-default-font-size))
+                (t
+                 (setq ev nil))))
+        (when ev
+          (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
+          (setq ev (read-event (format "Font size %d: Press +,-,0" my-current-font-size)))))
+      (message "Quit")))
+  (define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
+  (define-key my-original-map (kbd "C--") 'my-resize-frame-font)
+  (define-key my-original-map (kbd "C-0") 'my-resize-frame-font)
+  )
+#+END_SRC
 ** org-init.d/init.el を更新するコマンド
 org-init.d/init.org を更新したら，明示的に init.el を更新したい時があるので作っ
 た．
@@ -1652,7 +1671,7 @@ shift+カーソルキー でウィンドウを移動する．
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "") (TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (clmemo-mode . t) (TeX-master . t)))))
+ '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "") (TeX-master . "progress_report1.tex") (TeX-master . "/home/kai/Dropbox/works/tex_workspace/meeting/progress_report1.tex") (TeX-master . "bachelor_handout.tex") (TeX-master . "bachelor_thesis.tex") (TeX-master . t)))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -2025,7 +2044,7 @@ dired のファイル情報の詳細表示をトグルする．
 ウィンドウ構成の変更履歴を辿れる．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'winner
-  (define-key my-original-map (kbd "C-u") 'winner-undo)
+  (define-key my-original-map (kbd "C-/") 'winner-undo)
   (winner-mode 1))
 #+END_SRC
 ** whitespace.el
@@ -2530,7 +2549,8 @@ package.el からインストール．
           smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
           smtpmail-smtp-service        465
           smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
-  (global-set-key (kbd "C-x m") 'mu4e-compose-new)
+  (define-key ctl-x-map (kbd "M") 'mu4e)
+  (define-key ctl-x-map (kbd "m") 'mu4e-compose-new)
   (setq message-signature "東京大学情報理工学系研究科電子情報学専攻
 峯松研究室 修士2年 甲斐常伸
 E-mail: kai@gavo.t.u-tokyo.ac.jp")
@@ -2544,26 +2564,29 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 #+END_SRC
 *** 次のフォルダに移動するコマンド
 何かとあれば便利かと思って次のフォルダに直接移動するコマンドを作った．大きく
-移動する場合は anything で移動がよろしい．
+移動する場合は helm で移動がよろしい．
 #+BEGIN_SRC emacs-lisp
-  (defun mu4e-my-next-folder (arg)
-    "Move to a next folder."
+  (defun mu4e-my-next-maildir (arg)
+    "Move to a next maildir. This function get a current maildir
+  from a message at point or last query."
     (interactive "p")
-    (let* ((mdir (mu4e-field-at-point :maildir))
+    (let* ((last-query (mu4e-last-query))
+           (mdir (or (mu4e-my-guess-maildir)
+                     (error "Cannot get a current maildir")))
            (mdir-list (or mu4e~maildir-list
                           (mu4e-get-maildirs)))
            (index (- (length mdir-list) (length (member mdir mdir-list))))
            (next-dir (nth (mod (+ index arg) (length mdir-list)) mdir-list)))
       (mu4e~headers-search-execute (concat "maildir:" next-dir) t)))
-  (defun mu4e-my-previous-folder (arg)
-    "Move to a previous folder."
+  (defun mu4e-my-previous-maildir (arg)
+    "Move to a previous maildir."
     (interactive "p")
-    (mu4e-my-next-folder (- arg)))
+    (mu4e-my-next-maildir (- arg)))
 
-  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-folder)
-  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
-  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-folder)
-  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-folder)
+  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
+  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
+  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
+  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
 #+END_SRC
 *** 送信メールを元メールと同じフォルダにコピーする
 thunderbird のこの機能がとっても便利なのでまねしてみる．
@@ -2575,7 +2598,7 @@ thunderbird のこの機能がとっても便利なのでまねしてみる．
       (let* ((mpath (mu4e-message-field mu4e-compose-parent-message :path))
              (fccfile (and mpath
                            (concat (file-name-directory mpath)
-                                   (mu4e~compose-message-filename-construct "S")))))
+                                   (mu4e~draft-message-filename-construct "S")))))
         (when fccfile
           (message-add-header (concat "Fcc: " fccfile "\n"))))))
   (add-hook 'mu4e-compose-mode-hook 'mu4e-my-save-message-in-same-folder)
@@ -2669,30 +2692,39 @@ org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
   (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
 #+END_SRC
 
-anything で mu4e のフォルダを選択する．
+helm で mu4e のフォルダを選択する．
 #+BEGIN_SRC emacs-lisp
-  (defvar anything-c-source-mu4e-maildir
+  (defvar helm-c-source-mu4e-maildir
     '((name . "mu4e-maildir")
       (candidates . mu4e-get-maildirs)
       (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
                  ("Insert maildir" . insert)))
-      (anything-candidate-number-limit)
+      (helm-candidate-number-limit)
       (migemo))
-    "Anything source for mu4e maildir.")
+    "Helm source for mu4e maildir.")
 
-  (defun anything-mu4e-maildir ()
-    "Anything command for mu4e maildir."
+  (defun helm-mu4e-maildir ()
+    "Helm command for mu4e maildir."
     (interactive)
-    (anything :sources   'anything-c-source-mu4e-maildir
-              :buffer    "*anything-mu4e-maildir*"
-              :preselect (let ((msg (mu4e-message-at-point t)))
-                           (and msg (mu4e-msg-field msg :maildir)))))
-  (define-key mu4e-main-mode-map (kbd "f") 'anything-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
-  (define-key mu4e-headers-mode-map (kbd "f") 'anything-mu4e-maildir)
-  (define-key mu4e-view-mode-map (kbd "f") 'anything-mu4e-maildir)
+    (helm :sources   'helm-c-source-mu4e-maildir
+              :buffer    "*helm-mu4e-maildir*"
+              :preselect (mu4e-my-guess-maildir)))
+  (define-key mu4e-main-mode-map (kbd "f") 'helm-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
+  (define-key mu4e-headers-mode-map (kbd "f") 'helm-mu4e-maildir)
+  (define-key mu4e-view-mode-map (kbd "f") 'helm-mu4e-maildir)
+
+  (defun mu4e-my-guess-maildir ()
+    "Guess a current maildir from a message at point or last search query.
+  If the guess fails, return nil."
+    (let ((last-query (mu4e-last-query))
+          (maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?")) ; This may be wrong
+      (or (ignore-errors (mu4e-field-at-point :maildir))
+          (and last-query
+               (string-match maildir-regexp last-query)
+               (match-string 1 last-query)))))
 #+END_SRC
 
-anything でメールアドレスの補完をする．メールアドレスは
+helm でメールアドレスの補完をする．メールアドレスは
 `mu4e~contacts-for-completion' に文字列のリストで格納されているので簡単にかけ
 た．はじめて history を作ってみたが，まずまず動いていると思う．
 `mu4e-my-insert-contact-and-save-history' で直接履歴を保存しているのが少しダ
@@ -2706,27 +2738,27 @@ anything でメールアドレスの補完をする．メールアドレスは
     (add-to-list 'mu4e-my-contact-history candidate)
     (insert candidate))
 
-  (defvar anything-c-source-mu4e-my-contact-history
+  (defvar helm-c-source-mu4e-my-contact-history
     '((name . "mu4e Contact History")
       (candidates . mu4e-my-contact-history)
       (action . mu4e-my-insert-contact-and-save-history)
       (migemo))
-    "Anything source for mu4e contact history.")
+    "Helm source for mu4e contact history.")
 
-  (defvar anything-c-source-mu4e-contact
+  (defvar helm-c-source-mu4e-contact
     '((name . "mu4e Contact Completion")
       (candidates . mu4e~contacts-for-completion)
       (action . mu4e-my-insert-contact-and-save-history)
       (migemo))
-    "Anything source for mu4e contact.")
+    "Helm source for mu4e contact.")
 
-  (defun anything-mu4e-contact ()
-    "Anything command for mu4e contact."
+  (defun helm-mu4e-contact ()
+    "Helm command for mu4e contact."
     (interactive)
-    (anything-other-buffer '(anything-c-source-mu4e-my-contact-history
-                             anything-c-source-mu4e-contact)
-                           "*anything-mu4e-conntact*"))
-  (define-key mu4e-compose-mode-map (kbd "C-c c") 'anything-mu4e-contact)
+    (helm-other-buffer '(helm-c-source-mu4e-my-contact-history
+                             helm-c-source-mu4e-contact)
+                           "*helm-mu4e-conntact*"))
+  (define-key mu4e-compose-mode-map (kbd "C-c c") 'helm-mu4e-contact)
 #+END_SRC
 
 最後のカッコ．
@@ -2742,9 +2774,9 @@ anything でメールアドレスの補完をする．メールアドレスは
 (my-safe-require 'fill-column-indicator
   (setq fci-rule-color "gray")
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
-  (global-fci-mode)
-  (add-hook 'org-mode-hook 'turn-off-fci-mode)
-  (add-hook 'dired-mode-hook 'turn-off-fci-mode)
+  ;(global-fci-mode)
+  (add-hook 'mu4e-compose-mode-hook 'turn-on-fci-mode)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-fci-mode)
   (define-key my-original-map (kbd "M-f") 'fci-mode)
   )
 #+END_SRC
@@ -2989,9 +3021,9 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
 メニューバーを日本語化する．Windows 環境では一部文字化けあり．
 #+BEGIN_SRC emacs-lisp
-(when window-system
-  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
-  (my-safe-require 'menu-tree))
+;(when window-system
+;  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
+;  (my-safe-require 'menu-tree))
 #+END_SRC
 ** emoji.el
 - [[https://github.com/imakado/emoji][imakado/emoji]]
@@ -3056,7 +3088,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                 '("C-x v" "C-c p" "C-x RET" "C-x 8" "C-x 8 ^"
                   "C-q" "C-x r" "C-S-r" "C-x 4" "C-4" "C-S-a" "C-x 5" "C-5"
                   "<key-chord> @ 5" "<key-chord> 5 @" "<key-chord> @ 4" "<key-chord> 4 @"
-                  "<key-chord> : a" "<key-chord> a :" "<key-chord> : p" "<key-chord> p :"))
+                  "<key-chord> : h" "<key-chord> h :" "<key-chord> : p" "<key-chord> p :"))
   ;; (setq guide-key/highlight-command-regexp "rectangle\\|ffap")
   (setq guide-key/popup-window-position 'right
         guide-key/polling-time 0.1)
@@ -3159,7 +3191,8 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
                          ("C-p" . outline-previous-visible-heading)
                          ("C-f" . (outline-forward-same-level 1))
                          ("C-b" . (outline-backward-same-level 1))
-                         ("C-u" . outline-up-heading)))
+                         ("C-u" . outline-up-heading)
+                         ("C-/" . winner-undo)))
 
   (smartrep-define-key
    global-map "C-x" '(("{" . (enlarge-window-horizontally -1))
@@ -3215,7 +3248,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ** anything-advent-calendar.el
 advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/entry/2011/12/12/000301]]
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'anything-advent-calendar)
+;(my-safe-require 'anything-advent-calendar)
 #+END_SRC
 ** sunrise-commander.el
 2ペインファイラー？．package.el で "SC" からインストール．
@@ -3660,16 +3693,16 @@ hilight current column.
 テンプレート挿入ライブラリ．柔軟性が高すぎて設定に困る．
 #+BEGIN_SRC emacs-lisp
 ;;;; yasnippet.el
-(lazyload (yas/expand yas/minor-mode anything-c-yas-complete) "yasnippet"
+(lazyload (yas-expand yas-minor-mode helm-c-yas-complete) "yasnippet"
   (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
   ;; キーバインドは以下を参考にした
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
-  (setq yas/trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
-  (setq yas/next-field-key (kbd "<C-tab>"))   ; これが <C-tab> にならんなぁ
-  (define-key my-original-map (kbd "C-e") 'yas/expand)
+  (setq yas-trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
+  (setq yas-next-field-key (kbd "<C-tab>"))   ; これが <C-tab> にならんなぁ
+  (define-key my-original-map (kbd "C-e") 'yas-expand)
   ;; (setq yas/prev-field-key "<S-tab>")
   ;; (define-key yas/minor-mode-map (kbd "C-<tab>") 'yas/expand)
-  (setq yas/wrap-around-region t)
+  (setq yas-wrap-around-region t)
   ;; (defadvice anything-c-yas-complete
   ;;   (around anything-c-yas-complete-delete-region activate)
   ;;   "If region is active, delete region before yasnippet completion."
@@ -3681,12 +3714,11 @@ hilight current column.
   ;(ad-deactivate-regexp "anything-c-yas-complete-delete-region")
   ;; (eval-after-load "auto-complete.el"
   ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
-  (yas/initialize)
-  (yas/load-directory (expand-file-name "snippets" user-emacs-directory))
-  (yas/global-mode 1)
+  (yas-load-directory (expand-file-name "snippets" user-emacs-directory))
+  (yas-global-mode 1)
 
   ;; original function
-  (defun yas/c-format-count (str)
+  (defun yas-c-format-count (str)
     "Return comma according to c format string"
     (save-match-data
       (set-match-data nil)
@@ -3699,13 +3731,13 @@ hilight current column.
 ;;; anything-c-yasnippet.el
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
 ;;; yasnippet を anything で操作
-  (eval-after-load "anything"
+  (eval-after-load "helm"
     '(progn
-       (my-safe-require 'anything-c-yasnippet
-         (setq anything-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+       (my-safe-require 'helm-c-yasnippet
+         (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+         (define-key mode-specific-map (kbd "y") 'helm-c-yas-complete)
          )))
   )
-(global-set-key (kbd "C-c y") 'anything-c-yas-complete) ; C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
 #+END_SRC
 ** cygwin-mount.el
 cygwin のパスを使えるようにする．
@@ -3805,32 +3837,32 @@ mozrepl を通して firefox を操作する
 #+END_SRC
 ** anything-books.el
 anything で本管理．
-#+BEGIN_SRC emacs-lisp
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
-(my-safe-require 'anything-books
-  (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
-  (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
+# #+BEGIN_SRC emacs-lisp
+# ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
+# (my-safe-require 'anything-books
+#   (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
+#   (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
 
-  ;; for evince setting (default)
-  ;; (setq abks:cache-pixel "600")
-  ;; (setq abks:mkcover-cmd-pdf-postfix nil)
-  ;; (setq abks:mkcover-cmd '("evince-thumbnailer" "-s" size pdf jpeg))
+#   ;; for evince setting (default)
+#   ;; (setq abks:cache-pixel "600")
+#   ;; (setq abks:mkcover-cmd-pdf-postfix nil)
+#   ;; (setq abks:mkcover-cmd '("evince-thumbnailer" "-s" size pdf jpeg))
 
-  ;; for ImageMagick and GhostScript setting
-  (setq abks:cache-pixel "600x600")
-  (setq abks:mkcover-cmd-pdf-postfix "[0]")
-  (setq abks:mkcover-cmd '("convert" "-resize" size pdf jpeg))
+#   ;; for ImageMagick and GhostScript setting
+#   (setq abks:cache-pixel "600x600")
+#   (setq abks:mkcover-cmd-pdf-postfix "[0]")
+#   (setq abks:mkcover-cmd '("convert" "-resize" size pdf jpeg))
 
-  ;(define-key mode-specific-map (kbd "b") 'anything-books-command) ; キーバインド
-  (setq abks:cmd-copy "cp") ; ファイルコピーのコマンド
-  (setq abks:copy-by-command nil) ; nilにするとEmacsの機能でコピーする（Windowsはnilがいいかも）
-  (setq abks:preview-temp-dir "/tmp") ; 作業ディレクトリ
-  )
-;; うまく動かんので、とりあえず Ubuntu でやってみよう
-;; Ubuntu でもほぼ同じ症状のようだ。
-;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
-;; 問題ないようだ。
-#+END_SRC
+#   ;(define-key mode-specific-map (kbd "b") 'anything-books-command) ; キーバインド
+#   (setq abks:cmd-copy "cp") ; ファイルコピーのコマンド
+#   (setq abks:copy-by-command nil) ; nilにするとEmacsの機能でコピーする（Windowsはnilがいいかも）
+#   (setq abks:preview-temp-dir "/tmp") ; 作業ディレクトリ
+#   )
+# ;; うまく動かんので、とりあえず Ubuntu でやってみよう
+# ;; Ubuntu でもほぼ同じ症状のようだ。
+# ;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
+# ;; 問題ないようだ。
+# #+END_SRC
 ** concurrent.el
 非同期処理フレームワーク．
 #+BEGIN_SRC emacs-lisp
@@ -3843,65 +3875,70 @@ anything で本管理．
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
 (my-safe-require 'deferred)
 #+END_SRC
-** anything.el
-1つでなんでもできる，汎用インターフェース．
+** helm.el
+インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp
-;;; (auto-install-batch "anything")
-(my-safe-require 'anything-startup
+(my-safe-require 'helm-config
+  (helm-mode 1)
   (when (executable-find "cmigemo")
-    (my-safe-require 'anything-migemo))
+    (my-safe-require 'helm-migemo))
+  (my-safe-require 'helm-descbinds
+    (helm-descbinds-install))
 
-  (setq anything-idle-delay 0.1)
-  (setq anything-input-idle-delay 0.1)
-  (define-key anything-command-map (kbd "o") 'anything-occur)
-  (define-key anything-command-map (kbd "a") 'anything-apropos)
-  (define-key anything-command-map (kbd "g") 'anything-grep)
-  (define-key anything-command-map (kbd "R") 'anything-resume)
-  (global-set-key (kbd "C-S-a") 'anything-command-map)
+  (setq helm-idle-delay 0.1)
+  (setq helm-input-idle-delay 0.1)
+  (setq helm-split-window-default-side 'right) ; helm バッファのデフォルト位置
+  (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
+  (setq helm-ff-transformer-show-only-basename t) ; basename のみ表示
+  (define-key helm-command-map (kbd "o") 'helm-occur)
+  (define-key helm-command-map (kbd "g") 'helm-do-grep)
   (eval-after-load "key-chord"
     '(progn
-       (defalias 'anything-command-prefix anything-command-map)
-       (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
-  (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
-  (add-to-list 'anything-c-source-buffers+ '(migemo))
+       (defalias 'helm-command-prefix helm-command-map)
+       (key-chord-define-global (kbd ":h") 'helm-command-prefix)))
+  (add-to-list 'helm-c-source-recentf '(migemo)) ; migemo 化
+  (add-to-list 'helm-c-source-buffers-list '(migemo))
 
   ;; agrep-goto でアウトラインを開くアドバイス
-  (defadvice agrep-goto (after org-reveal activate)
-     (when (eq major-mode 'org-mode)
-        (org-reveal))
-     (recenter))
-  ;; ミニバッファの履歴を anything で絞込みする
-  (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+  ;(defadvice agrep-goto (after org-reveal activate)
+  ;   (when (eq major-mode 'org-mode)
+  ;      (org-reveal))
+  ;   (recenter))
+  ;; ミニバッファの履歴を helm で絞込みする
+  (define-key minibuffer-local-map (kbd "C-r") 'helm-minibuffer-history)
 
   ;; prefix で候補を選択可能にする
-  (setq anything-enable-shortcuts t)   ; t だと C-number で選択
-  ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
+  (setq helm-enable-shortcuts t)   ; t だと C-number で選択
+  ;(define-key helm-map "@" 'helm-select-with-prefix-shortcut)
 
   ;; for filelist
   ;; (when (linuxp)
-  ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
-  ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+  ;;   (setq helm-grep-candidates-fast-directory-regexp "^/tmp")
+  ;;   (setq helm-c-filelist-file-name "/tmp/all.filelist"))
   ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
-  ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
-  (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+  ;; よし，linux なら locate 使えるので helm-for-files でいいか．current-dir+ も候補に入るし
+  (define-key mode-specific-map (kbd "r") 'helm-for-files) ; recentfile 的に使いたい
 
-  ;; anything-show-kill-ring
-  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
-  (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+  ;; helm-show-kill-ring
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (setq helm-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
 
   ;;;; external elisp
 
-  ;; anything-font-families
+  ;; helm-font-families
   ;; http://d.hatena.ne.jp/mooz/20110320/p1
-  (defun anything-font-families ()
-    "Preconfigured `anything' for font family."
+  (defun helm-font-families ()
+    "Preconfigured `helm' for font family."
     (interactive)
-    (flet ((anything-mp-highlight-match () nil))
-      (anything-other-buffer
-       '(anything-c-source-font-families)
-       "*anything font families*")))
+    (cl-flet ((helm-mp-highlight-match () nil))
+      (helm-other-buffer
+       '(helm-c-source-font-families)
+       "*helm font families*")))
 
-  (defun anything-font-families-create-buffer ()
+  (defun helm-font-families-create-buffer ()
     (with-current-buffer
         (get-buffer-create "*Fonts*")
       (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
@@ -3911,13 +3948,13 @@ anything で本管理．
                             (list :family family :height 2.0 :weight 'bold))))
       (font-lock-mode 1)))
 
-  (defvar anything-c-source-font-families
+  (defvar helm-c-source-font-families
         '((name . "Fonts")
           (init lambda ()
-                (unless (anything-candidate-buffer)
+                (unless (helm-candidate-buffer)
                   (save-window-excursion
-                    (anything-font-families-create-buffer))
-                  (anything-candidate-buffer
+                    (helm-font-families-create-buffer))
+                  (helm-candidate-buffer
                    (get-buffer "*Fonts*"))))
           (candidates-in-buffer)
           (get-line . buffer-substring)
@@ -3927,26 +3964,177 @@ anything で本管理．
             (kill-new candidate))
            ("Insert Name" lambda
             (candidate)
-            (with-current-buffer anything-current-buffer
+            (with-current-buffer helm-current-buffer
               (insert candidate))))))
 
-  ;;; anything-orgcard.el
-  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
-  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
-  (my-safe-require 'anything-orgcard)
+;  ;;; helm-orgcard.el
+;  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
+;  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+;  (my-safe-require 'helm-orgcard)
+; 
+;  ;; helm-bibtex
+;  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
+;  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+;  (my-safe-require 'helm-bibtex
+;    (defun helm-bibtex-cite ()
+;      "Helm command to cite bibliography."
+;      (interactive)
+;      (helm-other-buffer
+;       '(helm-c-source-bibtex)
+;       "*helm bibtex:")))
+#+END_SRC
+*** helm-c-apropos の persistent-action を変更
+helm-c-apropos は複数の関数による情報源でできているので，それぞれの persistent-action
+を defadvice で変更する．helm-c-describe-face が定義されていなかったので，自分で書いた．
+#+BEGIN_SRC emacs-lisp
+  (defadvice helm-c-source-emacs-commands (after change-persisten-action activate)
+    "Change a persistent action of helm source"
+    (let ((source ad-return-value)
+          (action 'helm-c-describe-function)
+          (help "Describe function"))
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
+      (setq ad-return-balue source)))
 
-  ;; anything-bibtex
-  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
-  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
-  (my-safe-require 'anything-bibtex
-    (defun anything-bibtex-cite ()
-      "Anything command to cite bibliography."
-      (interactive)
-      (anything-other-buffer
-       '(anything-c-source-bibtex)
-       "*anything bibtex:")))
+  (defadvice helm-c-source-emacs-functions (after change-persisten-action activate)
+    "Change a persistent action of helm source"
+    (let ((source ad-return-value)
+          (action 'helm-c-describe-function)
+          (help "Describe function"))
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
+      (setq ad-return-balue source)))
+
+  (defadvice helm-c-source-emacs-variables (after change-persisten-action activate)
+    "Change a persistent action of helm source"
+    (let ((source ad-return-value)
+          (action 'helm-c-describe-variable)
+          (help "Describe variable"))
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
+      (setq ad-return-balue source)))
+
+  (defadvice helm-c-source-emacs-faces (after change-persisten-action activate)
+    "Change a persistent action of helm source"
+    (let ((source ad-return-value)
+          (action 'helm-c-describe-face)
+          (help "Describe face"))
+      (setcdr (assq 'persistent-action source) action)
+      (setcdr (assq 'persistent-help source) help)
+      (setq ad-return-balue source)))
+
+  (defun helm-c-describe-face (face)
+    "FACE is symbol or string."
+    (describe-face (helm-c-symbolify face)))
+#+END_SRC
+*** 最後のカッコ
+#+BEGIN_SRC emacs-lisp
   )
 #+END_SRC
+** anything.el
+1つでなんでもできる，汎用インターフェース．
+# #+BEGIN_SRC emacs-lisp
+# ;;; (auto-install-batch "anything")
+# (my-safe-require 'anything-startup
+#   (when (executable-find "cmigemo")
+#     (my-safe-require 'anything-migemo))
+
+#   (setq anything-idle-delay 0.1)
+#   (setq anything-input-idle-delay 0.1)
+#   (define-key anything-command-map (kbd "o") 'anything-occur)
+#   (define-key anything-command-map (kbd "a") 'anything-apropos)
+#   (define-key anything-command-map (kbd "g") 'anything-grep)
+#   (define-key anything-command-map (kbd "R") 'anything-resume)
+#   (global-set-key (kbd "C-S-a") 'anything-command-map)
+#   (eval-after-load "key-chord"
+#     '(progn
+#        (defalias 'anything-command-prefix anything-command-map)
+#        (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
+#   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
+#   (add-to-list 'anything-c-source-buffers+ '(migemo))
+
+#   ;; agrep-goto でアウトラインを開くアドバイス
+#   (defadvice agrep-goto (after org-reveal activate)
+#      (when (eq major-mode 'org-mode)
+#         (org-reveal))
+#      (recenter))
+#   ;; ミニバッファの履歴を anything で絞込みする
+#   (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+
+#   ;; prefix で候補を選択可能にする
+#   (setq anything-enable-shortcuts t)   ; t だと C-number で選択
+#   ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
+
+#   ;; for filelist
+#   ;; (when (linuxp)
+#   ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
+#   ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+#   ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
+#   ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
+#   (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+
+#   ;; anything-show-kill-ring
+#   (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+#   (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+
+#   ;;;; external elisp
+
+#   ;; anything-font-families
+#   ;; http://d.hatena.ne.jp/mooz/20110320/p1
+#   (defun anything-font-families ()
+#     "Preconfigured `anything' for font family."
+#     (interactive)
+#     (cl-flet ((anything-mp-highlight-match () nil))
+#       (anything-other-buffer
+#        '(anything-c-source-font-families)
+#        "*anything font families*")))
+
+#   (defun anything-font-families-create-buffer ()
+#     (with-current-buffer
+#         (get-buffer-create "*Fonts*")
+#       (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
+#             do (insert
+#                 (propertize (concat family "\n")
+#                             'font-lock-face
+#                             (list :family family :height 2.0 :weight 'bold))))
+#       (font-lock-mode 1)))
+
+#   (defvar anything-c-source-font-families
+#         '((name . "Fonts")
+#           (init lambda ()
+#                 (unless (anything-candidate-buffer)
+#                   (save-window-excursion
+#                     (anything-font-families-create-buffer))
+#                   (anything-candidate-buffer
+#                    (get-buffer "*Fonts*"))))
+#           (candidates-in-buffer)
+#           (get-line . buffer-substring)
+#           (action
+#            ("Copy Name" lambda
+#             (candidate)
+#             (kill-new candidate))
+#            ("Insert Name" lambda
+#             (candidate)
+#             (with-current-buffer anything-current-buffer
+#               (insert candidate))))))
+
+#   ;;; anything-orgcard.el
+#   ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
+#   ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+#   (my-safe-require 'anything-orgcard)
+
+#   ;; anything-bibtex
+#   ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
+#   ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+#   (my-safe-require 'anything-bibtex
+#     (defun anything-bibtex-cite ()
+#       "Anything command to cite bibliography."
+#       (interactive)
+#       (anything-other-buffer
+#        '(anything-c-source-bibtex)
+#        "*anything bibtex:")))
+#   )
+# #+END_SRC
 ** Inertial-scroll.el
 - [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
 慣性スクロール．
@@ -4076,8 +4264,8 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 ** mcomplete.el
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-url "http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el")
-(my-safe-require 'mcomplete
-  (turn-on-mcomplete-mode))
+;(my-safe-require 'mcomplete
+;  (turn-on-mcomplete-mode))
 #+END_SRC
 ** popup-kill-ring.el
 キルリングをポップアップで表示．これの代わりに anything-show-kill-ring を使う
@@ -4180,9 +4368,9 @@ Emacs のハイライトをそのまま html に変換
         (if cacoo-minor-mode
             (progn
               ad-do-it
-              (set-face-underline-p 'org-link t))
+              (set-face-underline 'org-link t))
           (progn
-            (set-face-underline-p 'org-link nil)
+            (set-face-underline 'org-link nil)
             ad-do-it))
       ad-do-it))
   ;; 別 prefix を定義する
@@ -4292,31 +4480,31 @@ view-mode を便利に．
   ;; 結局ややこしいのでつけないことにした
 
   ;; view-mode の時モードラインを色づけ
-  (setq viewer-modeline-color-unwritable "tomato")
-  (setq viewer-modeline-color-view "orange")
+  (setq viewer-mode-line-color-unwritable "tomato")
+  (setq viewer-mode-line-color-view "orange")
   ;; root ユーザ時はモードラインの色を変える
-  (setq viewer-modeline-color-root "magenta")
+  (setq viewer-mode-line-color-root "magenta")
   ;; root のため条件を書き加えるために関数を再定義
-  (defun viewer-change-modeline-color ()
+  (defun viewer-change-mode-line-color ()
     (interactive)
     (when (eq (selected-window)
               (get-buffer-window (current-buffer)))
       (set-face-background
-       'modeline
+       'mode-line
        (cond ((and buffer-file-name view-mode
                    (not (file-writable-p buffer-file-name)))
-              viewer-modeline-color-unwritable)
+              viewer-mode-line-color-unwritable)
              (view-mode
-              viewer-modeline-color-view)
+              viewer-mode-line-color-view)
              ((let ((name (or list-buffers-directory (buffer-file-name))))
                 (and (tramp-tramp-file-p name)
                      (string= (tramp-file-name-real-user (tramp-dissect-file-name name))
                               "root")))
-              viewer-modeline-color-root)
+              viewer-mode-line-color-root)
              (t
-              viewer-modeline-color-default)))))
+              viewer-mode-line-color-default)))))
 
-  (viewer-change-modeline-color-setup)
+  (viewer-change-mode-line-color-setup)
   ;; 閲覧用キーマップ
   (defvar pager-keybind
     `( ;; vi-like
@@ -4445,7 +4633,7 @@ view-mode を便利に．
   (setq key-chord-two-keys-delay 0.05)
   (setq key-chord-one-keys-delay 0.05)
   (key-chord-mode 1)
-  (key-chord-define global-map "nb" 'anything-buffers+)
+  (key-chord-define global-map "nb" 'helm-buffers-list)
   (key-chord-define global-map "jk" 'view-mode)
   (key-chord-define global-map "df" 'describe-function)
   (key-chord-define global-map "dv" 'describe-variable)
@@ -5111,8 +5299,8 @@ Emacsでibusを使えるようにする．これで mozc が使える．
     (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
     ;; Use C-\ for ibus-toggle
     (global-set-key (kbd "C-\\") 'ibus-toggle)
-    ;; `ibus-common-function-key-list' に ibus で使いたいキーを追加する？
-    (add-to-list 'ibus-common-function-key-list '(meta "v"))
+    ;; preedit 中に有効にしたいキーバインドは `ibus-define-preedit-key' で追加する
+    (ibus-define-preedit-key 'A-v t)
     ;; isearch で ibus を無効にする
     (ibus-disable-isearch)
     ;; isearch 中はカーソル形状変更
@@ -5184,7 +5372,7 @@ elisp インストーラ．Emacsテクニックバイブルより
 do nothing. And suppress the output from `message' and
 `write-file' to minibuffer."
     (unless (equal recentf-list my-recentf-list-prev)
-      (flet ((message (format-string &rest args)
+      (cl-flet ((message (format-string &rest args)
                       (eval `(format ,format-string ,@args)))
              (write-file (file &optional confirm)
                          (let ((str (buffer-string)))
@@ -5196,7 +5384,7 @@ do nothing. And suppress the output from `message' and
   (defadvice recentf-cleanup
     (around no-message activate)
     "suppress the output from `message' to minibuffer"
-    (flet ((message (format-string &rest args)
+    (cl-flet ((message (format-string &rest args)
                     (eval `(format ,format-string ,@args))))
       ad-do-it))
 
@@ -5233,16 +5421,6 @@ do nothing. And suppress the output from `message' and
 (add-hook 'pukiwiki-edit-mode '(lambda ()
                                  (toggle-truncate-lines 1)
                                  (orgtbl-mode 1)))
-#+END_SRC
-** clmemo.el                                                       :noexport:
-ChangeLogでメモを取るモード．
-#+BEGIN_SRC emacs-lisp
-(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-(setq clmemo-file-name (concat dropbox-directory "/memo/clmemo.txt")) ; a file to edit
-(setq clmemo-title-list '(("survey" . "論文調査") "Emacs" ("kenkyuu" . "研究")
-                          ("idea" . "アイデア"))) ; タイトルのリスト
-(setq clmemo-time-string-with-weekday t) ; add weekday to date
-(define-key ctl-x-map (kbd "M") 'clmemo)
 #+END_SRC
 ** google.el
 #+BEGIN_SRC emacs-lisp

@@ -6,10 +6,6 @@
 	path = my-lisp/guide-key
 	url = git@github.com:kbkbkbkb1/guide-key.git
 	ignore = dirty
-[submodule "site-lisp/popwin"]
-	path = site-lisp/popwin
-	url = https://github.com/m2ym/popwin-el.git
-	ignore = dirty
 [submodule "site-lisp/calfw"]
 	path = site-lisp/calfw
 	url = https://github.com/kiwanami/emacs-calfw.git
