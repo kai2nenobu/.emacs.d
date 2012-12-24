@@ -311,8 +311,7 @@ This function assumes that the file is registered."
 #+BEGIN_SRC emacs-lisp
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
-  (defvar my-default-font-size (cond ((winp) 15)
-                                     (t 15)) "Default font size")
+  (defvar my-default-font-size 15 "Default font size")
   (defvar my-font-size my-default-font-size "Current font size")
   (set-frame-font (format "Ricty %d" my-font-size) nil t)
 
