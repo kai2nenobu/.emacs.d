@@ -471,7 +471,6 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
 (define-key my-original-map (kbd "C-w") 'my-window-resizer)
-(define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
@@ -521,6 +520,9 @@ text-scale-adjust のパクリ．
           (set-frame-font (format "Ricty %d" my-font-size) nil t)
           (setq ev (read-event (format "Font size %d: Press +,-,0" my-font-size)))))
       (message "Quit")))
+  (define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
+  (define-key my-original-map (kbd "C--") 'my-resize-frame-font)
+  (define-key my-original-map (kbd "C-0") 'my-resize-frame-font)
   )
 #+END_SRC
 ** org-init.d/init.el を更新するコマンド
