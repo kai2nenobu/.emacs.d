@@ -2775,8 +2775,8 @@ helm でメールアドレスの補完をする．メールアドレスは
   (setq fci-rule-color "gray")
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
   ;(global-fci-mode)
-  (add-hook 'org-mode-hook 'turn-off-fci-mode)
-  (add-hook 'dired-mode-hook 'turn-off-fci-mode)
+  (add-hook 'mu4e-compose-mode-hook 'turn-on-fci-mode)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-fci-mode)
   (define-key my-original-map (kbd "M-f") 'fci-mode)
   )
 #+END_SRC
