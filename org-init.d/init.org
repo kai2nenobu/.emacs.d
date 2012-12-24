@@ -312,24 +312,24 @@ This function assumes that the file is registered."
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
-  (defvar my-font-size my-default-font-size "Current font size")
-  (set-frame-font (format "Ricty %d" my-font-size) nil t)
+  (defvar my-current-font-size my-default-font-size "Current font size")
+  (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
 
   ;; ;; 標準のフォントサイズ
-  ;; (defvar my-font-size nil "Standard font size")
+  ;; (defvar my-current-font-size nil "Standard font size")
   ;; (defvar my-font-str nil "Standard font string")
   ;; (defvar my-font-set-str nil "Font string to create fontset")
   ;; (cond ((linuxp)
-  ;;        (setq my-font-size 16)
+  ;;        (setq my-current-font-size 16)
   ;;        (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
   ;;       ((winp)
-  ;;        (setq my-font-size 18)
+  ;;        (setq my-current-font-size 18)
   ;;        (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
   ;; ;; それぞれのフォントサイズに対応したフォントセットを作る
   ;; ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
-  ;; (defvar my-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
+  ;; (defvar my-current-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
   ;; (let (size
-  ;;       (size-list my-font-size-list))
+  ;;       (size-list my-current-font-size-list))
   ;;   (while size-list
   ;;     (setq size (car size-list))
   ;;     (setq size-list (cdr size-list))
@@ -350,10 +350,10 @@ This function assumes that the file is registered."
   ;;        (add-to-list 'default-frame-alist
   ;;              '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
   ;; ;; ;; アスキーフォント設定
-  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-font-size))
+  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-current-font-size))
   ;; ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
   ;; ;; ;; 日本語フォント設定
-  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-font-size))
+  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-current-font-size))
   )
 
 ;;; list-faces-display 用の文字列
@@ -508,16 +508,16 @@ text-scale-adjust のパクリ．
       (while ev
         (let ((base (event-basic-type ev)))
           (cond ((eq base ?+)
-                 (setq my-font-size (min (+ my-font-size 1) max-size)))
+                 (setq my-current-font-size (min (+ my-current-font-size 1) max-size)))
                 ((eq base ?-)
-                 (setq my-font-size (max (- my-font-size 1) min-size)))
+                 (setq my-current-font-size (max (- my-current-font-size 1) min-size)))
                 ((eq base ?0)
-                 (setq my-font-size my-default-font-size))
+                 (setq my-current-font-size my-default-font-size))
                 (t
                  (setq ev nil))))
         (when ev
-          (set-frame-font (format "Ricty %d" my-font-size) nil t)
-          (setq ev (read-event (format "Font size %d: Press +,-,0" my-font-size)))))
+          (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
+          (setq ev (read-event (format "Font size %d: Press +,-,0" my-current-font-size)))))
       (message "Quit")))
   (define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
   (define-key my-original-map (kbd "C--") 'my-resize-frame-font)
