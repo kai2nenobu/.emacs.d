@@ -319,19 +319,24 @@ This function assumes that the file is registered."
   (defun my-resize-frame-font ()
     "対話的にフォントのサイズを変更するコマンド"
     (interactive)
-    (catch 'end-flag
-      (while t
-        (let ((key (read-char (format "Font size %d: Press +,-,0" my-font-size))))
-          (cond ((= key ?+)
-                 (setq my-font-size (min (+ my-font-size 1) 33)))
-                ((= key ?-)
-                 (setq my-font-size (max (- my-font-size 1) 9)))
-                ((= key ?0)
+    (let ((ev last-command-event)
+          (echo-keystrokes nil)
+          (max-size 33)
+          (min-size 9))
+      (while ev
+        (let ((base (event-basic-type ev)))
+          (cond ((eq base ?+)
+                 (setq my-font-size (min (+ my-font-size 1) max-size)))
+                ((eq base ?-)
+                 (setq my-font-size (max (- my-font-size 1) min-size)))
+                ((eq base ?0)
                  (setq my-font-size my-default-font-size))
                 (t
-                 (message "Quit")
-                 (throw 'end-flag t))))
-        (set-frame-font (format "Ricty %d" my-font-size) nil t))))
+                 (setq ev nil))))
+        (when ev
+          (set-frame-font (format "Ricty %d" my-font-size) nil t)
+          (setq ev (read-event (format "Font size %d: Press +,-,0" my-font-size)))))
+      (message "Quit")))
   ;; ;; 標準のフォントサイズ
   ;; (defvar my-font-size nil "Standard font size")
   ;; (defvar my-font-str nil "Standard font string")
