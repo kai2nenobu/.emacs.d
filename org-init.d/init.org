@@ -2774,7 +2774,7 @@ helm でメールアドレスの補完をする．メールアドレスは
 (my-safe-require 'fill-column-indicator
   (setq fci-rule-color "gray")
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
-  (global-fci-mode)
+  ;(global-fci-mode)
   (add-hook 'org-mode-hook 'turn-off-fci-mode)
   (add-hook 'dired-mode-hook 'turn-off-fci-mode)
   (define-key my-original-map (kbd "M-f") 'fci-mode)
