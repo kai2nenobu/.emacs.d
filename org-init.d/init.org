@@ -184,6 +184,9 @@ elisp のパッケージ管理をするライブラリ．
 (add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
 
 ;; site-lisp 以下を追加
+(setq load-path
+      (delete (expand-file-name "site-lisp/org-mode" user-emacs-directory)
+              load-path))
 (add-to-list 'load-path
              (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
 (let ((dir (expand-file-name "site-lisp" user-emacs-directory)))
