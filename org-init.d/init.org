@@ -184,13 +184,13 @@ elisp のパッケージ管理をするライブラリ．
 (add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
 
 ;; site-lisp 以下を追加
+(add-to-list 'load-path
+             (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
 (let ((dir (expand-file-name "site-lisp" user-emacs-directory)))
   (dolist (file (directory-files dir))
     (when (and (not (string= file ".."))
                (file-directory-p (concat dir "/" file)))
       (add-to-list 'load-path (concat dir "/" file)))))
-(add-to-list 'load-path
-             (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
 
 ;;; setting PATH in Windows
 (when (winp)
