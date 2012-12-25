@@ -1,8 +1,8 @@
 This is org, produced by makeinfo version 4.13 from org.texi.
 
-This manual is for Org version 7.9.2 (release_7.9.2-582-g6d099e).
+This manual is for Org version 7.9.2 (release_7.9.2-879-ga04ccc).
 
-   Copyright (C) 2004-2012  Free Software Foundation, Inc.
+   Copyright (C) 2004-2012 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -13,14 +13,7 @@ This manual is for Org version 7.9.2 (release_7.9.2-582-g6d099e).
      "GNU Free Documentation License."
 
      (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
-     modify this GNU manual.  Buying copies from the FSF supports it in
-     developing GNU and promoting software freedom."
-
-     This document is part of a collection distributed under the GNU
-     Free Documentation License.  If you want to distribute this
-     document separately from the collection, you can do so by adding a
-     copy of the license to the document, as described in section 6 of
-     the license.
+     modify this GNU manual."
 
 INFO-DIR-SECTION Emacs editing modes
 START-INFO-DIR-ENTRY
@@ -33,9 +26,9 @@ File: org,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 Org Mode Manual
 ***************
 
-This manual is for Org version 7.9.2 (release_7.9.2-582-g6d099e).
+This manual is for Org version 7.9.2 (release_7.9.2-879-ga04ccc).
 
-   Copyright (C) 2004-2012  Free Software Foundation, Inc.
+   Copyright (C) 2004-2012 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -46,14 +39,7 @@ This manual is for Org version 7.9.2 (release_7.9.2-582-g6d099e).
      "GNU Free Documentation License."
 
      (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
-     modify this GNU manual.  Buying copies from the FSF supports it in
-     developing GNU and promoting software freedom."
-
-     This document is part of a collection distributed under the GNU
-     Free Documentation License.  If you want to distribute this
-     document separately from the collection, you can do so by adding a
-     copy of the license to the document, as described in section 6 of
-     the license.
+     modify this GNU manual."
 
 * Menu:
 
@@ -75,6 +61,7 @@ This manual is for Org version 7.9.2 (release_7.9.2-582-g6d099e).
 * Hacking::                     How to hack your way around
 * MobileOrg::                   Viewing and capture on a mobile device
 * History and Acknowledgments::  How Org came into being
+* GNU Free Documentation License::  The license for this documentation.
 * Main Index::                  An index of Org's concepts and features
 * Key Index::                   Key bindings and where they are described
 * Command and Function Index::  Command names and some internal functions
@@ -223,7 +210,7 @@ Capture - Refile - Archive
 * Capture::                     Capturing new stuff
 * Attachments::                 Add files to tasks
 * RSS Feeds::                   Getting input from RSS feeds
-* Protocols::                   External (e.g. Browser) access to Emacs and Org
+* Protocols::                   External (e.g., Browser) access to Emacs and Org
 * Refile and copy::             Moving/copying a tree from one place to another
 * Archiving::                   What to do with finished projects
 
@@ -681,7 +668,7 @@ file, for more details please see this description on Worg
    Installing Info files is system dependent, because of differences in
 the `install-info' program.  The Info documentation is installed
 together with the rest of Org mode.  If you don't install Org mode, it
-is possible to install the Info documentation seperately (you need to
+is possible to install the Info documentation separately (you need to
 have install-info(1) on your system).
 
      make install-info
@@ -711,14 +698,14 @@ to your `.emacs' file:
 
      (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-   Org mode buffers need font-lock to be turned on - this is the
-default in Emacs(1).
+   Org mode buffers need font-lock to be turned on: this is the default
+in Emacs(1).
 
    There are compatibility issues between Org mode and some other Elisp
 packages, please take the time to check the list (*note Conflicts::).
 
    The four Org commands `org-store-link', `org-capture', `org-agenda',
-and `org-iswitchb' should be accessible through global keys (i.e.
+and `org-iswitchb' should be accessible through global keys (i.e.,
 anywhere in Emacs, not just in Org buffers).  Here are suggested
 bindings for these keys, please modify the keys to your own liking.
      (global-set-key "\C-cl" 'org-store-link)
@@ -1035,7 +1022,7 @@ C-u <TAB>
      Copy the visible text in the region into the kill ring.
 
    When Emacs first visits an Org file, the global state is set to
-OVERVIEW, i.e. only the top level headlines are visible.  This can be
+OVERVIEW, i.e., only the top level headlines are visible.  This can be
 configured through the variable `org-startup-folded', or on a per-file
 basis by adding one of the following lines anywhere in the buffer:
 
@@ -1048,9 +1035,9 @@ Furthermore, any entries with a `VISIBILITY' property (*note Properties
 and Columns::) will get their visibility adapted accordingly.  Allowed
 values for this property are `folded', `children', `content', and `all'.
 `C-u C-u <TAB>'     (`org-set-startup-visibility')
-     Switch back to the startup visibility of the buffer, i.e. whatever
-     is requested by startup options and `VISIBILITY' properties in
-     individual entries.
+     Switch back to the startup visibility of the buffer, i.e.,
+     whatever is requested by startup options and `VISIBILITY'
+     properties in individual entries.
 
    ---------- Footnotes ----------
 
@@ -1117,7 +1104,7 @@ File: org,  Node: Structure editing,  Next: Sparse trees,  Prev: Motion,  Up: Do
      command is used at the beginning of a headline, the new headline
      is created before the current line.  If at the beginning of any
      other line, the content of that line is made the new heading.  If
-     the command is used at the end of a folded subtree (i.e.  behind
+     the command is used at the end of a folded subtree (i.e., behind
      the ellipses at the end of a headline), then a headline like the
      current one will be inserted after the end of the subtree.  
 
@@ -1160,7 +1147,7 @@ File: org,  Node: Structure editing,  Next: Sparse trees,  Prev: Motion,  Up: Do
      Move subtree down (swap with next subtree of same level).  
 
 `C-c C-x C-w'     (`org-cut-subtree')
-     Kill subtree, i.e. remove it from buffer but save in kill ring.
+     Kill subtree, i.e., remove it from buffer but save in kill ring.
      With a numeric prefix argument N, kill N sequential subtrees.  
 
 `C-c C-x M-w'     (`org-copy-subtree')
@@ -1326,7 +1313,7 @@ every exporter (*note Exporting::) can parse and format them.
 
    * _Ordered_ list items start with a numeral followed by either a
      period or a right parenthesis(2), such as `1.' or `1)'(3).  If you
-     want a list to start with a different value (e.g. 20), start the
+     want a list to start with a different value (e.g., 20), start the
      text of the item with `[@20]'(4).  Those constructs can be used in
      any item of the list in order to enforce a particular numbering.
 
@@ -1573,7 +1560,7 @@ File: org,  Node: Footnotes,  Next: Orgstruct mode,  Prev: Blocks,  Up: Document
 Org mode supports the creation of footnotes.  In contrast to the
 `footnote.el' package, Org mode's footnotes are designed for work on a
 larger document, not only for one-off documents like emails.  The basic
-syntax is similar to the one used by `footnote.el', i.e. a footnote is
+syntax is similar to the one used by `footnote.el', i.e., a footnote is
 defined in a paragraph that is started by a footnote marker in square
 brackets in column 0, no indentation allowed.  If you need a paragraph
 break inside a footnote, use the LaTeX idiom `\par'.  The footnote
@@ -1642,7 +1629,7 @@ The following command handles footnotes:
           n   Normalize the footnotes by collecting all definitions (including
               inline definitions) into a special section, and then numbering them
               in sequence.  The references will then also be numbers.  This is
-              meant to be the final step before finishing a document (e.g. sending
+              meant to be the final step before finishing a document (e.g., sending
               off an email).  The exporters do this automatically, and so could
               something like `message-send-hook'.
           d   Delete the footnote at point, and all definitions of and references
@@ -2100,7 +2087,7 @@ like this:
      @ROW$COLUMN
 
    Column specifications can be absolute like `$1', `$2',...`$N', or
-relative to the current column (i.e. the column of the field which is
+relative to the current column (i.e., the column of the field which is
 being computed) like `$+1' or `$-2'.  `$<' and `$>' are immutable
 references to the first and last column, respectively, and you can use
 `$>>>' to indicate the third column from the right.
@@ -2117,7 +2104,7 @@ You can also write `@III+2' which is the second data line after the
 third hline in the table.
 
    `@0' and `$0' refer to the current row and column, respectively,
-i.e. to the row/column for the field being computed.  Also, if you omit
+i.e., to the row/column for the field being computed.  Also, if you omit
 either the column or the row part of the reference, the current
 row/column is implied.
 
@@ -2459,7 +2446,7 @@ following command:
      field with the result of the formula.  The command prompts for a
      formula, with default taken from the `#+TBLFM' line, applies it to
      the current field and stores it.  With a numeric prefix
-     argument(e.g. `C-5 C-c =') the command will apply it to that many
+     argument(e.g., `C-5 C-c =') the command will apply it to that many
      consecutive fields in the current column.
 
 
@@ -2796,7 +2783,7 @@ Plot Options
 
 `with'
      Specify a `with' option to be inserted for every col being plotted
-     (e.g. `lines', `points', `boxes', `impulses', etc...).  Defaults
+     (e.g., `lines', `points', `boxes', `impulses', etc...).  Defaults
      to `lines'.
 
 `file'
@@ -3158,9 +3145,9 @@ it into an Org file, and to follow the link.
 
 `C-c C-x C-v     (`org-toggle-inline-images')'
      Toggle the inline display of linked images.  Normally this will
-     only inline images that have no description part in the link, i.e.
-     images that will also be inlined during export.  When called with
-     a prefix argument, also display images that do have a link
+     only inline images that have no description part in the link,
+     i.e., images that will also be inlined during export.  When called
+     with a prefix argument, also display images that do have a link
      description.  You can ask for inline images to be displayed at
      startup by configuring the variable
      `org-startup-with-inline-images'(6).  
@@ -3189,8 +3176,8 @@ it into an Org file, and to follow the link.
    ---------- Footnotes ----------
 
    (1) If the headline contains a timestamp, it will be removed from
-the link and result in a wrong link - you should avoid putting
-timestamp in the headline.
+the link and result in a wrong link--you should avoid putting timestamp
+in the headline.
 
    (2)  Note that you don't have to use this command to insert a link.
 Links in Org are plain text, and you can type or paste them straight
@@ -3278,7 +3265,7 @@ can define them in the file with
 
 In-buffer completion (*note Completion::) can be used after `[' to
 complete link abbreviations.  You may also define a function
-`org-PREFIX-complete-link' that implements special (e.g. completion)
+`org-PREFIX-complete-link' that implements special (e.g., completion)
 support for inserting such a link with `C-c C-l'.  Such a function
 should not accept any arguments, and return the full link with prefix.
 
@@ -4823,7 +4810,7 @@ allowed values.
      :Approved_ALL: "[ ]" "[X]"
 
 The first column, `%25ITEM', means the first 25 characters of the item
-itself, i.e. of the headline.  You probably always should start the
+itself, i.e., of the headline.  You probably always should start the
 column definition with the `ITEM' specifier.  The other specifiers
 create columns `Owner' with a list of names as allowed values, for
 `Status' with four different possible values, and for a checkbox field
@@ -5233,7 +5220,7 @@ _first_ thing in the input: a plus/minus sign, a number and a letter
 single plus or minus, the date is always relative to today.  With a
 double plus or minus, it is relative to the default date.  If instead of
 a single letter, you use the abbreviation of day name, the date will be
-the Nth such day, e.g.
+the Nth such day, e.g.:
 
      +0            => today
      .             => today
@@ -5256,7 +5243,7 @@ outside of this range, read the docstring of the variable
    You can specify a time range by giving start and end times or by
 giving a start time and a duration (in HH:MM format).  Use one or two
 dash(es) as the separator in the former case and use '+' as the
-separator in the latter case, e.g.
+separator in the latter case, e.g.:
 
      11am-1:15pm    => 11:00-13:15
      11am--1:15pm   => same as above
@@ -5365,7 +5352,7 @@ SCHEDULED
 
      The headline will be listed under the given date(1).  In addition,
      a reminder that the scheduled date has passed will be present in
-     the compilation for _today_, until the entry is marked DONE, i.e.
+     the compilation for _today_, until the entry is marked DONE, i.e.,
      the task will automatically be forwarded until completed.
 
           *** TODO Call Trillian for a date on New Years Eve.
@@ -5444,7 +5431,7 @@ schedule an item:
      Sparse tree for deadlines and scheduled items after a given date.
 
    Note that `org-schedule' and `org-deadline' supports setting the
-date by indicating a relative time: e.g. +1d will set the date to the
+date by indicating a relative time: e.g., +1d will set the date to the
 next day after today, and -1w will set the date to the previous week
 before any current timestamp.
 
@@ -5755,7 +5742,11 @@ selected:
                   thisyear, lastyear, thisyear-N     a relative year
                   Use `S-<left>/<right>' keys to shift the time interval.
      :tstart      A time string specifying when to start considering times.
+                  Relative times like `"<-2w>"' can also be used.  See
+                  *note Matching tags and properties:: for relative time syntax.
      :tend        A time string specifying when to stop considering times.
+                  Relative times like `"<now>"' can also be used.  See
+                  *note Matching tags and properties:: for relative time syntax.
      :step        `week' or `day', to split the table into chunks.
                   To use this, `:block' or `:tstart', `:tend' are needed.
      :stepskip0   Do not show steps that have zero time.
@@ -5796,6 +5787,9 @@ day, you could write
    and to use a specific time range you could write(2)
      #+BEGIN: clocktable :tstart "<2006-08-10 Thu 10:00>"
                          :tend "<2006-08-10 Thu 12:00>"
+     #+END: clocktable
+   A range starting a week ago and ending right now could be written as
+     #+BEGIN: clocktable :tstart "<-1w>" :tend "<now>"
      #+END: clocktable
    A summary of the current subtree with % times would be
      #+BEGIN: clocktable :scope subtree :link t :formula %
@@ -6049,7 +6043,7 @@ fast.
 * Capture::                     Capturing new stuff
 * Attachments::                 Add files to tasks
 * RSS Feeds::                   Getting input from RSS feeds
-* Protocols::                   External (e.g. Browser) access to Emacs and Org
+* Protocols::                   External (e.g., Browser) access to Emacs and Org
 * Refile and copy::             Moving/copying a tree from one place to another
 * Archiving::                   What to do with finished projects
 
@@ -6108,7 +6102,7 @@ File: org,  Node: Using capture,  Next: Capture templates,  Prev: Setting up cap
 
 `C-c c     (`org-capture')'
      Call the command `org-capture'.  Note that this keybinding is
-     global and not active by default - you need to install it.  If you
+     global and not active by default: you need to install it.  If you
      have templates defined *note Capture templates::, it will offer
      these templates for selection or use a new Org outline node as the
      default template.  It will insert the template into the target
@@ -7278,10 +7272,10 @@ written:
      assumed to be date/time specifications in the standard Org way,
      and the comparison will be done accordingly.  Special values that
      will be recognized are `"<now>"' for now (including time), and
-     `"<today>"', and `"<tomorrow>"' for these days at 0:00 hours, i.e.
-     without a time specification.  Also strings like `"<+5d>"' or
-     `"<-2m>"' with units `d', `w', `m', and `y' for day, week, month,
-     and year, respectively, can be used.
+     `"<today>"', and `"<tomorrow>"' for these days at 0:00 hours,
+     i.e., without a time specification.  Also strings like `"<+5d>"'
+     or `"<-2m>"' with units `d', `w', `m', and `y' for day, week,
+     month, and year, respectively, can be used.
 
    - If the comparison value is enclosed in curly braces, a regexp
      match is performed, with `=' meaning that the regexp matches the
@@ -7693,7 +7687,7 @@ Change display
      timespan and file scope covered by the current agenda view.  The
      initial setting for this mode in new agenda buffers can be set
      with the variable `org-agenda-start-with-clockreport-mode'.  By
-     using a prefix argument when toggling this mode (i.e. `C-u R'),
+     using a prefix argument when toggling this mode (i.e., `C-u R'),
      the clock table will not show contributions from entries that are
      hidden by agenda filtering(1).  See also the variable
      `org-clock-report-include-clocking-task'.  
@@ -7833,7 +7827,7 @@ Secondary filtering and query editing
 Remote editing
 ..............
 
-`0-9'
+`0--9'
      Digit argument.  
 
 `C-_     (`org-agenda-undo')'
@@ -8775,7 +8769,7 @@ to the end of the `BEGIN' line, to get the lines of the example
 numbered.  If you use a `+n' switch, the numbering from the previous
 numbered snippet will be continued in the current one.  In literal
 examples, Org will interpret strings like `(ref:name)' as labels, and
-use them as targets for special hyperlinks like `[[(name)]]' (i.e. the
+use them as targets for special hyperlinks like `[[(name)]]' (i.e., the
 reference name enclosed in single parenthesis).  In HTML, hovering the
 mouse over such a link will remote-highlight the corresponding code
 line, which is kind of cool.
@@ -8856,7 +8850,8 @@ During export, you can include the content of another file.  For
 example, to include your `.emacs' file, you could use: 
 
      #+INCLUDE: "~/.emacs" src emacs-lisp
-   The optional second and third parameter are the markup (e.g. `quote',
+
+The optional second and third parameter are the markup (e.g., `quote',
 `example', or `src'), and, if the markup is `src', the language for
 formatting the contents.  The markup is optional; if it is not given,
 the text will be assumed to be in Org mode format and will be processed
@@ -9258,13 +9253,13 @@ separate file which can be included using `#+SETUPFILE'.
      #+AUTHOR:      the author (default taken from `user-full-name')
      #+DATE:        a date, an Org timestamp(1), or a format string for `format-time-string'
      #+EMAIL:       his/her email address (default from `user-mail-address')
-     #+DESCRIPTION: the page description, e.g. for the XHTML meta tag
-     #+KEYWORDS:    the page keywords, e.g. for the XHTML meta tag
-     #+LANGUAGE:    language for HTML, e.g. `en' (`org-export-default-language')
+     #+DESCRIPTION: the page description, e.g., for the XHTML meta tag
+     #+KEYWORDS:    the page keywords, e.g., for the XHTML meta tag
+     #+LANGUAGE:    language for HTML, e.g., `en' (`org-export-default-language')
      #+TEXT:        Some descriptive text to be inserted at the beginning.
      #+TEXT:        Several lines may be given.
      #+OPTIONS:     H:2 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t ...
-     #+BIND:        lisp-var lisp-val, e.g.: `org-export-latex-low-levels itemize'
+     #+BIND:        lisp-var lisp-val, e.g., `org-export-latex-low-levels itemize'
                     You need to confirm using these, or configure `org-export-allow-BIND'
      #+LINK_UP:     the ``up'' link of an exported page
      #+LINK_HOME:   the ``home'' link of an exported page
@@ -9346,13 +9341,13 @@ as document title and the subtrees are exported.
 
 `C-c C-e v     (`org-export-visible')'
      Like `C-c C-e', but only export the text that is currently visible
-     (i.e. not hidden by outline visibility).  
+     (i.e., not hidden by outline visibility).  
 
 `C-u C-u C-c C-e     (`org-export')'
      Call the exporter, but reverse the setting of
-     `org-export-run-in-background', i.e. request background processing
-     if not set, or force processing in the current Emacs process if
-     set.
+     `org-export-run-in-background', i.e., request background
+     processing if not set, or force processing in the current Emacs
+     process if set.
 
    ---------- Footnotes ----------
 
@@ -10253,7 +10248,7 @@ File: org,  Node: Recursive sections,  Next: Tables in DocBook export,  Prev: Qu
 -------------------------
 
 DocBook exporter exports Org files as articles using the `article'
-element in DocBook.  Recursive sections, i.e. `section' elements, are
+element in DocBook.  Recursive sections, i.e., `section' elements, are
 used in exported articles.  Top level headlines in Org files are
 exported as top level sections, and lower level headlines are exported
 as nested sections.  The entire structure of Org files will be exported
@@ -10479,8 +10474,8 @@ directly, or generate the required styles using an application like
 LibreOffice.  The latter method is suitable for expert and non-expert
 users alike, and is described here.
 
-12.8.4.1 Applying custom styles - the easy way
-..............................................
+12.8.4.1 Applying custom styles: the easy way
+.............................................
 
   1. Create a sample `example.org' file with the below settings and
      export it to ODT format.
@@ -10488,8 +10483,8 @@ users alike, and is described here.
           #+OPTIONS: H:10 num:t
 
   2. Open the above `example.odt' using LibreOffice.  Use the `Stylist'
-     to locate the target styles - these typically have the `Org'
-     prefix - and modify those to your taste.  Save the modified file
+     to locate the target styles--these typically have the `Org'
+     prefix--and modify those to your taste.  Save the modified file
      either as an OpenDocument Text (`.odt') or OpenDocument Template
      (`.ott') file.
 
@@ -10542,9 +10537,9 @@ File: org,  Node: Tables in ODT export,  Next: Images in ODT export,  Prev: Link
 ---------------------------
 
 Export of native Org mode tables (*note Tables::) and simple `table.el'
-tables is supported.  However, export of complex `table.el' tables -
-tables that have column or row spans - is not supported.  Such tables
-are stripped from the exported document.
+tables is supported.  However, export of complex `table.el'
+tables--tables that have column or row spans--is not supported.  Such
+tables are stripped from the exported document.
 
    By default, a table is exported with top and bottom frames and with
 rules separating row and column groups (*note Column groups::).
@@ -10661,8 +10656,8 @@ Anchoring of images
 
 You can control the manner in which an image is anchored by setting the
 `:anchor' property of it's `#+ATTR_ODT' line.  You can specify one of
-the the following three values for the `:anchor' property -
-`"as-char"', `"paragraph"' and `"page"'.
+the the following three values for the `:anchor' property: `"as-char"',
+`"paragraph"' and `"page"'.
 
    To create an image that is anchored to a page, do the following:
      #+ATTR_ODT: :anchor "page"
@@ -10771,8 +10766,8 @@ File: org,  Node: Labels and captions in ODT export,  Next: Literal examples in 
 12.8.9 Labels and captions in ODT export
 ----------------------------------------
 
-You can label and caption various category of objects - an inline
-image, a table, a LaTeX fragment or a Math formula - using `#+LABEL' and
+You can label and caption various category of objects--an inline image,
+a table, a LaTeX fragment or a Math formula--using `#+LABEL' and
 `#+CAPTION' lines.  *Note Images and tables::.  ODT exporter enumerates
 each labeled or captioned object of a given category separately.  As a
 result, each such object is assigned a sequence number based on order
@@ -10918,8 +10913,8 @@ by the variable `org-odt-styles-dir'.  The two files are:
           are referenced by the exporter.
 
        2. It contains `<text:sequence-decl>'...`</text:sequence-decl>'
-          elements that control how various entities - tables, images,
-          equations etc - are numbered.
+          elements that control how various entities--tables, images,
+          equations, etc.--are numbered.
 
 Overriding factory styles
 .........................
@@ -11034,8 +11029,8 @@ default formatting of tables *note Tables in ODT export::.
    This feature closely mimics the way table templates are defined in
 the OpenDocument-v1.2 specification.(1)
 
-Custom table styles - an illustration
-.....................................
+Custom table styles: an illustration
+....................................
 
 To have a quick preview of this feature, install the below setting and
 export the table that follows.
@@ -11063,8 +11058,8 @@ Table Template' in `OrgOdtContentTemplate.xml' (*note Factory styles:
 x-orgodtcontenttemplate-xml.).  If you need additional templates you
 have to define these styles yourselves.
 
-Custom table styles - the nitty-gritty
-......................................
+Custom table styles: the nitty-gritty
+.....................................
 
 To use this feature proceed as follows:
 
@@ -11261,10 +11256,10 @@ what task at what time.
 12.9.4 Export of properties
 ---------------------------
 
-The exporter also takes TODO state information into consideration, i.e.
-if a task is marked as done it will have the corresponding attribute in
-TaskJuggler (`complete 100').  Scheduling information is also taken into
-account to set start/end dates for tasks.
+The exporter also takes TODO state information into consideration,
+i.e., if a task is marked as done it will have the corresponding
+attribute in TaskJuggler (`complete 100').  Scheduling information is
+also taken into account to set start/end dates for tasks.
 
    The exporter will also export any property on a task resource or
 resource node which is known to TaskJuggler, such as `limits',
@@ -11314,7 +11309,7 @@ illustrate this:
 12.9.6 Reports
 --------------
 
-TaskJuggler can produce many kinds of reports (e.g. gantt chart,
+TaskJuggler can produce many kinds of reports (e.g., gantt chart,
 resource allocation, etc).  The user defines what kind of reports
 should be generated for a project in the TaskJuggler file.  By default,
 the exporter will automatically insert some pre-set reports in the
@@ -11484,7 +11479,7 @@ list configures one project, and may be in one of the two following
 forms:
 
         ("project-name" :property value :property value ...)
-          i.e. a well-formed property list with alternating keys and values
+          i.e., a well-formed property list with alternating keys and values
      or
         ("project-name" :components ("project-name" "project-name" ...))
 
@@ -11919,7 +11914,7 @@ File: org,  Node: Working With Source Code,  Next: Miscellaneous,  Prev: Publish
 ***************************
 
 Source code can be included in Org mode documents using a `src' block,
-e.g.
+e.g.:
 
      #+BEGIN_SRC emacs-lisp
        (defun org-xor (a b)
@@ -12059,7 +12054,7 @@ File: org,  Node: Exporting code blocks,  Next: Extracting source code,  Prev: E
 It is possible to export the _code_ of code blocks, the _results_ of
 code block evaluation, _both_ the code and the results of code block
 evaluation, or _none_.  For most languages, the default exports code.
-However, for some languages (e.g. `ditaa') the default exports the
+However, for some languages (e.g., `ditaa') the default exports the
 results of code block evaluation.  For information on exporting code
 block bodies, see *note Literal examples::.
 
@@ -12350,8 +12345,8 @@ effect of expanding `:noweb' references by default when evaluating
 source code blocks.
 
      (setq org-babel-default-header-args
-     (cons '(:noweb . "yes")
-     (assq-delete-all :noweb org-babel-default-header-args)))
+           (cons '(:noweb . "yes")
+     	    (assq-delete-all :noweb org-babel-default-header-args)))
 
 
 File: org,  Node: Language-specific header arguments,  Next: Buffer-wide header arguments,  Prev: System-wide header arguments,  Up: Using header arguments
@@ -12401,9 +12396,9 @@ the `:cache' header argument will default to `yes' in all code blocks
 in the subtree rooted at the following heading:
 
      * outline header
-     :PROPERTIES:
-     :cache:    yes
-     :END:
+       :PROPERTIES:
+       :cache:    yes
+       :END:
 
    Properties defined in this way override the properties set in
 `org-babel-default-header-args'.  It is convenient to use the
@@ -12443,6 +12438,7 @@ between the `#+NAME:' line and the `#+BEGIN_SRC' line of a named code
 block.  
 
    Multi-line header arguments on an un-named code block:
+
       #+HEADERS: :var data1=1
       #+BEGIN_SRC emacs-lisp :var data2=2
         (message "data1:%S, data2:%S" data1 data2)
@@ -12452,6 +12448,7 @@ block.
       : data1:1, data2:2
 
    Multi-line header arguments on a named code block:
+
         #+NAME: named-block
         #+HEADER: :var data=2
         #+BEGIN_SRC emacs-lisp
@@ -12474,10 +12471,12 @@ code blocks::.
 
    The following will apply the `:exports results' header argument to
 the evaluation of the `#+CALL:' line.
+
      #+CALL: factorial(n=5) :exports results
 
    The following will apply the `:session special' header argument to
 the evaluation of the `factorial' code block.
+
      #+CALL: factorial[:session special](n=5)
 
 
@@ -12563,6 +12562,7 @@ results of evaluating another code block.
 "table"
      an Org mode table named with either a `#+NAME:' or `#+TBLNAME:'
      line
+
           #+TBLNAME: example-table
           | 1 |
           | 2 |
@@ -12929,7 +12929,7 @@ temporarily has the same effect as changing the current directory with
 `:dir' simply sets the value of the Emacs variable `default-directory'.
 
    When using `:dir', you should supply a relative path for file output
-(e.g. `:file myfile.jpg' or `:file results/myfile.jpg') in which case
+(e.g., `:file myfile.jpg' or `:file results/myfile.jpg') in which case
 that path will be interpreted relative to the default directory.
 
    In other words, if you want your plot to go into a folder called
@@ -13390,7 +13390,7 @@ names may be handled directly in Emacs Lisp.
    * `no' No column name pre-processing takes place
 
    * `yes' Column names are removed and reapplied as with `nil' even if
-     the table does not "look like" it has column names (i.e. the
+     the table does not "look like" it has column names (i.e., the
      second row is not an hline)
 
 
@@ -13431,7 +13431,7 @@ File: org,  Node: shebang,  Next: eval,  Prev: rownames,  Up: Specific header ar
 14.8.2.21 `:shebang'
 ....................
 
-Setting the `:shebang' header argument to a string value (e.g.
+Setting the `:shebang' header argument to a string value (e.g.,
 `:shebang "#!/bin/bash"') causes the string to be inserted as the first
 line of any tangled file holding the code block, and the file
 permissions of the tangled file are set to make it executable.
@@ -13565,6 +13565,7 @@ as an external process.  For example, compare the following two blocks:
      : bye
 
    In non-session mode, the `2' is not printed and does not appear.
+
      #+BEGIN_SRC python :results output :session
       print "hello"
       2
@@ -13779,7 +13780,7 @@ buffer and use the key to complete text right there.
           again will insert example settings for this keyword.
 
         * In the line after `#+STARTUP: ', complete startup keywords,
-          i.e. valid keys for this line.
+          i.e., valid keys for this line.
 
         * Elsewhere, complete dictionary words using Ispell.
 
@@ -13829,7 +13830,7 @@ File: org,  Node: Speed keys,  Next: Code evaluation security,  Prev: Easy Templ
 ===============
 
 Single keys can be made to execute commands when the cursor is at the
-beginning of a headline, i.e. before the first star.  Configure the
+beginning of a headline, i.e., before the first star.  Configure the
 variable `org-use-speed-commands' to activate this feature.  There is a
 pre-defined list of commands, and you can add more such commands using
 the variable `org-speed-commands-user'.  Speed keys do not only speed up
@@ -13882,6 +13883,7 @@ Source code blocks
 
      For example, here is how to execute "ditaa" code (which is
      considered safe) without asking:
+
           (defun my-org-confirm-babel-evaluate (lang body)
             (not (string= lang "ditaa")))  ; don't ask for ditaa
           (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
@@ -13982,7 +13984,7 @@ file is visited again in a new Emacs session.
 `#+SETUPFILE: file'
      This line defines a file that holds more in-buffer setup.
      Normally this is entirely ignored.  Only when the buffer is parsed
-     for option-setting lines (i.e. when starting Org mode for a file,
+     for option-setting lines (i.e., when starting Org mode for a file,
      when pressing `C-c C-c' in a settings line, or when exporting),
      then the contents of this file are parsed as if they had been
      included in the buffer.  In particular, the file can be any other
@@ -14024,23 +14026,27 @@ file is visited again in a new Emacs session.
      Logging the closing and reopening of TODO items and clock
      intervals can be configured using these options (see variables
      `org-log-done', `org-log-note-clock-out' and `org-log-repeat') 
-          logdone            record a timestamp when an item is marked DONE
-          lognotedone        record timestamp and a note when DONE
-          nologdone          don't record when items are marked DONE
-          logrepeat          record a time when reinstating a repeating item
-          lognoterepeat      record a note when reinstating a repeating item
-          nologrepeat        do not record when reinstating repeating item
-          lognoteclock-out   record a note when clocking out
-          nolognoteclock-out don't record a note when clocking out
-          logreschedule      record a timestamp when scheduling time changes
-          lognotereschedule  record a note when scheduling time changes
-          nologreschedule    do not record when a scheduling date changes
-          logredeadline      record a timestamp when deadline changes
-          lognoteredeadline  record a note when deadline changes
-          nologredeadline    do not record when a deadline date changes
-          logrefile          record a timestamp when refiling
-          lognoterefile      record a note when refiling
-          nologrefile        do not record when refiling
+          logdone             record a timestamp when an item is marked DONE
+          lognotedone         record timestamp and a note when DONE
+          nologdone           don't record when items are marked DONE
+          logrepeat           record a time when reinstating a repeating item
+          lognoterepeat       record a note when reinstating a repeating item
+          nologrepeat         do not record when reinstating repeating item
+          lognoteclock-out    record a note when clocking out
+          nolognoteclock-out  don't record a note when clocking out
+          logreschedule       record a timestamp when scheduling time changes
+          lognotereschedule   record a note when scheduling time changes
+          nologreschedule     do not record when a scheduling date changes
+          logredeadline       record a timestamp when deadline changes
+          lognoteredeadline   record a note when deadline changes
+          nologredeadline     do not record when a deadline date changes
+          logrefile           record a timestamp when refiling
+          lognoterefile       record a note when refiling
+          nologrefile         do not record when refiling
+          logdrawer           store log into drawer
+          nologdrawer         store log outside of drawer
+          logstatesreversed   reverse the order of states notes
+          nologstatesreversed do not reverse the order of states notes
      Here are the options for hiding leading stars in outline headings,
      and for indenting outlines.  The corresponding variables are
      `org-hide-leading-stars' and `org-odd-levels-only', both with a
@@ -14184,7 +14190,7 @@ kind of view can be achieved dynamically at display time using
 display with the necessary amount of space(2).  Also headlines are
 prefixed with additional stars, so that the amount of indentation
 shifts by two(3)  spaces per level.  All headline stars but the last
-one are made invisible using the `org-hide' face(4) - see below under
+one are made invisible using the `org-hide' face(4); see below under
 `2.' for more information on how this works.  You can turn on
 `org-indent-mode' for all files by customizing the variable
 `org-startup-indented', or you can turn it on for individual files using
@@ -14461,16 +14467,16 @@ File: org,  Node: Conflicts,  Prev: Cooperation,  Up: Interaction
      following function:
 
           (defun yas/org-very-safe-expand ()
-                 (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+            (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
 
      Then, tell Org mode what to do with the new function:
 
           (add-hook 'org-mode-hook
                     (lambda ()
-                        (make-variable-buffer-local 'yas/trigger-key)
-                        (setq yas/trigger-key [tab])
-                        (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-                        (define-key yas/keymap [tab] 'yas/next-field)))
+          	    (make-variable-buffer-local 'yas/trigger-key)
+          	    (setq yas/trigger-key [tab])
+          	    (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+          	    (define-key yas/keymap [tab] 'yas/next-field)))
 
 `windmove.el' by Hovav Shacham
      This package also uses the `S-<cursor>' keys, so everything written
@@ -14669,7 +14675,7 @@ the `:type' and `:link' properties.  Optionally you can also set the
 when the link is later inserted into an Org buffer with `C-c C-l'.
 
    When it makes sense for your new link type, you may also define a
-function `org-PREFIX-complete-link' that implements special (e.g.
+function `org-PREFIX-complete-link' that implements special (e.g.,
 completion) support for inserting such a link with `C-c C-l'.  Such a
 function should not accept any arguments, and return the full link with
 prefix.
@@ -14849,7 +14855,7 @@ table inserted between the two marker lines.
    Now let's assume you want to make the table header by hand, because
 you want to control how columns are aligned, etc.  In this case we make
 sure that the table translator skips the first 2 lines of the source
-table, and tell the command to work as a splice, i.e. to not produce
+table, and tell the command to work as a splice, i.e., to not produce
 header and footer commands of the target table:
 
      \begin{tabular}{lrrr}
@@ -14938,7 +14944,7 @@ processing over to the generic translator.  Here is the entire code:
 
    As you can see, the properties passed into the function (variable
 PARAMS) are combined with the ones newly defined in the function
-(variable PARAMS2).  The ones passed into the function (i.e. the ones
+(variable PARAMS2).  The ones passed into the function (i.e., the ones
 set by the `ORGTBL SEND' line) take precedence.  So if you would like
 to use the LaTeX translator, but wanted the line endings to be
 `\\[2mm]' instead of the default `\\', you could just overrule the
@@ -15062,9 +15068,9 @@ block that keeps track of when the block update function was last run:
 The corresponding block writer function could look like this:
 
      (defun org-dblock-write:block-update-time (params)
-        (let ((fmt (or (plist-get params :format) "%d. %m. %Y")))
-          (insert "Last block update at: "
-                  (format-time-string fmt (current-time)))))
+       (let ((fmt (or (plist-get params :format) "%d. %m. %Y")))
+         (insert "Last block update at: "
+     	    (format-time-string fmt (current-time)))))
 
    If you want to make sure that all dynamic blocks are always
 up-to-date, you could add the function `org-update-all-dblocks' to a
@@ -15365,7 +15371,7 @@ entry point for this API is:
      cursor will be moved to the end of the line (presumably of the
      headline of the processed entry) and search continues from there.
      Under some circumstances, this may not produce the wanted results.
-     For example, if you have removed (e.g. archived) the current
+     For example, if you have removed (e.g., archived) the current
      (sub)tree it could mean that the next entry will be skipped
      entirely.  In such cases, you can specify the position from where
      search should continue by making FUNC set the variable
@@ -15431,8 +15437,8 @@ file with a tag `TOMORROW' into TODO entries with the keyword
 ignored.
 
      (org-map-entries
-        '(org-todo "UPCOMING")
-        "+TOMORROW" 'file 'archive 'comment)
+      '(org-todo "UPCOMING")
+      "+TOMORROW" 'file 'archive 'comment)
 
    The following example counts the number of entries with TODO keyword
 `WAITING', in all agenda files.
@@ -15599,7 +15605,7 @@ you later use `C-c a ?' to regenerate the view, only the current agenda
 files will be searched.
 
 
-File: org,  Node: History and Acknowledgments,  Next: Main Index,  Prev: MobileOrg,  Up: Top
+File: org,  Node: History and Acknowledgments,  Next: GNU Free Documentation License,  Prev: MobileOrg,  Up: Top
 
 付録 C History and acknowledgments
 ************************************
@@ -15695,7 +15701,7 @@ Nicolas Goaziou
      outstanding, and opened the doors for many new ideas and features.
 
 Jambunathan K
-     Jambunathan contributed the ODT exporter, definitly a killer
+     Jambunathan contributed the ODT exporter, definitely a killer
      feature of Org mode.  He also contributed the new HTML exporter,
      which is another core feature of Org.  Here too, I knew I could
      rely on him to fix bugs in these areas and to patiently explain
@@ -15704,8 +15710,8 @@ Jambunathan K
 Achim Gratz
      Achim rewrote the building process of Org, turning some _ad hoc_
      tools into a flexible and conceptually clean process.  He
-     patiently coped with the many hicups that such a change can create
-     for users.
+     patiently coped with the many hiccups that such a change can
+     create for users.
 
 Nick Dokos
      The Org mode mailing list would not be such a nice place without
@@ -15714,8 +15720,8 @@ Nick Dokos
      active without him.
 
    I received support from so many users that it is clearly impossible
-to be fair when shortlisting a few of them - but Org's history would
-not be complete if the ones above were not mentioned in this manual.
+to be fair when shortlisting a few of them, but Org's history would not
+be complete if the ones above were not mentioned in this manual.
 
 C.3 List of contributions
 =========================
@@ -15948,7 +15954,493 @@ C.3 List of contributions
      contributed various ideas and code snippets.
 
 
-File: org,  Node: Main Index,  Next: Key Index,  Prev: History and Acknowledgments,  Up: Top
+File: org,  Node: GNU Free Documentation License,  Next: Main Index,  Prev: History and Acknowledgments,  Up: Top
+
+付録 D GNU Free Documentation License
+***************************************
+
+                     Version 1.3, 3 November 2008
+
+     Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     `http://fsf.org/'
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly
+     and finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from
+     you under this License.  If your rights have been terminated and
+     not permanently reinstated, receipt of a copy of some or all of
+     the same material does not give you any rights to use it.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.  If the Document specifies that a proxy
+     can decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
+
+ 11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.3
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+
+File: org,  Node: Main Index,  Next: Key Index,  Prev: GNU Free Documentation License,  Up: Top
 
 Concept index
 *************
@@ -16220,8 +16712,8 @@ Concept index
 * completion, of TODO keywords:          Workflow states.     (line  15)
 * constants, in calculations:            References.          (line 102)
 * constants.el:                          Cooperation.         (line  17)
-* constcgs, STARTUP keyword:             In-buffer settings.  (line 140)
-* constSI, STARTUP keyword:              In-buffer settings.  (line 140)
+* constcgs, STARTUP keyword:             In-buffer settings.  (line 144)
+* constSI, STARTUP keyword:              In-buffer settings.  (line 144)
 * content, STARTUP keyword <1>:          In-buffer settings.  (line  80)
 * content, STARTUP keyword:              Visibility cycling.  (line  62)
 * contents, global visibility state:     Visibility cycling.  (line  22)
@@ -16244,7 +16736,7 @@ Concept index
 * custom date/time format:               Custom time format.  (line   6)
 * custom search strings:                 Custom searches.     (line   6)
 * customization:                         Customization.       (line   6)
-* customtime, STARTUP keyword:           In-buffer settings.  (line 137)
+* customtime, STARTUP keyword:           In-buffer settings.  (line 141)
 * cutting, of subtrees:                  Structure editing.   (line   6)
 * cycling, in plain lists:               Plain lists.         (line  69)
 * cycling, of agenda files:              Agenda files.        (line  22)
@@ -16308,10 +16800,10 @@ Concept index
 * embedding images in ODT:               Images in ODT export.
                                                               (line   6)
 * emphasized text:                       Export options.      (line  39)
-* entitiesplain, STARTUP keyword:        In-buffer settings.  (line 160)
-* entitiespretty, STARTUP keyword:       In-buffer settings.  (line 160)
+* entitiesplain, STARTUP keyword:        In-buffer settings.  (line 164)
+* entitiespretty, STARTUP keyword:       In-buffer settings.  (line 164)
 * evaluate time range:                   Creating timestamps. (line  62)
-* even, STARTUP keyword:                 In-buffer settings.  (line 128)
+* even, STARTUP keyword:                 In-buffer settings.  (line 132)
 * export, OpenDocument:                  OpenDocument Text export.
                                                               (line   6)
 * export, selective by tags or TODO keyword: Selective export.
@@ -16344,13 +16836,13 @@ Concept index
 * filtering, by tag category and effort, in agenda: Agenda commands.
                                                               (line 194)
 * fixed-width sections:                  Export options.      (line  39)
-* fnadjust, STARTUP keyword:             In-buffer settings.  (line 145)
-* fnauto, STARTUP keyword:               In-buffer settings.  (line 145)
-* fnconfirm, STARTUP keyword:            In-buffer settings.  (line 145)
-* fninline, STARTUP keyword:             In-buffer settings.  (line 145)
-* fnlocal, STARTUP keyword:              In-buffer settings.  (line 145)
-* fnplain, STARTUP keyword:              In-buffer settings.  (line 145)
-* fnprompt, STARTUP keyword:             In-buffer settings.  (line 145)
+* fnadjust, STARTUP keyword:             In-buffer settings.  (line 149)
+* fnauto, STARTUP keyword:               In-buffer settings.  (line 149)
+* fnconfirm, STARTUP keyword:            In-buffer settings.  (line 149)
+* fninline, STARTUP keyword:             In-buffer settings.  (line 149)
+* fnlocal, STARTUP keyword:              In-buffer settings.  (line 149)
+* fnplain, STARTUP keyword:              In-buffer settings.  (line 149)
+* fnprompt, STARTUP keyword:             In-buffer settings.  (line 149)
 * folded, subtree visibility state:      Visibility cycling.  (line  10)
 * folding, sparse trees:                 Sparse trees.        (line   6)
 * following links:                       Handling links.      (line 101)
@@ -16406,9 +16898,9 @@ Concept index
 * headline, promotion and demotion:      Structure editing.   (line   6)
 * headlines:                             Headlines.           (line   6)
 * hide text:                             Visibility cycling.  (line   6)
-* hideblocks, STARTUP keyword <1>:       In-buffer settings.  (line 156)
+* hideblocks, STARTUP keyword <1>:       In-buffer settings.  (line 160)
 * hideblocks, STARTUP keyword:           Blocks.              (line  13)
-* hidestars, STARTUP keyword:            In-buffer settings.  (line 128)
+* hidestars, STARTUP keyword:            In-buffer settings.  (line 132)
 * hiding leading stars:                  Clean view.          (line   6)
 * history:                               History and Acknowledgments.
                                                               (line   6)
@@ -16519,6 +17011,7 @@ Concept index
 * lists, plain:                          Plain lists.         (line   6)
 * literal examples, markup rules:        Literal examples.    (line   6)
 * logdone, STARTUP keyword:              In-buffer settings.  (line 107)
+* logdrawer, STARTUP keyword:            In-buffer settings.  (line 107)
 * logging, of progress:                  Progress logging.    (line   6)
 * lognoteclock-out, STARTUP keyword:     In-buffer settings.  (line 107)
 * lognotedone, STARTUP keyword:          In-buffer settings.  (line 107)
@@ -16530,6 +17023,7 @@ Concept index
 * logrefile, STARTUP keyword:            In-buffer settings.  (line 107)
 * logrepeat, STARTUP keyword:            In-buffer settings.  (line 107)
 * logreschedule, STARTUP keyword:        In-buffer settings.  (line 107)
+* logstatesreversed, STARTUP keyword:    In-buffer settings.  (line 107)
 * lookup functions in tables:            Lookup functions.    (line   6)
 * Ludlam, Eric M.:                       Cooperation.         (line  45)
 * macro replacement, during export:      Macro replacement.   (line   6)
@@ -16565,21 +17059,23 @@ Concept index
 * narrow columns in tables:              Column width and alignment.
                                                               (line   6)
 * noalign, STARTUP keyword:              In-buffer settings.  (line  94)
-* nofnadjust, STARTUP keyword:           In-buffer settings.  (line 145)
-* nofninline, STARTUP keyword:           In-buffer settings.  (line 145)
-* nohideblocks, STARTUP keyword <1>:     In-buffer settings.  (line 156)
+* nofnadjust, STARTUP keyword:           In-buffer settings.  (line 149)
+* nofninline, STARTUP keyword:           In-buffer settings.  (line 149)
+* nohideblocks, STARTUP keyword <1>:     In-buffer settings.  (line 160)
 * nohideblocks, STARTUP keyword:         Blocks.              (line  13)
 * noindent, STARTUP keyword:             In-buffer settings.  (line  86)
 * noinlineimages, STARTUP keyword <1>:   In-buffer settings.  (line 101)
 * noinlineimages, STARTUP keyword:       Handling links.      (line 136)
 * nologdone, STARTUP keyword:            In-buffer settings.  (line 107)
+* nologdrawer, STARTUP keyword:          In-buffer settings.  (line 107)
 * nolognoteclock-out, STARTUP keyword:   In-buffer settings.  (line 107)
 * nologredeadline, STARTUP keyword:      In-buffer settings.  (line 107)
 * nologrefile, STARTUP keyword:          In-buffer settings.  (line 107)
 * nologrepeat, STARTUP keyword:          In-buffer settings.  (line 107)
 * nologreschedule, STARTUP keyword:      In-buffer settings.  (line 107)
+* nologstatesreversed, STARTUP keyword:  In-buffer settings.  (line 107)
 * occur, command:                        Sparse trees.        (line   6)
-* odd, STARTUP keyword:                  In-buffer settings.  (line 128)
+* odd, STARTUP keyword:                  In-buffer settings.  (line 132)
 * odd-levels-only outlines:              Clean view.          (line   6)
 * ODT:                                   OpenDocument Text export.
                                                               (line   6)
@@ -16597,7 +17093,7 @@ Concept index
 * org-crypt.el:                          org-crypt.el.        (line   6)
 * org-decrypt-entry:                     org-crypt.el.        (line   6)
 * org-export-with-tasks:                 Selective export.    (line   6)
-* org-hide-block-startup:                In-buffer settings.  (line 155)
+* org-hide-block-startup:                In-buffer settings.  (line 159)
 * org-insert-drawer <1>:                 Property syntax.     (line  85)
 * org-insert-drawer:                     Drawers.             (line   6)
 * org-list-insert-radio-list:            Radio lists.         (line   6)
@@ -16605,7 +17101,7 @@ Concept index
                                                               (line   6)
 * org-odt.el:                            OpenDocument Text export.
                                                               (line   6)
-* org-pretty-entities:                   In-buffer settings.  (line 159)
+* org-pretty-entities:                   In-buffer settings.  (line 163)
 * org-publish-project-alist:             Project alist.       (line   6)
 * Orgstruct mode:                        Orgstruct mode.      (line   6)
 * Orgtbl mode <1>:                       Tables in arbitrary syntax.
@@ -16797,7 +17293,7 @@ Concept index
 * showall, STARTUP keyword:              Visibility cycling.  (line  62)
 * showeverything, STARTUP keyword <1>:   In-buffer settings.  (line  80)
 * showeverything, STARTUP keyword:       Visibility cycling.  (line  62)
-* showstars, STARTUP keyword:            In-buffer settings.  (line 128)
+* showstars, STARTUP keyword:            In-buffer settings.  (line 132)
 * sitemap, of published pages:           Sitemap.             (line   6)
 * sorting, of agenda items:              Sorting of agenda items.
                                                               (line   6)
@@ -17081,7 +17577,7 @@ Key index
 * C-c &:                                 Handling links.      (line 146)
 * C-c ' <1>:                             Cooperation.         (line  61)
 * C-c ' <2>:                             Editing source code. (line   6)
-* C-c ' <3>:                             Include files.       (line  31)
+* C-c ' <3>:                             Include files.       (line  32)
 * C-c ' <4>:                             Literal examples.    (line  70)
 * C-c ':                                 Editing and debugging formulas.
                                                               (line  36)
@@ -18193,7 +18689,7 @@ org-customize <RET>' and then click yourself through the tree.
 * Menu:
 
 * cdlatex-simplify-sub-super-scripts:    CDLaTeX mode.        (line  32)
-* constants-unit-system <1>:             In-buffer settings.  (line 139)
+* constants-unit-system <1>:             In-buffer settings.  (line 143)
 * constants-unit-system:                 References.          (line 109)
 * htmlize-output-type:                   Exporting Agenda Views.
                                                               (line  20)
@@ -18304,9 +18800,9 @@ org-customize <RET>' and then click yourself through the tree.
 * org-confirm-babel-evaluate:            Code evaluation security.
                                                               (line  34)
 * org-confirm-elisp-link-function:       Code evaluation security.
-                                                              (line  55)
+                                                              (line  56)
 * org-confirm-shell-link-function:       Code evaluation security.
-                                                              (line  52)
+                                                              (line  53)
 * org-create-file-search-functions:      Custom searches.     (line  12)
 * org-ctrl-c-ctrl-c-hook:                Context-sensitive commands.
                                                               (line   6)
@@ -18491,11 +18987,11 @@ org-customize <RET>' and then click yourself through the tree.
 * org-fast-tag-selection-single-key:     Setting tags.        (line 144)
 * org-file-apps <1>:                     Attachments.         (line  49)
 * org-file-apps:                         Handling links.      (line 104)
-* org-footnote-auto-adjust <1>:          In-buffer settings.  (line 143)
+* org-footnote-auto-adjust <1>:          In-buffer settings.  (line 147)
 * org-footnote-auto-adjust:              Footnotes.           (line  58)
-* org-footnote-auto-label <1>:           In-buffer settings.  (line 143)
+* org-footnote-auto-label <1>:           In-buffer settings.  (line 147)
 * org-footnote-auto-label:               Footnotes.           (line  44)
-* org-footnote-define-inline <1>:        In-buffer settings.  (line 143)
+* org-footnote-define-inline <1>:        In-buffer settings.  (line 147)
 * org-footnote-define-inline:            Footnotes.           (line  58)
 * org-footnote-section:                  Footnotes.           (line  58)
 * org-format-latex-header:               LaTeX fragments.     (line   6)
@@ -18510,7 +19006,7 @@ org-customize <RET>' and then click yourself through the tree.
 * org-hide (face):                       Clean view.          (line  66)
 * org-hide-block-startup:                Blocks.              (line   6)
 * org-hide-leading-stars <1>:            Clean view.          (line  50)
-* org-hide-leading-stars:                In-buffer settings.  (line 125)
+* org-hide-leading-stars:                In-buffer settings.  (line 129)
 * org-hierarchical-checkbox-statistics:  Checkboxes.          (line  30)
 * org-hierarchical-todo-statistics:      Breaking down tasks. (line  25)
 * org-highest-priority <1>:              In-buffer settings.  (line  54)
@@ -18563,7 +19059,7 @@ org-customize <RET>' and then click yourself through the tree.
 * org-odd-levels-only <1>:               Special agenda views.
                                                               (line  48)
 * org-odd-levels-only <2>:               Clean view.          (line  74)
-* org-odd-levels-only <3>:               In-buffer settings.  (line 125)
+* org-odd-levels-only <3>:               In-buffer settings.  (line 129)
 * org-odd-levels-only:                   Matching tags and properties.
                                                               (line  59)
 * org-outline-path-complete-in-steps:    Refile and copy.     (line  17)
@@ -18579,7 +19075,7 @@ org-customize <RET>' and then click yourself through the tree.
 * org-publish-project-alist:             Project alist.       (line   6)
 * org-publish-use-timestamps-flag:       Triggering publication.
                                                               (line  21)
-* org-put-time-stamp-overlays:           In-buffer settings.  (line 135)
+* org-put-time-stamp-overlays:           In-buffer settings.  (line 139)
 * org-read-date-display-live:            The date/time prompt.
                                                               (line  89)
 * org-read-date-force-compatible-dates:  The date/time prompt.
@@ -18632,7 +19128,7 @@ org-customize <RET>' and then click yourself through the tree.
 * org-table-use-standard-references <1>: Editing and debugging formulas.
                                                               (line   6)
 * org-table-use-standard-references:     References.          (line  17)
-* org-tag-alist <1>:                     In-buffer settings.  (line 165)
+* org-tag-alist <1>:                     In-buffer settings.  (line 169)
 * org-tag-alist:                         Setting tags.        (line  23)
 * org-tag-faces:                         Tags.                (line  10)
 * org-tag-persistent-alist:              Setting tags.        (line  38)
@@ -18644,13 +19140,13 @@ org-customize <RET>' and then click yourself through the tree.
 * org-tags-match-list-sublevels <3>:     Tag searches.        (line  19)
 * org-tags-match-list-sublevels:         Tag inheritance.     (line  26)
 * org-time-stamp-custom-formats:         Custom time format.  (line   6)
-* org-time-stamp-overlay-formats:        In-buffer settings.  (line 135)
+* org-time-stamp-overlay-formats:        In-buffer settings.  (line 139)
 * org-time-stamp-rounding-minutes:       Creating timestamps. (line  23)
 * org-todo (face):                       Faces for TODO keywords.
                                                               (line   6)
 * org-todo-keyword-faces:                Faces for TODO keywords.
                                                               (line   6)
-* org-todo-keywords <1>:                 In-buffer settings.  (line 182)
+* org-todo-keywords <1>:                 In-buffer settings.  (line 186)
 * org-todo-keywords <2>:                 Global TODO list.    (line  18)
 * org-todo-keywords <3>:                 TODO extensions.     (line   6)
 * org-todo-keywords:                     TODO basics.         (line  36)
@@ -18689,485 +19185,485 @@ org-customize <RET>' and then click yourself through the tree.
 
 
 Tag Table:
-Node: Top1286
-Node: Introduction23554
-Node: Summary24023
-Node: Installation27078
-Ref: Installation-Footnote-131403
-Node: Activation31747
-Ref: Activation-Footnote-133577
-Node: Feedback33699
-Ref: Feedback-Footnote-137300
-Node: Conventions37427
-Ref: Conventions-Footnote-139437
-Node: Document Structure39529
-Node: Outlines40453
-Node: Headlines41109
-Ref: Headlines-Footnote-142113
-Ref: Headlines-Footnote-242289
-Node: Visibility cycling42360
-Ref: Visibility cycling-Footnote-145672
-Ref: Visibility cycling-Footnote-245730
-Ref: Visibility cycling-Footnote-345780
-Node: Motion46050
-Node: Structure editing47387
-Ref: Structure editing-Footnote-153674
-Node: Sparse trees53774
-Ref: Sparse trees-Footnote-156281
-Ref: Sparse trees-Footnote-256487
-Ref: Sparse trees-Footnote-356558
-Node: Plain lists56673
-Ref: Plain lists-Footnote-164038
-Ref: Plain lists-Footnote-264392
-Ref: Plain lists-Footnote-364488
-Ref: Plain lists-Footnote-464730
-Ref: Plain lists-Footnote-564901
-Ref: Plain lists-Footnote-664959
-Ref: Plain lists-Footnote-765135
-Ref: Plain lists-Footnote-865235
-Ref: Plain lists-Footnote-965337
-Node: Drawers65404
-Ref: Drawers-Footnote-167004
-Node: Blocks67109
-Node: Footnotes67670
-Ref: Footnotes-Footnote-172243
-Ref: Footnotes-Footnote-272340
-Node: Orgstruct mode72417
-Node: Tables73535
-Node: Built-in table editor74176
-Ref: Built-in table editor-Footnote-183658
-Node: Column width and alignment83758
-Ref: Column width and alignment-Footnote-186318
-Ref: Column width and alignment-Footnote-286364
-Node: Column groups86461
-Node: Orgtbl mode88005
-Node: The spreadsheet88810
-Node: References90270
-Ref: References-Footnote-196406
-Ref: References-Footnote-296630
-Ref: References-Footnote-396899
-Ref: References-Footnote-497002
-Node: Formula syntax for Calc97292
-Ref: Formula syntax for Calc-Footnote-1100406
-Node: Formula syntax for Lisp100730
-Node: Durations and time values102473
-Node: Field and range formulas103554
-Node: Column formulas105965
-Node: Lookup functions108053
-Node: Editing and debugging formulas109975
-Node: Updating the table114654
-Node: Advanced features116002
-Ref: Advanced features-Footnote-1120481
-Node: Org-Plot120587
-Node: Hyperlinks123449
-Node: Link format124206
-Node: Internal links125484
-Ref: Internal links-Footnote-1127298
-Ref: Internal links-Footnote-2127484
-Node: Radio targets127724
-Node: External links128414
-Ref: External links-Footnote-1132220
-Node: Handling links132610
-Ref: Handling links-Footnote-1140511
-Ref: Handling links-Footnote-2140671
-Ref: Handling links-Footnote-3140967
-Ref: Handling links-Footnote-4141213
-Ref: Handling links-Footnote-5141290
-Ref: Handling links-Footnote-6141364
-Node: Using links outside Org141446
-Node: Link abbreviations141931
-Node: Search options144610
-Ref: Search options-Footnote-1146491
-Node: Custom searches146572
-Node: TODO Items147582
-Ref: TODO Items-Footnote-1148690
-Node: TODO basics148804
-Node: TODO extensions151407
-Node: Workflow states152437
-Ref: Workflow states-Footnote-1153762
-Node: TODO types153855
-Ref: TODO types-Footnote-1155453
-Node: Multiple sets in one file155535
-Node: Fast access to TODO states157400
-Ref: Fast access to TODO states-Footnote-1158273
-Ref: Fast access to TODO states-Footnote-2158357
-Node: Per-file keywords158651
-Ref: Per-file keywords-Footnote-1160047
-Node: Faces for TODO keywords160248
-Node: TODO dependencies161293
-Node: Progress logging163464
-Node: Closing items164176
-Ref: Closing items-Footnote-1165225
-Ref: Closing items-Footnote-2165294
-Node: Tracking TODO state changes165367
-Ref: Tracking TODO state changes-Footnote-1168414
-Ref: Tracking TODO state changes-Footnote-2168471
-Ref: Tracking TODO state changes-Footnote-3168611
-Node: Tracking your habits168899
-Node: Priorities173149
-Ref: Priorities-Footnote-1175154
-Node: Breaking down tasks175223
-Ref: Breaking down tasks-Footnote-1177215
-Node: Checkboxes177311
-Ref: Checkboxes-Footnote-1181852
-Ref: Checkboxes-Footnote-2181976
-Ref: Checkboxes-Footnote-3182152
-Node: Tags182266
-Node: Tag inheritance183265
-Ref: Tag inheritance-Footnote-1184637
-Ref: Tag inheritance-Footnote-2184737
-Node: Setting tags184863
-Ref: Setting tags-Footnote-1191186
-Node: Tag searches191269
-Node: Properties and Columns192502
-Node: Property syntax193938
-Node: Special properties198032
-Node: Property searches199866
-Node: Property inheritance201298
-Node: Column view203114
-Node: Defining columns204349
-Node: Scope of column definitions204747
-Node: Column attributes205677
-Ref: Column attributes-Footnote-1210371
-Node: Using column view210504
-Node: Capturing column view213366
-Ref: Capturing column view-Footnote-1216358
-Node: Property API216494
-Node: Dates and Times216848
-Node: Timestamps217827
-Ref: Timestamps-Footnote-1220268
-Ref: Timestamps-Footnote-2220454
-Ref: Timestamps-Footnote-3220585
-Node: Creating timestamps221354
-Node: The date/time prompt224178
-Ref: The date/time prompt-Footnote-1228659
-Ref: The date/time prompt-Footnote-2228822
-Ref: The date/time prompt-Footnote-3228928
-Node: Custom time format229021
-Node: Deadlines and scheduling230745
-Ref: Deadlines and scheduling-Footnote-1233436
-Node: Inserting deadline/schedule233591
-Ref: Inserting deadline/schedule-Footnote-1235902
-Ref: Inserting deadline/schedule-Footnote-2236054
-Ref: Inserting deadline/schedule-Footnote-3236162
-Node: Repeated tasks236270
-Ref: Repeated tasks-Footnote-1239720
-Ref: Repeated tasks-Footnote-2239969
-Node: Clocking work time240168
-Ref: Clocking work time-Footnote-1241353
-Ref: Clocking work time-Footnote-2241497
-Node: Clocking commands241635
-Ref: Clocking commands-Footnote-1246608
-Ref: Clocking commands-Footnote-2246715
-Ref: Clocking commands-Footnote-3246765
-Ref: Clocking commands-Footnote-4246823
-Node: The clock table246901
-Ref: The clock table-Footnote-1253510
-Ref: The clock table-Footnote-2253604
-Node: Resolving idle time253729
-Ref: Resolving idle time-Footnote-1257576
-Node: Effort estimates257922
-Ref: Effort estimates-Footnote-1260686
-Ref: Effort estimates-Footnote-2260774
-Node: Relative timer260881
-Node: Countdown timer262728
-Node: Capture - Refile - Archive263220
-Node: Capture264209
-Node: Setting up capture265543
-Ref: Setting up capture-Footnote-1265968
-Node: Using capture266034
-Node: Capture templates268442
-Node: Template elements270403
-Node: Template expansion276025
-Ref: Template expansion-Footnote-1280015
-Ref: Template expansion-Footnote-2280102
-Ref: Template expansion-Footnote-3280284
-Node: Templates in contexts280382
-Node: Attachments281202
-Ref: Attachments-Footnote-1284584
-Node: RSS Feeds284734
-Node: Protocols286324
-Node: Refile and copy287039
-Ref: Refile and copy-Footnote-1289269
-Node: Archiving289365
-Node: Moving subtrees290065
-Ref: Moving subtrees-Footnote-1291922
-Node: Internal archiving292366
-Node: Agenda Views294996
-Node: Agenda files297187
-Ref: Agenda files-Footnote-1300006
-Ref: Agenda files-Footnote-2300155
-Node: Agenda dispatcher300348
-Ref: Agenda dispatcher-Footnote-1303162
-Ref: Agenda dispatcher-Footnote-2303256
-Node: Built-in agenda views303358
-Node: Weekly/daily agenda304007
-Ref: Weekly/daily agenda-Footnote-1309062
-Ref: Weekly/daily agenda-Footnote-2309289
-Node: Global TODO list309464
-Node: Matching tags and properties311992
-Ref: Matching tags and properties-Footnote-1318729
-Node: Timeline318809
-Node: Search view319501
-Node: Stuck projects320794
-Ref: Stuck projects-Footnote-1322854
-Node: Presentation and sorting322884
-Node: Categories323774
-Ref: Categories-Footnote-1324575
-Node: Time-of-day specifications325012
-Node: Sorting of agenda items326984
-Node: Agenda commands328522
-Ref: Agenda commands-Footnote-1352021
-Ref: Agenda commands-Footnote-2352102
-Ref: Agenda commands-Footnote-3352517
-Ref: Agenda commands-Footnote-4352616
-Node: Custom agenda views352699
-Node: Storing searches353340
-Ref: Storing searches-Footnote-1355879
-Node: Block agenda355996
-Node: Setting Options357234
-Node: Exporting Agenda Views360866
-Ref: Exporting Agenda Views-Footnote-1365767
-Ref: Exporting Agenda Views-Footnote-2365825
-Ref: Exporting Agenda Views-Footnote-3365981
-Ref: Exporting Agenda Views-Footnote-4366168
-Node: Agenda column view366250
-Node: Markup369324
-Node: Structural markup elements370294
-Node: Document title371027
-Node: Headings and sections371789
-Node: Table of contents372459
-Node: Initial text373222
-Node: Lists374338
-Node: Paragraphs374622
-Node: Footnote markup375772
-Node: Emphasis and monospace376108
-Node: Horizontal rules376508
-Node: Comment lines376805
-Node: Images and tables377313
-Node: Literal examples378917
-Ref: Literal examples-Footnote-1382795
-Ref: Literal examples-Footnote-2383131
-Ref: Literal examples-Footnote-3383303
-Ref: Literal examples-Footnote-4383482
-Ref: Literal examples-Footnote-5383732
-Node: Include files383826
-Node: Index entries385344
-Node: Macro replacement385806
-Node: Embedded LaTeX386636
-Ref: Embedded LaTeX-Footnote-1387576
-Node: Special symbols387766
-Ref: Special symbols-Footnote-1389378
-Node: Subscripts and superscripts389533
-Node: LaTeX fragments390787
-Ref: LaTeX fragments-Footnote-1393426
-Ref: LaTeX fragments-Footnote-2393599
-Ref: LaTeX fragments-Footnote-3393968
-Node: Previewing LaTeX fragments394145
-Node: CDLaTeX mode395155
-Ref: CDLaTeX mode-Footnote-1397642
-Node: Exporting397790
-Node: Selective export399724
-Node: Export options400834
-Ref: Export options-Footnote-1405577
-Ref: Export options-Footnote-2405665
-Node: The export dispatcher405760
-Ref: The export dispatcher-Footnote-1407066
-Node: ASCII/Latin-1/UTF-8 export407164
-Ref: ASCII/Latin-1/UTF-8 export-Footnote-1409573
-Ref: ASCII/Latin-1/UTF-8 export-Footnote-2409631
-Node: HTML export409683
-Node: HTML Export commands410706
-Ref: HTML Export commands-Footnote-1412661
-Ref: HTML Export commands-Footnote-2412719
-Node: HTML preamble and postamble412771
-Node: Quoting HTML tags414110
-Node: Links in HTML export414768
-Node: Tables in HTML export415902
-Node: Images in HTML export416450
-Ref: Images in HTML export-Footnote-1417743
-Node: Math formatting in HTML export417805
-Ref: Math formatting in HTML export-Footnote-1419241
-Node: Text areas in HTML export419376
-Node: CSS support420220
-Ref: CSS support-Footnote-1423112
-Ref: CSS support-Footnote-2423298
-Node: JavaScript support423498
-Node: LaTeX and PDF export427117
-Ref: LaTeX and PDF export-Footnote-1428087
-Node: LaTeX/PDF export commands428353
-Ref: LaTeX/PDF export commands-Footnote-1430264
-Ref: LaTeX/PDF export commands-Footnote-2430322
-Node: Header and sectioning430374
-Ref: Header and sectioning-Footnote-1431718
-Node: Quoting LaTeX code431844
-Node: Tables in LaTeX export432479
-Node: Images in LaTeX export433517
-Ref: Images in LaTeX export-Footnote-1435649
-Node: Beamer class export435869
-Node: DocBook export441569
-Node: DocBook export commands442443
-Ref: DocBook export commands-Footnote-1444003
-Ref: DocBook export commands-Footnote-2444063
-Node: Quoting DocBook code444115
-Node: Recursive sections445164
-Node: Tables in DocBook export445892
-Node: Images in DocBook export446357
-Node: Special characters448291
-Node: OpenDocument Text export449332
-Ref: OpenDocument Text export-Footnote-1450503
-Ref: OpenDocument Text export-Footnote-2450533
-Node: Pre-requisites for ODT export450677
-Node: ODT export commands451036
-Ref: x-export-to-odt451265
-Ref: ODT export commands-Footnote-1452305
-Ref: ODT export commands-Footnote-2452365
-Node: Extending ODT export452416
-Ref: x-export-to-other-formats453417
-Ref: x-convert-to-other-formats453952
-Node: Applying custom styles454412
-Node: Links in ODT export456581
-Node: Tables in ODT export457226
-Ref: Tables in ODT export-Footnote-1459362
-Node: Images in ODT export459455
-Ref: Images in ODT export-Footnote-1462194
-Node: Math formatting in ODT export462427
-Node: Working with LaTeX math snippets462889
-Ref: Working with LaTeX math snippets-Footnote-1464914
-Node: Working with MathML or OpenDocument formula files464989
-Node: Labels and captions in ODT export465561
-Node: Literal examples in ODT export467008
-Ref: Literal examples in ODT export-Footnote-1467927
-Node: Advanced topics in ODT export468038
-Node: Configuring a document converter468792
-Ref: x-odt-converter-capabilities469631
-Node: Working with OpenDocument style files470229
-Ref: x-factory-styles470725
-Ref: x-orgodtstyles-xml470957
-Ref: x-orgodtcontenttemplate-xml471284
-Ref: x-overriding-factory-styles471940
-Ref: x-org-export-odt-styles-file472214
-Ref: x-org-export-odt-content-template-file473102
-Node: Creating one-off styles473250
-Node: Customizing tables in ODT export475452
-Ref: Customizing tables in ODT export-Footnote-1480487
-Ref: Customizing tables in ODT export-Footnote-2480591
-Ref: Customizing tables in ODT export-Footnote-3480679
-Node: Validating OpenDocument XML480994
-Ref: Validating OpenDocument XML-Footnote-1482020
-Node: TaskJuggler export482072
-Node: Freemind export487964
-Node: XOXO export488319
-Node: iCalendar export488853
-Ref: iCalendar export-Footnote-1491547
-Ref: iCalendar export-Footnote-2491637
-Ref: iCalendar export-Footnote-3491737
-Node: Publishing491874
-Node: Configuration492742
-Node: Project alist493524
-Node: Sources and destinations494686
-Node: Selecting files496203
-Node: Publishing action497202
-Ref: Publishing action-Footnote-1498992
-Node: Publishing options499346
-Node: Publishing links503022
-Node: Sitemap504705
-Node: Generating an index507920
-Node: Uploading files508505
-Node: Sample configuration510269
-Node: Simple example510758
-Node: Complex example511431
-Node: Triggering publication513486
-Node: Working With Source Code514474
-Node: Structure of code blocks516165
-Ref: Structure of code blocks-Footnote-1518034
-Node: Editing source code518128
-Node: Exporting code blocks519678
-Node: Extracting source code521421
-Node: Evaluating code blocks522845
-Ref: Evaluating code blocks-Footnote-1526199
-Ref: Evaluating code blocks-Footnote-2526496
-Node: Library of Babel526624
-Node: Languages527601
-Node: Header arguments529910
-Node: Using header arguments530395
-Node: System-wide header arguments531155
-Node: Language-specific header arguments531978
-Node: Buffer-wide header arguments532381
-Node: Header arguments in Org mode properties533071
-Node: Code block specific header arguments534178
-Node: Header arguments in function calls536004
-Node: Specific header arguments536751
-Node: var539113
-Node: results546234
-Node: file550698
-Node: file-desc551610
-Node: dir552075
-Node: exports555004
-Node: tangle555658
-Node: mkdirp556469
-Node: comments556800
-Node: padline557938
-Node: no-expand558470
-Node: session558962
-Node: noweb559409
-Node: noweb-ref561590
-Ref: noweb-ref-Footnote-1563056
-Node: noweb-sep563185
-Node: cache563479
-Node: sep565211
-Node: hlines565783
-Node: colnames567291
-Node: rownames568770
-Node: shebang569779
-Node: eval570174
-Node: wrap571208
-Node: Results of evaluation571635
-Node: Noweb reference syntax575402
-Node: Key bindings and useful functions577056
-Node: Batch execution579798
-Node: Miscellaneous580832
-Node: Completion581661
-Node: Easy Templates583636
-Node: Speed keys585045
-Node: Code evaluation security585871
-Node: Customization588580
-Node: In-buffer settings589171
-Ref: In-buffer settings-Footnote-1598417
-Node: The very busy C-c C-c key598465
-Node: Clean view600447
-Ref: Clean view-Footnote-1604433
-Ref: Clean view-Footnote-2604494
-Ref: Clean view-Footnote-3604678
-Ref: Clean view-Footnote-4604739
-Ref: Clean view-Footnote-5604851
-Ref: Clean view-Footnote-6604906
-Node: TTY keys605031
-Node: Interaction606797
-Node: Cooperation607194
-Node: Conflicts610992
-Node: org-crypt.el615348
-Node: Hacking616662
-Node: Hooks617510
-Node: Add-on packages617926
-Node: Adding hyperlink types618467
-Node: Context-sensitive commands622389
-Ref: Context-sensitive commands-Footnote-1623965
-Node: Tables in arbitrary syntax624099
-Node: Radio tables625508
-Node: A LaTeX example628185
-Ref: A LaTeX example-Footnote-1632107
-Ref: A LaTeX example-Footnote-2632255
-Node: Translator functions632690
-Ref: Translator functions-Footnote-1635913
-Node: Radio lists636001
-Node: Dynamic blocks637130
-Node: Special agenda views639346
-Ref: x-agenda-skip-entry-regexp642800
-Ref: Special agenda views-Footnote-1643603
-Node: Extracting agenda information643738
-Node: Using the property API647810
-Node: Using the mapping API651121
+Node: Top894
+Node: Introduction22843
+Node: Summary23312
+Node: Installation26367
+Ref: Installation-Footnote-130692
+Node: Activation31036
+Ref: Activation-Footnote-132866
+Node: Feedback32988
+Ref: Feedback-Footnote-136589
+Node: Conventions36716
+Ref: Conventions-Footnote-138726
+Node: Document Structure38818
+Node: Outlines39742
+Node: Headlines40398
+Ref: Headlines-Footnote-141402
+Ref: Headlines-Footnote-241578
+Node: Visibility cycling41649
+Ref: Visibility cycling-Footnote-144963
+Ref: Visibility cycling-Footnote-245021
+Ref: Visibility cycling-Footnote-345071
+Node: Motion45341
+Node: Structure editing46678
+Ref: Structure editing-Footnote-152966
+Node: Sparse trees53066
+Ref: Sparse trees-Footnote-155573
+Ref: Sparse trees-Footnote-255779
+Ref: Sparse trees-Footnote-355850
+Node: Plain lists55965
+Ref: Plain lists-Footnote-163331
+Ref: Plain lists-Footnote-263685
+Ref: Plain lists-Footnote-363781
+Ref: Plain lists-Footnote-464023
+Ref: Plain lists-Footnote-564194
+Ref: Plain lists-Footnote-664252
+Ref: Plain lists-Footnote-764428
+Ref: Plain lists-Footnote-864528
+Ref: Plain lists-Footnote-964630
+Node: Drawers64697
+Ref: Drawers-Footnote-166297
+Node: Blocks66402
+Node: Footnotes66963
+Ref: Footnotes-Footnote-171538
+Ref: Footnotes-Footnote-271635
+Node: Orgstruct mode71712
+Node: Tables72830
+Node: Built-in table editor73471
+Ref: Built-in table editor-Footnote-182953
+Node: Column width and alignment83053
+Ref: Column width and alignment-Footnote-185613
+Ref: Column width and alignment-Footnote-285659
+Node: Column groups85756
+Node: Orgtbl mode87300
+Node: The spreadsheet88105
+Node: References89565
+Ref: References-Footnote-195703
+Ref: References-Footnote-295927
+Ref: References-Footnote-396196
+Ref: References-Footnote-496299
+Node: Formula syntax for Calc96589
+Ref: Formula syntax for Calc-Footnote-199703
+Node: Formula syntax for Lisp100027
+Node: Durations and time values101770
+Node: Field and range formulas102851
+Node: Column formulas105262
+Node: Lookup functions107351
+Node: Editing and debugging formulas109273
+Node: Updating the table113952
+Node: Advanced features115300
+Ref: Advanced features-Footnote-1119779
+Node: Org-Plot119885
+Node: Hyperlinks122748
+Node: Link format123505
+Node: Internal links124783
+Ref: Internal links-Footnote-1126597
+Ref: Internal links-Footnote-2126783
+Node: Radio targets127023
+Node: External links127713
+Ref: External links-Footnote-1131519
+Node: Handling links131909
+Ref: Handling links-Footnote-1139811
+Ref: Handling links-Footnote-2139970
+Ref: Handling links-Footnote-3140266
+Ref: Handling links-Footnote-4140512
+Ref: Handling links-Footnote-5140589
+Ref: Handling links-Footnote-6140663
+Node: Using links outside Org140745
+Node: Link abbreviations141230
+Node: Search options143910
+Ref: Search options-Footnote-1145791
+Node: Custom searches145872
+Node: TODO Items146882
+Ref: TODO Items-Footnote-1147990
+Node: TODO basics148104
+Node: TODO extensions150707
+Node: Workflow states151737
+Ref: Workflow states-Footnote-1153062
+Node: TODO types153155
+Ref: TODO types-Footnote-1154753
+Node: Multiple sets in one file154835
+Node: Fast access to TODO states156700
+Ref: Fast access to TODO states-Footnote-1157573
+Ref: Fast access to TODO states-Footnote-2157657
+Node: Per-file keywords157951
+Ref: Per-file keywords-Footnote-1159347
+Node: Faces for TODO keywords159548
+Node: TODO dependencies160593
+Node: Progress logging162764
+Node: Closing items163476
+Ref: Closing items-Footnote-1164525
+Ref: Closing items-Footnote-2164594
+Node: Tracking TODO state changes164667
+Ref: Tracking TODO state changes-Footnote-1167714
+Ref: Tracking TODO state changes-Footnote-2167771
+Ref: Tracking TODO state changes-Footnote-3167911
+Node: Tracking your habits168199
+Node: Priorities172449
+Ref: Priorities-Footnote-1174454
+Node: Breaking down tasks174523
+Ref: Breaking down tasks-Footnote-1176515
+Node: Checkboxes176611
+Ref: Checkboxes-Footnote-1181152
+Ref: Checkboxes-Footnote-2181276
+Ref: Checkboxes-Footnote-3181452
+Node: Tags181566
+Node: Tag inheritance182565
+Ref: Tag inheritance-Footnote-1183937
+Ref: Tag inheritance-Footnote-2184037
+Node: Setting tags184163
+Ref: Setting tags-Footnote-1190486
+Node: Tag searches190569
+Node: Properties and Columns191802
+Node: Property syntax193238
+Node: Special properties197332
+Node: Property searches199166
+Node: Property inheritance200598
+Node: Column view202414
+Node: Defining columns203649
+Node: Scope of column definitions204047
+Node: Column attributes204977
+Ref: Column attributes-Footnote-1209672
+Node: Using column view209805
+Node: Capturing column view212667
+Ref: Capturing column view-Footnote-1215659
+Node: Property API215795
+Node: Dates and Times216149
+Node: Timestamps217128
+Ref: Timestamps-Footnote-1219569
+Ref: Timestamps-Footnote-2219755
+Ref: Timestamps-Footnote-3219886
+Node: Creating timestamps220655
+Node: The date/time prompt223479
+Ref: The date/time prompt-Footnote-1227962
+Ref: The date/time prompt-Footnote-2228125
+Ref: The date/time prompt-Footnote-3228231
+Node: Custom time format228324
+Node: Deadlines and scheduling230048
+Ref: Deadlines and scheduling-Footnote-1232740
+Node: Inserting deadline/schedule232895
+Ref: Inserting deadline/schedule-Footnote-1235207
+Ref: Inserting deadline/schedule-Footnote-2235359
+Ref: Inserting deadline/schedule-Footnote-3235467
+Node: Repeated tasks235575
+Ref: Repeated tasks-Footnote-1239025
+Ref: Repeated tasks-Footnote-2239274
+Node: Clocking work time239473
+Ref: Clocking work time-Footnote-1240658
+Ref: Clocking work time-Footnote-2240802
+Node: Clocking commands240940
+Ref: Clocking commands-Footnote-1245913
+Ref: Clocking commands-Footnote-2246020
+Ref: Clocking commands-Footnote-3246070
+Ref: Clocking commands-Footnote-4246128
+Node: The clock table246206
+Ref: The clock table-Footnote-1253269
+Ref: The clock table-Footnote-2253363
+Node: Resolving idle time253488
+Ref: Resolving idle time-Footnote-1257335
+Node: Effort estimates257681
+Ref: Effort estimates-Footnote-1260445
+Ref: Effort estimates-Footnote-2260533
+Node: Relative timer260640
+Node: Countdown timer262487
+Node: Capture - Refile - Archive262979
+Node: Capture263969
+Node: Setting up capture265303
+Ref: Setting up capture-Footnote-1265728
+Node: Using capture265794
+Node: Capture templates268201
+Node: Template elements270162
+Node: Template expansion275784
+Ref: Template expansion-Footnote-1279774
+Ref: Template expansion-Footnote-2279861
+Ref: Template expansion-Footnote-3280043
+Node: Templates in contexts280141
+Node: Attachments280961
+Ref: Attachments-Footnote-1284343
+Node: RSS Feeds284493
+Node: Protocols286083
+Node: Refile and copy286798
+Ref: Refile and copy-Footnote-1289028
+Node: Archiving289124
+Node: Moving subtrees289824
+Ref: Moving subtrees-Footnote-1291681
+Node: Internal archiving292125
+Node: Agenda Views294755
+Node: Agenda files296946
+Ref: Agenda files-Footnote-1299765
+Ref: Agenda files-Footnote-2299914
+Node: Agenda dispatcher300107
+Ref: Agenda dispatcher-Footnote-1302921
+Ref: Agenda dispatcher-Footnote-2303015
+Node: Built-in agenda views303117
+Node: Weekly/daily agenda303766
+Ref: Weekly/daily agenda-Footnote-1308821
+Ref: Weekly/daily agenda-Footnote-2309048
+Node: Global TODO list309223
+Node: Matching tags and properties311751
+Ref: Matching tags and properties-Footnote-1318489
+Node: Timeline318569
+Node: Search view319261
+Node: Stuck projects320554
+Ref: Stuck projects-Footnote-1322614
+Node: Presentation and sorting322644
+Node: Categories323534
+Ref: Categories-Footnote-1324335
+Node: Time-of-day specifications324772
+Node: Sorting of agenda items326744
+Node: Agenda commands328282
+Ref: Agenda commands-Footnote-1351783
+Ref: Agenda commands-Footnote-2351864
+Ref: Agenda commands-Footnote-3352279
+Ref: Agenda commands-Footnote-4352378
+Node: Custom agenda views352461
+Node: Storing searches353102
+Ref: Storing searches-Footnote-1355641
+Node: Block agenda355758
+Node: Setting Options356996
+Node: Exporting Agenda Views360628
+Ref: Exporting Agenda Views-Footnote-1365529
+Ref: Exporting Agenda Views-Footnote-2365587
+Ref: Exporting Agenda Views-Footnote-3365743
+Ref: Exporting Agenda Views-Footnote-4365930
+Node: Agenda column view366012
+Node: Markup369086
+Node: Structural markup elements370056
+Node: Document title370789
+Node: Headings and sections371551
+Node: Table of contents372221
+Node: Initial text372984
+Node: Lists374100
+Node: Paragraphs374384
+Node: Footnote markup375534
+Node: Emphasis and monospace375870
+Node: Horizontal rules376270
+Node: Comment lines376567
+Node: Images and tables377075
+Node: Literal examples378679
+Ref: Literal examples-Footnote-1382558
+Ref: Literal examples-Footnote-2382894
+Ref: Literal examples-Footnote-3383066
+Ref: Literal examples-Footnote-4383245
+Ref: Literal examples-Footnote-5383495
+Node: Include files383589
+Node: Index entries385106
+Node: Macro replacement385568
+Node: Embedded LaTeX386398
+Ref: Embedded LaTeX-Footnote-1387338
+Node: Special symbols387528
+Ref: Special symbols-Footnote-1389140
+Node: Subscripts and superscripts389295
+Node: LaTeX fragments390549
+Ref: LaTeX fragments-Footnote-1393188
+Ref: LaTeX fragments-Footnote-2393361
+Ref: LaTeX fragments-Footnote-3393730
+Node: Previewing LaTeX fragments393907
+Node: CDLaTeX mode394917
+Ref: CDLaTeX mode-Footnote-1397404
+Node: Exporting397552
+Node: Selective export399486
+Node: Export options400596
+Ref: Export options-Footnote-1405342
+Ref: Export options-Footnote-2405430
+Node: The export dispatcher405525
+Ref: The export dispatcher-Footnote-1406833
+Node: ASCII/Latin-1/UTF-8 export406931
+Ref: ASCII/Latin-1/UTF-8 export-Footnote-1409340
+Ref: ASCII/Latin-1/UTF-8 export-Footnote-2409398
+Node: HTML export409450
+Node: HTML Export commands410473
+Ref: HTML Export commands-Footnote-1412428
+Ref: HTML Export commands-Footnote-2412486
+Node: HTML preamble and postamble412538
+Node: Quoting HTML tags413877
+Node: Links in HTML export414535
+Node: Tables in HTML export415669
+Node: Images in HTML export416217
+Ref: Images in HTML export-Footnote-1417510
+Node: Math formatting in HTML export417572
+Ref: Math formatting in HTML export-Footnote-1419008
+Node: Text areas in HTML export419143
+Node: CSS support419987
+Ref: CSS support-Footnote-1422879
+Ref: CSS support-Footnote-2423065
+Node: JavaScript support423265
+Node: LaTeX and PDF export426884
+Ref: LaTeX and PDF export-Footnote-1427854
+Node: LaTeX/PDF export commands428120
+Ref: LaTeX/PDF export commands-Footnote-1430031
+Ref: LaTeX/PDF export commands-Footnote-2430089
+Node: Header and sectioning430141
+Ref: Header and sectioning-Footnote-1431485
+Node: Quoting LaTeX code431611
+Node: Tables in LaTeX export432246
+Node: Images in LaTeX export433284
+Ref: Images in LaTeX export-Footnote-1435416
+Node: Beamer class export435636
+Node: DocBook export441336
+Node: DocBook export commands442210
+Ref: DocBook export commands-Footnote-1443770
+Ref: DocBook export commands-Footnote-2443830
+Node: Quoting DocBook code443882
+Node: Recursive sections444931
+Node: Tables in DocBook export445660
+Node: Images in DocBook export446125
+Node: Special characters448059
+Node: OpenDocument Text export449100
+Ref: OpenDocument Text export-Footnote-1450271
+Ref: OpenDocument Text export-Footnote-2450301
+Node: Pre-requisites for ODT export450445
+Node: ODT export commands450804
+Ref: x-export-to-odt451033
+Ref: ODT export commands-Footnote-1452073
+Ref: ODT export commands-Footnote-2452133
+Node: Extending ODT export452184
+Ref: x-export-to-other-formats453185
+Ref: x-convert-to-other-formats453720
+Node: Applying custom styles454180
+Node: Links in ODT export456345
+Node: Tables in ODT export456990
+Ref: Tables in ODT export-Footnote-1459124
+Node: Images in ODT export459217
+Ref: Images in ODT export-Footnote-1461955
+Node: Math formatting in ODT export462188
+Node: Working with LaTeX math snippets462650
+Ref: Working with LaTeX math snippets-Footnote-1464675
+Node: Working with MathML or OpenDocument formula files464750
+Node: Labels and captions in ODT export465322
+Node: Literal examples in ODT export466767
+Ref: Literal examples in ODT export-Footnote-1467686
+Node: Advanced topics in ODT export467797
+Node: Configuring a document converter468551
+Ref: x-odt-converter-capabilities469390
+Node: Working with OpenDocument style files469988
+Ref: x-factory-styles470484
+Ref: x-orgodtstyles-xml470716
+Ref: x-orgodtcontenttemplate-xml471043
+Ref: x-overriding-factory-styles471699
+Ref: x-org-export-odt-styles-file471973
+Ref: x-org-export-odt-content-template-file472861
+Node: Creating one-off styles473009
+Node: Customizing tables in ODT export475211
+Ref: Customizing tables in ODT export-Footnote-1480242
+Ref: Customizing tables in ODT export-Footnote-2480346
+Ref: Customizing tables in ODT export-Footnote-3480434
+Node: Validating OpenDocument XML480749
+Ref: Validating OpenDocument XML-Footnote-1481775
+Node: TaskJuggler export481827
+Node: Freemind export487721
+Node: XOXO export488076
+Node: iCalendar export488610
+Ref: iCalendar export-Footnote-1491304
+Ref: iCalendar export-Footnote-2491394
+Ref: iCalendar export-Footnote-3491494
+Node: Publishing491631
+Node: Configuration492499
+Node: Project alist493281
+Node: Sources and destinations494444
+Node: Selecting files495961
+Node: Publishing action496960
+Ref: Publishing action-Footnote-1498750
+Node: Publishing options499104
+Node: Publishing links502780
+Node: Sitemap504463
+Node: Generating an index507678
+Node: Uploading files508263
+Node: Sample configuration510027
+Node: Simple example510516
+Node: Complex example511189
+Node: Triggering publication513244
+Node: Working With Source Code514232
+Node: Structure of code blocks515924
+Ref: Structure of code blocks-Footnote-1517793
+Node: Editing source code517887
+Node: Exporting code blocks519437
+Node: Extracting source code521181
+Node: Evaluating code blocks522605
+Ref: Evaluating code blocks-Footnote-1525959
+Ref: Evaluating code blocks-Footnote-2526256
+Node: Library of Babel526384
+Node: Languages527361
+Node: Header arguments529670
+Node: Using header arguments530155
+Node: System-wide header arguments530915
+Node: Language-specific header arguments531749
+Node: Buffer-wide header arguments532152
+Node: Header arguments in Org mode properties532842
+Node: Code block specific header arguments533955
+Node: Header arguments in function calls535783
+Node: Specific header arguments536532
+Node: var538894
+Node: results546016
+Node: file550480
+Node: file-desc551392
+Node: dir551857
+Node: exports554787
+Node: tangle555441
+Node: mkdirp556252
+Node: comments556583
+Node: padline557721
+Node: no-expand558253
+Node: session558745
+Node: noweb559192
+Node: noweb-ref561373
+Ref: noweb-ref-Footnote-1562839
+Node: noweb-sep562968
+Node: cache563262
+Node: sep564994
+Node: hlines565566
+Node: colnames567074
+Node: rownames568554
+Node: shebang569563
+Node: eval569959
+Node: wrap570993
+Node: Results of evaluation571420
+Node: Noweb reference syntax575188
+Node: Key bindings and useful functions576842
+Node: Batch execution579584
+Node: Miscellaneous580618
+Node: Completion581447
+Node: Easy Templates583423
+Node: Speed keys584832
+Node: Code evaluation security585659
+Node: Customization588369
+Node: In-buffer settings588960
+Ref: In-buffer settings-Footnote-1598469
+Node: The very busy C-c C-c key598517
+Node: Clean view600499
+Ref: Clean view-Footnote-1604484
+Ref: Clean view-Footnote-2604545
+Ref: Clean view-Footnote-3604729
+Ref: Clean view-Footnote-4604790
+Ref: Clean view-Footnote-5604902
+Ref: Clean view-Footnote-6604957
+Node: TTY keys605082
+Node: Interaction606848
+Node: Cooperation607245
+Node: Conflicts611043
+Node: org-crypt.el615358
+Node: Hacking616672
+Node: Hooks617520
+Node: Add-on packages617936
+Node: Adding hyperlink types618477
+Node: Context-sensitive commands622400
+Ref: Context-sensitive commands-Footnote-1623976
+Node: Tables in arbitrary syntax624110
+Node: Radio tables625519
+Node: A LaTeX example628196
+Ref: A LaTeX example-Footnote-1632119
+Ref: A LaTeX example-Footnote-2632267
+Node: Translator functions632702
+Ref: Translator functions-Footnote-1635926
+Node: Radio lists636014
+Node: Dynamic blocks637143
+Node: Special agenda views639349
+Ref: x-agenda-skip-entry-regexp642803
+Ref: Special agenda views-Footnote-1643606
+Node: Extracting agenda information643741
+Node: Using the property API647813
+Node: Using the mapping API651124
 Node: MobileOrg655514
 Node: Setting up the staging area657172
 Ref: Setting up the staging area-Footnote-1658271
@@ -19179,9 +19675,10 @@ Node: Pulling from MobileOrg660311
 Ref: Pulling from MobileOrg-Footnote-1662731
 Ref: Pulling from MobileOrg-Footnote-2662791
 Node: History and Acknowledgments663168
-Node: Main Index676636
-Node: Key Index751939
-Node: Command and Function Index802443
-Node: Variable Index835379
+Node: GNU Free Documentation License676657
+Node: Main Index701831
+Node: Key Index777429
+Node: Command and Function Index827933
+Node: Variable Index860869
 
 End Tag Table
