@@ -3936,7 +3936,7 @@ anything で本管理．
   (defun helm-font-families ()
     "Preconfigured `helm' for font family."
     (interactive)
-    (cl-flet ((helm-mp-highlight-match () nil))
+    (flet ((helm-mp-highlight-match () nil))
       (helm-other-buffer
        '(helm-c-source-font-families)
        "*helm font families*")))
@@ -4087,7 +4087,7 @@ helm-c-apropos は複数の関数による情報源でできているので，�
 #   (defun anything-font-families ()
 #     "Preconfigured `anything' for font family."
 #     (interactive)
-#     (cl-flet ((anything-mp-highlight-match () nil))
+#     (flet ((anything-mp-highlight-match () nil))
 #       (anything-other-buffer
 #        '(anything-c-source-font-families)
 #        "*anything font families*")))
@@ -5375,7 +5375,7 @@ elisp インストーラ．Emacsテクニックバイブルより
 do nothing. And suppress the output from `message' and
 `write-file' to minibuffer."
     (unless (equal recentf-list my-recentf-list-prev)
-      (cl-flet ((message (format-string &rest args)
+      (flet ((message (format-string &rest args)
                       (eval `(format ,format-string ,@args)))
              (write-file (file &optional confirm)
                          (let ((str (buffer-string)))
@@ -5387,7 +5387,7 @@ do nothing. And suppress the output from `message' and
   (defadvice recentf-cleanup
     (around no-message activate)
     "suppress the output from `message' to minibuffer"
-    (cl-flet ((message (format-string &rest args)
+    (flet ((message (format-string &rest args)
                     (eval `(format ,format-string ,@args))))
       ad-do-it))
 
