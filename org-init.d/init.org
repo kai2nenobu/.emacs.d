@@ -4896,6 +4896,13 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
       (replace-match "<\\1\\3\\2/>")))
 
   (add-hook 'org-export-html-final-hook 'org-export-my-attr-html-hack)
+  ;; export 時にソースコードブロックの文末に変な文字が入るのを防ぐ
+  ;; 非常にハードなハックだけど，とりあえずしょうがない
+  (defun org-export-my-delete-trail ()
+    (goto-char (point-min))
+    (while (re-search-forward "\\(?:&#5734[45];\\)\\{1,3\\}$" nil t)
+      (replace-match "")))
+  (add-hook 'org-export-html-final-hook 'org-export-my-delete-trail)
 
   ;; tag
   (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
