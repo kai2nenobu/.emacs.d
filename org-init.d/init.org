@@ -2702,7 +2702,7 @@ helm で mu4e のフォルダを選択する．
       (candidates . mu4e-get-maildirs)
       (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
                  ("Insert maildir" . insert)))
-      (helm-candidate-number-limit)
+      (candidate-number-limit)
       (migemo))
     "Helm source for mu4e maildir.")
 
