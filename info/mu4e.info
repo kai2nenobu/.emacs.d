@@ -1593,10 +1593,10 @@ mu4e is fully search-based: even if you 'jump to a folder', you are
 executing a query for messages that happen to have the property of
 being in a certain folder.
 
-   By default, queries return up to `mu4e-search-results-limit'
-(default: 500) results. That is usually more than enough, and makes
-things significantly faster. Sometimes, however, you may want to show
-_all_ results; you can enable this with `M-x
+   Normally, queries return up to `mu4e-headers-results-limit' (default:
+500) results. That is usually more than enough, and makes things
+significantly faster. Sometimes, however, you may want to show _all_
+results; you can enable this with `M-x
 mu4e-headers-toggle-full-search', or by customizing the variable
 `mu4e-headers-full-search'. This applies to all search commands.
 
@@ -1826,8 +1826,32 @@ Technically, narrowing the results of query x with expression y implies
 doing a search (x) AND y.
 
    Note, messages that were not in your in your original search results
-because of `mu4e-search-results-limit', may show up in the narrowed
+because of `mu4e-headers-results-limit', may show up in the narrowed
 query.
+
+7.4.3 Including related messages
+--------------------------------
+
+It can be useful to include _related_ messages in your search results -
+that is, messages that belong to the message threads that one or more
+of the matched messages belong to, too. With this option, results are
+somewhat like the discussion threads in Gmail.
+
+   To enable this, set `mu4e-headers-include-related' to `t'. Since
+this can significanlty affect performance when there are many results,
+`mu4e-headers-include-related' is automatically disabled (for the next
+query) when the `mu4e-headers-results-limit' exceeds
+`mu4e-headers-include-related-maxnum'.
+
+7.4.4 Skipping duplicates
+-------------------------
+
+It is possible to show only one of multiple, duplicate messages
+(messages with the same Message-ID). This can be useful when you have
+copies of the same message, which is a common case, for example, when
+using Gmail and offlineimap.
+
+   To skip duplicates, set `mu4e-headers-skip-duplicates' to `t'.
 
 
 File: mu4e.info,  Node: Marking,  Next: Dynamic folders,  Prev: Searching,  Up: Top
@@ -3103,6 +3127,12 @@ C.2 Reading messages
      and *note Verifying signatures::. For encryption and signing
      messages, see the *note Writing messages::.
 
+  6. _Does mu4e support including all related messages in a thread,
+     like Gmail does?_ Yes - see *note Including related messages::.
+
+  7. _There seem to be a lot of duplicate messages - how can I get rid
+     of them?_ See *note Skipping duplicates::.
+
 
 File: mu4e.info,  Node: Writing messages,  Next: Known issues,  Prev: Reading messages,  Up: FAQ
 
@@ -3915,71 +3945,73 @@ Node: Signing and encrypting54252
 Node: Queuing mail55062
 Node: Other settings56347
 Node: Searching56814
-Node: Queries57746
-Ref: Queries-Footnote-159673
-Node: Bookmarks59785
-Ref: Bookmarks-Footnote-162127
-Node: Maildir searches62170
-Node: Other search functionality64291
-Node: Marking66094
-Node: Selecting messages for marking66663
-Node: What to mark for67480
-Ref: What to mark for-Footnote-169029
-Ref: What to mark for-Footnote-269128
-Node: Executing the marks69312
-Node: Leaving the headers buffer69581
-Node: Built-in marking functions70010
-Node: Custom mark functions70543
-Node: Dynamic folders72834
-Node: Smart refiling73974
-Ref: Smart refiling-Footnote-176203
-Node: Other dynamic folders76248
-Node: Actions77535
-Node: Defining actions78352
-Ref: Defining actions-Footnote-179611
-Ref: Defining actions-Footnote-279783
-Node: Adding an action in the headers view79970
-Node: Adding an action in the message view80963
-Node: Adding an attachment action81859
-Node: More example actions82690
-Node: Extending mu4e83094
-Node: Extension points83502
-Node: Available functions84806
-Node: Message functions85706
-Node: Utility functions86938
-Ref: Utility functions-Footnote-188129
-Node: Interaction with other tools88233
-Node: Setting the default emacs mail program88816
-Node: Creating org-mode links89379
-Node: Rich-text messages with org-mode90328
-Ref: Rich-text messages with org-mode-Footnote-192510
-Ref: Rich-text messages with org-mode-Footnote-292569
-Node: Maintaining an address-book with org-contacts92692
-Ref: Maintaining an address-book with org-contacts-Footnote-193933
-Node: Getting new mail notifications with Sauron93994
-Ref: Getting new mail notifications with Sauron-Footnote-195743
-Node: Speedbar support95886
-Node: Citations with mu-cite96877
-Ref: Citations with mu-cite-Footnote-197628
-Node: Attaching files with dired97704
-Node: Example configurations99043
-Node: Minimal configuration99497
-Node: Longer configuration100727
-Node: Gmail configuration103595
-Node: Some other useful settings108417
-Node: FAQ109044
-Node: General109392
-Node: Reading messages112818
-Node: Writing messages114080
-Node: Known issues115774
-Node: How it works116622
-Node: High-level overview116977
-Node: mu server118471
-Node: Reading from the server119478
-Node: The message s-expression121731
-Ref: The message s-expression-Footnote-1124898
-Node: Logging and debugging125087
-Node: GNU Free Documentation License126142
+Node: Queries57745
+Ref: Queries-Footnote-159672
+Node: Bookmarks59784
+Ref: Bookmarks-Footnote-162126
+Node: Maildir searches62169
+Node: Other search functionality64290
+Ref: Including related messages66161
+Ref: Skipping duplicates66777
+Node: Marking67078
+Node: Selecting messages for marking67647
+Node: What to mark for68464
+Ref: What to mark for-Footnote-170013
+Ref: What to mark for-Footnote-270112
+Node: Executing the marks70296
+Node: Leaving the headers buffer70565
+Node: Built-in marking functions70994
+Node: Custom mark functions71527
+Node: Dynamic folders73818
+Node: Smart refiling74958
+Ref: Smart refiling-Footnote-177187
+Node: Other dynamic folders77232
+Node: Actions78519
+Node: Defining actions79336
+Ref: Defining actions-Footnote-180595
+Ref: Defining actions-Footnote-280767
+Node: Adding an action in the headers view80954
+Node: Adding an action in the message view81947
+Node: Adding an attachment action82843
+Node: More example actions83674
+Node: Extending mu4e84078
+Node: Extension points84486
+Node: Available functions85790
+Node: Message functions86690
+Node: Utility functions87922
+Ref: Utility functions-Footnote-189113
+Node: Interaction with other tools89217
+Node: Setting the default emacs mail program89800
+Node: Creating org-mode links90363
+Node: Rich-text messages with org-mode91312
+Ref: Rich-text messages with org-mode-Footnote-193494
+Ref: Rich-text messages with org-mode-Footnote-293553
+Node: Maintaining an address-book with org-contacts93676
+Ref: Maintaining an address-book with org-contacts-Footnote-194917
+Node: Getting new mail notifications with Sauron94978
+Ref: Getting new mail notifications with Sauron-Footnote-196727
+Node: Speedbar support96870
+Node: Citations with mu-cite97861
+Ref: Citations with mu-cite-Footnote-198612
+Node: Attaching files with dired98688
+Node: Example configurations100027
+Node: Minimal configuration100481
+Node: Longer configuration101711
+Node: Gmail configuration104579
+Node: Some other useful settings109401
+Node: FAQ110028
+Node: General110376
+Node: Reading messages113802
+Node: Writing messages115322
+Node: Known issues117016
+Node: How it works117864
+Node: High-level overview118219
+Node: mu server119713
+Node: Reading from the server120720
+Node: The message s-expression122973
+Ref: The message s-expression-Footnote-1126140
+Node: Logging and debugging126329
+Node: GNU Free Documentation License127384
 
 End Tag Table
 
