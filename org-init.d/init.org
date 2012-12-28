@@ -563,8 +563,8 @@ org-init.d/init.org を更新したら，明示的に init.el を更新したい
     (goto-char (mark t))
     (setq mark-ring (nreverse mark-ring))))
 
-(global-set-key (kbd "H-O") 'pop-global-mark)
-(global-set-key (kbd "H-I") 'pop-global-mark-reverse)
+(global-set-key (kbd "C-S-o") 'pop-global-mark)
+(global-set-key (kbd "C-S-i") 'pop-global-mark-reverse)
 (global-set-key (kbd "H-o") 'pop-to-mark-command)
 (global-set-key (kbd "H-i") 'pop-to-mark-reverse-command)
 #+END_SRC
