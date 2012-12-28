@@ -549,7 +549,8 @@ org-init.d/init.org を更新したら，明示的に init.el を更新したい
 (defun pop-global-mark-reverse ()
   (interactive)
   (setq global-mark-ring (nreverse global-mark-ring))
-  (pop-global-mark)
+  (dotimes (i (if (eq last-command 'pop-global-mark) 2 1))
+    (pop-global-mark))
   (setq global-mark-ring (nreverse global-mark-ring)))
 
 (defun pop-to-mark-reverse-command ()
@@ -557,7 +558,8 @@ org-init.d/init.org を更新したら，明示的に init.el を更新したい
   (if (null (mark t))
       (error "No mark set in this buffer")
     (setq mark-ring (nreverse mark-ring))
-    (pop-mark)
+    (dotimes (i (if (eq last-command 'pop-to-mark-command) 2 1))
+      (pop-mark))
     (goto-char (mark t))
     (setq mark-ring (nreverse mark-ring))))
 
