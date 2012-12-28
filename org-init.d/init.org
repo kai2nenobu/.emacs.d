@@ -4438,7 +4438,7 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+END_SRC
 背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
 にくいので使うのはやめた．
-** google 関連
+** google 関連                                                     :noexport:
 - [[http://maarui.doorblog.jp/archives/6301428.html][まぁるいしっぽ:emacsのカレンダーでgoogle calendarを読み込む]]
 カレンダーへのイベント追加はできたが，タイムゾーンが +0:00 になっていまい時間
 指定が思い通りにならない．タイムゾーンを指定したいがやり方がわからない．
@@ -4798,7 +4798,7 @@ Emacs でツイッター．
   ; :home にしか追加されなかった．どの関数にアドバイスすればいいかわからん・・・
   )
 #+END_SRC
-** calfw.el
+** calfw.el                                                        :noexport:
 - [[http://d.hatena.ne.jp/kiwanami/20110107/1294404952][Emacsでカレンダーコンポーネントを作った - 技術日記＠kiwanami]]
 高機能カレンダー．
 #+BEGIN_SRC emacs-lisp
@@ -4846,7 +4846,7 @@ Emacs でツイッター．
       )))
   )
 #+END_SRC
-** org-mode.el
+** org-mode.el                                                     :noexport:
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'org
@@ -5835,7 +5835,7 @@ do nothing. And suppress the output from `message' and
   (jaunte)
   (w3m-view-this-url))
 #+END_SRC
-** wl.el
+** wl.el                                                           :noexport:
 Wanderlust メーラー．設定は .wl, .folders でする．
 #+BEGIN_SRC emacs-lisp
 ;; SSL/TLS 用証明書ストアのパス
