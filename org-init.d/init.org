@@ -2637,6 +2637,9 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
       (when (and name
                  (re-search-forward (format "\\[\\([0-9]+\\)\\]%s" name) nil t))
         (string-to-int (match-string 1)))))
+
+  (add-to-list 'mu4e-view-attachment-actions
+               (cons "oopen-external" 'mu4e-view-open-attachment))
 #+END_SRC
 *** 特定のフォルダのみのメールを取得する
 特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
