@@ -2597,11 +2597,18 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 カーソル下のリンクを開く．
 #+BEGIN_SRC emacs-lisp
   (defun mu4e-view-my-get-link-at-point ()
-    "Get link at point."
-    (when (not (eq 'mu4e-view-link-face (get-text-property (point) 'face)))
-      (error "No link at point"))
-    ()
-    )
+    "Get mu4e link at point."
+    ;; Don't consider the case that link is at the beginning of buffer or at
+    ;; the end of buffer
+    (let ((pt (point)))
+      (when (eq 'mu4e-view-link-face (get-text-property pt 'face))
+        (if (eq 'mu4e-view-link-face (get-text-property (1- pt) 'face))
+            ;; point is inside of link
+            (buffer-substring-no-properties (previous-single-property-change pt 'face)
+                                            (next-single-property-change pt 'face))
+          ;; point is at the top of link
+          (buffer-substring-no-properties pt (next-single-property-change pt 'face)))
+        )))
 #+END_SRC
 *** 特定のフォルダのみのメールを取得する
 特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
