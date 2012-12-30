@@ -2609,6 +2609,13 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
           ;; point is at the top of link
           (buffer-substring-no-properties pt (next-single-property-change pt 'face)))
         )))
+  (defun mu4e-view-my-get-attachment-number (name)
+    "Get an attachment number from NAME of link."
+    (save-excursion
+      (goto-char (point-min))
+      (when (and name
+                 (re-search-forward (format "\\[\\([0-9]+\\)\\]%s" name) nil t))
+        (string-to-int (match-string 1)))))
 #+END_SRC
 *** 特定のフォルダのみのメールを取得する
 特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
