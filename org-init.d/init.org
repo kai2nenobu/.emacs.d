@@ -2598,7 +2598,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 #+BEGIN_SRC emacs-lisp
   (defun mu4e-view-my-get-link-at-point ()
     "Get mu4e link at point."
-    ;; Don't consider the case that link is at the beginning of buffer or at
+    ;; Not consider the case that link is at the beginning of buffer or at
     ;; the end of buffer
     (let ((pt (point)))
       (when (eq 'mu4e-view-link-face (get-text-property pt 'face))
