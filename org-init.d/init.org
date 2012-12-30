@@ -2609,6 +2609,27 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
           ;; point is at the top of link
           (buffer-substring-no-properties pt (next-single-property-change pt 'face)))
         )))
+
+  (defun mu4e-view-my-link-action-dwim (&optional arg)
+    "Do action according to link at point. If link is url, open it with browser.
+  If link is attachment, do the first action of `mu4e-view-attachment-actions'.
+  If ARG is non-nil, select an action from `mu4e-view-attachment-actions'."
+    (interactive "P")
+    (let ((msg (or (mu4e-message-at-point)
+                   (error "Message not found here")))
+          (link (or (mu4e-view-my-get-link-at-point)
+                    (error "Link not found here"))))
+      (if (string-match url-handler-regexp link)
+          (browse-url link)
+        (let ((actionfunc (if arg
+                              (mu4e-read-option "Action on attachment: "
+                                                mu4e-view-attachment-actions)
+                            (cdar mu4e-view-attachment-actions)))
+              (attnum (or (mu4e-view-my-get-attachment-number link)
+                          (mu4e~view-get-attach-num "Which attachment" msg))))
+          (when (and actionfunc attnum)
+            (funcall actionfunc msg attnum))))))
+
   (defun mu4e-view-my-get-attachment-number (name)
     "Get an attachment number from NAME of link."
     (save-excursion
