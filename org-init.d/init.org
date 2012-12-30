@@ -2570,38 +2570,38 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 *** リンクへ移動，開く
 カーソルをリンクへ移動．
 #+BEGIN_SRC emacs-lisp
-(defun mu4e-view-my-goto-next-link (arg)
-  "Go to next ARGth `mu4e-view-link-face'."
-  (interactive "p")
-  (let ((pt (point))
-        (search-func (if (>= arg 0)
-                         'next-single-property-change
-                       'previous-single-property-change)))
-    (dotimes (i (abs arg))
-      (while (and (setq pt (funcall search-func pt 'face))
-                  (not (eq 'mu4e-view-link-face
-                           (get-text-property pt 'face))))
-        nil)  ; do nothing
-      (if pt
-          (goto-char pt)
-        (error (format "No link %s" (if (>= arg 0) "forward" "backward")))))
-    ))
-(defun mu4e-view-my-goto-previous-link (arg)
-  "Go to previous ARGth `mu4e-view-link-face'."
-  (interactive "p")
-  (mu4e-view-goto-next-link (- arg)))
-(define-key mu4e-view-mode-map (kbd "<tab>") 'mu4e-view-my-goto-next-link)
-(define-key mu4e-view-mode-map (kbd "<backtab>") 'mu4e-view-my-goto-previous-link)
+  (defun mu4e-view-my-goto-next-link (arg)
+    "Go to next ARGth `mu4e-view-link-face'."
+    (interactive "p")
+    (let ((pt (point))
+          (search-func (if (>= arg 0)
+                           'next-single-property-change
+                         'previous-single-property-change)))
+      (dotimes (i (abs arg))
+        (while (and (setq pt (funcall search-func pt 'face))
+                    (not (eq 'mu4e-view-link-face
+                             (get-text-property pt 'face))))
+          nil)  ; do nothing
+        (if pt
+            (goto-char pt)
+          (error (format "No link %s" (if (>= arg 0) "forward" "backward")))))
+      ))
+  (defun mu4e-view-my-goto-previous-link (arg)
+    "Go to previous ARGth `mu4e-view-link-face'."
+    (interactive "p")
+    (mu4e-view-goto-next-link (- arg)))
+  (define-key mu4e-view-mode-map (kbd "<tab>") 'mu4e-view-my-goto-next-link)
+  (define-key mu4e-view-mode-map (kbd "<backtab>") 'mu4e-view-my-goto-previous-link)
 #+END_SRC
 
 カーソル下のリンクを開く．
 #+BEGIN_SRC emacs-lisp
-(defun mu4e-view-my-get-link-at-point ()
-  "Get link at point."
-  (when (not (eq 'mu4e-view-link-face (get-text-property (point) 'face)))
-    (error "No link at point"))
-  ()
-  )
+  (defun mu4e-view-my-get-link-at-point ()
+    "Get link at point."
+    (when (not (eq 'mu4e-view-link-face (get-text-property (point) 'face)))
+      (error "No link at point"))
+    ()
+    )
 #+END_SRC
 *** 特定のフォルダのみのメールを取得する
 特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
