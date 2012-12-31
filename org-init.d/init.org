@@ -5846,6 +5846,7 @@ do nothing. And suppress the output from `message' and
                    (add-to-list 'ac-sources 'ac-source-yasnippet)))
   ;; key bind
   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand)
+  (define-key ac-complete-mode-map (kbd "C-s") 'ac-isearch)
   )
 
 (my-measure-message-time "Non-standard elisp setting.")
