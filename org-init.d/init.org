@@ -4122,6 +4122,19 @@ anything で本管理．
 ;       '(helm-c-source-bibtex)
 ;       "*helm bibtex:")))
 #+END_SRC
+*** シンプルなバッファ移動
+#+BEGIN_SRC emacs-lisp
+(defvar helm-c-source-simple-buffers-list
+  '((name . "Simple Buffer List")
+    (candidates . (lambda () (mapcar 'buffer-name (buffer-list))))
+    (action . switch-to-buffer)))
+
+(defun helm-simple-buffers-list ()
+  (interactive)
+  (helm :sources helm-c-source-simple-buffers-list
+        :buffer  "*helm-simple-buffers-list*"))
+(define-key ctl-x-map (kbd "b") 'helm-simple-buffers-list)
+#+END_SRC
 *** helm-c-apropos の persistent-action を変更
 helm-c-apropos は複数の関数による情報源でできているので，それぞれの persistent-action
 を defadvice で変更する．helm-c-describe-face が定義されていなかったので，自分で書いた．
