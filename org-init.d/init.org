@@ -2836,11 +2836,23 @@ helm で mu4e のフォルダを選択する．
   (defvar helm-c-source-mu4e-maildir
     '((name . "mu4e-maildir")
       (candidates . mu4e-get-maildirs)
+      (real-to-display . helm-c-source-mu4e-maildir-real-to-diaplay)
       (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
                  ("Insert maildir" . insert)))
       (candidate-number-limit)
       (migemo))
     "Helm source for mu4e maildir.")
+
+  (defun helm-c-source-mu4e-maildir-real-to-diaplay (maildir)
+    ""
+    (let ((count (with-temp-buffer
+                   (shell-command (concat "mu find flag:unread maildir:"
+                                          maildir " 2>/dev/null | wc -l")
+                                  (current-buffer))
+                   (replace-regexp-in-string "\n" "" (buffer-string)))))
+      (if (> (string-to-int count) 0)
+          (propertize (concat maildir " [" count "]") 'face 'mu4e-unread-face)
+        maildir)))
 
   (defun helm-mu4e-maildir ()
     "Helm command for mu4e maildir."
