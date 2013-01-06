@@ -2622,7 +2622,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
                    (error "Message not found here")))
           (link (or (mu4e-view-my-get-link-at-point)
                     (error "Link not found here"))))
-      (if (string-match url-handler-regexp link)
+      (if (string-match mu4e~view-url-regexp link)
           (browse-url link)
         (let ((actionfunc (if arg
                               (mu4e-read-option "Action on attachment: "
