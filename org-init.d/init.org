@@ -2643,6 +2643,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
 
   (add-to-list 'mu4e-view-attachment-actions
                (cons "oopen-external" 'mu4e-view-open-attachment))
+  (define-key mu4e-view-mode-map (kbd "RET") 'mu4e-view-my-link-action-dwim)
 #+END_SRC
 *** 特定のフォルダのみのメールを取得する
 特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
