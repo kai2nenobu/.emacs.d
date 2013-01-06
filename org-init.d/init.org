@@ -3199,17 +3199,17 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
   (global-set-key (kbd "M-k") 'kill-this-buffer))
 
-(my-safe-require 'evernote-mode
-  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
-  (setq evernote-username "g03090416")
-  (global-set-key "\C-c\C-ec" 'evernote-create-note)
-  (global-set-key "\C-c\C-eo" 'evernote-open-note)
-  (global-set-key "\C-c\C-es" 'evernote-search-notes)
-  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
-  (global-set-key "\C-c\C-ew" 'evernote-write-note)
-  (global-set-key "\C-c\C-ep" 'evernote-post-region)
-  (global-set-key "\C-c\C-eb" 'evernote-browser)
-  )
+;(my-safe-require 'evernote-mode
+;  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
+;  (setq evernote-username "g03090416")
+;  (global-set-key "\C-c\C-ec" 'evernote-create-note)
+;  (global-set-key "\C-c\C-eo" 'evernote-open-note)
+;  (global-set-key "\C-c\C-es" 'evernote-search-notes)
+;  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
+;  (global-set-key "\C-c\C-ew" 'evernote-write-note)
+;  (global-set-key "\C-c\C-ep" 'evernote-post-region)
+;  (global-set-key "\C-c\C-eb" 'evernote-browser)
+;  )
 
 ;;; dokuwiki.el
 ;;; dokuwiki フロントエンド
