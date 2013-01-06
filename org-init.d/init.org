@@ -2592,7 +2592,7 @@ E-mail: kai@gavo.t.u-tokyo.ac.jp")
   (defun mu4e-view-my-goto-previous-link (arg)
     "Go to previous ARGth `mu4e-view-link-face'."
     (interactive "p")
-    (mu4e-view-goto-next-link (- arg)))
+    (mu4e-view-my-goto-next-link (- arg)))
   (define-key mu4e-view-mode-map (kbd "<tab>") 'mu4e-view-my-goto-next-link)
   (define-key mu4e-view-mode-map (kbd "<backtab>") 'mu4e-view-my-goto-previous-link)
 #+END_SRC
