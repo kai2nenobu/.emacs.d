@@ -1706,6 +1706,9 @@ shift+カーソルキー でウィンドウを移動する．
 ** dired.el
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'dired)
+
+;; Automatically guess a target directory
+(setq dired-dwim-target t)
 #+END_SRC
 *** dired+.el
 dired.el, dired-x.el, dired-aux.el の拡張
