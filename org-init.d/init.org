@@ -2515,6 +2515,7 @@ package.el からインストール．
   ;; 基本設定
   (setq mu4e-headers-date-format "%Y/%m/%d (%a)")
   (setq mu4e-view-prefer-html nil)  ;; html を html のままで表示しない
+  (setq mu4e-view-show-addresses t)  ;; 送信者などのメールアドレスを表示する
   (setq mu4e-html2text-command "html2text -utf8 -width 72")  ;; html をテキスト表示
   (setq mu4e-split-view 'vertical)  ;; ヘッダバッファの分割方法．左右に分割する
   (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
