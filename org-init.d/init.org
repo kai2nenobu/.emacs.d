@@ -5820,6 +5820,10 @@ do nothing. And suppress the output from `message' and
         (hide-sublevels 1000)
     (hide-sublevels 1))
   )
+#+END_SRC
+** eldoc.el
+引数をミニバッファに表示する．
+#+BEGIN_SRC emacs-lisp
 ;; Use Emacs23's eldoc
 (my-safe-require 'eldoc
   ;; (auto-install-from-emacswiki "eldoc-extension.el")
