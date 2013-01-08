@@ -5665,49 +5665,30 @@ do nothing. And suppress the output from `message' and
     ;;                           (file-name-directory (locate-library "auto-complete-latex"))))
     ;;   (add-hook 'yatex-mode-hook 'ac-l-setup))
     ;; 少々重すぎる
+#+END_SRC
+*** begin-end 型のコマンドに名前をつける
+#+BEGIN_SRC emacs-lisp
+    (defun YaTeX-define-begend-key-with-name (key env &optional map)
+      "Define YaTeX-make-begin-end command with name and bind it."
+      (let ((func (intern (format "YaTeX-make-begin-end-%s" env))))
+        (fset func
+              `(lambda (arg)
+                 ,(format "Make LaTeX environment command of \\begin{%s} ... \\end{%s}."
+                         env env)
+                 (interactive "P")
+                 (YaTeX-insert-begin-end ,env arg)))
+        (YaTeX-define-key key func map)))
 
-    ;; begin 型の命令を関数で割り当て
-    (defmacro YaTeX-define-begend-key-normal-macro (key env &optional map)
-      "Define short cut YaTeX-make-begin-end key."
-      (let ((func (intern (concat "YaTeX-make-begin-end-" (eval env)))))
-        `(progn
-           (defun ,func (arg)
-             ,(format "Make LaTeX environment command of \\begin{%s} ... \\end{%s}." env env)
-             (interactive "P")
-             (YaTeX-insert-begin-end ,env arg))
-           (YaTeX-define-key ,key (quote ,func) ,map))))
-    ;; (defalias 'YaTeX-define-begend-key-normal 'YaTeX-define-begend-key-normal-macro)
-    ;; できればエイリアスしたかったが不可能のよう．マクロにはエイリアスできない？
-        ;; (loop for (key env)
-    ;;       in '(("bc" "center") ("bd" "document") ("bD" "description") ("be" "enumerate")
-    ;;            ("bE" "equation") ("bi" "itemize") ("bl" "flushleft") ("bm" "minipage")
-    ;;            ("bt" "tabbing") ("bT" "tabular") ("b\^t" "table") ("bp" "picture")
-    ;;            ("bq" "quote") ("bQ" "quotation") ("br" "flushright") ("bv" "verbatim")
-    ;;            ("bV" "verse"))
-    ;;       do
-    ;;       (YaTeX-define-begend-key-normal-macro key env))
-    ;; 何故かこのマクロだと動かないどうして？質問するか
-    (YaTeX-define-begend-key-normal-macro "bc" "center")
-    (YaTeX-define-begend-key-normal-macro "bd" "document")
-    (YaTeX-define-begend-key-normal-macro "bD" "description")
-    (YaTeX-define-begend-key-normal-macro "be" "enumerate")
-    (YaTeX-define-begend-key-normal-macro "bE" "equation")
-    (YaTeX-define-begend-key-normal-macro "bi" "itemize")
-    (YaTeX-define-begend-key-normal-macro "bl" "flushleft")
-    (YaTeX-define-begend-key-normal-macro "bm" "minipage")
-    (YaTeX-define-begend-key-normal-macro "bt" "tabbing")
-    (YaTeX-define-begend-key-normal-macro "bT" "tabular")
-    (YaTeX-define-begend-key-normal-macro "b\^t" "table")
-    (YaTeX-define-begend-key-normal-macro "bp" "picture")
-    (YaTeX-define-begend-key-normal-macro "bq" "quote")
-    (YaTeX-define-begend-key-normal-macro "bQ" "quotation")
-    (YaTeX-define-begend-key-normal-macro "br" "flushright")
-    (YaTeX-define-begend-key-normal-macro "bv" "verbatim")
-    (YaTeX-define-begend-key-normal-macro "bV" "verse")
-    (YaTeX-define-begend-key-normal-macro "ba" "align")
-    (YaTeX-define-begend-key-normal-macro "bg" "gather")
-    (YaTeX-define-begend-key-normal-macro "bf" "frame")
-
+    (loop for (key envname)
+         in '(("ba" "align") ("bc" "center") ("bd" "document") ("bD" "description")
+              ("be" "enumerate") ("bE" "equation") ("bf" "frame") ("bg" "gather")
+              ("bi" "itemize") ("bl" "flushleft") ("bm" "minipage") ("bt" "tabbing")
+              ("bT" "tabular") ("b\^t" "table") ("bp" "picture") ("bq" "quote")
+              ("bQ" "quotation") ("br" "flushright") ("bv" "verbatim") ("bV" "verse"))
+          do (YaTeX-define-begend-key-with-name key envname))
+#+END_SRC
+*** その他
+#+BEGIN_SRC emacs-lisp
     ;; popwin との協調
     (eval-after-load "popwin"
       '(progn
