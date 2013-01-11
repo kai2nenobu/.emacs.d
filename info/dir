@@ -18,6 +18,7 @@ File: dir,	Node: Top	This is the top of the INFO tree
 * Navi2ch: (navi2ch).           Navigator for 2ch for Emacsen
 
 Emacs
+* Evil: (evil).                 An extensible vi layer for Emacs.
 * AUCTeX: (auctex).             A sophisticated TeX environment for Emacs.
 * dired-dd: (dired-dd).         Drag and Drop interface to dired/dired-x package.
 * Magit: (magit).               Using Git from Emacs with Magit.
