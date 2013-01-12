@@ -3336,6 +3336,12 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;;; http://sheephead.homelinux.org/2011/12/19/6930/ Marmalade よりインストール
 (my-safe-require 'smartrep
 
+  ;; ミニバッファのエコーバックがうざいので消す
+  (defadvice smartrep-read-event-loop (around suppress-echo activate)
+    "Suppress echo keystrokes in smartrep."
+    (let ((echo-keystrokes 0))
+      ad-do-it))
+
   (smartrep-define-key
       global-map "C-q" '(("[" . (backward-paragraph))
                          ("]" . (forward-paragraph))
