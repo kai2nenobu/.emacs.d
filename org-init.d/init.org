@@ -3372,8 +3372,8 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
        (smartrep-define-key
            org-mode-map "C-c" '(("C-n" . outline-next-visible-heading)
                                 ("C-p" . outline-previous-visible-heading)
-                                ("C-f" . (org-heading-forward-same-level 1))
-                                ("C-b" . (org-heading-backward-same-level 1))
+                                ("C-f" . (org-forward-heading-same-level 1))
+                                ("C-b" . (org-backward-heading-same-level 1))
                                 ("C-u" . outline-up-heading)))
        ))
 
