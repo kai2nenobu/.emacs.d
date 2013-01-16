@@ -3328,7 +3328,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;;; (auto-install-from-url "http://homepage3.nifty.com/oatu/emacs/archives/auto-save-buffers.el")
 (my-safe-require 'auto-save-buffers
   (run-with-idle-timer 2 t 'auto-save-buffers)
-  (setq auto-save-buffers-exclude-regexp "init.el\\|^/\\(ssh\\|sshx\\|su\\|sudo\\):"))
+  (setq auto-save-buffers-exclude-regexp "init.el\\|^/\\(sshx?\\|su\\(?:do\\)?\\):"))
 #+END_SRC
 ** smartrep.el
 連続コマンド入力を支援
