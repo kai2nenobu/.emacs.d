@@ -1223,6 +1223,13 @@ generic で簡単にメジャーモードを作れる．
 (my-measure-message-time "My original function.")
 #+END_SRC
 * その他一般的な動作設定
+** M-r でカーソル移動した時，インデントの先頭の桁にカーソルを移動する
+#+BEGIN_SRC emacs-lisp
+(defadvice move-to-window-line-top-bottom (after back-to-indentation activate)
+  "After executing `move-to-window-line-top-bottom', Move point
+to the first non-whitespace character on that line."
+  (back-to-indentation))
+#+END_SRC
 ** ファイルの削除はごみ箱を使う
 完全にファイルが消えるのは心臓に悪いので設定しておく．
 #+BEGIN_SRC emacs-lisp
