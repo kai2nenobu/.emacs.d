@@ -5669,6 +5669,9 @@ do nothing. And suppress the output from `message' and
     (setq YaTeX-help-file-private
           (expand-file-name "doc/YATEXHLP-private.jp" user-emacs-directory))
 
+    (put 'YaTeX-parent-file 'safe-local-variable
+         (lambda (x)
+           (string-match "\.tex$" x)))
     ;; auto-complete-latex.el
     ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
     ;; https://bitbucket.org/tequilasunset/auto-complete-latex/src
