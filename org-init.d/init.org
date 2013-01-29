@@ -429,7 +429,8 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (defalias 'ctl-x-r-prefix ctl-x-r-map)
 (global-set-key (kbd "S-C-r") 'ctl-x-r-prefix)
 (global-set-key (kbd "C-t") 'other-window-or-split)
-(global-set-key (kbd "C-h") 'delete-backward-char)
+;(global-set-key (kbd "C-h") 'delete-backward-char)
+(define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (global-set-key (kbd "M-h") 'backward-kill-word)
 ;(global-set-key (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
@@ -1637,7 +1638,7 @@ shift+カーソルキー でウィンドウを移動する．
 #+END_SRC
 ** isearch
 #+BEGIN_SRC emacs-lisp
-(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
+;(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
 (define-key isearch-mode-map (kbd "M-@") 'isearch-yank-word)   ; C-w と同じ働き
 #+END_SRC
 *** リージョン選択時に isearch すると，リージョンで isearch する
@@ -4057,7 +4058,7 @@ anything で本管理．
   (setq helm-idle-delay 0.1)
   (setq helm-input-idle-delay 0.1)
   (setq helm-split-window-default-side 'right) ; helm バッファのデフォルト位置
-  (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+  ;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
 
   (global-set-key (kbd "M-x") 'helm-M-x)
   (define-key ctl-x-map (kbd "C-f") 'helm-find-files)
@@ -5490,6 +5491,7 @@ Emacsでibusを使えるようにする．これで mozc が使える．
     (global-set-key (kbd "C-\\") 'ibus-toggle)
     ;; preedit 中に有効にしたいキーバインドは `ibus-define-preedit-key' で追加する
     (ibus-define-preedit-key 'A-v t)
+    (ibus-define-preedit-key 'C-h t)
     ;; isearch で ibus を無効にする
     (ibus-disable-isearch)
     ;; isearch 中はカーソル形状変更
