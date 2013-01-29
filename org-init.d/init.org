@@ -4494,6 +4494,7 @@ html 編集モード．
         (cons (cons "\\.html$" 'yahtml-mode) auto-mode-alist))
   (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
   ;(setq yahtml-kanji-code 4)   ; setq で設定すると utf-8 で保存できない．defvar の時点で 4 にしとくといいけどなんでやねん．
+  (setq yahtml-kanji-code 'utf-8-unix)
   (setq yahtml-www-browser "firefox"))
 #+END_SRC
 ** htmlize.el
