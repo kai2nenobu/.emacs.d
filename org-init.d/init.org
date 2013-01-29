@@ -5248,7 +5248,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
       "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
       "sass" "scheme" "screen" "sh" "sql" "sqlite")
     "Anything command source for Org-mode src block")
-  (defvar anything-c-source-org-src-lang
+  (defvar helm-c-source-org-src-lang
     '((name . "Available language in Org-mode src block")
       (candidates . org-src-my-lang-candidates)
       (action ("Return as string" . eval)
