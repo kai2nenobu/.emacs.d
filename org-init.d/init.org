@@ -2140,9 +2140,11 @@ dired のファイル情報の詳細表示をトグルする．
   ;; (define-key my-original-map (kbd "C-n") 'outline-next-visible-heading)
   ;; (define-key my-original-map (kbd "C-p") 'outline-previous-visible-heading)
   (defadvice outline-next-visible-heading (after recenter-after activate)
-    (recenter))
+    (when (called-interactively-p 'any)
+       (recenter)))
   (defadvice outline-previous-visible-heading (after recenter-after activate)
-    (recenter))
+    (when (called-interactively-p 'any)
+       (recenter)))
   )
 #+END_SRC
 ** tramp.el                                                        :noexport:
