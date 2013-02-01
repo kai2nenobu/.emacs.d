@@ -831,10 +831,10 @@ Leave one space or none, according to the context."
        (end (field-end))
        (string (buffer-substring beg end))
        (comp (completion-try-completion
-		      string
-		      minibuffer-completion-table
-		      minibuffer-completion-predicate
-		      (- (point) beg))))
+              string
+              minibuffer-completion-table
+              minibuffer-completion-predicate
+              (- (point) beg))))
     (insert (car comp)))
   )
 (define-key minibuffer-local-map (kbd "C-s") 'anything-my-minibuffer-complete)
@@ -4951,7 +4951,7 @@ tex 中の数式をプレビューする．
 \\usepackage{amsmath,amssymb,amsthm}
 \\usepackage{bm}")
   ;; プレビューする書式を追加
-  (add-to-list 'latex-math-preview-match-expression 
+  (add-to-list 'latex-math-preview-match-expression
                '(0 . "\\\\begin{table\\(\\|\\*\\)}\\(\\(.\\|\n\\)*?\\)\\\\end{table\\(\\|\\*\\)}")) ; table 環境
   ;; latex ではなく platex を使用するように変更．また， dvipng だと日本語非対応なので gs-to-png にする。のは無理だった。
   (setq latex-math-preview-tex-to-png-for-preview '(platex dvipng))
