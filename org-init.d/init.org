@@ -5113,10 +5113,10 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-capture-templates
         `(("m" "Today's memo" entry
            (file+function nil my-search-org-headline)
-           "* %?\n" :empty-lines 1)
+           "** %?\n")
           ("o" "Other day's memo" entry
            (file+function nil (lambda () (my-search-org-headline t)))
-           "** %?\n" :empty-lines 1)
+           "** %?\n")
           ("b" "Bookmark" entry
            (file+function nil my-search-org-headline)
            "** %?\n%(concat \"   [[\" (jk/moz-url) \"]]\")\n   Entered on %U\n"
@@ -5304,7 +5304,7 @@ If specify ARG, the subtree starts ARGth level headline."
           ;;                                  ; 気になりますが，my-search-org-level1 をしたときは
           ;;                                  ; 行頭にないはずなので，大丈夫かな
           ;(beginning-of-line)
-          (forward-line 1)
+          ;(forward-line 1)
           )
       ;; search where new headline is insearted
       ;; 日付(level1)が降順になっていることが前提
