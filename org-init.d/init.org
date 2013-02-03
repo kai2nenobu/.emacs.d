@@ -5146,6 +5146,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+END_SRC
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
+  (setq org-publish-timestamp-directory
+        (expand-file-name ".org-timestamps/" user-emacs-directory))
   (defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
   (defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
   (setq org-publish-project-alist
