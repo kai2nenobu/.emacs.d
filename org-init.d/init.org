@@ -2516,6 +2516,8 @@ generic を用いて予め定義されているモード．
 
 * 非標準ライブラリ
 ** direx.el
+- [[http://cx4a.blogspot.jp/2011/12/popwineldirexel.html][LOAD-TIME-VALUE: popwin.elと相性が良いシンプルなディレクトリ・エクスプローラ、direx.elを作りました]]
+- [[http://d.hatena.ne.jp/syohex/20130202/1359814263][direx.elの設定 - Life is very short]]
 ツリー表示ができる dired．ファイルを操作する機能はまだ限定的．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'direx
