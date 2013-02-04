@@ -2541,6 +2541,9 @@ generic を用いて予め定義されているモード．
 
   ;; キーバインド
   (define-key ctl-x-map (kbd "C-d") 'direx:my-jump)
+  (define-key direx:direx-mode-map (kbd "u") 'direx:up-item)
+  (define-key direx:direx-mode-map (kbd "f") 'direx:next-sibling-item)
+  (define-key direx:direx-mode-map (kbd "b") 'direx:previous-sibling-item)
   ;; popwin 設定に追加
   (eval-after-load "popwin"
     '(push '(direx:direx-mode :position left :width 40 :dedicated t)
