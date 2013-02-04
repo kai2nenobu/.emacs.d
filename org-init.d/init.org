@@ -4950,14 +4950,12 @@ minibufferで履歴検索．
 (my-safe-require 'popwin
   (setq display-buffer-function 'popwin:display-buffer)
   ;(setq special-display-function 'popwin:special-display-popup-window)   ; display-buffer-function を変更したくない場合こっち
-  (setcar (member '("*Apropos*" :height 0.5) popwin:special-display-config)
-          '(apropos-mode :position right :width 80))
   (setcar (member 'help-mode popwin:special-display-config)
           '(help-mode :position right :width 80))
   (push '("*Buffer List*" :position right :width 0.5) popwin:special-display-config)
   (push '("*nav-help*" :height 0.5) popwin:special-display-config)
   (push '("*Shell Command Output*" :height 0.5) popwin:special-display-config)
-  (push '("*Apropos*" :height 0.5) popwin:special-display-config)
+  (push '(apropos-mode :position right :width 80) popwin:special-display-config)
   (push '(" *auto-async-byte-compile*" :height 0.4 :position bottom :noselect t) popwin:special-display-config)
   (push '("*One-Key*" :position bottom :noselect t) popwin:special-display-config) ; ウィンドウが多いと表示されるのが遅い気がする。
                                         ; しかも表示されるウィンドウの高さが一定でない気もする。どうしてだろう。
