@@ -2519,6 +2519,7 @@ generic を用いて予め定義されているモード．
 ツリー表示ができる dired．ファイルを操作する機能はまだ限定的．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'direx
+  (my-safe-require 'direx-project)
   ;; アイコンに画像を使う
   ;(let ((dir "~/local/share/emacs/24.2/etc/images"))
   ;  (setq direx:leaf-icon
@@ -2550,7 +2551,9 @@ generic を用いて予め定義されているモード．
     (interactive "P")
     (if arg
         (call-interactively 'direx:find-directory-other-window)
-      (direx:jump-to-directory-other-window)))
+      (or (ignore-errors
+            (direx-project:jump-to-project-root-other-window) t)
+          (direx:jump-to-directory-other-window))))
 
   (defun direx:my-append-buffer-name-hint ()
     "Append a auxiliary string to a name of direx buffer."
