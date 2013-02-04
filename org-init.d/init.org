@@ -2533,9 +2533,9 @@ generic を用いて予め定義されているモード．
   ;                    'display (create-image (expand-file-name "tree-widget/folder/open.png" dir))
   ;                    'help-echo "Close folder")))
   ;; アイコンの設定
-  (setq direx:leaf-icon   " - "
-        direx:closed-icon "[+]"
-        direx:open-icon   "[-]")
+  (setq direx:leaf-icon   "├ "
+        direx:closed-icon "▶ "
+        direx:open-icon   "▼ ")
 
   ;; キーバインド
   (define-key ctl-x-map (kbd "C-d") 'direx:my-jump)
