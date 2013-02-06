@@ -1897,7 +1897,7 @@ Creates a buffer if necessary."
 *** Dired で関連付けられたファイルを起動する
 - [[http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html][Emacs Dired: Opening Files in External Apps]]
 #+BEGIN_SRC emacs-lisp
-(defun my-open-file-with-external-app  (file)
+(defun my-external-open-file  (file)
   "Open FILE with an appropriate application.
 Works in Microsoft Windows, Mac OS X, Linux."
   (interactive "fOpen file with external application: ")
@@ -1909,7 +1909,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
         ((string-equal system-type "gnu/linux")
          (let ((process-connection-type nil))
            (start-process "" nil "xdg-open" file)))))
-(defun my-open-file-dwim ()
+(defun my-external-open-file-dwim ()
   "Open the current file or dired marked files in external application."
   (interactive)
   (let ((file-list
@@ -1920,11 +1920,11 @@ Works in Microsoft Windows, Mac OS X, Linux."
                             (error "This buffer isn't visiting a file")))))))
     (when (or (<= (length file-list) 5)
               (y-or-n-p "Open more than 5 files?"))
-      (mapc 'my-open-file-with-external-app file-list))))
+      (mapc 'my-external-open-file file-list))))
 (add-hook 'dired-mode-hook
           (lambda ()
-            (define-key dired-mode-map "z" 'my-open-file-dwim))) ;;; 関連付け
-(define-key my-original-map (kbd "C-o") 'my-open-file-dwim)
+            (define-key dired-mode-map "z" 'my-external-open-file-dwim))) ;;; 関連付け
+(define-key my-original-map (kbd "C-o") 'my-external-open-file-dwim)
 #+END_SRC
 *** スペースでマークする (FD like)
 #+BEGIN_SRC emacs-lisp
