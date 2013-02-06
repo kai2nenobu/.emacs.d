@@ -3732,6 +3732,16 @@ Emacs から git を操作するライブラリ．
 ;; magit.el
 (my-safe-require 'magit
 #+END_SRC
+*** キーバインド
+#+BEGIN_SRC emacs-lisp
+  (loop for i from 1 to 4
+        do
+        ;; M-digit を開放
+        (define-key magit-status-mode-map (read-kbd-macro (format "M-%d" i)) nil)
+        ;; M-digit の代わりに digit を使う
+        (define-key magit-status-mode-map (number-to-string i)
+          (intern (format "magit-show-level-%d-all" i))))
+#+END_SRC
 *** 日本語設定
 日本語のエンコーディングを utf-8 にする．デフォルトではマルチバイト文字が考慮
 されていないようでなにも設定されていないので文字化けしてしまう．
