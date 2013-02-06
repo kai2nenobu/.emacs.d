@@ -5,5 +5,8 @@
 (guide-key-mode 1)
 (setq guide-key/recursive-key-sequence-flag t)
 
+(find-file (expand-file-name "test-setting.el" user-emacs-directory))
+(find-file (expand-file-name "my-lisp/guide-key/guide-key.el" user-emacs-directory))
+(find-file (expand-file-name "~/Dropbox/memo/memo.org"))
 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
