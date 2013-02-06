@@ -2551,6 +2551,14 @@ generic を用いて予め定義されているモード．
     '(push '(direx:direx-mode :position left :width 40 :dedicated t)
             popwin:special-display-config))
   ;; my function
+  (defun direx:my-external-open-item-at-point (&optional point)
+    "Externally Open direx item."
+    (interactive)
+    (let* ((item (direx:item-at-point point))
+           (file (direx:file-full-name (direx:item-tree item))))
+      (my-external-open-file file)))
+  (define-key direx:direx-mode-map (kbd "z") 'direx:my-external-open-item-at-point)
+
   (defun direx:my-jump (arg)
     ""
     (interactive "P")
