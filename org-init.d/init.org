@@ -5017,8 +5017,8 @@ tex 中の数式をプレビューする．
             '(lambda ()
                (YaTeX-define-key "\C-p" 'latex-math-preview-expression)
                ;; (YaTeX-define-key "\C-p" 'latex-math-preview-save-image-file)
-               ;; (YaTeX-define-key "j" 'latex-math-preview-insert-symbol)
-               ;; (YaTeX-define-key "\C-j" 'latex-math-preview-last-symbol-again)
+               (define-key YaTeX-mode-map (kbd "C-c j" 'latex-math-preview-insert-symbol))
+               (YaTeX-define-key "\C-j" 'latex-math-preview-last-symbol-again)
                (YaTeX-define-key "\C-f" 'latex-math-preview-beamer-frame)
                ))
   (setq latex-math-preview-in-math-mode-p-func 'YaTeX-in-math-mode-p) ; 数式の判断に yatex のものを使う
