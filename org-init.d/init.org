@@ -2543,6 +2543,7 @@ generic を用いて予め定義されているモード．
 
   ;; キーバインド
   (define-key ctl-x-map (kbd "C-d") 'direx:my-jump)
+  (define-key direx:direx-mode-map (kbd "d") 'direx:down-item)
   (define-key direx:direx-mode-map (kbd "u") 'direx:up-item)
   (define-key direx:direx-mode-map (kbd "f") 'direx:next-sibling-item)
   (define-key direx:direx-mode-map (kbd "b") 'direx:previous-sibling-item)
