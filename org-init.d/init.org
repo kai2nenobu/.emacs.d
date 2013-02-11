@@ -2523,19 +2523,19 @@ generic を用いて予め定義されているモード．
 (my-safe-require 'direx
   (my-safe-require 'direx-project)
   ;; アイコンに画像を使う
-  ;(let ((dir "~/local/share/emacs/24.2/etc/images"))
+  ;(let ((dir (expand-file-name "images/tree-widget/folder/" data-directory)))
   ;  (setq direx:leaf-icon
-  ;        (propertize "   "
-  ;                    'display (create-image (expand-file-name "tree-widget/folder/leaf.png" dir))
+  ;        (propertize "l "
+  ;                    'display (create-image (expand-file-name "leaf.xpm" dir))
   ;                    'help-echo "Open file")
   ;        direx:closed-icon
-  ;        (propertize "   "
-  ;                    'display (create-image (expand-file-name "tree-widget/folder/close.png" dir))
-  ;                    'help-echo "Open folder")
+  ;        (propertize "c "
+  ;                    'display (create-image (expand-file-name "close.xpm" dir))
+  ;                    'help-echo "Open tree")
   ;        direx:open-icon
-  ;        (propertize "   "
-  ;                    'display (create-image (expand-file-name "tree-widget/folder/open.png" dir))
-  ;                    'help-echo "Close folder")))
+  ;        (propertize "o "
+  ;                    'display (create-image (expand-file-name "open.xpm" dir))
+  ;                    'help-echo "Close tree")))
   ;; アイコンの設定
   (setq direx:leaf-icon   "├ "
         direx:closed-icon "▶ "
