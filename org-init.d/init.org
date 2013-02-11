@@ -2096,6 +2096,7 @@ dired のファイル情報の詳細表示をトグルする．
   (set-face-bold-p 'whitespace-trailing nil)
   (set-face-underline 'whitespace-trailing t)
   ;(set-face-foreground 'whitespace-newline "purple")
+  (setq whitespace-global-modes '(not direx:direx-mode)) ; direx:direx-mode は global から除外する
   (global-whitespace-mode 1)
   )
 #+END_SRC
