@@ -5241,7 +5241,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
          :table-of-contents nil
          :recursive t
          :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
-         :exclude-tags ("noexport" "Note")
+         :exclude-tags ("Draft" "Note")
          :auto-preamble t
          :auto-postamble nil)
         ("images"
