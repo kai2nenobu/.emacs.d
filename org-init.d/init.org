@@ -5230,6 +5230,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
         (expand-file-name ".org-timestamps/" user-emacs-directory))
   (defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
   (defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
+  (defvar org-publish-kensyu-base-dir (expand-file-name "kensyu" org-directory))
+  (defvar org-publish-kensyu-publishing-dir "/kensyu:public_html")
   (setq org-publish-project-alist
         `(("html"
            :base-directory ,org-publish-my-web-base-dir
@@ -5256,6 +5258,32 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
            :publishing-function org-publish-attachment
            :recursive t)
           ("kaichan" :components ("html" "images" "others"))
+          ("kensyu-html"
+           :base-directory ,org-publish-kensyu-base-dir
+           :publishing-directory ,org-publish-kensyu-publishing-dir
+           :base-extension "org"
+           :publishing-function org-publish-org-to-html
+           :headline-levels 3
+           :section-numbers nil
+           :table-of-contents nil
+           :recursive t
+           :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
+           :html-preamble t
+           :html-postamble "[<a href=\"/~kai/index.html\">トップへ戻る</a>] [<a href=\"javascript:history.go(-1)\">前に戻る</a>]"
+           :exclude "TODO.org"
+           :exclude-tags ("Draft" "noexport"))
+          ("kensyu-images"
+           :base-directory ,(expand-file-name "img" org-publish-kensyu-base-dir)
+           :publishing-directory ,(expand-file-name "img" org-publish-kensyu-publishing-dir)
+           :base-extension "jpg\\|jpeg\\|png"
+           :publishing-function org-publish-attachment)
+          ("kensyu-others"
+           :base-directory ,org-publish-kensyu-base-dir
+           :publishing-directory ,org-publish-kensyu-publishing-dir
+           :base-extension "css"
+           :publishing-function org-publish-attachment
+           :recursive t)
+          ("kensyu" :components ("kensyu-html" "kensyu-images" "kensyu-others"))
           ))
 #+END_SRC
 *** export 関連
