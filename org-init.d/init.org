@@ -5232,30 +5232,31 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
   (setq org-publish-project-alist
         `(("html"
-         :base-directory ,org-publish-my-web-base-dir
-         :publishing-directory ,org-publish-my-web-publishing-dir
-         :base-extension "org"
-         :publishing-function org-publish-org-to-html
-         :headline-levels 3
-         :section-numbers nil
-         :table-of-contents nil
-         :recursive t
-         :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
-         :exclude-tags ("Draft" "Note")
-         :auto-preamble t
-         :auto-postamble nil)
-        ("images"
-        :base-directory ,(expand-file-name "img" org-publish-my-web-base-dir)
-        :publishing-directory ,(expand-file-name "img" org-publish-my-web-publishing-dir)
-        :base-extension "jpg\\|jpeg\\|png"
-        :publishing-function org-publish-attachment)
-       ("others"
-        :base-directory ,org-publish-my-web-base-dir
-        :publishing-directory ,org-publish-my-web-publishing-dir
-        :base-extension "css"
-        :publishing-function org-publish-attachment
-        :recursive t)
-       ("kaichan" :components ("html" "images" "others"))))
+           :base-directory ,org-publish-my-web-base-dir
+           :publishing-directory ,org-publish-my-web-publishing-dir
+           :base-extension "org"
+           :publishing-function org-publish-org-to-html
+           :headline-levels 3
+           :section-numbers nil
+           :table-of-contents nil
+           :recursive t
+           :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
+           :exclude-tags ("Draft" "Note")
+           :auto-preamble t
+           :auto-postamble nil)
+          ("images"
+           :base-directory ,(expand-file-name "img" org-publish-my-web-base-dir)
+           :publishing-directory ,(expand-file-name "img" org-publish-my-web-publishing-dir)
+           :base-extension "jpg\\|jpeg\\|png"
+           :publishing-function org-publish-attachment)
+          ("others"
+           :base-directory ,org-publish-my-web-base-dir
+           :publishing-directory ,org-publish-my-web-publishing-dir
+           :base-extension "css"
+           :publishing-function org-publish-attachment
+           :recursive t)
+          ("kaichan" :components ("html" "images" "others"))
+          ))
 #+END_SRC
 *** export 関連
 #+BEGIN_SRC emacs-lisp
