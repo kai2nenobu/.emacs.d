@@ -2517,6 +2517,11 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** zencoding-mode.el
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'zencoding-mode
+  (define-key zencoding-mode-keymap (kbd "C-j") 'zencoding-expand-yas))
+#+END_SRC
 ** direx.el
 - [[http://cx4a.blogspot.jp/2011/12/popwineldirexel.html][LOAD-TIME-VALUE: popwin.elと相性が良いシンプルなディレクトリ・エクスプローラ、direx.elを作りました]]
 - [[http://d.hatena.ne.jp/syohex/20130202/1359814263][direx.elの設定 - Life is very short]]
