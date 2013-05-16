@@ -431,6 +431,7 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (global-set-key (kbd "S-C-r") 'ctl-x-r-prefix)
 (global-set-key (kbd "C-t") 'other-window-or-split)
 ;(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "RET") 'newline-and-indent)
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (global-set-key (kbd "M-h") 'backward-kill-word)
 ;(global-set-key (kbd "C-S-k") '(lambda () (interactive) (kill-buffer)))
@@ -499,6 +500,13 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** open-line したあとにインデントするアドバイス
+#+BEGIN_SRC emacs-lisp
+(defadvice open-line (after and-indent (N) activate)
+  "Indent after open-line."
+  (indent-region (point-at-bol)
+                 (point-at-eol (1+ (ad-get-arg 0)))))
+#+END_SRC
 ** M-r でカーソル移動した時，インデントの先頭の桁にカーソルを移動する
 #+BEGIN_SRC emacs-lisp
 (defadvice move-to-window-line-top-bottom (after back-to-indentation activate)
