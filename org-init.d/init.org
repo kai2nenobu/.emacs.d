@@ -2593,6 +2593,26 @@ generic を用いて予め定義されているモード．
 ** web-mode.el
 - [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
 package.el からインストール．
+
+`font-lock-mode' が有効だとハイライトされないみたい．whitespace-mode とかと競
+合してしまうようだ．
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'web-mode
+  (dolist (ext '("\\.phtml\\'" "\\.tpl\\.php\\'" "\\.jsp\\'" "\\.as[cp]x\\'"
+                 "\\.erb\\'" "\\.mustache\\'" "\\.djhtml\\'" "\\.html?\\'"))
+    (add-to-list 'auto-mode-alist (cons ext 'web-mode)))
+
+  (defun my-web-mode-initial-customization ()
+    ;; (font-lock-mode -1) にしたいけど，このあとに font-lock-mode を有効にする
+    ;; フックが実行されてしまうようだ．苦肉の策で run-with-timer で遅延させる
+    (run-with-timer 1 nil 'font-lock-mode '(-1))
+
+    (eval-after-load "zencoding-mode"
+      '(zencoding-mode 1))
+    )
+  (add-hook 'web-mode-hook 'my-web-mode-initial-customization)
+  )
+#+END_SRC
 ** mu4e.el                                                         :noexport:
 新しいメーラー．
 #+BEGIN_SRC emacs-lisp
