@@ -5309,7 +5309,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
            :recursive t
            :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
            :html-preamble t
-           :html-postamble "[<a href=\"/~kai/index.html\">トップへ戻る</a>] [<a href=\"javascript:history.go(-1)\">前に戻る</a>]"
+           :html-postamble "<p><span class=\"link\">[<a href=\"/~kai/index.html\">トップへ戻る</a>] [<a href=\"javascript:history.go(-1)\">前に戻る</a>]</span><span class=\"date\">最終更新日: %d</span></p>"
            :exclude "TODO.org"
            :exclude-tags ("Draft" "noexport"))
           ("kensyu-images"
