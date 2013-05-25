@@ -3050,12 +3050,13 @@ helm でメールアドレスの補完をする．メールアドレスは
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
   ;(global-fci-mode)
   (add-hook 'mu4e-compose-mode-hook 'turn-on-fci-mode)
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-fci-mode)
+  ;(add-hook 'emacs-lisp-mode-hook 'turn-on-fci-mode)
   (define-key my-original-map (kbd "M-f") 'fci-mode)
   )
 #+END_SRC
 org-mode で有効にするといろいろな動作で重くなる．折りたたみされているのが良く
-ない？
+ない？ org-mode の html エクスポートで，ソースブロックの文末に変な文字が表示
+されるのはコレのせいだったようだ．
 ** bat-mode
 バッチファイル編集用のメジャーモード．
 #+BEGIN_SRC emacs-lisp
@@ -5203,15 +5204,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
     (while (re-search-forward
             "<\\(a href=[^>]+\\)\\( \\(?:width\\|height\\)=[0-9]+\\)\\(><img src=[^>]+\\)/>" nil t)
       (replace-match "<\\1\\3\\2/>")))
-
-  (add-hook 'org-export-html-final-hook 'org-export-my-attr-html-hack)
-  ;; export 時にソースコードブロックの文末に変な文字が入るのを防ぐ
-  ;; 非常にハードなハックだけど，とりあえずしょうがない
-  (defun org-export-my-delete-trail ()
-    (goto-char (point-min))
-    (while (re-search-forward "\\(?:&#5734[45];\\)\\{1,3\\}$" nil t)
-      (replace-match "")))
-  (add-hook 'org-export-html-final-hook 'org-export-my-delete-trail)
 
   ;; tag
   (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
