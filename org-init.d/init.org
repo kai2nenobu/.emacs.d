@@ -5330,9 +5330,9 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+BEGIN_SRC emacs-lisp
   ;; config about latex exporting
   (setcdr (assoc "\\.pdf\\'" org-file-apps) "/usr/bin/acroread %s")
-  (setq org-export-latex-coding-system 'utf-8-unix)
-  (setq org-export-latex-date-format "%Y-%m-%d")
+  ;(setq org-export-latex-coding-system 'utf-8-unix)
   (setq org-latex-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
+  ;(setq org-export-latex-date-format "%Y-%m-%d")
   (setq org-latex-default-class "jsarticle")
   (setq org-latex-classes nil)
   (add-to-list 'org-latex-classes
