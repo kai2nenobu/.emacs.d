@@ -1,7 +1,7 @@
-This is orgguide, produced by makeinfo version 4.13 from
-doc/orgguide.texi.
+This is ../../info/orgguide, produced by makeinfo version 4.13 from
+orgguide.texi.
 
-Copyright (C) 2010-2012 Free Software Foundation
+Copyright (C) 2010-2013 Free Software Foundation
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -12,14 +12,7 @@ Copyright (C) 2010-2012 Free Software Foundation
      "GNU Free Documentation License."
 
      (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
-     modify this GNU manual.  Buying copies from the FSF supports it in
-     developing GNU and promoting software freedom."
-
-     This document is part of a collection distributed under the GNU
-     Free Documentation License.  If you want to distribute this
-     document separately from the collection, you can do so by adding a
-     copy of the license to the document, as described in section 6 of
-     the license.
+     modify this GNU manual."
 
 INFO-DIR-SECTION Emacs
 START-INFO-DIR-ENTRY
@@ -32,7 +25,7 @@ File: orgguide,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 Org Mode Guide
 **************
 
-Copyright (C) 2010-2012 Free Software Foundation
+Copyright (C) 2010-2013 Free Software Foundation
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -43,14 +36,7 @@ Copyright (C) 2010-2012 Free Software Foundation
      "GNU Free Documentation License."
 
      (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
-     modify this GNU manual.  Buying copies from the FSF supports it in
-     developing GNU and promoting software freedom."
-
-     This document is part of a collection distributed under the GNU
-     Free Documentation License.  If you want to distribute this
-     document separately from the collection, you can do so by adding a
-     copy of the license to the document, as described in section 6 of
-     the license.
+     modify this GNU manual."
 
 * Menu:
 
@@ -69,6 +55,8 @@ Copyright (C) 2010-2012 Free Software Foundation
 * Publishing::			Create a web site of linked Org files
 * Working With Source Code::	Source code snippets embedded in Org
 * Miscellaneous::		All the rest which did not fit elsewhere
+
+* GNU Free Documentation License::  This manual license.
 
  --- The Detailed Node Listing ---
 
@@ -116,6 +104,7 @@ Tags
 
 * Tag inheritance::		Tags use the tree structure of the outline
 * Setting tags::		How to assign tags to a headline
+* Tag groups::			Use one tag to search for several tags
 * Tag searches::		Searching for combinations of tags
 
 Dates and Times
@@ -127,8 +116,8 @@ Dates and Times
 
 Capture - Refile - Archive
 
-* Capture::
-* Refiling notes::		Moving a tree from one place to another
+* Capture::			Capturing new stuff
+* Refile and copy::		Moving a tree from one place to another
 * Archiving::			What to do with finished projects
 
 Capture
@@ -156,7 +145,7 @@ The built-in agenda views
 Markup for rich export
 
 * Structural markup elements::	The basic structure as seen by the exporter
-* Images and tables::		Tables and Images will be included
+* Images and tables::		Images, tables and caption mechanism
 * Literal examples::		Source code examples with special formatting
 * Include files::		Include additional files into a document
 * Embedded LaTeX::		LaTeX can be freely used inside Org documents
@@ -238,11 +227,6 @@ For speed you should byte-compile the Lisp files with the shell command:
 
      make
 
-   Then add the following line to `.emacs'.  It is needed so that Emacs
-can autoload functions that are located in files not immediately loaded
-when Org-mode starts.
-     (require 'org-install)
-
 
 File: orgguide,  Node: Activation,  Next: Feedback,  Prev: Installation,  Up: Introduction
 
@@ -254,7 +238,7 @@ define _global_ keys for some commands -- please choose suitable keys
 yourself.
 
      ;; The following lines are always needed.  Choose your own keys.
-     (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+     (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)) ; not needed since Emacs 22.2
      (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
      (global-set-key "\C-cl" 'org-store-link)
      (global-set-key "\C-ca" 'org-agenda)
@@ -425,8 +409,8 @@ File: orgguide,  Node: Structure editing,  Next: Sparse trees,  Prev: Motion,  U
      level).
 
 `C-c C-w'
-     Refile entry or region to a different location.  *Note Refiling
-     notes::.
+     Refile entry or region to a different location.  *Note Refile and
+     copy::.
 
 `C-x n s/w'
      Narrow buffer to current subtree / widen it again
@@ -742,6 +726,9 @@ property `my-custom-id'.
 lead to a text search in the current file for the corresponding target
 which looks like `<<My Target>>'.
 
+   Internal links will be used to reference their destination, through
+links or numbers, when possible.
+
 
 File: orgguide,  Node: External links,  Next: Handling links,  Prev: Internal links,  Up: Hyperlinks
 
@@ -944,7 +931,7 @@ require action).  Your setup would then look like this:
    The keywords should all be different, this helps Org mode to keep
 track of which subsequence should be used for a given entry.  The
 example also shows how to define keys for fast access of a particular
-state, by adding a letter in parenthesis after each keyword - you will
+state, by adding a letter in parenthesis after each keyword--you will
 be prompted for the key after `C-c C-t'.
 
    To define TODO keywords that are valid only in a single file, use the
@@ -965,7 +952,7 @@ File: orgguide,  Node: Progress logging,  Next: Priorities,  Prev: Multi-state w
 
 Org mode can automatically record a timestamp and possibly a note when
 you mark a TODO item as DONE, or even each time you change the state of
-a TODO item.  This system is highly configurable, settings can be on a
+a TODO item.  This system is highly configurable; settings can be on a
 per-keyword basis and can be localized to a file or even a subtree.  For
 information on how to clock working time for a task, see *note Clocking
 work time::.
@@ -1079,7 +1066,7 @@ File: orgguide,  Node: Checkboxes,  Prev: Breaking down tasks,  Up: TODO Items
 
 Every item in a plain list (*note Plain lists::) can be made into a
 checkbox by starting it with the string `[ ]'.  Checkboxes are not
-included into the global TODO list, so they are often great to split a
+included in the global TODO list, so they are often great to split a
 task into a number of simple steps.  Here is an example of a checkbox
 list.
 
@@ -1133,6 +1120,7 @@ will by default be in bold face with the same color as the headline.
 
 * Tag inheritance::		Tags use the tree structure of the outline
 * Setting tags::		How to assign tags to a headline
+* Tag groups::			Use one tag to search for several tags
 * Tag searches::		Searching for combinations of tags
 
 
@@ -1163,7 +1151,7 @@ that surrounds the entire file.  Use a line like this(1):
 activates any changes in the line.
 
 
-File: orgguide,  Node: Setting tags,  Next: Tag searches,  Prev: Tag inheritance,  Up: Tags
+File: orgguide,  Node: Setting tags,  Next: Tag groups,  Prev: Tag inheritance,  Up: Tags
 
 6.2 Setting tags
 ================
@@ -1210,9 +1198,43 @@ can instead set the TAGS option line as:
      #+TAGS: @work(w)  @home(h)  @tennisclub(t)  laptop(l)  pc(p)
 
 
-File: orgguide,  Node: Tag searches,  Prev: Setting tags,  Up: Tags
+File: orgguide,  Node: Tag groups,  Next: Tag searches,  Prev: Setting tags,  Up: Tags
 
-6.3 Tag searches
+6.3 Tag groups
+==============
+
+In a set of mutually exclusive tags, the first tag can be defined as a
+_group tag_.  When you search for a group tag, it will return matches
+for all members in the group.  In an agenda view, filtering by a group
+tag will display headlines tagged with at least one of the members of
+the group.  This makes tag searches and filters even more flexible.
+
+   You can set group tags by inserting a colon between the group tag
+and other tags, like this:
+
+     #+TAGS: { @read : @read_book  @read_ebook }
+
+   In this example, `@read' is a _group tag_ for a set of three tags:
+`@read', `@read_book' and `@read_ebook'.
+
+   You can also use the `:grouptags' keyword directly when setting
+ORG-TAG-ALIST:
+
+     (setq org-tag-alist '((:startgroup . nil)
+                           ("@read" . nil)
+                           (:grouptags . nil)
+                           ("@read_book" . nil)
+                           ("@read_ebook" . nil)
+                           (:endgroup . nil)))
+
+   If you want to ignore group tags temporarily, toggle group tags
+support with `org-toggle-tags-groups', bound to `C-c C-x q'.  If you
+want to disable tag groups completely, set ORG-GROUP-TAGS to nil.
+
+
+File: orgguide,  Node: Tag searches,  Prev: Tag groups,  Up: Tags
+
+6.4 Tag searches
 ================
 
 Once a system of tags has been set up, it can be used to collect related
@@ -1252,10 +1274,10 @@ File: orgguide,  Node: Properties,  Next: Dates and Times,  Prev: Tags,  Up: Top
 7 Properties
 ************
 
-Properties are key-value pairs associates with and entry.  They live in
-a special drawer with the name `PROPERTIES'.  Each property is
-specified on a single line, with the key (surrounded by colons) first,
-and the value after it:
+Properties are key-value pairs associated with an entry.  They live in a
+special drawer with the name `PROPERTIES'.  Each property is specified
+on a single line, with the key (surrounded by colons) first, and the
+value after it:
 
      * CD collection
      ** Classic
@@ -1539,20 +1561,21 @@ project trees to an archive file keeps the system compact and fast.
 
 * Menu:
 
-* Capture::
-* Refiling notes::		Moving a tree from one place to another
+* Capture::			Capturing new stuff
+* Refile and copy::		Moving a tree from one place to another
 * Archiving::			What to do with finished projects
 
 
-File: orgguide,  Node: Capture,  Next: Refiling notes,  Prev: Capture - Refile - Archive,  Up: Capture - Refile - Archive
+File: orgguide,  Node: Capture,  Next: Refile and copy,  Prev: Capture - Refile - Archive,  Up: Capture - Refile - Archive
 
 9.1 Capture
 ===========
 
 Org's method for capturing new items is heavily inspired by John Wiegley
-excellent remember package.  It lets you store quick notes with little
-interruption of your work flow.  Org lets you define templates for new
-entries and associate them with different targets for storing notes.
+excellent `remember.el' package.  It lets you store quick notes with
+little interruption of your work flow.  Org lets you define templates
+for new entries and associate them with different targets for storing
+notes.
 
 * Menu:
 
@@ -1596,8 +1619,8 @@ Using capture
      distraction.
 
 `C-c C-w'
-     Finalize by moving the entry to a refile location (*note Refiling
-     notes::).
+     Finalize by moving the entry to a refile location (*note Refile
+     and copy::).
 
 `C-c C-k'
      Abort the capture process and return to the previous state.
@@ -1635,7 +1658,7 @@ During expansion of the template, special `%'-escapes(1) allow dynamic
 insertion of content.  Here is a small selection of the possibilities,
 consult the manual for more.
      %a          annotation, normally the link created with `org-store-link'
-     %i          initial content, the region when remember is called with C-u.
+     %i          initial content, the region when capture is called with C-u.
      %t          timestamp, date only
      %T          timestamp with date and time
      %u, %U      like the above, but inactive timestamps
@@ -1646,15 +1669,20 @@ consult the manual for more.
 with a backslash.
 
 
-File: orgguide,  Node: Refiling notes,  Next: Archiving,  Prev: Capture,  Up: Capture - Refile - Archive
+File: orgguide,  Node: Refile and copy,  Next: Archiving,  Prev: Capture,  Up: Capture - Refile - Archive
 
-9.2 Refiling notes
-==================
+9.2 Refile and copy
+===================
 
-When reviewing the captured data, you may want to refile some of the
-entries into a different list, for example into a project.  Cutting,
-finding the right location, and then pasting the note is cumbersome.
-To simplify this process, you can use the following special command:
+When reviewing the captured data, you may want to refile or copy some
+of the entries into a different list, for example into a project.
+Cutting, finding the right location, and then pasting the note is
+cumbersome.  To simplify this process, you can use the following
+special command:
+
+`C-c M-x'
+     Copy the entry or region at point.  This command behaves like
+     `org-refile', except that the original note will not be deleted.
 
 `C-c C-w'
      Refile the entry or region at point.  This command offers possible
@@ -1673,7 +1701,7 @@ To simplify this process, you can use the following special command:
      Jump to the location where `org-refile' last moved a tree to.
 
 
-File: orgguide,  Node: Archiving,  Prev: Refiling notes,  Up: Capture - Refile - Archive
+File: orgguide,  Node: Archiving,  Prev: Refile and copy,  Up: Capture - Refile - Archive
 
 9.3 Archiving
 =============
@@ -1704,8 +1732,6 @@ There is also an in-buffer option for setting this variable, for example
 Further reading
 Chapter 9 of the manual
 (http://orgmode.org/manual/Capture-_002d-Refile-_002d-Archive.html#Capture-_002d-Refile-_002d-Archive)
-Charles Cave's remember tutorial
-(http://members.optusnet.com.au/~charles57/GTD/remember.html)
 Sebastian Rose's tutorial for capturing from a web browser
 (http://orgmode.org/worg/org-tutorials/org-protocol-custom-handler.php)`'
 
@@ -2024,7 +2050,7 @@ Secondary filtering and query editing
 Remote editing (see the manual for many more commands)
 ......................................................
 
-`0-9'
+`0--9'
      Digit argument.
 
 `t'
@@ -2124,7 +2150,7 @@ This section summarizes the markup rules used in an Org-mode buffer.
 * Menu:
 
 * Structural markup elements::	The basic structure as seen by the exporter
-* Images and tables::		Tables and Images will be included
+* Images and tables::		Images, tables and caption mechanism
 * Literal examples::		Source code examples with special formatting
 * Include files::		Include additional files into a document
 * Embedded LaTeX::		LaTeX can be freely used inside Org documents
@@ -2237,11 +2263,11 @@ File: orgguide,  Node: Comment lines,  Prev: Emphasis and monospace,  Up: Struct
 Comment lines
 -------------
 
-Lines starting with `#' in column zero are treated as comments and will
-never be exported.  If you want an indented line to be treated as a
-comment, start it with `#+ '.  Also entire subtrees starting with the
-word `COMMENT' will never be exported.  Finally, regions surrounded by
-`#+BEGIN_COMMENT' ... `#+END_COMMENT' will not be exported.
+Lines starting with zero or more whitespace characters followed by `#'
+are treated as comments and will never be exported.  Also entire
+subtrees starting with the word `COMMENT' will never be exported.
+Finally, regions surrounded by `#+BEGIN_COMMENT' ... `#+END_COMMENT'
+will not be exported.
 
 `C-c ;'
      Toggle the COMMENT keyword at the beginning of an entry.
@@ -2256,27 +2282,27 @@ For Org mode tables, the lines before the first horizontal separator
 line will become table header lines.  You can use the following lines
 somewhere before the table to assign a caption and a label for cross
 references, and in the text you can refer to the object with
-`\ref{tab:basic-data}':
+`[[tab:basic-data]]':
 
      #+CAPTION: This is the caption for the next table (or link)
-     #+LABEL:   tbl:basic-data
+     #+NAME:   tbl:basic-data
         | ... | ...|
         |-----|----|
 
-   Some backends (HTML, LaTeX, and DocBook) allow you to directly
-include images into the exported document.  Org does this, if a link to
-an image files does not have a description part, for example
-`[[./img/a.jpg]]'.  If you wish to define a caption for the image and
-maybe a label for internal cross references, you sure that the link is
-on a line by itself precede it with:
+   Some backends allow you to directly include images into the exported
+document.  Org does this, if a link to an image files does not have a
+description part, for example `[[./img/a.jpg]]'.  If you wish to define
+a caption for the image and maybe a label for internal cross
+references, you sure that the link is on a line by itself precede it
+with:
 
      #+CAPTION: This is the caption for the next figure link (or table)
-     #+LABEL:   fig:SED-HR4049
+     #+NAME:   fig:SED-HR4049
      [[./img/a.jpg]]
 
-   You may also define additional attributes for the figure.  As this is
-backend-specific, see the sections about the individual backends for
-more information.
+   The same caption mechanism applies to other structures than images
+and tables (e.g., LaTeX equations, source code blocks), provided the
+chosen export back-end supports them.
 
 
 File: orgguide,  Node: Literal examples,  Next: Include files,  Prev: Images and tables,  Up: Markup
@@ -2336,7 +2362,7 @@ File: orgguide,  Node: Embedded LaTeX,  Prev: Include files,  Up: Markup
 
 For scientific notes which need to be able to contain mathematical
 symbols and the occasional formula, Org-mode supports embedding LaTeX
-code into its files.  You can directly use TeX-like macros for special
+code into its files.  You can directly use TeX-like syntax for special
 symbols, enter formulas and entire LaTeX environments.
 
      Angles are written as Greek letters \alpha, \beta and \gamma.  The mass if
@@ -2397,8 +2423,6 @@ The whole set of lines can be inserted into the buffer with `C-c C-e t'.
      #+DESCRIPTION: the page description, e.g. for the XHTML meta tag
      #+KEYWORDS:    the page keywords, e.g. for the XHTML meta tag
      #+LANGUAGE:    language for HTML, e.g. `en' (`org-export-default-language')
-     #+TEXT:        Some descriptive text to be inserted at the beginning.
-     #+TEXT:        Several lines may be given.
      #+OPTIONS:     H:2 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t ...
      #+LINK_UP:     the ``up'' link of an exported page
      #+LINK_HOME:   the ``home'' link of an exported page
@@ -2478,7 +2502,7 @@ File: orgguide,  Node: LaTeX and PDF export,  Next: DocBook export,  Prev: HTML 
 
    By default, the LaTeX output uses the class `article'.  You can
 change this by adding an option like `#+LaTeX_CLASS: myclass' in your
-file.  The class must be listed in `org-export-latex-classes'.
+file.  The class must be listed in `org-latex-classes'.
 
    Embedded LaTeX as described in *note Embedded LaTeX::, will be
 correctly inserted into the LaTeX file.  Similarly to the HTML
@@ -2707,7 +2731,7 @@ The Babel site on Worg
 (http://orgmode.org/worg/org-contrib/babel/index.php)
 
 
-File: orgguide,  Node: Miscellaneous,  Prev: Working With Source Code,  Up: Top
+File: orgguide,  Node: Miscellaneous,  Next: GNU Free Documentation License,  Prev: Working With Source Code,  Up: Top
 
 15 Miscellaneous
 ****************
@@ -2795,106 +2819,594 @@ Appendix B of the manual
 (http://orgmode.org/manual/MobileOrg.html#MobileOrg)
 Key reference card (http://orgmode.org/orgcard.pdf)
 
+
+File: orgguide,  Node: GNU Free Documentation License,  Prev: Miscellaneous,  Up: Top
+
+付録 A GNU Free Documentation License
+***************************************
+
+                     Version 1.3, 3 November 2008
+
+     Copyright (C) 2000, 2001, 2002, 2007, 2008, 2013 Free Software Foundation, Inc.
+     `http://fsf.org/'
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly
+     and finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from
+     you under this License.  If your rights have been terminated and
+     not permanently reinstated, receipt of a copy of some or all of
+     the same material does not give you any rights to use it.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.  If the Document specifies that a proxy
+     can decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
+
+ 11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.3
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
 
 
 Tag Table:
-Node: Top1199
-Node: Introduction7038
-Node: Preface7355
-Node: Installation7968
-Node: Activation8975
-Node: Feedback9691
-Node: Document Structure10006
-Node: Outlines10662
-Node: Headlines11323
-Ref: Headlines-Footnote-111987
-Node: Visibility cycling12098
-Node: Motion13255
-Node: Structure editing13652
-Ref: Structure editing-Footnote-114841
-Node: Sparse trees14941
-Ref: Sparse trees-Footnote-115980
-Node: Plain lists16186
-Node: Footnotes18593
-Node: Tables19690
-Node: Hyperlinks23467
-Node: Link format23965
-Node: Internal links24582
-Node: External links25123
-Node: Handling links27247
-Node: Targeted links28596
-Node: TODO Items29325
-Ref: TODO Items-Footnote-130366
-Node: Using TODO states30480
-Node: Multi-state workflows31768
-Node: Progress logging33707
-Node: Closing items34355
-Ref: Closing items-Footnote-135061
-Ref: Closing items-Footnote-235130
-Node: Tracking TODO state changes35203
-Node: Priorities36240
-Node: Breaking down tasks37019
-Node: Checkboxes37801
-Node: Tags39161
-Node: Tag inheritance39945
-Ref: Tag inheritance-Footnote-140814
-Node: Setting tags40914
-Node: Tag searches42924
-Node: Properties44302
-Node: Dates and Times46190
-Node: Timestamps46751
-Node: Creating timestamps48630
-Node: Deadlines and scheduling50174
-Ref: Deadlines and scheduling-Footnote-152094
-Ref: Deadlines and scheduling-Footnote-252258
-Node: Clocking work time52413
-Node: Capture - Refile - Archive54533
-Node: Capture55252
-Node: Setting up a capture location55885
-Ref: Setting up a capture location-Footnote-156335
-Ref: Setting up a capture location-Footnote-256451
-Node: Using capture56517
-Node: Capture templates57190
-Ref: Capture templates-Footnote-158874
-Node: Refiling notes58961
-Node: Archiving60023
-Node: Agenda Views61530
-Node: Agenda files62773
-Node: Agenda dispatcher63423
-Node: Built-in agenda views64261
-Node: Weekly/daily agenda64744
-Ref: Weekly/daily agenda-Footnote-165893
-Node: Global TODO list66006
-Node: Matching tags and properties66711
-Node: Timeline68673
-Node: Search view69263
-Node: Agenda commands70265
-Node: Custom agenda views73597
-Node: Markup75338
-Node: Structural markup elements76155
-Node: Document title76646
-Node: Headings and sections76932
-Node: Table of contents77607
-Node: Paragraphs77969
-Node: Emphasis and monospace79142
-Node: Comment lines79632
-Node: Images and tables80178
-Node: Literal examples81439
-Node: Include files82504
-Node: Embedded LaTeX83139
-Node: Exporting84094
-Node: Export options84916
-Node: The export dispatcher86250
-Node: ASCII/Latin-1/UTF-8 export86815
-Node: HTML export87428
-Node: LaTeX and PDF export87937
-Node: DocBook export88744
-Node: iCalendar export89077
-Node: Publishing89866
-Node: Working With Source Code91519
-Node: Miscellaneous96801
-Node: Completion97072
-Node: Clean view97552
-Node: MobileOrg99334
+Node: Top815
+Node: Introduction6402
+Node: Preface6719
+Node: Installation7332
+Node: Activation8144
+Node: Feedback8890
+Node: Document Structure9205
+Node: Outlines9861
+Node: Headlines10522
+Ref: Headlines-Footnote-111186
+Node: Visibility cycling11297
+Node: Motion12454
+Node: Structure editing12851
+Ref: Structure editing-Footnote-114041
+Node: Sparse trees14141
+Ref: Sparse trees-Footnote-115180
+Node: Plain lists15386
+Node: Footnotes17793
+Node: Tables18890
+Node: Hyperlinks22667
+Node: Link format23165
+Node: Internal links23782
+Node: External links24428
+Node: Handling links26552
+Node: Targeted links27901
+Node: TODO Items28630
+Ref: TODO Items-Footnote-129671
+Node: Using TODO states29785
+Node: Multi-state workflows31073
+Node: Progress logging33011
+Node: Closing items33659
+Ref: Closing items-Footnote-134365
+Ref: Closing items-Footnote-234434
+Node: Tracking TODO state changes34507
+Node: Priorities35544
+Node: Breaking down tasks36323
+Node: Checkboxes37105
+Node: Tags38463
+Node: Tag inheritance39303
+Ref: Tag inheritance-Footnote-140172
+Node: Setting tags40272
+Node: Tag groups42280
+Node: Tag searches43578
+Node: Properties44954
+Node: Dates and Times46841
+Node: Timestamps47402
+Node: Creating timestamps49281
+Node: Deadlines and scheduling50825
+Ref: Deadlines and scheduling-Footnote-152745
+Ref: Deadlines and scheduling-Footnote-252909
+Node: Clocking work time53064
+Node: Capture - Refile - Archive55184
+Node: Capture55926
+Node: Setting up a capture location56565
+Ref: Setting up a capture location-Footnote-157015
+Ref: Setting up a capture location-Footnote-257131
+Node: Using capture57197
+Node: Capture templates57871
+Ref: Capture templates-Footnote-159554
+Node: Refile and copy59641
+Node: Archiving60862
+Node: Agenda Views62275
+Node: Agenda files63518
+Node: Agenda dispatcher64168
+Node: Built-in agenda views65006
+Node: Weekly/daily agenda65489
+Ref: Weekly/daily agenda-Footnote-166638
+Node: Global TODO list66751
+Node: Matching tags and properties67456
+Node: Timeline69418
+Node: Search view70008
+Node: Agenda commands71010
+Node: Custom agenda views74343
+Node: Markup76084
+Node: Structural markup elements76903
+Node: Document title77394
+Node: Headings and sections77680
+Node: Table of contents78355
+Node: Paragraphs78717
+Node: Emphasis and monospace79890
+Node: Comment lines80380
+Node: Images and tables80878
+Node: Literal examples82125
+Node: Include files83190
+Node: Embedded LaTeX83825
+Node: Exporting84780
+Node: Export options85602
+Node: The export dispatcher86813
+Node: ASCII/Latin-1/UTF-8 export87378
+Node: HTML export87991
+Node: LaTeX and PDF export88500
+Node: DocBook export89300
+Node: iCalendar export89633
+Node: Publishing90422
+Node: Working With Source Code92075
+Node: Miscellaneous97357
+Node: Completion97667
+Node: Clean view98147
+Node: MobileOrg99929
+Node: GNU Free Documentation License100876
 
 End Tag Table
