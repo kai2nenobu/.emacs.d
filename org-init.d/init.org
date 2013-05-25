@@ -6023,6 +6023,8 @@ do nothing. And suppress the output from `message' and
   (setq ac-use-overriding-local-map t) ; ローカルマップの TAB を乗っ取る？
                                         ; おもに org-mode で使いたいので付けとく．
                                         ; 本来の org-mode の TAB がどれほど使えなくなるのかが心配
+  (setq ac-candidate-menu-min 0) ; 候補が1つでも補完メニューを表示する
+  (setq ac-disable-inline t) ; 候補が1つの場合のインライン補完を無効にする
 
   ;; デフォルトの情報源
   (setq-default ac-sources
@@ -6041,6 +6043,30 @@ do nothing. And suppress the output from `message' and
   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand)
   (define-key ac-complete-mode-map (kbd "C-s") 'ac-isearch)
   (define-key ac-complete-mode-map (kbd "M-h") 'ac-quick-help)
+
+  ;; camelCase 補完
+  (defun camel-regexp (str)
+    ""
+    (let ((case-fold-search nil)
+          (str (regexp-quote str)))
+      (concat "^"
+              (substring str 0 1)
+              (replace-regexp-in-string "[A-Z]"
+                                        'translate-camel-regexp str t nil nil 1))))
+
+  (defun translate-camel-regexp (string)
+    (concat "[a-z]*[-:/]" (downcase string)))
+
+  (defun camel-all-completion (string collection)
+    ""
+    (let ((regexp (camel-regexp string)))
+      (loop for str in collection
+            if (string-match regexp str)
+            collect str)))
+
+  (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
+    (add-to-list source (cons 'match 'camel-all-completion)))
+
   )
 
 (my-measure-message-time "Non-standard elisp setting.")
