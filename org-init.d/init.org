@@ -5169,12 +5169,12 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
   (setq org-directory (expand-file-name "memo"  dropbox-directory))
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
-  (setq org-export-html-coding-system 'utf-8)
+  (setq org-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-src-preserve-indentation t)  ; ソースブロックのインデントを保持する．エクスポート時も
   (setq org-export-htmlize-output-type 'css) ; src のハイライトに css を使う
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
-  (add-to-list 'org-export-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
+  (add-to-list 'org-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
   ;; agenda で参照する org ファイル達
   (setq org-agenda-files `(,org-default-notes-file
                            ,(expand-file-name "task.org" org-directory)
@@ -5331,11 +5331,11 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; config about latex exporting
   (setcdr (assoc "\\.pdf\\'" org-file-apps) "/usr/bin/acroread %s")
   (setq org-export-latex-coding-system 'utf-8-unix)
-  (setq org-latex-to-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
   (setq org-export-latex-date-format "%Y-%m-%d")
-  (setq org-export-latex-default-class "jsarticle")
-  (setq org-export-latex-classes nil)
-  (add-to-list 'org-export-latex-classes
+  (setq org-latex-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
+  (setq org-latex-default-class "jsarticle")
+  (setq org-latex-classes nil)
+  (add-to-list 'org-latex-classes
                '("jsarticle"
                  "\\documentclass[a4j]{jsarticle}
 \\usepackage[dvipdfmx]{graphicx}"
@@ -5355,7 +5355,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;;              '("dvipdfmx" "color" nil)
   ;;              t)
   ;; config about beamer export
-  (add-to-list 'org-export-latex-classes
+  (add-to-list 'org-latex-classes
                '("beamer"
                  "\\documentclass[dvipdfmx]{beamer}
 \\AtBeginDvi{\\special{pdf:tounicode EUC-UCS2}} % prevent mojibake of bookmark in pdf
