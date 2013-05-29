@@ -500,6 +500,15 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** Org-mode の自動プレビュー
+#+BEGIN_SRC emacs-lisp
+(defun org-my-auto-preview ()
+  (interactive)
+  (when (eq major-mode 'org-mode)
+    (org-html-export-to-html)
+    (moz-page-reload)))
+;(add-hook 'after-save-hook 'org-my-auto-preview)
+#+END_SRC
 ** open-line したあとにインデントするアドバイス
 #+BEGIN_SRC emacs-lisp
 (defadvice open-line (after and-indent (N) activate)
