@@ -4337,6 +4337,14 @@ helm-c-apropos は複数の関数による情報源でできているので，�
     "FACE is symbol or string."
     (describe-face (helm-c-symbolify face)))
 #+END_SRC
+*** helm-ring.el
+mark-ring が helm でたどれる．mark がよくわからなくなった時に使える．
+#+BEGIN_SRC emacs-lisp
+  (require 'helm-ring)
+  (push '(migemo) helm-c-source-mark-ring)
+  (push '(migemo) helm-c-source-global-mark-ring)
+  (define-key helm-command-map (kbd "SPC") 'helm-all-mark-rings)
+#+END_SRC
 *** 最後のカッコ
 #+BEGIN_SRC emacs-lisp
   )
