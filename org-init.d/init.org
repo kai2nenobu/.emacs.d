@@ -6074,7 +6074,7 @@ do nothing. And suppress the output from `message' and
 ポータブルにはしにくそうなやつ
 ** edbi.el
 #+BEGIN_SRC emacs-lisp
-(require 'edbi)
+(my-safe-require 'edbi)
 #+END_SRC
 ** lookup.el                                                       :noexport:
 多機能辞書引きプログラム．
