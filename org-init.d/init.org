@@ -2618,12 +2618,11 @@ package.el からインストール．
   (defun my-web-mode-initial-customization ()
     ;; (font-lock-mode -1) にしたいけど，このあとに font-lock-mode を有効にする
     ;; フックが実行されてしまうようだ．苦肉の策で run-with-timer で遅延させる
-    (run-with-timer 1 nil 'font-lock-mode '(-1))
+    (run-with-timer 1 nil 'font-lock-mode '(-1)))
 
-    (eval-after-load "zencoding-mode"
-      '(zencoding-mode 1))
-    )
-  (add-hook 'web-mode-hook 'my-web-mode-initial-customization)
+  (add-hook 'web-mode-hook 'zencoding-mode)
+
+  ;(add-hook 'web-mode-hook 'my-web-mode-initial-customization)
   )
 #+END_SRC
 ** mu4e.el                                                         :noexport:
