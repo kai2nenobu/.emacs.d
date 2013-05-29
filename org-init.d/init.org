@@ -6040,11 +6040,11 @@ do nothing. And suppress the output from `message' and
   (defun camel-regexp (str)
     ""
     (let ((case-fold-search nil)
-          (str (regexp-quote str)))
+          (qstr (regexp-quote str)))
       (concat "^"
               (substring str 0 1)
               (replace-regexp-in-string "[A-Z]"
-                                        'translate-camel-regexp str t nil nil 1))))
+                                        'translate-camel-regexp qstr t nil nil 1))))
 
   (defun translate-camel-regexp (string)
     (concat "[a-z]*[-:/]" (downcase string)))
