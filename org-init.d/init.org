@@ -5396,6 +5396,15 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
+  ;; ソースコードブロックの caption を label から div 要素に変更するフィルタ
+  ;(defun my-html-filter-src-caption (text backend info)
+  ;  "Make a caption of src block div element."
+  ;  (when (org-export-derived-backend-p backend 'html)
+  ;    (when (string-match "<label class=\"org-src-name\">\\(.+?\\)</label>" text)
+  ;      (replace-match "<div class=\"org-src-name\">\\1</div>" t nil text))))
+  ;(add-to-list 'org-export-filter-src-block-functions
+  ;           'my-html-filter-src-caption)
+
   ;; external plugin
 ;;; org-tree-slide.el
 ;;; (auto-install-from-url "https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el")
