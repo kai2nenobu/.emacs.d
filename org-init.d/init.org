@@ -641,7 +641,11 @@ Leave one space or none, according to the context."
             (save-excursion (forward-char -1)
                             (looking-at "$\\|\\s(\\|\\s'"))
             (and (> (preceding-char) 255)
-                 (> (following-char) 255)))  ; 前後が両方共 ascii ではない場合
+                 (> (following-char) 255))  ; 前後が両方共 ascii ではない場合
+            (string-match "、\\|。\\|，\\|．" (char-to-string (preceding-char)))
+            (string-match "、\\|。\\|，\\|．" (char-to-string (following-char)))
+            (string-match "！\\|？" (char-to-string (following-char)))
+            )
         nil
       (insert ?\s))))
 (defalias 'fixup-whitespace-original 'fixup-whitespace)
