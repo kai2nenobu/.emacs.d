@@ -5194,6 +5194,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-src-preserve-indentation t)  ; ソースブロックのインデントを保持する．エクスポート時も
   (setq org-export-htmlize-output-type 'css) ; src のハイライトに css を使う
+  (setq org-html-htmlize-output-type 'css)
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
   (add-to-list 'org-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
   ;; agenda で参照する org ファイル達
