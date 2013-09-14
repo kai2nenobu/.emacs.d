@@ -6118,27 +6118,9 @@ do nothing. And suppress the output from `message' and
   (define-key ac-complete-mode-map (kbd "M-h") 'ac-quick-help)
 
   ;; camelCase 補完
-  (defun camel-regexp (str)
-    ""
-    (let ((case-fold-search nil)
-          (qstr (regexp-quote str)))
-      (concat "^"
-              (substring str 0 1)
-              (replace-regexp-in-string "[A-Z]"
-                                        'translate-camel-regexp qstr t nil nil 1))))
-
-  (defun translate-camel-regexp (string)
-    (concat "[a-z]*[-:/]" (downcase string)))
-
-  (defun camel-all-completion (string collection)
-    ""
-    (let ((regexp (camel-regexp string)))
-      (loop for str in collection
-            if (string-match regexp str)
-            collect str)))
-
-  (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
-    (add-to-list source (cons 'match 'camel-all-completion)))
+  (my-safe-require 'ac-camel-case
+    (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
+      (add-to-list source (cons 'match 'ac-camel-case-lisp-all-completion))))
 
   )
 
