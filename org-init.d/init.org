@@ -3359,9 +3359,9 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
 メニューバーを日本語化する．Windows 環境では一部文字化けあり．
 #+BEGIN_SRC emacs-lisp
-(when window-system
-  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
-  (my-safe-require 'menu-tree))
+;(when window-system
+;  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
+;  (my-safe-require 'menu-tree))
 #+END_SRC
 ** emoji.el
 - [[https://github.com/imakado/emoji][imakado/emoji]]
@@ -5330,65 +5330,65 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+END_SRC
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
-  (setq org-publish-timestamp-directory
-        (expand-file-name ".org-timestamps/" user-emacs-directory))
-  (defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
-  (defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
-  (defvar org-publish-kensyu-base-dir (expand-file-name "kensyu" org-directory))
-  (defvar org-publish-kensyu-publishing-dir "/kensyu:public_html")
-  (setq org-publish-project-alist
-        `(("html"
-           :base-directory ,org-publish-my-web-base-dir
-           :publishing-directory ,org-publish-my-web-publishing-dir
-           :base-extension "org"
-           :publishing-function org-publish-org-to-html
-           :headline-levels 3
-           :section-numbers nil
-           :table-of-contents nil
-           :recursive t
-           :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
-           :exclude-tags ("Draft" "Note")
-           :auto-preamble t
-           :auto-postamble nil)
-          ("images"
-           :base-directory ,(expand-file-name "img" org-publish-my-web-base-dir)
-           :publishing-directory ,(expand-file-name "img" org-publish-my-web-publishing-dir)
-           :base-extension "jpg\\|jpeg\\|png"
-           :publishing-function org-publish-attachment)
-          ("others"
-           :base-directory ,org-publish-my-web-base-dir
-           :publishing-directory ,org-publish-my-web-publishing-dir
-           :base-extension "css"
-           :publishing-function org-publish-attachment
-           :recursive t)
-          ("kaichan" :components ("html" "images" "others"))
-          ("kensyu-html"
-           :base-directory ,org-publish-kensyu-base-dir
-           :publishing-directory ,org-publish-kensyu-publishing-dir
-           :base-extension "org"
-           :publishing-function org-publish-org-to-html
-           :headline-levels 3
-           :section-numbers nil
-           :table-of-contents nil
-           :recursive t
-           :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
-           :html-preamble t
-           :html-postamble "<p><span class=\"link\">[<a href=\"/~kai/index.html\">トップへ戻る</a>] [<a href=\"javascript:history.go(-1)\">前に戻る</a>]</span><span class=\"date\">最終更新日: %d</span></p>"
-           :exclude "TODO.org"
-           :exclude-tags ("Draft" "noexport"))
-          ("kensyu-images"
-           :base-directory ,(expand-file-name "img" org-publish-kensyu-base-dir)
-           :publishing-directory ,(expand-file-name "img" org-publish-kensyu-publishing-dir)
-           :base-extension "jpg\\|jpeg\\|png"
-           :publishing-function org-publish-attachment)
-          ("kensyu-others"
-           :base-directory ,org-publish-kensyu-base-dir
-           :publishing-directory ,org-publish-kensyu-publishing-dir
-           :base-extension "css"
-           :publishing-function org-publish-attachment
-           :recursive t)
-          ("kensyu" :components ("kensyu-html" "kensyu-images" "kensyu-others"))
-          ))
+  ;(setq org-publish-timestamp-directory
+  ;      (expand-file-name ".org-timestamps/" user-emacs-directory))
+  ;(defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
+  ;(defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
+  ;(defvar org-publish-kensyu-base-dir (expand-file-name "kensyu" org-directory))
+  ;(defvar org-publish-kensyu-publishing-dir "/kensyu:public_html")
+  ;(setq org-publish-project-alist
+  ;      `(("html"
+  ;         :base-directory ,org-publish-my-web-base-dir
+  ;         :publishing-directory ,org-publish-my-web-publishing-dir
+  ;         :base-extension "org"
+  ;         :publishing-function org-publish-org-to-html
+  ;         :headline-levels 3
+  ;         :section-numbers nil
+  ;         :table-of-contents nil
+  ;         :recursive t
+  ;         :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
+  ;         :exclude-tags ("Draft" "Note")
+  ;         :auto-preamble t
+  ;         :auto-postamble nil)
+  ;        ("images"
+  ;         :base-directory ,(expand-file-name "img" org-publish-my-web-base-dir)
+  ;         :publishing-directory ,(expand-file-name "img" org-publish-my-web-publishing-dir)
+  ;         :base-extension "jpg\\|jpeg\\|png"
+  ;         :publishing-function org-publish-attachment)
+  ;        ("others"
+  ;         :base-directory ,org-publish-my-web-base-dir
+  ;         :publishing-directory ,org-publish-my-web-publishing-dir
+  ;         :base-extension "css"
+  ;         :publishing-function org-publish-attachment
+  ;         :recursive t)
+  ;        ("kaichan" :components ("html" "images" "others"))
+  ;        ("kensyu-html"
+  ;         :base-directory ,org-publish-kensyu-base-dir
+  ;         :publishing-directory ,org-publish-kensyu-publishing-dir
+  ;         :base-extension "org"
+  ;         :publishing-function org-publish-org-to-html
+  ;         :headline-levels 3
+  ;         :section-numbers nil
+  ;         :table-of-contents nil
+  ;         :recursive t
+  ;         :style "<link rel=stylesheet type=\"text/css\" href=\"/~kai/stylesheet.css\" >"
+  ;         :html-preamble t
+  ;         :html-postamble "<p><span class=\"link\">[<a href=\"/~kai/index.html\">トップへ戻る</a>] [<a href=\"javascript:history.go(-1)\">前に戻る</a>]</span><span class=\"date\">最終更新日: %d</span></p>"
+  ;         :exclude "TODO.org"
+  ;         :exclude-tags ("Draft" "noexport"))
+  ;        ("kensyu-images"
+  ;         :base-directory ,(expand-file-name "img" org-publish-kensyu-base-dir)
+  ;         :publishing-directory ,(expand-file-name "img" org-publish-kensyu-publishing-dir)
+  ;         :base-extension "jpg\\|jpeg\\|png"
+  ;         :publishing-function org-publish-attachment)
+  ;        ("kensyu-others"
+  ;         :base-directory ,org-publish-kensyu-base-dir
+  ;         :publishing-directory ,org-publish-kensyu-publishing-dir
+  ;         :base-extension "css"
+  ;         :publishing-function org-publish-attachment
+  ;         :recursive t)
+  ;        ("kensyu" :components ("kensyu-html" "kensyu-images" "kensyu-others"))
+  ;        ))
 #+END_SRC
 *** export 関連
 #+BEGIN_SRC emacs-lisp
@@ -6148,7 +6148,7 @@ do nothing. And suppress the output from `message' and
 ポータブルにはしにくそうなやつ
 ** edbi.el
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'edbi)
+;(my-safe-require 'edbi)
 #+END_SRC
 ** lookup.el                                                       :noexport:
 多機能辞書引きプログラム．
