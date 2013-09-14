@@ -2569,6 +2569,15 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** zoom-window
+ウィンドウを一時的に1ウィンドウにする。
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "elscreen"
+  '(my-safe-require 'zoom-window
+     (setq zoom-window-use-elscreen t)
+     (zoom-window-setup)
+     (define-key elscreen-map (kbd "C-z") 'zoom-window-zoom)))
+#+END_SRC
 ** highlight-symbol-mode
 カーソル下のシンボルをハイライトする。highlight-symbol-mode は自動的にカーソ
 ル下のシンボルをハイライトするようになる。
