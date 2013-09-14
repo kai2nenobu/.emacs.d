@@ -500,6 +500,29 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 行の入れ替え
+- [[http://qiita.com/ShingoFukuyama@github/items/fc51a32e84fd84261565][Emacs - 現在行をそのまま上下に連続移動させる - Qiita キータ]]
+#+BEGIN_SRC emacs-lisp
+(defun move-line-down ()
+  (interactive)
+  (let ((col (current-column)))
+    (save-excursion
+      (forward-line)
+      (transpose-lines 1))
+    (forward-line)
+    (move-to-column col)))
+
+(defun move-line-up ()
+  (interactive)
+  (let ((col (current-column)))
+    (save-excursion
+      (forward-line)
+      (transpose-lines -1))
+    (move-to-column col)))
+
+(global-set-key (kbd "M-<down>") 'move-line-down)
+(global-set-key (kbd "M-<up>") 'move-line-up)
+#+END_SRC
 ** Org-mode の自動プレビュー
 #+BEGIN_SRC emacs-lisp
 (defun org-my-auto-preview ()
