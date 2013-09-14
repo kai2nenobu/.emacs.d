@@ -2561,6 +2561,17 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** highlight-symbol-mode
+カーソル下のシンボルをハイライトする。highlight-symbol-mode は自動的にカーソ
+ル下のシンボルをハイライトするようになる。
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'highlight-symbol
+  (setq highlight-symbol-idle-delay 0.5)
+  (define-globalized-minor-mode global-highlight-symbol-mode
+    highlight-symbol-mode highlight-symbol-mode)
+  (global-highlight-symbol-mode 1)
+  )
+#+END_SRC
 ** zencoding-mode.el
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'zencoding-mode
