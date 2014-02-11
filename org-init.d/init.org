@@ -2586,7 +2586,7 @@ generic を用いて予め定義されているモード．
   (setq highlight-symbol-idle-delay 0.5)
   (define-globalized-minor-mode global-highlight-symbol-mode
     highlight-symbol-mode highlight-symbol-mode)
-  (global-highlight-symbol-mode 1)
+  ;(global-highlight-symbol-mode 1)
   )
 #+END_SRC
 ** zencoding-mode.el
