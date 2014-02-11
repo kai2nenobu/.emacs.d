@@ -2569,6 +2569,18 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** org-octopress
+org-modeでOctpressの記事を書くためのライブラリ。
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'org-octopress
+  (setq org-octopress-directory-top       "~/Dropbox/octopress/source")
+  (setq org-octopress-directory-posts     "~/Dropbox/octopress/source/_posts")
+  (setq org-octopress-directory-org-top   "~/Dropbox/octopress/source")
+  (setq org-octopress-directory-org-posts "~/Dropbox/octopress/source/blog")
+  (setq org-octopress-setup-file          "~/Dropbox/octopress/org-octopress/style.org")
+  (setq org-jekyll-comments "true")
+  )
+#+END_SRC
 ** outline-magic
 outline-modeでorg-cycle風にアウトラインを開閉する。
 #+BEGIN_SRC emacs-lisp
