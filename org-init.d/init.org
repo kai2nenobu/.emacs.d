@@ -5557,26 +5557,26 @@ Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;;; jaunte.el
 ;;; (auto-install-from-url "https://raw.github.com/kawaguchi/jaunte.el/master/jaunte.el")
-(my-safe-require 'jaunte
-  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
-  (setq jaunte-hint-unit 'symbol)
-  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
-
-  ;; info では参照のみを対象とする
-  (defun my-jaunte-forward-word ()
-    "Move to beginning of a forward word, and return point."
-    (interactive)
-    (if (eq major-mode 'Info-mode)
-        (progn
-          (Info-next-reference)
-          (point))
-      (if (looking-at "\\w")
-          (forward-thing jaunte-hint-unit))
-      (if (re-search-forward "\\w" nil 'eob)
-          (backward-char))
-      (point)))
-  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
-  )
+;(my-safe-require 'jaunte
+;  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
+;  (setq jaunte-hint-unit 'symbol)
+;  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
+; 
+;  ;; info では参照のみを対象とする
+;  (defun my-jaunte-forward-word ()
+;    "Move to beginning of a forward word, and return point."
+;    (interactive)
+;    (if (eq major-mode 'Info-mode)
+;        (progn
+;          (Info-next-reference)
+;          (point))
+;      (if (looking-at "\\w")
+;          (forward-thing jaunte-hint-unit))
+;      (if (re-search-forward "\\w" nil 'eob)
+;          (backward-char))
+;      (point)))
+;  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
+;  )
 #+END_SRC
 ** postit.el
 - [[http://web.archive.org/web/19981202211943/www.is.s.u-tokyo.ac.jp/~tama/source.html][Tama's Softwares]]
