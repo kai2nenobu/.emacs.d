@@ -6188,7 +6188,10 @@ do nothing. And suppress the output from `message' and
   (my-safe-require 'migemo
     (setq migemo-command "cmigemo")
     (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
-    (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict") ; migemo-dict のパスを指定
+    (cond ((linuxp)
+           (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")) ; migemo-dict のパスを指定
+          (t
+           (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")))
     (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
     (setq migemo-pattern-alist-file (expand-file-name ".migemo-pattern" user-emacs-directory))
     (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
