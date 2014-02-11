@@ -2569,6 +2569,12 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** outline-magic
+outline-modeでorg-cycle風にアウトラインを開閉する。
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'outline-magic
+  (define-key outline-minor-mode-map (kbd "<C-tab>") 'outline-cycle))
+#+END_SRC
 ** anzu
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'anzu
