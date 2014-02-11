@@ -2569,6 +2569,13 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** anzu
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'anzu
+  (global-anzu-mode)
+  (global-set-key (kbd "M-%") 'anzu-query-replace)
+  (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp))
+#+END_SRC
 ** zoom-window
 ウィンドウを一時的に1ウィンドウにする。
 #+BEGIN_SRC emacs-lisp
