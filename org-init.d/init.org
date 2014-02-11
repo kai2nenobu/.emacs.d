@@ -5546,6 +5546,17 @@ If specify ARG, the subtree starts ARGth level headline."
 ;; はてなへのエクスポート
 (my-safe-require 'org-export-hatena)
 #+END_SRC
+** org-reveal
+orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'ox-reveal
+  (defun org-reveal-open-new-link-filter (data backend info)
+    "Add 'target=\"_blank\"' to <a> tag when exported by `ox-reveal'"
+    (when (eq backend 'reveal)
+      (replace-regexp-in-string "^<a " "<a target=\"_blank\" " data)))
+  (add-to-list 'org-export-filter-link-functions 'org-reveal-open-new-link-filter)
+  )
+#+END_SRC
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp
