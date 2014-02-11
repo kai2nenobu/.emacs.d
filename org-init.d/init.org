@@ -1712,7 +1712,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** 名前，メールの設定                                              :noexport:
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Tsunenobu Kai")
-(setq user-mail-address "kai@gavo.t.u-tokyo.ac.jp")
+(setq user-mail-address "kbkbkbkb1@gmail.com")
 #+END_SRC
 ** info を追加する
 `Info-default-directory-list' に追加したディレクトリの texinfo が読めるように
