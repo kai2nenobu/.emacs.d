@@ -373,9 +373,9 @@ This function assumes that the file is registered."
 #+END_SRC
 ** 言語，文字コードの設定
 #+BEGIN_SRC emacs-lisp
-(set-default-coding-systems 'utf-8)
+(set-default-coding-systems 'utf-8-unix)
 (coding-system-put 'utf-8 'category 'utf-8)
-(prefer-coding-system 'utf-8)
+(prefer-coding-system 'utf-8-unix)
 ; Windows でフォルダ名が文字化けするので場合分け
 ; 条件が偽の場合が Windows の時だが特に設定しなくてもいいらしい
 (if (linuxp)
