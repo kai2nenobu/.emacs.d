@@ -464,6 +464,24 @@ This function assumes that the file is registered."
       (add-to-list 'default-frame-alist (cons 'alpha default-alpha)))
     (dolist (frame (frame-list))
       (modify-frame-parameters frame default-frame-alist))))
+** ERT関連
+Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置のテスト名を取得する
+方法がかなり不完全。
+#+BEGIN_SRC emacs-lisp
+(defun my-ert-run-dwim ()
+  (interactive)
+  (let (one two)
+    (save-excursion
+      (ignore-errors (backward-up-list 99))
+      (ignore-errors (down-list 1))
+      (forward-sexp 1)
+      (setq one (intern-soft (thing-at-point 'sexp)))
+      (forward-sexp 1)
+      (setq two (intern-soft (thing-at-point 'sexp))))
+    (if (eq one 'ert-deftest)
+        (ert two)
+      (ert t))))
+(global-set-key (kbd "C-0") 'my-ert-run-dwim)
 #+END_SRC
 ** スペースアルクで検索
 #+BEGIN_SRC emacs-lisp
