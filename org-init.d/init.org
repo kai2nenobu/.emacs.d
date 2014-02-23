@@ -3531,9 +3531,16 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ;; キーバインドを自動的に表示
 (my-safe-require 'guide-key
   (setq-default guide-key/guide-key-sequence
-                '("C-x v" "C-x c" "C-x RET" "C-x 8" "C-q" "C-x r" "C-x 4" "C-x 5" "<key-chord>"
-                  "C-c"
+                '("C-c" "C-x v" "C-c p" "C-x RET" "C-x 8"
+                  "C-q" "C-x r" "C-S-r" "C-x 4" "C-4" "C-S-a" "C-x 5" "C-5"
+                  "<key-chord>"
+                  (dired-mode "*")
                   ))
+  (setq guide-key/highlight-command-regexp
+        '(("^org-table-" . org-table) ("^org-clock-" . org-agenda-clocking)
+          ("^org-timer-" . org-agenda-current-time)
+          ("^org-toggle-" . org-column-title)
+          "^dired-" "^(?org-"))
   ;; (setq guide-key/highlight-command-regexp "rectangle\\|ffap")
   (setq guide-key/popup-window-position 'right
         guide-key/polling-time 0.1
@@ -3542,48 +3549,6 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (setq guide-key/recursive-key-sequence-flag t)
   (guide-key-mode 1)
   (guide-key/key-chord-hack-on)
-  ;; mode specific setting
-  (defun guide-key/my-hook-function-for-org-mode ()
-    (dolist (key '("C-c"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "org-"))
-  (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
-
-  (defun guide-key/my-hook-function-for-yatex-mode ()
-    (dolist (key '("C-c C-b" "C-c" "C-c 5" "C-c 4"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "yatex-"))
-  (add-hook 'yatex-mode-hook 'guide-key/my-hook-function-for-yatex-mode)
-
-  (defun guide-key/my-hook-function-for-outline-minor-mode ()
-    (dolist (key '("C-c @"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "outline-"))
-  (add-hook 'outline-minor-mode-hook 'guide-key/my-hook-function-for-yatex-mode)
-
-  (defun guide-key/my-hook-function-for-dired-mode ()
-    (dolist (key '("*"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "dired-"))
-  (add-hook 'dired-mode-hook 'guide-key/my-hook-function-for-dired-mode)
-
-  (defun guide-key/my-hook-function-for-wl-draft-mode ()
-    (dolist (key '("C-c" "C-c C-x" "C-c RET"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "wl-draft-"))
-  (add-hook 'wl-draft-mode-hook 'guide-key/my-hook-function-for-wl-draft-mode)
-
-  (defun guide-key/my-hook-function-for-wl-folder-mode ()
-    (dolist (key '("m" "r"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "wl-fldmgr-"))
-  (add-hook 'wl-folder-mode-hook 'guide-key/my-hook-function-for-wl-folder-mode)
-
-  (defun guide-key/my-hook-function-for-web-mode ()
-    (dolist (key '("C-c"))
-      (guide-key/add-local-guide-key-sequence key))
-    (guide-key/add-local-highlight-command-regexp "web-mode-"))
-  (add-hook 'web-mode-hook 'guide-key/my-hook-function-for-web-mode)
   )
 #+END_SRC
 
