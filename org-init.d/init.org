@@ -5093,6 +5093,8 @@ minibufferで履歴検索．
   ;; anything バッファを除外する（デフォルトで有効になっているので）
   (setq popwin:special-display-config
         (delete '("^\\*anything.*\\*$" :regexp t) popwin:special-display-config))
+  (add-to-list 'popwin:special-display-config
+               '(ert-results-mode :position right :width 80))
   )
 #+END_SRC
 ** latex-math-preview.el
