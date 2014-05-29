@@ -1520,7 +1520,7 @@ Org-mode のデフォルトと揃えた．
 ** IME
 *** Windows
 #+BEGIN_SRC emacs-lisp
-(when (winp)
+(when (and (winp) (require 'w32-ime nil t))
   (setq default-input-method "W32-IME")         ;標準IMEの設定
   (w32-ime-initialize)                 ;IMEの初期化
   (set-cursor-color "yellow")          ;IME OFF時の初期カーソルカラー
