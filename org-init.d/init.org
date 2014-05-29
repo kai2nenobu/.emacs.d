@@ -6208,6 +6208,9 @@ do nothing. And suppress the output from `message' and
 (my-measure-message-time "Non-standard elisp setting.")
 #+END_SRC
 * 外部プログラムが必要そうなライブラリ
+:PROPERTIES:
+:ARCHIVE:  %s_archive::* 外部プログラムが必要そうなライブラリ
+:END:
 ポータブルにはしにくそうなやつ
 ** edbi.el
 #+BEGIN_SRC emacs-lisp
