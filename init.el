@@ -11,7 +11,6 @@
   (package-initialize))
 
 ;;; org-babel を使って初期化ファイルをロード
-(add-to-list 'load-path (expand-file-name "site-lisp/org-mode" user-emacs-directory))
 (defvar org-init-directory (expand-file-name "org-init.d" user-emacs-directory))
 (require 'org)
 ;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
