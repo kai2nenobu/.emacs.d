@@ -3579,13 +3579,15 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 (my-safe-require 'expand-region
   (global-set-key (kbd "M-@") 'er/expand-region))
 #+END_SRC
-** auto-save-buffers.el
-アイドル時に自動保存
+** auto-save-buffers-enhanced
+auto-sve-buffersの拡張版。アイドル時にファイルを自動保存する。
 #+BEGIN_SRC emacs-lisp
-;;; (auto-install-from-url "http://homepage3.nifty.com/oatu/emacs/archives/auto-save-buffers.el")
-(my-safe-require 'auto-save-buffers
-  (run-with-idle-timer 2 t 'auto-save-buffers)
-  (setq auto-save-buffers-exclude-regexp "init.el\\|^/\\(sshx?\\|su\\(?:do\\)?\\):"))
+(my-safe-require 'auto-save-buffers-enhanced nil t)
+  (setq auto-save-buffers-enhanced-interval 1.0)
+  (setq auto-save-buffers-enhanced-quiet-save-p t)
+  (setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t)
+  (auto-save-buffers-enhanced t)
+  )
 #+END_SRC
 ** smartrep.el
 連続コマンド入力を支援
