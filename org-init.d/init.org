@@ -6338,12 +6338,15 @@ do nothing. And suppress the output from `message' and
   (jaunte)
   (w3m-view-this-url))
 #+END_SRC
-;;;; ややこしい機能を有効にする設定
-;(put 'scroll-left 'disabled nil)
-;(put 'downcase-region 'disabled nil)
-;(put 'upcase-region 'disabled nil)
-;(put 'dired-find-alternate-file 'disabled nil)
-;(put 'narrow-to-region 'disabled nil)
-;
-;(my-measure-message-time "Big elisp setting.")
+** ややこしい機能を有効にする設定
+#+BEGIN_SRC emacs-lisp
+(put 'scroll-left 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+#+END_SRC
+** 測定終了
+#+BEGIN_SRC emacs-lisp
+(my-measure-message-time "Big elisp setting.")
 #+END_SRC
