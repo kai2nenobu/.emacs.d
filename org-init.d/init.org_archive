@@ -171,3 +171,23 @@ Archived entries from file c:/Users/70340930/.emacs.d/org-init.d/init.org
   (if (not (comint-after-pmark-p))
       (end-of-buffer)))
 #+END_SRC
+
+** wl.el                                                           :noexport:
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-05-29 Thu 18:31
+:ARCHIVE_FILE: ~/.emacs.d/org-init.d/init.org
+:ARCHIVE_OLPATH: 外部プログラムが必要そうなライブラリ
+:ARCHIVE_CATEGORY: init
+:END:
+Wanderlust メーラー．設定は .wl, .folders でする．
+#+BEGIN_SRC emacs-lisp
+;; SSL/TLS 用証明書ストアのパス
+;(setq ssl-certificate-directory (concat dropbox-directory "/certs"))
+(setq ssl-certificate-verification-policy 1)
+
+(autoload 'wl "wl" "Wanderlust" t)
+(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+(autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
+(setq wl-init-file (concat user-emacs-directory ".wl"))
+(setq wl-folders-file (concat user-emacs-directory ".folders"))
+#+END_SRC

@@ -6335,19 +6335,6 @@ do nothing. And suppress the output from `message' and
   (jaunte)
   (w3m-view-this-url))
 #+END_SRC
-** wl.el                                                           :noexport:
-Wanderlust メーラー．設定は .wl, .folders でする．
-#+BEGIN_SRC emacs-lisp
-;; SSL/TLS 用証明書ストアのパス
-;(setq ssl-certificate-directory (concat dropbox-directory "/certs"))
-(setq ssl-certificate-verification-policy 1)
-
-(autoload 'wl "wl" "Wanderlust" t)
-(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
-(autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
-(setq wl-init-file (concat user-emacs-directory ".wl"))
-(setq wl-folders-file (concat user-emacs-directory ".folders"))
-#+END_SRC
 ;;;; ややこしい機能を有効にする設定
 ;(put 'scroll-left 'disabled nil)
 ;(put 'downcase-region 'disabled nil)
