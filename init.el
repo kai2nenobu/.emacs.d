@@ -2,6 +2,14 @@
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
+;; package.el初期設定
+(when (require 'package nil t)
+  ;; location to get package informations
+  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (package-initialize))
+
 ;;; org-babel を使って初期化ファイルをロード
 (add-to-list 'load-path (expand-file-name "site-lisp/org-mode" user-emacs-directory))
 (defvar org-init-directory (expand-file-name "org-init.d" user-emacs-directory))
