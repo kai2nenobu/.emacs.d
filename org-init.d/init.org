@@ -1302,6 +1302,14 @@ generic で簡単にメジャーモードを作れる．
 (setq require-final-newline nil)
 (setq mode-require-final-newline nil)
 #+END_SRC
+** 自動ウィンドウ分割の方向
+=split-width-threshold= と =split-height-threshold= で自動ウィンドウ分割され
+るときに、上下分割するか、左右分割するかを調節できる。
+=split-width-threshold= はデフォルトで160だが、1600x900のモニタだとぎりぎり
+160より小さいので、150に変更する。
+#+BEGIN_SRC emacs-lisp
+(setq split-width-threshold 150)
+#+END_SRC
 ** ファイルの削除はごみ箱を使う
 完全にファイルが消えるのは心臓に悪いので設定しておく．
 #+BEGIN_SRC emacs-lisp
