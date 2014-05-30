@@ -2684,10 +2684,12 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   ;(global-highlight-symbol-mode 1)
   )
 #+END_SRC
-** zencoding-mode.el
+** emmet-mode
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'zencoding-mode
-  (define-key zencoding-mode-keymap (kbd "C-j") 'zencoding-expand-yas))
+(eval-after-load "emmet-mode"
+  '(progn
+     ;; Preview is disable as default
+     (setq emmet-preview-default nil)))
 #+END_SRC
 ** direx.el
 - [[http://cx4a.blogspot.jp/2011/12/popwineldirexel.html][LOAD-TIME-VALUE: popwin.elと相性が良いシンプルなディレクトリ・エクスプローラ、direx.elを作りました]]
