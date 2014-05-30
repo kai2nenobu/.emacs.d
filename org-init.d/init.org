@@ -394,7 +394,7 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
                '(height . 54)  ; 行数
                '(top . 0)    ; ディスプレイのx座標(ピクセル)
                '(left . 0)   ; ディスプレイのy座標(ピクセル)
-               '(alpha . (85 70 60 40)) ; 不透明度
+               '(alpha . 1.0) ; 不透明度
                )
               default-frame-alist))
 ;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
