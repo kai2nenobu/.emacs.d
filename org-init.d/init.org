@@ -6247,37 +6247,6 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp
 ;(my-safe-require 'edbi)
 #+END_SRC
-** lookup.el                                                       :noexport:
-多機能辞書引きプログラム．
-#+BEGIN_SRC emacs-lisp
-;; オートロードの設定
-;; (autoload 'lookup "lookup" nil t)
-;; (autoload 'lookup-region "lookup" nil t)
-;; (autoload 'lookup-word "lookup" nil t)
-;; (autoload 'lookup-select-dictionaries "lookup" nil t)
-;; dictionary setting
-(setq lookup-search-agents
-             '((ndeb "~/dict/EIJIRO126-epwing")
-               (ndeb "~/dict/LDOCE5")
-               (ndeb "~/dict/KOJIEN6")
-               (ndeb "~/dict/Wikip0503/epwing")
-               ))
-(setq lookup-default-dictionary-options
-      '((:stemmer .  stem-english)))
-(my-safe-require 'lookup
-  ;; remove an inflected suffix
-  ;(lookup-set-dictionary-options "ndeb:~/.emacs.d/dict/WORDNET/wordnet" ':stemmer 'stem-english) ; うまくいかん？
-
-  ;; setting
-  (setq lookup-window-height 8)
-  (if (executable-find "mecab")
-      (setq lookup-use-mecab t))
-
-  ;; key bind
-  (define-key mode-specific-map (kbd "d") 'lookup-pattern)
-  (define-key mode-specific-map (kbd "D") 'lookup-select-dictionaries)
-  )
-#+END_SRC
 ** ispell.el
 スペルチェック．
 #+BEGIN_SRC emacs-lisp
