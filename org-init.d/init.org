@@ -480,6 +480,21 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** フレーム透明度のトグル
+#+BEGIN_SRC emacs-lisp
+(defvar default-alpha 0.7)
+(defun toggle-frame-alpha ()
+  "Toggle the value of alpha in `default-frame-alist'"
+  (interactive)
+  (let* ((alpha-cell (assq 'alpha default-frame-alist))
+         (alpha (cdr alpha-cell)))
+    (if alpha-cell
+        (setcdr alpha-cell (if (and (numberp alpha) (= alpha default-alpha))
+                          1.0 default-alpha))
+      (add-to-list 'default-frame-alist (cons 'alpha default-alpha)))
+    (dolist (frame (frame-list))
+      (modify-frame-parameters frame default-frame-alist))))
+#+END_SRC
 ** スペースアルクで検索
 #+BEGIN_SRC emacs-lisp
 (defun browse-alc (query)
