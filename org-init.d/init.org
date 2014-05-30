@@ -1297,6 +1297,11 @@ generic で簡単にメジャーモードを作れる．
 (my-measure-message-time "My original function.")
 #+END_SRC
 * その他一般的な動作設定
+** ファイル末尾の自動改行挿入をしない
+#+BEGIN_SRC emacs-lisp
+(setq require-final-newline nil)
+(setq mode-require-final-newline nil)
+#+END_SRC
 ** ファイルの削除はごみ箱を使う
 完全にファイルが消えるのは心臓に悪いので設定しておく．
 #+BEGIN_SRC emacs-lisp
