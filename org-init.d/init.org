@@ -5391,7 +5391,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
                         ("OrgMode" . ?) ("Lecture" . ?c) ("Linux" . ?) ("Git" . ?G)
                         ("JobHunt" . ?j) ("MATLAB" . ?M) ("TeX" . ?) ("PukiWiki" . ?)
                         ("Ruby" . ?) ("Shell" . ?) ("はてな" . ?)))
-  (setq org-todo-keywords '((sequence "TODO" "|" "DROP" "DONE")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "WAIT(w)" "|" "DONE(d)" "DROP(D)" "SOMEDAY(s)")))
   (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
 #+END_SRC
 *** capture 関連
