@@ -3612,7 +3612,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ** auto-save-buffers-enhanced
 auto-sve-buffersの拡張版。アイドル時にファイルを自動保存する。
 #+BEGIN_SRC emacs-lisp
-(my-safe-require 'auto-save-buffers-enhanced nil t)
+(my-safe-require 'auto-save-buffers-enhanced nil t
   (setq auto-save-buffers-enhanced-interval 1.0)
   (setq auto-save-buffers-enhanced-quiet-save-p t)
   (setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t)
