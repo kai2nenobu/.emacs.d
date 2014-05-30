@@ -1811,9 +1811,11 @@ dired.el, dired-x.el, dired-aux.el の拡張
 ;;; (auto-install-from-emacswiki "dired+.el")
 (my-safe-require 'dired+)
 
-(setq ls-lisp-use-insert-directory-program t) ; Windows でも ls コマンドを使用する
-;; set ls option. Not display . and .. directories, and human readable file size.
-(setq dired-listing-switches "-lA -h --group-directories-first")
+;; lsコマンドがあればそれを利用する
+(when (executable-find "ls")
+  (setq ls-lisp-use-insert-directory-program t)
+  ;; set ls option. Not display . and .. directories, and human readable file size.
+  (setq dired-listing-switches "-lAh --group-directories-first"))
 #+END_SRC
 *** dired-dd.el
 dired でドラッグアンドドロップを使う．実は dired のバッファに限らず使えるマウ
