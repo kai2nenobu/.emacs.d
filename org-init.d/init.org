@@ -497,26 +497,22 @@ Windows でも（ls-lisp.el ではなく） ls コマンドを使って Dired �
 #+END_SRC
 ** スペースアルクで検索
 #+BEGIN_SRC emacs-lisp
-(defun browse-alc (query)
-  ""
+(defvar lookup-alc-history nil)
+(defun lookup-alc (query)
+  "Look up word in English/Japanese dictionaries of the SPACE ALC"
   (interactive
    (list (cond ((use-region-p)
                 (buffer-substring-no-properties (region-beginning) (region-end)))
                (t
                 (let ((word (thing-at-point 'word)))
                   (read-string (concat "Look up word"
-                                       (if word (concat " (default " word ")") "")
+                                       (if word (format " (default %s)" word) "")
                                        ": ")
-                               nil nil word t))))))
-  (let ((alc-url "http://eow.alc.co.jp/%s/UTF-8/"))
-    (browse-url (format alc-url (my-url-encode-string query)))))
-
-(defun my-url-encode-string (string)
-  (let ((command "nkf -wMQ | sed 's/=$//' | tr = % | tr -d '\n'"))
-    (with-temp-buffer
-      (insert string)
-      (shell-command-on-region (point-min) (point-max) command nil t)
-      (buffer-string))))
+                               nil lookup-alc-history word t))))))
+  (let ((deactivate-mark t)
+        (search-url "http://eow.alc.co.jp/search?q=%s"))
+    (browse-url (url-encode-url (format search-url query)))))
+(define-key mode-specific-map (kbd "d") 'lookup-alc)
 #+END_SRC
 ** 行の入れ替え
 - [[http://qiita.com/ShingoFukuyama@github/items/fc51a32e84fd84261565][Emacs - 現在行をそのまま上下に連続移動させる - Qiita キータ]]
