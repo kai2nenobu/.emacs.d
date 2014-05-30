@@ -2773,7 +2773,8 @@ package.el からインストール．
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'web-mode
   (dolist (ext '("\\.phtml\\'" "\\.tpl\\.php\\'" "\\.jsp\\'" "\\.as[cp]x\\'"
-                 "\\.erb\\'" "\\.mustache\\'" "\\.djhtml\\'" "\\.html?\\'"))
+                 "\\.erb\\'" "\\.mustache\\'" "\\.djhtml\\'" "\\.html?\\'"
+                 "\\.gsp\\'"))
     (add-to-list 'auto-mode-alist (cons ext 'web-mode)))
 
   (defun my-web-mode-initial-customization ()
