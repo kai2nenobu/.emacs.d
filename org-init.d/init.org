@@ -592,14 +592,25 @@ text-scale-adjust のパクリ．
   )
 #+END_SRC
 ** org-init.d/init.el を更新するコマンド
-org-init.d/init.org を更新したら，明示的に init.el を更新したい時があるので作っ
-た．
+=org-init.d/init.org= を更新したら，明示的に init.el を更新したい時があるので
+作った．
 #+BEGIN_SRC emacs-lisp
 (defun my-update-org-init ()
   (interactive)
-  (org-babel-tangle-file (expand-file-name "init.org" org-init-directory)
-                         (expand-file-name "init.el" org-init-directory)
-                         "emacs-lisp"))
+  (let* ((proc-name "Org Init")
+         (emacs-exec (expand-file-name (invocation-name) (invocation-directory)))
+         (org-file (expand-file-name "init.org" org-init-directory))
+         (init-file (expand-file-name "init.el" org-init-directory))
+         (proc (start-process proc-name
+                              (get-buffer-create (format "*%s*" proc-name))
+                              emacs-exec
+                              "--batch" "-l" "org" "--eval"
+                              (format "(org-babel-tangle-file \"%s\" \"%s\" \"emacs-lisp\")"
+                                      org-file init-file)
+                              )))
+    (set-process-sentinel proc
+                          (lambda (process event)
+                            (message "Finish %S" process)))))
 #+END_SRC
 ** 順方向に mark-ring をたどる
 `pop-to-mark-command' は逆方向にしか 'mark-ring' をたどれないので，順方向にも
