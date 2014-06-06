@@ -3973,16 +3973,6 @@ Emacs から git を操作するライブラリ．
         (define-key magit-status-mode-map (number-to-string i)
           (intern (format "magit-show-level-%d-all" i))))
 #+END_SRC
-*** フェイスの色
-diff が見やすくなるように各フェイスの色を設定．
-#+BEGIN_SRC emacs-lisp
-  ;; face color
-  (set-face-foreground 'magit-diff-add "green")
-  (set-face-foreground 'magit-diff-del "red")
-  (set-face-foreground 'magit-diff-hunk-header "yellow")
-  (set-face-foreground 'magit-diff-file-header "magenta") ; 効果なし？ version をあげたら良くなった
-  (set-face-background 'magit-item-highlight "gray20")
-#+END_SRC
 *** magit のファイル名をマークする
 - [[http://d.hatena.ne.jp/ken_m/20111225/1324833439][Magit で複数のファイルに対して操作する - ”E” for ...]]
 複数ファイルを一度にステージしたりするのに便利．自分用に若干改造．
