@@ -3973,6 +3973,8 @@ Emacs から git を操作するライブラリ．
 #+BEGIN_SRC emacs-lisp
 ;; magit.el
 (my-safe-require 'magit
+  ;; diffを表示しているときに文字単位での変更箇所も強調表示する
+  (setq magit-diff-refine-hunk 'all)
 #+END_SRC
 *** キーバインド
 #+BEGIN_SRC emacs-lisp
