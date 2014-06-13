@@ -5,7 +5,6 @@
 ;; package.el初期設定
 (when (require 'package nil t)
   ;; location to get package informations
-  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
   (package-initialize))
