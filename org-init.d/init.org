@@ -2581,6 +2581,11 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** groovy-mode
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'groovy-mode
+  (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode)))
+#+END_SRC
 ** helm-ls-git
 git管理下のファイルのhelmソース。
 #+BEGIN_SRC emacs-lisp
