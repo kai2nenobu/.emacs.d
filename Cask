@@ -10,6 +10,7 @@
 (depends-on "direx")
 (depends-on "drag-stuff")
 (depends-on "elscreen")
+(depends-on "emmet-mode")
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "f")
