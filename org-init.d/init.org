@@ -3674,6 +3674,18 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'quickrun
   (global-set-key (kbd "<f8>") 'quickrun)
+  (quickrun-add-command  "java8"
+                         '((:command . "java8")
+                           (:compile-only . "javac8 -Werror %o %s")
+                           (:exec    . ("javac8 %o %s" "%c %N %a"))
+                           (:cmdopt . "-encoding UTF-8")
+                           (:remove  . ("%n.class"))
+                           (:description . "Compile Java8 file and execute")))
+
+  (defadvice quickrun/use-tempfile-p (after java8 activate)
+    "Java8でも一時ファイルを作らないようアドバイス"
+    (when (string= (ad-get-arg 0) "java8")
+      (setq ad-return-value nil)))
   )
 #+END_SRC
 ** cycle-buffer.el
