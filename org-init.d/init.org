@@ -2609,6 +2609,14 @@ git管理下のファイルのhelmソース。
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
   )
 #+END_SRC
+** smart-newline
+スマートに改行を入れる。
+#+BEGIN_SRC emacs-lisp
+;(my-safe-require 'smart-newline
+;  (define-global-minor-mode global-smart-newline-mode
+;    smart-newline-mode smart-newline-mode)
+;  (global-smart-newline-mode 1))
+#+END_SRC
 ** ace-jump-mode
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'ace-jump-mode
