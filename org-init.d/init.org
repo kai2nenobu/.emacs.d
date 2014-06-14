@@ -5755,11 +5755,11 @@ elisp インストーラ．Emacsテクニックバイブルより
 非同期自動バイトコンパイル．Emacsテクニックバイブル より．
 #+BEGIN_SRC emacs-lisp
 ;; (auto-install-from-emacswiki "auto-async-byte-compile.el")
-(my-safe-require 'auto-async-byte-compile
-  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
-  (setq auto-async-byte-compile-exclude-files-regexp "diary\\|/junk/")
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-  )
+;(my-safe-require 'auto-async-byte-compile
+;  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
+;  (setq auto-async-byte-compile-exclude-files-regexp "diary\\|/junk/")
+;  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+;  )
 #+END_SRC
 ** recentf-ext.el
 最近開いたファイルを開く．Emacsテクニックバイブルより．
