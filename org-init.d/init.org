@@ -144,11 +144,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
 #+BEGIN_SRC emacs-lisp
 (setq debian-emacs-flavor 'emacs-snapshot)
 #+END_SRC
-** package.el
-elisp のパッケージ管理をするライブラリ．
-#+BEGIN_SRC emacs-lisp
-(my-measure-message-time "Basic setting.")
-#+END_SRC
 ** ロードパスの追加
 - [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
 #+BEGIN_SRC emacs-lisp
