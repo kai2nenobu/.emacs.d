@@ -16,6 +16,7 @@
 (depends-on "flycheck-cask")
 (depends-on "git-gutter-fringe")
 (depends-on "helm")
+(depends-on "helm-git-grep")
 (depends-on "helm-ls-git")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode")

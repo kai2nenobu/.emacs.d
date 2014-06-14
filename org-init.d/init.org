@@ -4223,6 +4223,8 @@ anything で本管理．
   (setq helm-ff-transformer-show-only-basename t) ; basename のみ表示
   (define-key helm-command-map (kbd "o") 'helm-occur)
   (define-key helm-command-map (kbd "g") 'helm-do-grep)
+  (my-safe-require 'helm-git-grep
+    (define-key helm-command-map "G" 'helm-git-grep))
   (eval-after-load "key-chord"
     '(progn
        (defalias 'helm-command-prefix helm-command-map)
