@@ -5218,9 +5218,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
-  (setq org-src-preserve-indentation t)  ; ソースブロックのインデントを保持する．エクスポート時も
-  (setq org-export-htmlize-output-type 'css) ; src のハイライトに css を使う
   (setq org-html-htmlize-output-type 'css)
+  (setq org-src-preserve-indentation nil)
   (setq org-edit-src-content-indentation 0)
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
   (add-to-list 'org-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
