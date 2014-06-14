@@ -5514,11 +5514,6 @@ If specify ARG, the subtree starts ARGth level headline."
 
       )))
 #+END_SRC
-** org-export-hatena.el
-#+BEGIN_SRC emacs-lisp
-;; はてなへのエクスポート
-(my-safe-require 'org-export-hatena)
-#+END_SRC
 ** org-reveal
 orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
 #+BEGIN_SRC emacs-lisp
