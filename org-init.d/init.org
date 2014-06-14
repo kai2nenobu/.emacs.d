@@ -4378,6 +4378,10 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (push '(migemo) helm-c-source-global-mark-ring)
   (define-key helm-command-map (kbd "SPC") 'helm-all-mark-rings)
 #+END_SRC
+*** helm-ag
+#+BEGIN_SRC emacs-lisp
+  (my-safe-require 'helm-ag)
+#+END_SRC
 *** 最後のカッコ
 #+BEGIN_SRC emacs-lisp
   )
