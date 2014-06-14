@@ -19,6 +19,7 @@
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
 (depends-on "org")
+(depends-on "org-magit")
 (depends-on "pallet")
 (depends-on "popwin")
 (depends-on "prodigy")
