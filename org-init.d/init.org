@@ -459,6 +459,7 @@ This function assumes that the file is registered."
       (add-to-list 'default-frame-alist (cons 'alpha default-alpha)))
     (dolist (frame (frame-list))
       (modify-frame-parameters frame default-frame-alist))))
+#+END_SRC
 ** ERT関連
 Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置のテスト名を取得する
 方法がかなり不完全。
