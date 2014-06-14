@@ -12,7 +12,8 @@
 (if (executable-find "cask")
     (progn
       (require 'cask "~/.cask/cask.el")
-      (cask-initialize))
+      (cask-initialize)
+      (require 'pallet nil t))
   (package-initialize))
 
 ;;; org-babel を使って初期化ファイルをロード
