@@ -2609,6 +2609,18 @@ git管理下のファイルのhelmソース。
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
   )
 #+END_SRC
+** flyckeck
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'flycheck
+  (add-hook 'prog-mode-hook 'flycheck-mode)
+  (global-set-key (kbd "C-,") 'flycheck-previous-error)
+  (global-set-key (kbd "C-.") 'flycheck-next-error)
+  (setq flycheck-idle-change-delay 0.5)
+  (setq flycheck-display-errors-delay 0.1)
+  (my-safe-require 'flycheck-pos-tip
+    (setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages))
+  )
+#+END_SRC
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'git-gutter-fringe
