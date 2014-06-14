@@ -2609,6 +2609,20 @@ git管理下のファイルのhelmソース。
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
   )
 #+END_SRC
+** git-gutter-fringe
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'git-gutter-fringe
+  (define-prefix-command 'git-gutter-prefix)
+  (define-key git-gutter-prefix (kbd "RET") 'git-gutter:toggle)
+  (define-key git-gutter-prefix (kbd "n") 'git-gutter:next-hunk)
+  (define-key git-gutter-prefix (kbd "p") 'git-gutter:previous-hunk)
+  (define-key git-gutter-prefix (kbd "s") 'git-gutter:stage-hunk)
+  (define-key git-gutter-prefix (kbd "r") 'git-gutter:revert-hunk)
+  (define-key git-gutter-prefix (kbd "d") 'git-gutter:popup-hunk)
+  (eval-after-load "key-chord"
+    '(key-chord-define global-map ":g" 'git-gutter-prefix))
+  )
+#+END_SRC
 ** smart-newline
 スマートに改行を入れる。
 #+BEGIN_SRC emacs-lisp
