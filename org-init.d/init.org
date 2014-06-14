@@ -3692,10 +3692,10 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 バッファを環状に訪問
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "cycle-buffer.el")
-(my-safe-require 'cycle-buffer
-  (global-set-key (kbd "C-.") 'cycle-buffer)
-  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
-  )
+;(my-safe-require 'cycle-buffer
+;  (global-set-key (kbd "C-.") 'cycle-buffer)
+;  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
+;  )
 #+END_SRC
 ** anything-advent-calendar.el
 advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/entry/2011/12/12/000301]]
