@@ -6,7 +6,13 @@
 (when (require 'package nil t)
   ;; location to get package informations
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/")))
+
+;; caskかpackageのどちらかで初期化
+(if (executable-find "cask")
+    (progn
+      (require 'cask "~/.cask/cask.el")
+      (cask-initialize))
   (package-initialize))
 
 ;;; org-babel を使って初期化ファイルをロード
