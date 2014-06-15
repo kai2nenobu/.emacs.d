@@ -17,6 +17,7 @@
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "git-gutter-fringe")
+(depends-on "groovy-mode")
 (depends-on "helm")
 (depends-on "helm-descbinds")
 (depends-on "helm-git-grep")
