@@ -445,6 +445,23 @@ This function assumes that the file is registered."
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** Caskと同じライブラリをpackageでインストールする
+#+BEGIN_SRC emacs-lisp
+(defun package-sync-cask ()
+  ""
+  (interactive)
+  (with-temp-buffer
+    (insert-file-contents-literally (expand-file-name "Cask" user-emacs-directory))
+    (goto-char (point-min))
+    (let (packages)
+      (while (re-search-forward "(depends-on \"\\(.+\\)\"" nil t)
+        (add-to-list 'packages (intern (match-string 1))))
+      (dolist (pkg packages)
+        (if (package-installed-p pkg)
+            (message "%S is already installed" pkg)
+          (package-install pkg)))
+      )))
+#+END_SRC
 ** フレーム透明度のトグル
 #+BEGIN_SRC emacs-lisp
 (defvar default-alpha 0.7)
