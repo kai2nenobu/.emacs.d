@@ -1821,7 +1821,7 @@ shift+カーソルキー でウィンドウを移動する．
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp
 ;;; (auto-install-from-emacswiki "dired+.el")
-(my-safe-require 'dired+)
+;(my-safe-require 'dired+)
 
 ;; lsコマンドがあればそれを利用する
 (when (executable-find "ls")
