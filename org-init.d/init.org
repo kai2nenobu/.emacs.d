@@ -3731,7 +3731,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 ワンタッチでスクリプト実行．marmalade からインストール
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'quickrun
-  (global-set-key (kbd "<f8>") 'quickrun)
+  (global-set-key (kbd "<C-f11>") 'quickrun)
   (quickrun-add-command  "java8"
                          '((:command . "java8")
                            (:compile-only . "javac8 -Werror %o %s")
