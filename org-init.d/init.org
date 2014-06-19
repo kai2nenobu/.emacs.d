@@ -2612,6 +2612,11 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** exec-path-from-shell
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'exec-path-from-shell
+  (exec-path-from-shell-initialize))
+#+END_SRC
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'groovy-mode
