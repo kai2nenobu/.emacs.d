@@ -2728,6 +2728,7 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'anzu
   (global-anzu-mode)
+  (setq anzu-minimum-input-length 3)
   (setq anzu-use-migemo t)
   (global-set-key (kbd "M-%") 'anzu-query-replace)
   (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp))
