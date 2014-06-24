@@ -513,7 +513,7 @@ Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置�
   (let ((deactivate-mark t)
         (search-url "http://eow.alc.co.jp/search?q=%s"))
     (browse-url (url-encode-url (format search-url query)))))
-(define-key mode-specific-map (kbd "d") 'lookup-alc)
+(define-key mode-specific-map (kbd "e") 'lookup-alc)
 #+END_SRC
 ** 行の入れ替え
 - [[http://qiita.com/ShingoFukuyama@github/items/fc51a32e84fd84261565][Emacs - 現在行をそのまま上下に連続移動させる - Qiita キータ]]
