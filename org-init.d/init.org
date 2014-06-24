@@ -506,10 +506,8 @@ Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置�
                 (buffer-substring-no-properties (region-beginning) (region-end)))
                (t
                 (let ((word (thing-at-point 'word)))
-                  (read-string (concat "Look up word"
-                                       (if word (format " (default %s)" word) "")
-                                       ": ")
-                               nil lookup-alc-history word t))))))
+                  (read-string "Look up word in ALC: "
+                               word lookup-alc-history nil t))))))
   (let ((deactivate-mark t)
         (search-url "http://eow.alc.co.jp/search?q=%s"))
     (browse-url (url-encode-url (format search-url query)))))
