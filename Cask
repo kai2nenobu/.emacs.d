@@ -52,4 +52,5 @@
 (depends-on "web-mode")
 (depends-on "wrap-region")
 (depends-on "yasnippet")
+(depends-on "zeal-at-point")
 (depends-on "zlc")

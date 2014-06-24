@@ -2612,6 +2612,10 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** zeal-at-point
+#+BEGIN_SRC emacs-lisp
+(define-key mode-specific-map (kbd "d") 'zeal-at-point)
+#+END_SRC
 ** exec-path-from-shell
 Windowsだと動かないくさい。
 #+BEGIN_SRC emacs-lisp
