@@ -3660,7 +3660,10 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 - [[https://github.com/magnars/expand-region.el][magnars/expand-region.el]]
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'expand-region
-  (global-set-key (kbd "M-@") 'er/expand-region))
+  (global-set-key (kbd "M-@") 'er/expand-region)
+  (eval-after-load "@"
+    (key-chord-define-global "@@" 'er/expand-region))
+  )
 #+END_SRC
 ** auto-save-buffers-enhanced.el
 アイドル時にファイルを自動保存。auto-save-buffersの機能拡張。
