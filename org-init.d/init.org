@@ -2830,6 +2830,14 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   )
 
 #+END_SRC
+** multiple-cursor
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'multiple-cursors
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  )
+#+END_SRC
 ** mark-multiple.el
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'mark-multiple
