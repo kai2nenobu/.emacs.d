@@ -343,8 +343,13 @@ This function assumes that the file is registered."
 1234567890!\"#$%&'()~-^\\@=~`?|")
 #+END_SRC
 ** default-major-mode
+該当しない拡張子のメジャーモード。バージョン23.2以前は =default-major-mode=
+を利用していたようだが、それ以降は =major-mode= のグローバル値がみられるよう
+になったらしい。しかし24.2でも実際は =default-major-mode= が使われるっぽい？
+の値を =nil= にしておけば =major-mode= をみてくれるようになった。ちなみに
+=major-mode= の初期値は =fundamental-mode= 。
 #+BEGIN_SRC emacs-lisp
-(setq default-major-mode 'lisp-interaction-mode)
+(setq default-major-mode nil)
 #+END_SRC
 ** frame configure
 #+BEGIN_SRC emacs-lisp
