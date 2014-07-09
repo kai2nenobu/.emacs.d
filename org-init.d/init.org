@@ -2615,6 +2615,13 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** powershell-mode
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'powershell-mode
+  (add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode))
+  (setq powershell-indent 2)
+  )
+#+END_SRC
 ** zeal-at-point
 #+BEGIN_SRC emacs-lisp
 (define-key mode-specific-map (kbd "d") 'zeal-at-point)
