@@ -1,4 +1,4 @@
-# -*- coding: utf-8-unix -*-
+# -*- coding: utf-8 -*-
 
 #+TITLE: Emacs の初期設定
 #+STYLE: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
