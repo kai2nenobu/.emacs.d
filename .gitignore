@@ -1,0 +1,15 @@
+/.cask/
+/auto-save-list/
+/elpa/
+/server/
+
+/.init_time
+/.mc-lists.el
+/.migemo-pattern
+/abbrev_defs
+/ac-comphist.dat
+/org-init.d/init.el
+/recentf
+/init_time
+/internal.el
+/srecode-map.el
