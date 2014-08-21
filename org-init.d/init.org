@@ -1730,6 +1730,10 @@ shift+カーソルキー でウィンドウを移動する．
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
 #+END_SRC
+** タブ幅を設定
+#+BEGIN_SRC emacs-lisp
+(setq-default tab-width 4)
+#+END_SRC
 ** isearch
 #+BEGIN_SRC emacs-lisp
 ;(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char) ; isearch中の検索語の文字削除
