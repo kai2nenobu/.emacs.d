@@ -1809,6 +1809,11 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** ediff
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "ediff"
+  (setq ediff-split-window-function 'split-window-horizontally))
+#+END_SRC
 ** dired.el
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'dired)
