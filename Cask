@@ -6,7 +6,6 @@
 (depends-on "auto-save-buffers-enhanced")
 (depends-on "bind-key")
 (depends-on "cask")
-(depends-on "cygwin-mount")
 (depends-on "dash")
 (depends-on "direx")
 (depends-on "drag-stuff")
