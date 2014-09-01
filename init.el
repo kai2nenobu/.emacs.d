@@ -9,7 +9,7 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ;; caskかpackageのどちらかで初期化
-(if (executable-find "cask")
+(if (file-exists-p "~/.cask/cask.el")
     (progn
       (require 'cask "~/.cask/cask.el")
       (cask-initialize)
@@ -17,7 +17,7 @@
   (package-initialize))
 
 ;;; org-babel を使って初期化ファイルをロード
-(defvar org-init-directory (expand-file-name "org-init.d" user-emacs-directory))
+(defvar org-init-directory (locate-user-emacs-file "org-init.d"))
 (require 'org)
 ;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
 (org-babel-load-file (expand-file-name "init.org" org-init-directory))

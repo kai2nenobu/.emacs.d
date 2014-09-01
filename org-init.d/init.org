@@ -78,7 +78,7 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://aikotobaha.blogspot.jp/2010/08/gnupack-ntemacs23-dotemacs.html][OSSはアルミニウムの翼で飛ぶ: gnupack + NTEmacs23 のdot.emacs]]
 - [[http://ubulog.blogspot.jp/2009/08/emacs.html][ubulog: Emacsの起動時間を調べる]]
 #+BEGIN_SRC emacs-lisp
-(defvar my-measure-init-time-file (expand-file-name ".init_time" user-emacs-directory)
+(defvar my-measure-init-time-file (locate-user-emacs-file ".init_time")
   "File name to write out initialization time.")
 
 (defvar my-measure-previous-time before-init-time "Time at previous point.")
@@ -148,7 +148,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 - [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
 #+BEGIN_SRC emacs-lisp
 (defconst my-individual-elisp-directory
-  (list (expand-file-name "my-lisp" user-emacs-directory))
+  (list (locate-user-emacs-file "my-lisp"))
   "The directory for my elisp file.")
 ; サブディレクトリも含めて追加
 (dolist (dir my-individual-elisp-directory)
@@ -157,15 +157,15 @@ ispell が動かなかった。ispell に限らんかもしれんが
       (add-to-list 'load-path dir)
       (normal-top-level-add-subdirs-to-load-path))))
 ;; 普通に追加
-(add-to-list 'load-path (expand-file-name "auto-install" user-emacs-directory))
+(add-to-list 'load-path (locate-user-emacs-file "auto-install"))
 
 ;; site-lisp 以下を追加
 (setq load-path
-      (delete (expand-file-name "site-lisp/org-mode" user-emacs-directory)
+      (delete (locate-user-emacs-file "site-lisp/org-mode")
               load-path))
 (add-to-list 'load-path
-             (expand-file-name "site-lisp/org-mode/contrib/lisp" user-emacs-directory))
-(let ((dir (expand-file-name "site-lisp" user-emacs-directory)))
+             (locate-user-emacs-file "site-lisp/org-mode/contrib/lisp"))
+(let ((dir (locate-user-emacs-file "site-lisp")))
   (dolist (file (directory-files dir))
     (when (and (not (string= file ".."))
                (file-directory-p (concat dir "/" file)))
@@ -456,7 +456,7 @@ This function assumes that the file is registered."
   ""
   (interactive)
   (with-temp-buffer
-    (insert-file-contents-literally (expand-file-name "Cask" user-emacs-directory))
+    (insert-file-contents-literally (locate-user-emacs-file "Cask"))
     (goto-char (point-min))
     (let (packages)
       (while (re-search-forward "(depends-on \"\\(.+\\)\"" nil t)
@@ -1811,8 +1811,8 @@ shift+カーソルキー でウィンドウを移動する．
 * 標準ライブラリ
 ** ediff
 #+BEGIN_SRC emacs-lisp
-(eval-after-load "ediff"
-  (setq ediff-split-window-function 'split-window-horizontally))
+;(eval-after-load "ediff"
+;  (setq ediff-split-window-function 'split-window-horizontally))
 #+END_SRC
 ** dired.el
 #+BEGIN_SRC emacs-lisp
@@ -3442,7 +3442,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
 コード補完，型検査，定義元ジャンプなどができる Ruby のための開発援助ツール．
 #+BEGIN_SRC emacs-lisp
   ;; rsense.el
-  (setq rsense-home (expand-file-name "site-lisp/rsense-0.3" user-emacs-directory))
+  (setq rsense-home (locate-user-emacs-file "site-lisp/rsense-0.3"))
   (setq rsense-rurema-home (expand-file-name "doc/ruby-refm-1.9.2" rsense-home))
 
   ;; keymap for rsense
@@ -3494,7 +3494,7 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
     '(progn
        (my-safe-require 'anything-rurima
          (setq anything-rurima-index-file
-               (expand-file-name "doc/rubydoc/rurima.e" user-emacs-directory))
+               (locate-user-emacs-file "doc/rubydoc/rurima.e"))
 
          ;; anything-rurima 用のバッファ名変更
          (defun anything-rurima-my-rename-buffer ()
@@ -3831,7 +3831,7 @@ Emacs で開発環境．
 ;;; (auto-install-from-emacswiki "open-junk-file.el")
 (my-safe-require 'open-junk-file
   (setq open-junk-file-format
-        (expand-file-name "junk/%Y/%m/%d-%H%M%S-junk." user-emacs-directory))
+        (locate-user-emacs-file "junk/%Y/%m/%d-%H%M%S-junk."))
   (define-key ctl-x-map (kbd "C-j") 'open-junk-file)
   )
 #+END_SRC
@@ -4137,7 +4137,7 @@ hilight current column.
   ;(ad-deactivate-regexp "anything-c-yas-complete-delete-region")
   ;; (eval-after-load "auto-complete.el"
   ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
-  (yas-load-directory (expand-file-name "snippets" user-emacs-directory))
+  (yas-load-directory (locate-user-emacs-file "snippets"))
   (yas-global-mode 1)
 
   ;; original function
@@ -5406,7 +5406,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 *** publish 関連
 #+BEGIN_SRC emacs-lisp
   ;(setq org-publish-timestamp-directory
-  ;      (expand-file-name ".org-timestamps/" user-emacs-directory))
+  ;      (locate-user-emacs-file ".org-timestamps/"))
   ;(defvar org-publish-my-web-base-dir (expand-file-name "kaichan" org-directory))
   ;(defvar org-publish-my-web-publishing-dir "/rubner-web:public_html")
   ;(defvar org-publish-kensyu-base-dir (expand-file-name "kensyu" org-directory))
@@ -5926,7 +5926,7 @@ do nothing. And suppress the output from `message' and
     (setq http-proxy-server nil)
     (setq http-proxy-port nil))
   ;; ローカルにファイルを保存する
-  (setq pukiwiki-directory (expand-file-name "pukiwiki-save" user-emacs-directory))
+  (setq pukiwiki-directory (locate-user-emacs-file "pukiwiki-save"))
   (setq pukiwiki-save-post-data t)
   ;; pukiwiki-edit-mode で行を折り返さない
   )
@@ -5970,7 +5970,7 @@ do nothing. And suppress the output from `message' and
 (eval-after-load "yatex"
   '(progn
     (setq YaTeX-user-completion-table
-          (expand-file-name ".yatexrc" user-emacs-directory))
+          (locate-user-emacs-file ".yatexrc"))
     (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
           makeindex-command "mendex"
           bibtex-command "pbibtex"
@@ -5990,7 +5990,7 @@ do nothing. And suppress the output from `message' and
     (setq YaTeX-help-file
           (expand-file-name "YATEXHLP.jp" (file-name-directory (locate-library "yatex"))))
     (setq YaTeX-help-file-private
-          (expand-file-name "doc/YATEXHLP-private.jp" user-emacs-directory))
+          (locate-user-emacs-file "doc/YATEXHLP-private.jp"))
 
     (put 'YaTeX-parent-file 'safe-local-variable
          (lambda (x)
@@ -6172,7 +6172,7 @@ do nothing. And suppress the output from `message' and
 (my-safe-require 'auto-complete-config
   ;; メジャーモードに関する辞書
   (add-to-list 'ac-dictionary-directories
-               (expand-file-name "ac-dict" user-emacs-directory))
+               (locate-user-emacs-file "ac-dict"))
   ;; (if (and (linuxp) (= emacs-major-version 23))
   ;;     nil
   ;;   (ac-config-default))
@@ -6254,7 +6254,7 @@ do nothing. And suppress the output from `message' and
            (setq migemo-dictionary (expand-file-name "dict/utf-8/migemo-dict"
                                                      (file-name-directory (executable-find "cmigemo"))))))
     (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
-    (setq migemo-pattern-alist-file (expand-file-name ".migemo-pattern" user-emacs-directory))
+    (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
     (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
     (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
     ;; キャッシュ機能を利用する
