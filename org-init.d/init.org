@@ -6324,3 +6324,8 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp
 (my-measure-message-time "Big elisp setting.")
 #+END_SRC
+* 環境specificな設定を読み込む
+#+BEGIN_SRC emacs-lisp
+(when (file-exists-p (expand-file-name "internal.el" user-emacs-directory))
+  (load (expand-file-name "internal.el" user-emacs-directory)))
+#+END_SRC
