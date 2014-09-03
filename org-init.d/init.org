@@ -460,11 +460,8 @@ This function assumes that the file is registered."
     (goto-char (point-min))
     (let (packages)
       (while (re-search-forward "(depends-on \"\\(.+\\)\"" nil t)
-        (add-to-list 'packages (intern (match-string 1))))
-      (dolist (pkg packages)
-        (if (package-installed-p pkg)
-            (message "%S is already installed" pkg)
-          (package-install pkg)))
+        (add-to-list 'packages (intern (match-string 1)) t))
+      (mapc 'package-install packages)
       )))
 #+END_SRC
 ** フレーム透明度のトグル
