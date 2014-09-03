@@ -16,6 +16,9 @@
       (require 'pallet nil t))
   (package-initialize))
 
+;; use-packageを利用する（存在しない場合はエラーとする）
+(require 'use-package)
+
 ;;; org-babel を使って初期化ファイルをロード
 (defvar org-init-directory (locate-user-emacs-file "org-init.d"))
 (require 'org)
