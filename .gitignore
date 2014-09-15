@@ -13,3 +13,7 @@
 /init_time
 /internal.el
 /srecode-map.el
+
+# Init file
+/org-init.d/init.*
+!/org-init.d/init.org
