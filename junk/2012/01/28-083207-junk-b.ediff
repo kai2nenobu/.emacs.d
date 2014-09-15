@@ -1,3 +1,0 @@
-foo zzz baz
-(defun foo (a b)
-  (* a b))
