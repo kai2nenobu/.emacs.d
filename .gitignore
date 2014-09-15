@@ -17,3 +17,7 @@
 # Init file
 /org-init.d/init.*
 !/org-init.d/init.org
+
+# Automatically created files (like cache)
+/.org-id-locations
+/.org-timestamps/
