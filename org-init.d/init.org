@@ -2621,6 +2621,10 @@ generic を用いて予め定義されているモード．
 #+END_SRC
 
 * 非標準ライブラリ
+** ox-pandoc
+#+BEGIN_SRC emacs-lisp
+(my-safe-require 'ox-pandoc)
+#+END_SRC
 ** powershell-mode
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'powershell-mode
