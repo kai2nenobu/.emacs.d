@@ -2604,22 +2604,9 @@ generic を用いて予め定義されているモード．
   ;; *で囲まれたバッファ名は対象外にする
   (setq uniquify-ignore-buffers-re "*[^*]+*"))
 #+END_SRC
-*** iswitchb.el
 #+BEGIN_SRC emacs-lisp
-;;; 2010-11-06 (Sat)
-;;; Emacsテクニックバイブル より
-;;; バッファ切り替えを強化する
-;; (iswitchb-mode 1)
-;; ;; バッファ読み取り関数を iswitchb にする
-;; (setq read-buffer-function 'iswitchb-read-buffer)
-;; ;; 部分文字列の代わりに正規表現を使う場合は t に設定する
-;; (setq iswitchb-regexp t)
-;; ;; 新しいバッファを作成するときにいちいち聞いてこない
-;; (setq iswitchb-prompt-newbuffer nil)
-
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
-
 * 非標準ライブラリ
 ** ox-pandoc
 #+BEGIN_SRC emacs-lisp
@@ -5495,7 +5482,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; key bind
   (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c b") 'org-iswitchb)
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c C-SPC") 'org-mark-ring-goto)
 
