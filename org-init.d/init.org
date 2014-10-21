@@ -3906,11 +3906,6 @@ Emacs からはてなダイアリーに投稿する．
     (define-key ya-hatena-mode-map (kbd "C-c C-m") 'yhtn:d:action)
     ))
 #+END_SRC
-** marmalade.el
-パッケージ管理サーバ ([[http://marmalade-repo.org/]] ) とのやりとりをする
-#+BEGIN_SRC emacs-lisp
-(my-safe-load "marmalade")
-#+END_SRC
 ** kogiku.el
 - [[http://kogiku.sourceforge.jp/][小菊]]
 #+BEGIN_SRC emacs-lisp
