@@ -46,6 +46,7 @@
 (depends-on "quickrun")
 (depends-on "recentf-ext")
 (depends-on "s")
+(depends-on "session")
 (depends-on "smartparens")
 (depends-on "smartrep")
 (depends-on "smex")
