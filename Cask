@@ -25,6 +25,7 @@
 (depends-on "helm-ls-git")
 (depends-on "helm-migemo")
 (depends-on "highlight-symbol")
+(depends-on "hiwin")
 (depends-on "htmlize")
 (depends-on "httprepl")
 (depends-on "idle-highlight-mode")
