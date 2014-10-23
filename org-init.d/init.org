@@ -459,8 +459,9 @@ This function assumes that the file is registered."
     (insert-file-contents-literally (locate-user-emacs-file "Cask"))
     (goto-char (point-min))
     (let (packages)
-      (while (re-search-forward "(depends-on \"\\(.+\\)\"" nil t)
+      (while (re-search-forward "(depends-on \"\\([^\"]+\\)\")" nil t)
         (add-to-list 'packages (intern (match-string 1)) t))
+      (package-refresh-contents)
       (mapc 'package-install packages)
       )))
 #+END_SRC
