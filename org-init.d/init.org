@@ -1232,16 +1232,33 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
 Emacs テクニックバイブルより．アスペクト比によってどう分割するかを変更する工
 夫なども自分で入れている．
 #+BEGIN_SRC emacs-lisp
+(defun window-toggle-division ()
+  "ウィンドウ 2 分割時に、縦分割<->横分割を切り替える"
+  (interactive)
+  (unless (= (count-windows :ignore-minibuf) 2)
+    (error "ウィンドウが 2 分割されていません。"))
+  (let* ((edge (window-edges))
+         (top-left-p (and (eq (nth 0 edge) 0)
+                          (eq (nth 1 edge) 0)))
+         (before-height (window-height))
+         (other-buf (progn (other-window 1) (window-buffer)))
+         (other-pt (point)))
+    (delete-window)
+    (if (= (window-height) before-height)
+        (split-windaiow-vertically)
+      (split-window-horizontally))
+    (when top-left-p (other-window 1))
+    (switch-to-buffer other-buf t)
+    (goto-char other-pt)
+    (other-window 1)))
+
 (defun other-window-or-split (&optional prefix)
   "Split window if one window exists. Otherwise move a window."
   (interactive "P")
-  (when (one-window-p)
-    (if (> 3 (/ (float (window-width)) (window-height)))
-        (split-window-vertically)
-      (split-window-horizontally)))
-  (if prefix
-      (other-window -1)
-    (other-window 1)))
+  (when (one-window-p) (split-window-sensibly))
+  (cond ((equal prefix '(4)) (other-window -1))
+        ((equal prefix '(16)) (window-toggle-division))
+        (t (other-window 1))))
 #+END_SRC
 ** uwsc-mode
 generic で簡単にメジャーモードを作れる．
