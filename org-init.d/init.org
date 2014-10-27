@@ -4284,7 +4284,18 @@ anything で本管理．
 (my-safe-require 'helm-config
   (helm-mode 1)
   (when (executable-find "cmigemo")
-    (my-safe-require 'helm-migemo))
+    (my-safe-require 'helm-migemo)
+    ;; `candidates-in-buffer' でmigemoれるように再定義
+    (defun helm-compile-source--candidates-in-buffer (source)
+      (helm-aif (assoc 'candidates-in-buffer source)
+          (append source
+                  `((candidates . ,(or (cdr it)
+                                       (lambda ()
+                                         (helm-candidates-in-buffer
+                                          (helm-get-current-source)))))
+                    (volatile) (match identity)))
+        source))
+    )
   (my-safe-require 'helm-descbinds
     (helm-descbinds-install))
 
