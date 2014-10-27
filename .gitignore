@@ -6,6 +6,8 @@
 /.init_time
 /.mc-lists.el
 /.migemo-pattern
+/.session
+/async-bytecomp.log
 /abbrev_defs
 /ac-comphist.dat
 /org-init.d/init.el
