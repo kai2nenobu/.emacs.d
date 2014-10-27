@@ -4690,7 +4690,7 @@ matlab の引数を表示．
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
-  (define-key mode-specific-map (kbd "o") 'occur-by-moccur)
+  (global-set-key (kbd "M-s o") 'occur-by-moccur)
   ; moccur-edit
   ; (auto-install-from-url "http://www.bookshelf.jp/elc/moccur-edit.el")
   (my-safe-load "moccur-edit"))
