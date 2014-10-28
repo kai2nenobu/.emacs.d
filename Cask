@@ -18,6 +18,7 @@
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "git-gutter-fringe")
+(depends-on "gradle-mode")
 (depends-on "groovy-mode")
 (depends-on "guide-key")
 (depends-on "helm")
