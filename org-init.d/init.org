@@ -4745,6 +4745,13 @@ matlab の引数を表示．
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
   (global-set-key (kbd "M-s o") 'occur-by-moccur)
+  (with-eval-after-load "helm"
+    ;; helm-occurからmoccurを発動する
+    (defun occur-from-helm-occur ()
+      "Call `occur-by-moccur' from `helm' content."
+      (interactive)
+      (helm-run-after-quit 'occur-by-moccur helm-input t))
+    (define-key helm-map (kbd "C-c C-a") 'occur-from-helm-occur))
   ; moccur-edit
   ; (auto-install-from-url "http://www.bookshelf.jp/elc/moccur-edit.el")
   (my-safe-load "moccur-edit"))
