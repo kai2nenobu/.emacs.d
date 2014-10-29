@@ -450,6 +450,13 @@ This function assumes that the file is registered."
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** インデントに空白を使うか使わないか切り替えるマイナーモード
+=indent-tabs-mode= は変数しか定義されておらず、切り替えるコマンドがなかったの
+でマイナーモードとして定義した。単に =indent-tabs-mode= を切り替えるだけのモー
+ドである。
+#+BEGIN_SRC emacs-lisp
+(define-minor-mode indent-tabs-mode "Toggle `indent-tabs-mode'" nil)
+#+END_SRC
 ** Caskと同じライブラリをpackageでインストールする
 #+BEGIN_SRC emacs-lisp
 (defun package-sync-cask ()
