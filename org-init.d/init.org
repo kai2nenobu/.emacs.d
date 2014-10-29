@@ -4193,7 +4193,7 @@ hilight current column.
     '(progn
        (my-safe-require 'helm-c-yasnippet
          (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
-         (define-key mode-specific-map (kbd "y") 'helm-c-yas-complete)
+         (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
          )))
   )
 #+END_SRC
