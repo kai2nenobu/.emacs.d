@@ -2633,6 +2633,53 @@ generic を用いて予め定義されているモード．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** visual-basic-mode
+VBの編集用メジャーモード。
+#+BEGIN_SRC emacs-lisp
+(dolist (suffix '("\\.vb\\'" "\\.vbs\\'" "\\.dcm\\'" "\\.bas\\'" "\\.frm\\'" "\\.cls\\'"))
+  (add-to-list 'auto-mode-alist `(,suffix . visual-basic-mode)))
+(autoload 'visual-basic-mode "visual-basic-mode")
+(defun visual-basic-mode-hook-function ()
+  (set (make-local-variable 'outline-regexp) "^\\(Private\\|Public\\|Sub\\|Function\\|Dim\\)")
+  (set (make-local-variable 'outline-level) 'visual-basic-mode-outline-level)
+  )
+(defun visual-basic-mode-outline-level ()
+  1)
+(add-hook 'visual-basic-mode-hook 'visual-basic-mode-hook-function)
+(with-eval-after-load "visual-basic-mode"
+  (setq visual-basic-mode-indent 4)
+  (eval-after-load "auto-complete"
+    '(add-to-list 'ac-modes 'visual-basic-mode))
+  (defun visual-basic-combine ()
+    (interactive)
+    (let* ((file (or (buffer-file-name (current-buffer))
+                     (error "Invalid file")))
+           (vbac-command (expand-file-name "../../vbac.wsf"
+                                           (file-name-directory file))))
+      (shell-command (concat "cscript " vbac-command " combine"))))
+  (define-key visual-basic-mode-map (kbd "C-c C-c") 'visual-basic-combine)
+  (defun visual-basic-decombine ()
+    (interactive)
+    (let* ((file (or (buffer-file-name (current-buffer))
+                     (error "Invalid file")))
+           (vbac-command (expand-file-name "../../vbac.wsf"
+                                           (file-name-directory file))))
+      (shell-command (concat "cscript " vbac-command " decombine"))))
+  (define-key visual-basic-mode-map (kbd "C-c C-d") 'visual-basic-decombine)
+  (defun visual-basic-open-binary ()
+    (interactive)
+    (let* ((file (or (buffer-file-name (current-buffer))
+                     (error "Invalid file")))
+           (binary-name (file-name-nondirectory (expand-file-name ".." file)))
+           (binary (expand-file-name
+                    (concat "../../bin/" binary-name)
+                    (file-name-directory file))))
+      (if (file-exists-p binary)
+          (org-open-file-with-system binary)
+        (error (concat "File not found: " binary)))))
+  (define-key visual-basic-mode-map (kbd "C-c C-o") 'visual-basic-open-binary)
+  )
+#+END_SRC
 ** ox-pandoc
 #+BEGIN_SRC emacs-lisp
 (my-safe-require 'ox-pandoc)
