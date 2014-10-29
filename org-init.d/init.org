@@ -4174,6 +4174,7 @@ hilight current column.
   (yas-load-directory (locate-user-emacs-file "snippets"))
   (yas-global-mode 1)
 
+  (setq yas-prompt-functions '(yas-completing-prompt))
   ;; original function
   (defun yas-c-format-count (str)
     "Return comma according to c format string"
