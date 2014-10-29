@@ -22,6 +22,7 @@
 (depends-on "groovy-mode")
 (depends-on "guide-key")
 (depends-on "helm")
+(depends-on "helm-c-yasnippet")
 (depends-on "helm-descbinds")
 (depends-on "helm-git-grep")
 (depends-on "helm-ls-git")
