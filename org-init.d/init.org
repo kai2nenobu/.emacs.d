@@ -5240,6 +5240,8 @@ minibufferで履歴検索．
                '(ert-results-mode :position right :width 80))
   (add-to-list 'popwin:special-display-config
                '(compilation-mode :position right :width 80))
+  (setq popwin:special-display-config
+        (delete '(" *undo-tree*" :width 60 :position right) popwin:special-display-config))
   )
 #+END_SRC
 ** latex-math-preview.el
