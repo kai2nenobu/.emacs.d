@@ -8,6 +8,7 @@
 (depends-on "cask")
 (depends-on "color-moccur")
 (depends-on "dash")
+(depends-on "dired+")
 (depends-on "direx")
 (depends-on "drag-stuff")
 (depends-on "elscreen")

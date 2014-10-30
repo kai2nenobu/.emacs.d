@@ -1859,7 +1859,7 @@ shift+カーソルキー でウィンドウを移動する．
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "dired+.el")
-;(my-safe-require 'dired+)
+(my-safe-require 'dired+)
 
 ;; lsコマンドがあればそれを利用する
 (when (executable-find "ls")
@@ -2149,16 +2149,6 @@ Works in Microsoft Windows, Mac OS X, Linux."
               (list
                '(my-dired-today-search . my-face-f-2)
                ))))
-#+END_SRC
-*** dired-details+.el
-dired のファイル情報の詳細表示をトグルする．
-#+BEGIN_SRC emacs-lisp +n
-;; (auto-install-from-emacswiki "dired-details.el")
-;; (auto-install-from-emacswiki "dired-details+.el")
-(my-safe-require 'dired-details+
-  (setq dired-details-hidden-string "")
-  (setq dired-details-hide-link-targets nil)
-  )
 #+END_SRC
 ** diff.el
 - [[http://www.clear-code.com/blog/2012/4/3.html][Emacs上でカラフルにdiffを表示する - ククログ(2012-04-03)]]
