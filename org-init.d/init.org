@@ -6,6 +6,7 @@
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: section
 #+OPTIONS: html-style:nil html5-fancy:t
+#+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work                                                      :noexport:
 ** iserach などで perl 正規表現を使う
