@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 #+TITLE: Emacs の初期設定
-#+STYLE: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
-#+STYLE: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
 #+OPTIONS: toc:1 num:nil ^:nil
 
 * Future work                                                      :noexport:
