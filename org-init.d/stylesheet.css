@@ -16,10 +16,10 @@ body {
 
 /* リンク */
 a:link {
-    color: #c00000;
+    color: #0000c0;
 }
 a:visited {
-    color: #400000;
+    color: #a00000;
 }
 a:active {
     color: #ff0000;
@@ -210,5 +210,10 @@ p.creator {
     color: #a0a0a0;
 }
 
+/* 本文 */
+div#content {
+    width: 900px;
+    margin: 0 auto;
+}
 
 
