@@ -349,8 +349,8 @@ This function assumes that the file is registered."
 ** default-major-mode
 該当しない拡張子のメジャーモード。バージョン23.2以前は =default-major-mode=
 を利用していたようだが、それ以降は =major-mode= のグローバル値がみられるよう
-になったらしい。しかし24.2でも実際は =default-major-mode= が使われるっぽい？
-の値を =nil= にしておけば =major-mode= をみてくれるようになった。ちなみに
+になったらしい。しかし23.2でも実際は =default-major-mode= が使われるっぽい？
+この値を =nil= にしておけば =major-mode= をみてくれるようになった。ちなみに
 =major-mode= の初期値は =fundamental-mode= 。
 #+BEGIN_SRC emacs-lisp +n
 (setq default-major-mode nil)
@@ -6309,8 +6309,7 @@ do nothing. And suppress the output from `message' and
     (cond ((linuxp)
            (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")) ; migemo-dict のパスを指定
           (t
-           (setq migemo-dictionary (expand-file-name "dict/utf-8/migemo-dict"
-                                                     (file-name-directory (executable-find "cmigemo"))))))
+           (setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")))
     (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
     (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
     (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
