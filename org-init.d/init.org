@@ -3,6 +3,7 @@
 #+TITLE: Emacs の初期設定
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
+#+OPTIONS: html-style:nil
 #+OPTIONS: toc:1 num:nil ^:nil
 
 * Future work                                                      :noexport:
