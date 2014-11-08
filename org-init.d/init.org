@@ -3,8 +3,9 @@
 #+TITLE: Emacs の初期設定
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
-#+OPTIONS: html-style:nil
-#+OPTIONS: toc:1 num:nil ^:nil
+#+HTML_DOCTYPE: html5
+#+HTML_CONTAINER: section
+#+OPTIONS: html-style:nil html5-fancy:t
 
 * Future work                                                      :noexport:
 ** iserach などで perl 正規表現を使う
