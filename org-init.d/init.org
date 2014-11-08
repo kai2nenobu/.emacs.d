@@ -292,7 +292,8 @@ This function assumes that the file is registered."
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
   (defvar my-current-font-size my-default-font-size "Current font size")
-  (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
+  (when (member "Ricty" (font-family-list))
+    (set-frame-font (format "Ricty %d" my-current-font-size) nil t))
 
   ;; ;; 標準のフォントサイズ
   ;; (defvar my-current-font-size nil "Standard font size")
