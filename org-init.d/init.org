@@ -2812,9 +2812,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'highlight-symbol
   (setq highlight-symbol-idle-delay 0.5)
-  (define-globalized-minor-mode global-highlight-symbol-mode
-    highlight-symbol-mode highlight-symbol-mode)
-  ;(global-highlight-symbol-mode 1)
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+  (add-hook 'text-mode-hook 'highlight-symbol-mode)
   )
 #+END_SRC
 ** emmet-mode
