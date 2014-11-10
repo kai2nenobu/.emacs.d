@@ -218,6 +218,7 @@ div#content {
 
 /* linenr */
 .linenr {
+    color: #404040;
     background-color: #d0d0d0;
 
     /* 画面選択を禁止するCSS */
