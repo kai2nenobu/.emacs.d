@@ -5,7 +5,7 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: section
-#+OPTIONS: html-style:nil html5-fancy:t
+#+OPTIONS: html5-fancy:t
 #+OPTIONS: toc:2 num:nil ^:nil
 
 * Future work                                                      :noexport:
@@ -5378,6 +5378,10 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
   (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
   (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
+  ;; `org-html-style-default' を修正
+  (when (string-match "pre.src {[^}]*\\(padding-top: 1.2em;\\)[^}]*}" org-html-style-default)
+    (setq org-html-style-default
+          (replace-match "" t t org-html-style-default 1)))
   ;; #+ATTR_HTML が思い通りの要素に追加されないのを無理やりハック
   (defun org-export-my-attr-html-hack ()
     (goto-char (point-min))
