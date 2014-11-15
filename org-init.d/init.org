@@ -2194,15 +2194,13 @@ Works in Microsoft Windows, Mac OS X, Linux."
           (tab-mark     ?\t    [?\xBB ?\t]   [?\\ ?\t])))
   (setq whitespace-space-regexp "\\(\u3000+\\)") ; 全角空白のみを明示
   ;; フェイス設定
-  (set-face-foreground 'whitespace-space nil)
-  (set-face-background 'whitespace-space "gray30")
-  (set-face-foreground 'whitespace-tab "green")
-  (set-face-background 'whitespace-tab "gray20")
-  (set-face-foreground 'whitespace-trailing "green")
-  (set-face-background 'whitespace-trailing nil)
-  (set-face-bold-p 'whitespace-trailing nil)
-  (set-face-underline 'whitespace-trailing t)
-  ;(set-face-foreground 'whitespace-newline "purple")
+  (face-spec-set 'whitespace-tab
+                 '((t :foreground "green")))
+  (face-spec-set 'whitespace-trailing
+                 '((t :foreground "green" :background unspecified
+                      :weight unspecified :underline t)))
+  (face-spec-set 'whitespace-newline
+                 '((t :foreground "gray50")))
   (setq whitespace-global-modes '(not direx:direx-mode)) ; direx:direx-mode は global から除外する
   (global-whitespace-mode 1)
   )
