@@ -35,23 +35,6 @@ uwsc.el をつくってみた．`define-derived-mode'．
 ** IME の ON/OFF に連動してカーソル色を変えたりを、自作したほうがいい気がする
 ** one-key の代わりに現在のキーバインドを動的に表示できる elisp
 ** yatex のキー割り当てが ??? なのを修正する
-
-* Question                                                :noexport:Question:
-** ミニバッファ中に anything を発動させるには？
-ミニバッファの再帰的な利用法を知りたい．
-** なんか anything のバッファが bottom に固定表示される？
-なんで？　アップデートしたからか．
-*** Answer
-popwin に anything の設定が追加されているだけだった．popwin の設定を削除した．
-** anything を使って describe-function, describe-variable
-** completion-read の anything 化
-って自動的になるんですよね？これのカスタマイズってできない？
-** anything で自動的に persistent-action
-`anything-move-selection-after-hook' を使えば自分で書けるか？ anything の情報
-源に (auto-persistent-action) とか追加できたらいいな．
-** ミニバッファのヒストリを anything 検索
-: (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
-は設定しているが，有効な時と無効な時がある．map が違うのか？
 * はじめに
 org-babel を使って org-mode で設定ファイルを記述しています．
 
@@ -1781,7 +1764,7 @@ shift+カーソルキー でウィンドウを移動する．
         ;;   (isearch-repeat-forward)))
     ad-do-it))
 #+END_SRC
-** 名前，メールの設定                                              :noexport:
+** 名前，メールの設定
 #+BEGIN_SRC emacs-lisp +n
 (setq user-full-name "Tsunenobu Kai")
 (setq user-mail-address "kai2nenobu@gmail.com")
@@ -2254,7 +2237,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
        (recenter)))
   )
 #+END_SRC
-** tramp.el                                                        :noexport:
+** tramp.el
 リモートにあるサーバのファイルを編集する．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'tramp
@@ -2271,17 +2254,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
     )
   ;; multi ssh
   (add-to-list 'tramp-default-proxies-alist
-               '("athena" "\\`root\\'" "/kai@%h:"))
-  (add-to-list 'tramp-default-proxies-alist
-               '("demeter\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
-  (add-to-list 'tramp-default-proxies-alist
-               '("hermes\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
-  (add-to-list 'tramp-default-proxies-alist
-               '("poseidon\\(.gavo.t.u-tokyo.ac.jp\\)?" "\\`root\\'" "/kai@athena:"))
-  (add-to-list 'tramp-default-proxies-alist
                '("\\`rubner\\'" "\\`root\\'" "/kai@%h:"))
-  (add-to-list 'tramp-default-proxies-alist
-               '("\\`rubner2\\'" "\\`root\\'" "/kai@%h:"))
   ;(add-to-list 'tramp-default-proxies-alist
   ;             '("rubner-\\(dns\\|web\\)\\(.kaichan.mydns.jp\\)?" nil "/kai@rubner:"))
 #+END_SRC
@@ -2938,419 +2911,6 @@ package.el からインストール．
   (add-hook 'web-mode-hook 'emmet-mode)
   )
 #+END_SRC
-** mu4e.el                                                         :noexport:
-新しいメーラー．
-#+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'mu4e
-  ;; 基本設定
-  (setq mu4e-headers-date-format "%Y/%m/%d (%a)")
-  (setq mu4e-view-prefer-html nil)  ;; html を html のままで表示しない
-  (setq mu4e-view-show-addresses t)  ;; 送信者などのメールアドレスを表示する
-  (setq mu4e-html2text-command "w3m -dump -T text/html")  ;; html をテキスト表示
-  (setq mu4e-split-view 'vertical)  ;; ヘッダバッファの分割方法．左右に分割する
-  (setq mu4e-headers-visible-columns 100)  ;; メッセージを開いた時のヘッダバッファの大きさ
-  (setq mu4e-show-images t)  ;; 添付された画像をインライン表示する
-  (setq mu4e-view-image-max-width 800)  ;; 画像の最大幅．単位はおそらくピクセル
-  (set-face-foreground 'mu4e-title-face "deep pink")  ;; タイトル用のフェイス
-  (setq mu4e-use-fancy-chars nil) ;; ASCII 文字以外を使って表示しない
-  (setq mu4e-headers-fields       ;; human-date を少し広げる
-     '((:human-date . 16) (:flags . 6) (:from . 22) (:subject)))
-  (define-key mu4e-headers-mode-map (kbd "m") 'mu4e-headers-mark-for-something) ;; マークしやすいようにキーバインド変更
-  (define-key mu4e-headers-mode-map (kbd "M") 'mu4e-headers-mark-for-move)
-  ;; フォルダ設定
-  (setq mu4e-maildir       "~/Maildir"        ;; top-level Maildir
-        mu4e-sent-folder   "/gavo/INBOX.Sent"      ;; folder for sent messages
-        mu4e-drafts-folder "/gavo/INBOX.Drafts"    ;; unfinished messages
-        mu4e-trash-folder  "/gavo/INBOX.Trash"     ;; trashed messages
-        mu4e-refile-folder "/gavo/INBOX.Archives") ;; saved messages
-  ;; 受信設定
-  (setq mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
-        mu4e-update-interval 120)             ;; update every 5 minutes
-  ;; フォルダ設定
-  (setq mu4e-search-results-limit 500) ;; -1 にすると無制限
-  (setq mu4e-maildir-shortcuts
-        '(("/gavo/INBOX" . ?g)
-          ("/gavo/INBOX.onsei-mail" . ?O)
-          ("/kbkbkbkb1/INBOX" . ?k)
-          ("/kbkbkbkb1/INBOX.mailing-list.Emacs-devel" . ?e)
-          ("/kbkbkbkb1/INBOX.mailing-list.Emacs-orgmode" . ?)
-          ("/cellphone/INBOX" . ?c)
-          ))
-  ;; 送信設定
-  (setq auth-source-save-behavior nil) ; 認証情報を ~/.authinfo に保存しない
-  (add-to-list 'mu4e-user-mail-address-list "kbkbkbkb1@gmail.com")
-  (add-to-list 'mu4e-user-mail-address-list "giovanni-franz@ezweb.ne.jp")
-  (my-safe-require 'smtpmail
-    (setq message-send-mail-function   'smtpmail-send-it
-          smtpmail-stream-type 'ssl
-          smtpmail-smtp-user           "kai"
-          smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
-          smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
-          smtpmail-smtp-service        465
-          smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
-  (define-key ctl-x-map (kbd "M") 'mu4e)
-  (define-key ctl-x-map (kbd "m") 'mu4e-compose-new)
-  (setq message-signature "東京大学情報理工学系研究科電子情報学専攻
-峯松研究室 修士2年 甲斐常伸
-E-mail: kai@gavo.t.u-tokyo.ac.jp")
-  ;; guide-key を使う
-  (eval-after-load "guide-key"
-    '(progn
-       (defun guide-key/my-hook-function-for-mu4e-compose ()
-         (dolist (key '("C-c" "C-c C-f"))
-           (guide-key/add-local-guide-key-sequence key)))
-       (add-hook 'mu4e-compose-mode-hook 'guide-key/my-hook-function-for-mu4e-compose)))
-#+END_SRC
-*** リンクへ移動，開く
-カーソルをリンクへ移動．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-view-my-goto-next-link (arg)
-    "Go to next ARGth `mu4e-view-link-face'."
-    (interactive "p")
-    (let ((pt (point))
-          (search-func (if (>= arg 0)
-                           'next-single-property-change
-                         'previous-single-property-change)))
-      (dotimes (i (abs arg))
-        (while (and (setq pt (funcall search-func pt 'face))
-                    (not (eq 'mu4e-view-link-face
-                             (get-text-property pt 'face))))
-          nil)  ; do nothing
-        (if pt
-            (goto-char pt)
-          (error (format "No link %s" (if (>= arg 0) "forward" "backward")))))
-      ))
-  (defun mu4e-view-my-goto-previous-link (arg)
-    "Go to previous ARGth `mu4e-view-link-face'."
-    (interactive "p")
-    (mu4e-view-my-goto-next-link (- arg)))
-  (define-key mu4e-view-mode-map (kbd "<tab>") 'mu4e-view-my-goto-next-link)
-  (define-key mu4e-view-mode-map (kbd "<backtab>") 'mu4e-view-my-goto-previous-link)
-#+END_SRC
-
-カーソル下のリンクを開く．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-view-my-get-link-at-point ()
-    "Get mu4e link at point."
-    ;; Not consider the case that link is at the beginning of buffer or at
-    ;; the end of buffer
-    (let ((pt (point)))
-      (when (eq 'mu4e-view-link-face (get-text-property pt 'face))
-        (if (eq 'mu4e-view-link-face (get-text-property (1- pt) 'face))
-            ;; point is inside of link
-            (buffer-substring-no-properties (previous-single-property-change pt 'face)
-                                            (next-single-property-change pt 'face))
-          ;; point is at the top of link
-          (buffer-substring-no-properties pt (next-single-property-change pt 'face)))
-        )))
-
-  (defun mu4e-view-my-link-action-dwim (&optional arg)
-    "Do action according to link at point. If link is url, open it with browser.
-  If link is attachment, do the first action of `mu4e-view-attachment-actions'.
-  If ARG is non-nil, select an action from `mu4e-view-attachment-actions'."
-    (interactive "P")
-    (let ((msg (or (mu4e-message-at-point)
-                   (error "Message not found here")))
-          (link (or (mu4e-view-my-get-link-at-point)
-                    (error "Link not found here"))))
-      (if (string-match mu4e~view-url-regexp link)
-          (browse-url link)
-        (let ((actionfunc (if arg
-                              (mu4e-read-option "Action on attachment: "
-                                                mu4e-view-attachment-actions)
-                            (cdar mu4e-view-attachment-actions)))
-              (attnum (or (mu4e-view-my-get-attachment-number link)
-                          (mu4e~view-get-attach-num "Which attachment" msg))))
-          (when (and actionfunc attnum)
-            (funcall actionfunc msg attnum))))))
-
-  (defun mu4e-view-my-get-attachment-number (name)
-    "Get an attachment number from NAME of link."
-    (save-excursion
-      (goto-char (point-min))
-      (when (and name
-                 (re-search-forward (format "\\[\\([0-9]+\\)\\]%s" name) nil t))
-        (string-to-int (match-string 1)))))
-
-  (add-to-list 'mu4e-view-attachment-actions
-               (cons "oopen-external" 'mu4e-view-open-attachment))
-  (define-key mu4e-view-mode-map (kbd "RET") 'mu4e-view-my-link-action-dwim)
-#+END_SRC
-*** 特定のフォルダのみのメールを取得する
-特定のフォルダのメールをダウンロードするコマンドを作った．理想的には
-`mu4e-update-mail-and-index' の引数で挙動が変えられるようにしたほうがいいかも．
-さらに抽象化するために，maildir からアカウントとフォルダに写像する関数とか書い
-たほうがいいと思われる．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-update-mail-and-index-partially (run-in-background)
-    "Get a new mail by running `mu4e-get-mail-command'. If
-  run-in-background is non-nil (or functional called with
-  prefix-argument), run in the background; otherwise, pop up a
-  window."
-    (interactive "P")
-    (unless mu4e-get-mail-command
-      (mu4e-error "`mu4e-get-mail-command' is not defined"))
-    (let* ((buf (unless run-in-background
-                  (get-buffer-create mu4e~update-name)))
-            (win (and buf (split-window (selected-window)
-                            (- (window-height (selected-window)) 8))))
-            (process-connection-type t)
-            (command (mu4e~command-partial-update (mu4e-my-guess-maildir)))
-            (proc (start-process-shell-command mu4e~update-name buf command)))
-      (mu4e-message "Retrieving mail...")
-      (when (window-live-p win)
-        (with-selected-window win
-          (switch-to-buffer buf)
-          (set-window-dedicated-p win t)
-          (erase-buffer)
-          (insert "\n"))) ;; FIXME -- needed so output starts
-      (set-process-sentinel proc
-        (lambda (proc msg)
-          (let* ((status (process-status proc))
-                  (code (process-exit-status proc))
-                  ;; sadly, fetchmail returns '1' when there is no mail; this is
-                  ;; not really an error of course, but it's hard to distinguish
-                  ;; from a genuine error
-                  (maybe-error (or (not (eq status 'exit)) (/= code 0)))
-                  (buf (process-buffer proc)))
-            (message nil)
-            ;; there may be an error, give the user up to 5 seconds to check
-            (when maybe-error (sit-for 5))
-            (mu4e-update-index)
-            (when (buffer-live-p buf) (kill-buffer buf)))))
-      ;; if we're running in the foreground, handle password requests
-      (unless run-in-background
-        (process-put proc 'x-interactive (not run-in-background))
-        (set-process-filter proc 'mu4e~get-mail-process-filter))))
-
-  (defun mu4e~command-partial-update (maildir)
-    "Return a command for mu4e to update mail partially."
-    (if (string-match "^/\\([^/\n]+\\)/\\([^/\n]+\\)" maildir)
-        (let ((account (match-string 1 maildir))
-              (folder  (utf7-encode (replace-regexp-in-string
-                                     "\\." "/" (match-string 2 maildir)) 'imap)))
-          (cond ((string= mu4e-get-mail-command "offlineimap")
-                 (concat mu4e-get-mail-command
-                         " -a " account
-                         " -f " "'" folder "'"))
-                (t (error "Not implemeqnted yet"))))
-      (error (format "Invalid maildir: %s" maildir))))
-#+END_SRC
-*** 次のフォルダに移動するコマンド
-何かとあれば便利かと思って次のフォルダに直接移動するコマンドを作った．大きく
-移動する場合は helm で移動がよろしい．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-my-next-maildir (arg)
-    "Move to a next maildir. This function get a current maildir
-  from a message at point or last query."
-    (interactive "p")
-    (let* ((last-query (mu4e-last-query))
-           (mdir (or (mu4e-my-guess-maildir)
-                     (error "Cannot get a current maildir")))
-           (mdir-list (or mu4e~maildir-list
-                          (mu4e-get-maildirs)))
-           (index (- (length mdir-list) (length (member mdir mdir-list))))
-           (next-dir (nth (mod (+ index arg) (length mdir-list)) mdir-list)))
-      (mu4e~headers-search-execute (concat "maildir:" next-dir) t)))
-  (defun mu4e-my-previous-maildir (arg)
-    "Move to a previous maildir."
-    (interactive "p")
-    (mu4e-my-next-maildir (- arg)))
-
-  (define-key mu4e-headers-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
-  (define-key mu4e-headers-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
-  (define-key mu4e-view-mode-map (kbd "M-n") 'mu4e-my-next-maildir)
-  (define-key mu4e-view-mode-map (kbd "M-p") 'mu4e-my-previous-maildir)
-#+END_SRC
-*** 送信メールを元メールと同じフォルダにコピーする
-thunderbird のこの機能がとっても便利なのでまねしてみる．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-my-save-message-in-same-folder ()
-    "Save a sent message in same folder as a parent message.
-  This function derives from `mu4e~setup-fcc-maybe'."
-    (when mu4e-compose-parent-message
-      (let* ((mpath (mu4e-message-field mu4e-compose-parent-message :path))
-             (fccfile (and mpath
-                           (concat (file-name-directory mpath)
-                                   (mu4e~draft-message-filename-construct "S")))))
-        (when fccfile
-          (message-add-header (concat "Fcc: " fccfile "\n"))))))
-  (add-hook 'mu4e-compose-mode-hook 'mu4e-my-save-message-in-same-folder)
-#+END_SRC
-とりあえず作ってみたが，`mu4e-compose-mode-hook' 中で
-`mu4e-compose-parent-message' が nil になる．info では使えると書いてあるんだ
-が．
-*** 動的にアカウントを変更する
-[[info:mu4e#Compose%20hooks][info:mu4e#Compose hooks]] を参考にして，返信，転送時などは元のメールに応じて
-アカウントを変更することができた．`user-mail-address' を直接設定しているの
-で注意．
-
-`compose-new' 時にアカウントを設定する．デフォルトでは `user-mail-address' を
-利用するが，前置引数をつけて呼び出すとアカウントを選択することができる．
-#+BEGIN_SRC emacs-lisp +n
-  (defadvice mu4e-compose-new (before set-account (arg) activate)
-    "Before executing `mu4e-commpose-new', set account information.
-  If ARG is non-nil, select an account from `mu4e-user-mail-address-list'."
-    (interactive "P")
-    (if arg
-        (mu4e-my-set-account-dynamically)
-      (mu4e-my-set-account-dynamically user-mail-address)))
-#+END_SRC
-
-返信時に返信元のメールの場所に応じてアカウントを切り替える．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-my-change-account-for-maildir ()
-    "Change my account according to maildir of a parent message."
-    (when mu4e-compose-parent-message
-      (let ((mdir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-        (cond ((string-match "^/gavo/" mdir)
-               (mu4e-my-set-account-dynamically "kai@gavo.t.u-tokyo.ac.jp"))
-              ((string-match "^/kbkbkbkb1/" mdir)
-               (mu4e-my-set-account-dynamically "kbkbkbkb1@gmail.com"))
-              ((string-match "^/cellphone/" mdir)
-               (mu4e-my-set-account-dynamically "giovanni-franz@ezweb.ne.jp"))))))
-  (add-hook 'mu4e-compose-pre-hook 'mu4e-my-change-account-for-maildir)
-#+END_SRC
-
-メールアドレスに応じてアカウント情報を設定するコマンド．
-#+BEGIN_SRC emacs-lisp +n
-  (defun mu4e-my-set-account-dynamically (&optional address)
-    "Set up an account according to ADDRESS.
-If ADDRESS is nil, read ADDRESS from `mu4e-user-mail-address-list'."
-    (interactive)
-    (unless address
-      (setq address (completing-read "Mail account: " mu4e-user-mail-address-list
-                                     nil t nil nil user-mail-address)))
-    (cond ((string= address "kai@gavo.t.u-tokyo.ac.jp")
-           (setq mu4e-sent-folder   "/gavo/INBOX.Sent"
-                 mu4e-drafts-folder "/gavo/INBOX.Drafts"
-                 mu4e-trash-folder  "/gavo/INBOX.Trash"
-                 mu4e-sent-messages-behavior  'sent
-                 user-mail-address            address
-                 smtpmail-stream-type         'ssl
-                 smtpmail-smtp-user           "kai"
-                 smtpmail-default-smtp-server "smtps.gavo.t.u-tokyo.ac.jp"
-                 smtpmail-smtp-server         "smtps.gavo.t.u-tokyo.ac.jp"
-                 smtpmail-smtp-service        465
-                 smtpmail-local-domain        "gavo.t.u-tokyo.ac.jp"))
-          ((string= address "kbkbkbkb1@gmail.com")
-           (setq mu4e-drafts-folder "/kbkbkbkb1/[Gmail].下書き"
-                 mu4e-sent-folder   "/kbkbkbkb1/[Gmail].送信済みメール"
-                 mu4e-trash-folder  "/kbkbkbkb1/[Gmail].ゴミ箱"
-                 mu4e-sent-messages-behavior  'sent
-                 user-mail-address            address
-                 smtpmail-stream-type         'ssl
-                 smtpmail-smtp-user           "kbkbkbkb1@gmail.com"
-                 smtpmail-default-smtp-server "smtp.gmail.com"
-                 smtpmail-smtp-server         "smtp.gmail.com"
-                 smtpmail-smtp-service        465
-                 smtpmail-local-domain        "gmail.com"))
-          ((string= address "giovanni-franz@ezweb.ne.jp")
-           (setq mu4e-drafts-folder "/cellphone/[Gmail].下書き"
-                 mu4e-sent-folder   "/cellphone/[Gmail].送信済みメール"
-                 mu4e-trash-folder  "/cellphone/[Gmail].ゴミ箱"
-                 mu4e-sent-messages-behavior  'sent
-                 user-mail-address            address
-                 smtpmail-stream-type         'ssl
-                 smtpmail-smtp-user           "giovanni-franz@auone.jp"
-                 smtpmail-default-smtp-server "smtp.gmail.com"
-                 smtpmail-smtp-server         "smtp.gmail.com"
-                 smtpmail-smtp-service        465
-                 smtpmail-local-domain        "ezweb.ne.jp"))
-          (t (error (format "Unknown mail address: %s" address)))))
-#+END_SRC
-*** 独自拡張
-org-mode で mu4e のメールへのリンクを作成できる org-mu4e．
-#+BEGIN_SRC emacs-lisp +n
-  (my-safe-require 'org-mu4e)   ; org-mode との協調
-  (add-hook 'mu4e-view-mode-hook 'toggle-truncate-lines)
-#+END_SRC
-
-helm で mu4e のフォルダを選択する．
-#+BEGIN_SRC emacs-lisp +n
-  (defvar helm-c-source-mu4e-maildir
-    '((name . "mu4e-maildir")
-      (candidates . mu4e-get-maildirs)
-      (real-to-display . helm-c-source-mu4e-maildir-real-to-diaplay)
-      (action . (("Jump to maildir" . mu4e~headers-jump-to-maildir)
-                 ("Insert maildir" . insert)))
-      (candidate-number-limit)
-      (migemo))
-    "Helm source for mu4e maildir.")
-
-  (defun helm-c-source-mu4e-maildir-real-to-diaplay (maildir)
-    ""
-    (let ((count (with-temp-buffer
-                   (shell-command (concat "mu find flag:unread maildir:"
-                                          maildir " 2>/dev/null | wc -l")
-                                  (current-buffer))
-                   (replace-regexp-in-string "\n" "" (buffer-string)))))
-      (if (> (string-to-int count) 0)
-          (propertize (concat maildir " [" count "]") 'face 'mu4e-unread-face)
-        maildir)))
-
-  (defun helm-mu4e-maildir ()
-    "Helm command for mu4e maildir."
-    (interactive)
-    (helm :sources   'helm-c-source-mu4e-maildir
-              :buffer    "*helm-mu4e-maildir*"
-              :preselect (mu4e-my-guess-maildir)))
-  (define-key mu4e-main-mode-map (kbd "f") 'helm-mu4e-maildir)   ; smtpmail-send-queued-mail を上書き
-  (define-key mu4e-headers-mode-map (kbd "f") 'helm-mu4e-maildir)
-  (define-key mu4e-view-mode-map (kbd "f") 'helm-mu4e-maildir)
-
-  (defun mu4e-my-guess-maildir ()
-    "Guess a current maildir from a message at point or last search query.
-  If the guess fails, return nil."
-    (let ((last-query (mu4e-last-query))
-          (maildir-regexp "maildir:\\([^\) \r\n\\]+\\)\\()\\| AND\\|\\\)?")) ; This may be wrong
-      (or (ignore-errors (mu4e-field-at-point :maildir))
-          (and last-query
-               (string-match maildir-regexp last-query)
-               (match-string 1 last-query)))))
-#+END_SRC
-
-helm でメールアドレスの補完をする．メールアドレスは
-`mu4e~contacts-for-completion' に文字列のリストで格納されているので簡単にかけ
-た．はじめて history を作ってみたが，まずまず動いていると思う．
-`mu4e-my-insert-contact-and-save-history' で直接履歴を保存しているのが少しダ
-サイ気がする．
-#+BEGIN_SRC emacs-lisp +n
-  (defvar mu4e-my-contact-history nil "Contact history for mu4e")
-
-  (defun mu4e-my-insert-contact-and-save-history (candidate)
-    "Insert contact and save hisroty"
-    (setq mu4e-my-contact-history (delete candidate mu4e-my-contact-history))
-    (add-to-list 'mu4e-my-contact-history candidate)
-    (insert candidate))
-
-  (defvar helm-c-source-mu4e-my-contact-history
-    '((name . "mu4e Contact History")
-      (candidates . mu4e-my-contact-history)
-      (action . mu4e-my-insert-contact-and-save-history)
-      (migemo))
-    "Helm source for mu4e contact history.")
-
-  (defvar helm-c-source-mu4e-contact
-    '((name . "mu4e Contact Completion")
-      (candidates . mu4e~contacts-for-completion)
-      (action . mu4e-my-insert-contact-and-save-history)
-      (migemo))
-    "Helm source for mu4e contact.")
-
-  (defun helm-mu4e-contact ()
-    "Helm command for mu4e contact."
-    (interactive)
-    (helm-other-buffer '(helm-c-source-mu4e-my-contact-history
-                             helm-c-source-mu4e-contact)
-                           "*helm-mu4e-conntact*"))
-  (define-key mu4e-compose-mode-map (kbd "C-c c") 'helm-mu4e-contact)
-#+END_SRC
-
-最後のカッコ．
-#+BEGIN_SRC emacs-lisp +n
-  )
-#+END_SRC
 ** fill-column-indicator
 - [[https://github.com/alpaker/Fill-Column-Indicator][alpaker/Fill-Column-Indicator]]
 `fill-column' の桁を明示してくれるライブラリ．すばらしい．package.el でインス
@@ -3413,59 +2973,6 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
   '(progn
      (my-safe-require 'ac-python
        (add-to-list 'ac-modes 'python-mode))))
-#+END_SRC
-** org2blog.el                                                     :noexport:
-- [[https://github.com/punchagan/org2blog][punchagan/org2blog]]
-org-mode 形式のファイルを変換し wordpress に投稿する．marmalade よりインストー
-ル．
-#+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'org2blog
-  (setq org2blog/wp-tags-list '("Emacs" "WordPress"))
-  (setq org2blog/wp-blog-alist
-        `(("wordpress"
-           :url "http://www.kaichan.mydns.jp/~kai/wordpress/xmlrpc.php"
-           :username "kbkbkbkb1"
-           :password "whdU05qU45j0"
-           :tags-as-categories nil)
-          ))
-  ;; my function
-  (defun org2blog/wp-my-post-current-subtree ()
-    "Preview current subtree."
-    (interactive)
-    (save-excursion
-      ;; move to top level of the outline
-      (ignore-errors
-        (while (> (progn (outline-up-heading 1)
-                         (funcall outline-level)) 1)))
-      (let ((org2blog/wp-show-post-in-browser nil))
-        (org2blog/wp-post-subtree))))
-  (defun org2blog/wp-my-post-current-subtree-and-preview ()
-    "Preview current subtree."
-    (interactive)
-    (save-excursion
-      ;; move to top level of the outline
-      (ignore-errors
-        (while (> (progn (outline-up-heading 1)
-                         (funcall outline-level)) 1)))
-      (let ((org2blog/wp-show-post-in-browser 'show))
-        (org2blog/wp-post-subtree))))   ; preview
-  (defun org2blog/wp-my-post-current-subtree-and-publish ()
-    "Post current subtree."
-    (interactive)
-    (save-excursion
-      ;; move to top level of the outline
-      (ignore-errors
-        (while (> (progn (outline-up-heading 1)
-                         (funcall outline-level)) 1)))
-      (let ((org2blog/wp-show-post-in-browser nil))
-        (org2blog/wp-post-subtree t)))) ; post
-
-  ;; WP SyntaxHighlighter Evolved を使う時用の設定
-  ;; (setq org2blog/wp-use-sourcecode-shortcode t)
-  ;; (setq org2blog/wp-sourcecode-default-params "")
-  ;; (dolist (lang '("lisp" "clisp" "elisp" "emacs-lisp" "clojure" "scheme"))
-  ;;   (add-to-list 'org2blog/wp-sourcecode-langs lang))
-  )
 #+END_SRC
 ** ruby 関連
 *** ruby-mode.el
@@ -4919,21 +4426,6 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+END_SRC
 背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
 にくいので使うのはやめた．
-** google 関連                                                     :noexport:
-- [[http://maarui.doorblog.jp/archives/6301428.html][まぁるいしっぽ:emacsのカレンダーでgoogle calendarを読み込む]]
-カレンダーへのイベント追加はできたが，タイムゾーンが +0:00 になっていまい時間
-指定が思い通りにならない．タイムゾーンを指定したいがやり方がわからない．
-#+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'icalendar)
-(my-safe-require 'google-calendar
-  (setq google-calendar-user "g03090416")         ;;; GOOGLE USER
-  (setq google-calendar-code-directory     ;;; PATH TO THE PYTHON CODE
-        (expand-file-name "code"
-                          (file-name-directory (locate-library "google-calendar"))))
-  (setq google-calendar-directory      "~/tmp")               ;;; TEMPORARY DIRECTORY
-  (setq google-calendar-url "http://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics")  ;;; URL TO YOUR GOOGLE CALENDAR
-  (setq google-calendar-auto-update t))
-#+END_SRC
 ** pink-bliss.el
 ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる．
 #+BEGIN_SRC emacs-lisp +n
@@ -5287,55 +4779,7 @@ Emacs でツイッター．
   ; :home にしか追加されなかった．どの関数にアドバイスすればいいかわからん・・・
   )
 #+END_SRC
-** calfw.el                                                        :noexport:
-- [[http://d.hatena.ne.jp/kiwanami/20110107/1294404952][Emacsでカレンダーコンポーネントを作った - 技術日記＠kiwanami]]
-高機能カレンダー．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw.el")
-;; 日本の祝日関連
-;; (auto-install-from-url "http://www.meadowy.org/meadow/netinstall/export/799/branches/3.00/pkginfo/japanese-holidays/japanese-holidays.el")
-(add-hook 'calendar-load-hook
-          (lambda ()
-            (my-safe-require 'japanese-holidays)
-            (setq calendar-holidays
-                  (append japanese-holidays local-holidays other-holidays))))
-(setq mark-holidays-in-calendar t)
-;; 祝日の設定を先にしてないといけないっぽい
-;; (lazyload (my-open-calendar) "calfw"
-(lazyload (my-open-calendar) "calfw-cal"
-  ;; iCalender形式と連携
-  ;; (auto-install-from-url "https://github.com/kiwanami/emacs-calfw/raw/master/calfw-ical.el")
-  (my-safe-require 'calfw-ical)
-
-  ;; 2011-06-20 (Mon)
-  ;; org-mode と連携
-  ;; (auto-install-from-url "https://raw.github.com/kiwanami/emacs-calfw/master/calfw-org.el")
-  (my-safe-require 'calfw-org)
-
-  ;; calfw-gcal.el
-  ;; かるふわから google カレンダーを編集できる
-  ;; (auto-install-from-url "https://github.com/myuhe/calfw-gcal.el/raw/master/calfw-gcal.el")
-  (my-safe-require 'calfw-gcal
-    (define-key cfw:calendar-mode-map (kbd "a") 'cfw:gcal-main)
-    )
-
-  ;; カレンダーを開く関数
-  (defun my-open-calendar ()
-    (interactive)
-    (cfw:open-calendar-buffer
-     :view 'month
-     :contents-sources
-     (list
-      (cfw:org-create-source "Seagreen4") ; color
-      (cfw:ical-create-source "g03090416" "https://www.google.com/calendar/ical/g03090416%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics" "orange red")
-      (cfw:ical-create-source "Bachelor" "https://www.google.com/calendar/ical/b6ufn2dbm0s5sgjdjbg3gt58ec%40group.calendar.google.com/public/basic.ics" "rosy brown")
-      (cfw:ical-create-source "Master" "https://www.google.com/calendar/ical/m.rotation%40gmail.com/public/basic.ics" "Green")
-      (cfw:ical-create-source "Doctor" "https://www.google.com/calendar/ical/a2qvdfsjl78ismt8rbqf7eujdk%40group.calendar.google.com/public/basic.ics" "Purple")
-      (cfw:ical-create-source "Kenkyuu" "https://www.google.com/calendar/ical/9ga8oggl0tnk5j0todp0kqs0qd1d1l0b%40import.calendar.google.com/public/basic.ics" "Orange")
-      )))
-  )
-#+END_SRC
-** org-mode.el                                                     :noexport:
+** org-mode.el
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'org
@@ -5942,36 +5386,6 @@ do nothing. And suppress the output from `message' and
   (run-with-idle-timer 60 t 'recentf-save-list)
   )
 #+END_SRC
-** pukiwiki-mode                                                   :noexport:
-#+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'http)
-(lazyload (pukiwiki-edit pukiwiki-index pukiwki-edit-url) "pukiwiki-mode"
-  (setq pukiwiki-auto-insert t)
-  (setq pukiwiki-site-list
-        '(("bibouroku" "http://www.kaichan.mydns.jp/~kai/pukiwiki/index.php" nil utf-8-unix)
-          ("gavo" "http://www.gavo.t.u-tokyo.ac.jp/members-only/pukiwiki/index.php" nil utf-8-unix)
-          ("minerva" "http://minerva.gavo.t.u-tokyo.ac.jp/wiki/index.php" nil utf-8-unix)
-          ("eeic09" "http://eeic09.dip.jp/index.php" nil utf-8-unix)
-          ("WebPhantom" "http://ningyokan.nisfan.net/wiki/webpb/index.php" nil euc-jp)
-          ("disgaea4" "http://alphawiki.net/disgaea4/index.php" nil euc-jp)))
-  ;; Proxy server
-  (defun my-http-proxy-enable ()
-    (interactive)
-    (setq http-proxy-server "localhost")
-    (setq http-proxy-port 18080))
-  (defun my-http-proxy-disable ()
-    (interactive)
-    (setq http-proxy-server nil)
-    (setq http-proxy-port nil))
-  ;; ローカルにファイルを保存する
-  (setq pukiwiki-directory (locate-user-emacs-file "pukiwiki-save"))
-  (setq pukiwiki-save-post-data t)
-  ;; pukiwiki-edit-mode で行を折り返さない
-  )
-(add-hook 'pukiwiki-edit-mode '(lambda ()
-                                 (toggle-truncate-lines 1)
-                                 (orgtbl-mode 1)))
-#+END_SRC
 ** google.el
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-load "google")
@@ -6253,14 +5667,7 @@ do nothing. And suppress the output from `message' and
 (my-measure-message-time "Non-standard elisp setting.")
 #+END_SRC
 * 外部プログラムが必要そうなライブラリ
-:PROPERTIES:
-:ARCHIVE:  %s_archive::* 外部プログラムが必要そうなライブラリ
-:END:
 ポータブルにはしにくそうなやつ
-** edbi.el
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'edbi)
-#+END_SRC
 ** ispell.el
 スペルチェック．
 #+BEGIN_SRC emacs-lisp +n
