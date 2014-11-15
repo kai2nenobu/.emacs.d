@@ -133,24 +133,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 ** ロードパスの追加
 - [[http://masutaka.net/chalow/2009-07-05-3.html][Emacs講座 -第6回- load-path / マスタカの ChangeLog メモ]]
 #+BEGIN_SRC emacs-lisp +n
-(defconst my-individual-elisp-directory
-  (list (locate-user-emacs-file "my-lisp"))
-  "The directory for my elisp file.")
-; サブディレクトリも含めて追加
-(dolist (dir my-individual-elisp-directory)
-  (when (and (stringp dir) (file-directory-p dir))
-    (let ((default-directory dir))
-      (add-to-list 'load-path dir)
-      (normal-top-level-add-subdirs-to-load-path))))
-;; 普通に追加
-(add-to-list 'load-path (locate-user-emacs-file "auto-install"))
-
 ;; site-lisp 以下を追加
-(setq load-path
-      (delete (locate-user-emacs-file "site-lisp/org-mode")
-              load-path))
-(add-to-list 'load-path
-             (locate-user-emacs-file "site-lisp/org-mode/contrib/lisp"))
 (let ((dir (locate-user-emacs-file "site-lisp")))
   (dolist (file (directory-files dir))
     (when (and (not (string= file ".."))
