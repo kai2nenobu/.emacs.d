@@ -139,13 +139,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
     (when (and (not (string= file ".."))
                (file-directory-p (concat dir "/" file)))
       (add-to-list 'load-path (concat dir "/" file)))))
-
-;;; setting PATH in Windows
-(when (winp)
-  (setenv "PATH" (concat (expand-file-name "c:/cygwin/bin") ";"
-                         (getenv "PATH")))
-  (add-to-list 'exec-path "c:/cygwin/bin")
-  )
 #+END_SRC
 ** 安全な require, load, autoload マクロ
 - [[http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro][require/loadに成功/失敗したらメッセージを出すマクロ - とりあえず暇だったし何となく始めたブログ]]
