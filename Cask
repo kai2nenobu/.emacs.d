@@ -49,6 +49,7 @@
 (depends-on "prodigy")
 (depends-on "projectile")
 (depends-on "quickrun")
+(depends-on "rainbow-mode")
 (depends-on "recentf-ext")
 (depends-on "s")
 (depends-on "session")
