@@ -467,6 +467,20 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
       (mapc 'package-install packages)
       )))
 #+END_SRC
+** フレームの背景色のlight、darkを切り替え
+残念ながら現在のフレームのlight、darkは切り替えられないみたい。このコマンドで
+lightとdarkを切り替えた後に、新しくフレームを作成する必要がある。
+#+BEGIN_SRC emacs-lisp
+(defun toggle-frame-background-class ()
+  "Toggle a background class (light or dark) of deafult frame."
+  (interactive)
+  (let ((reverce-cell (assq 'reverse default-frame-alist)))
+    (if reverce-cell
+        (setcdr reverce-cell (not (cdr reverce-cell)))
+      (add-to-list 'default-frame-alist '(reverse . t)))
+    (message "Set a backgournd class to \"%s\""
+             (if (assoc-default 'reverse default-frame-alist 'eq) "dark" "light"))))
+#+END_SRC
 ** フレーム透明度のトグル
 #+BEGIN_SRC emacs-lisp +n
 (defvar default-alpha 0.7)
