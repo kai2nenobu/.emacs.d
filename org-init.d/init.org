@@ -2182,7 +2182,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 空白文字類を明示する．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'whitespace
-  (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing));newline newline-mark))
+  (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing newline newline-mark))
   (setq whitespace-display-mappings
         '((space-mark ?\u3000 [?\u25a1])
           (newline-mark ?\n    [?\u21B5 ?\n] [?$ ?\n])
