@@ -480,16 +480,10 @@ This function assumes that the file is registered."
 #+BEGIN_SRC emacs-lisp +n
 (defvar default-alpha 0.7)
 (defun toggle-frame-alpha ()
-  "Toggle the value of alpha in `default-frame-alist'"
+  "Toggle an alpha in the current frame."
   (interactive)
-  (let* ((alpha-cell (assq 'alpha default-frame-alist))
-         (alpha (cdr alpha-cell)))
-    (if alpha-cell
-        (setcdr alpha-cell (if (and (numberp alpha) (= alpha default-alpha))
-                          1.0 default-alpha))
-      (add-to-list 'default-frame-alist (cons 'alpha default-alpha)))
-    (dolist (frame (frame-list))
-      (modify-frame-parameters frame default-frame-alist))))
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter nil 'alpha (if (< alpha 1.0) 1.0 default-alpha))))
 #+END_SRC
 ** ERT関連
 Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置のテスト名を取得する
