@@ -357,21 +357,6 @@ This function assumes that the file is registered."
 #+END_SRC
 ** frame configure
 #+BEGIN_SRC emacs-lisp +n
-(setq default-frame-alist
-      (append (list
-               ;color
-               '(background-color . "#000020") ; 背景の色
-               '(foreground-color . "#ffffff") ; 文字の色
-               '(cursor-color . "yellow")     ; カーソルの色
-               ;size & position
-               '(width . 150)   ; 一行の字数
-               '(height . 54)  ; 行数
-               '(top . 0)    ; ディスプレイのx座標(ピクセル)
-               '(left . 0)   ; ディスプレイのy座標(ピクセル)
-               '(alpha . 1.0) ; 不透明度
-               )
-              default-frame-alist))
-;(set-frame-parameter nil 'fullscreen 'fullboth)  ; なんか横幅が大きくなりすぎるのでコメントアウト
 #+END_SRC
 ** キーバインド
 #+BEGIN_SRC emacs-lisp +n
