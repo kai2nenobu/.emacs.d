@@ -3859,11 +3859,10 @@ Emacs で開発環境．
 ** open-junk-file.el
 試行錯誤用ファイルを開く．
 #+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "open-junk-file.el")
 (my-safe-require 'open-junk-file
   (setq open-junk-file-format
         (locate-user-emacs-file "junk/%Y/%m/%d-%H%M%S-junk."))
-  (define-key ctl-x-map (kbd "C-j") 'open-junk-file)
+  (define-key mode-specific-map (kbd "j") 'open-junk-file)
   )
 #+END_SRC
 ** lispxmp.el
