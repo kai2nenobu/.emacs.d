@@ -230,3 +230,16 @@ div#content {
     -khtml-user-select: none;
     -khtml-user-drag: none;
 }
+
+/* TODOキーワード */
+.todo, .TODO {
+  /* org-todo */
+  color: #ff0000;
+  font-weight: bold;
+}
+
+
+
+
+
+
