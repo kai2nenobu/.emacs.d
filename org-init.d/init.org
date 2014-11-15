@@ -357,7 +357,13 @@ This function assumes that the file is registered."
 #+END_SRC
 ** frame configure
 #+BEGIN_SRC emacs-lisp +n
+(add-to-list 'default-frame-alist '(reverse . t))
 #+END_SRC
+*** TODO 起動時に黒背景にする
+Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても黒背景になるよ
+うに、 =(reverse . t)= を =deafult-frame-alist= につけてみたが、効果なし。新
+しく作成したフレームは黒背景になる。起動時のフレームを黒背景にするには必ずオ
+プションが必要？
 ** キーバインド
 #+BEGIN_SRC emacs-lisp +n
 (global-set-key (kbd "C-0") 'delete-window)
