@@ -2053,7 +2053,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 #+END_SRC
 ** whitespace.el
 - [[http://d.hatena.ne.jp/syohex/20110119/1295450495][whitespace-modeの設定 - Life is very short]]
-空白文字類を明示する．
+空白文字類を明示する。
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'whitespace
   (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing newline newline-mark))
@@ -2099,10 +2099,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** flyspell.el
 編集中にリアルタイムにスペルチェックする．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'flyspell
-  (define-key flyspell-mode-map (kbd "C-.") nil) ; available cycle-buffer
-  (define-key flyspell-mode-map (kbd "C-,") nil)
-  )
+(my-safe-require 'flyspell)
 #+END_SRC
 ** outline.el
 アウトラインを確認しながら編集するモード．主な目的は `outline-minor-mode' を
@@ -2618,11 +2615,12 @@ git管理下のファイルのhelmソース。
 org-modeでOctpressの記事を書くためのライブラリ。
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'org-octopress
-  (setq org-octopress-directory-top       "~/Dropbox/octopress/source")
-  (setq org-octopress-directory-posts     "~/Dropbox/octopress/source/_posts")
-  (setq org-octopress-directory-org-top   "~/Dropbox/octopress/source")
-  (setq org-octopress-directory-org-posts "~/Dropbox/octopress/source/blog")
-  (setq org-octopress-setup-file          "~/Dropbox/octopress/org-octopress/style.org")
+  (defvar octopress-directory (expand-file-name "octopress" dropbox-directory))
+  (setq org-octopress-directory-top       (expand-file-name "source" octopress-directory))
+  (setq org-octopress-directory-posts     (expand-file-name "source/_posts" octopress-directory))
+  (setq org-octopress-directory-org-top   (expand-file-name "source" octopress-directory))
+  (setq org-octopress-directory-org-posts (expand-file-name "source/blog" octopress-directory))
+  (setq org-octopress-setup-file          (expand-file-name "org-octopress/style.org" octopress-directory))
   (setq org-jekyll-comments "true")
   )
 #+END_SRC
