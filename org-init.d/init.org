@@ -2950,8 +2950,7 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 #+END_SRC
 ヘルプするたびに一々ネット接続しに行くのがうざかったので，コメントアウト．
 ** key-combo.el
-- [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないよ
-  うにしました - むしゃくしゃしてやった]]
+- [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないようにしました - むしゃくしゃしてやった]]
 記号入力の補助．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'key-combo)
@@ -2974,19 +2973,25 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
     (emoji-display-images-buffer emoji-my-carrier))
   )
 (global-set-key (kbd "C-x 8 e") 'emoji-complete-pictogram)
-
+#+END_SRC
+** highlight-indentation
+#+BEGIN_SRC emacs-lisp +n
 ;;; highlight-indentation.el
 (lazyload (highlight-indentation-mode
            highlight-indentation-current-column-mode) "highlight-indentation"
   )
-
-;;; eev （るびきちメルマガ）
+#+END_SRC
+** eev
+るびきちメルマガより
+#+BEGIN_SRC emacs-lisp +n
 ;;; Emacs ハイパーリンク作戦
 ;; (add-to-list 'load-path "~/eev-current/")
 (my-safe-require 'eev-all
   (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
   (global-set-key (kbd "M-k") 'kill-this-buffer))
-
+#+END_SRC
+** evernote-mode
+#+BEGIN_SRC emacs-lisp +n
 ;(my-safe-require 'evernote-mode
 ;  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
 ;  (setq evernote-username "g03090416")
@@ -2998,30 +3003,28 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 ;  (global-set-key "\C-c\C-ep" 'evernote-post-region)
 ;  (global-set-key "\C-c\C-eb" 'evernote-browser)
 ;  )
-
-;;; dokuwiki.el
-;;; dokuwiki フロントエンド
-;;; (auto-install-from-url "http://alexott.net/common/emacs/dokuwiki.el")
+#+END_SRC
+** dokuwiki
+dokuwiki フロントエンド
+#+BEGIN_SRC emacs-lisp +n
 ;;; 要 simple-wiki.el
 (my-safe-require 'dokuwiki
   (setq dokuwiki-username "kai"
         dokuwiki-password "password"
         dokuwiki-base-url "http://"))
-
-;;; vimpulse.el
-;;; vim エミュレータ
-;;; (auto-install-from-emacswiki "vimpulse.el")
-;;; http://sites.google.com/site/fudist/Home/vimpulse
+#+END_SRC
+** vimpulse
+- [[https://sites.google.com/site/fudist/Home/vimpulse][Vimpulse / viper-modeの使い方 - fudist]]
+vim エミュレータ
+#+BEGIN_SRC emacs-lisp +n
 ;; (my-safe-require 'vimpulse
 ;;   (viper-go-away)
 ;;   (global-set-key (kbd "<M-delete>") 'toggle-viper-mode)
 ;;   )
 #+END_SRC
-
 ** guide-key.el
+キーバインドを自動的に表示
 #+BEGIN_SRC emacs-lisp +n
-;; guide-key.el
-;; キーバインドを自動的に表示
 (my-safe-require 'guide-key
   (setq-default guide-key/guide-key-sequence
                 '("C-c" "C-x v" "C-c p" "C-x RET" "C-x 8"
@@ -3044,10 +3047,8 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
   (guide-key/key-chord-hack-on)
   )
 #+END_SRC
-
 ** save-load-path.el
 #+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "save-load-path.el")
 (when (linuxp)
   (my-safe-require 'save-load-path
     (save-load-path-initialize)))
@@ -3055,17 +3056,16 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 ** wrap-region.el
 リージョンを特定文字で囲む
 #+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://raw.github.com/rejeep/wrap-region/master/wrap-region.el")
 (my-safe-require 'wrap-region
   (wrap-region-global-mode t)
   (wrap-region-add-wrapper "`" "'")
   (wrap-region-add-wrapper "$" "$" nil 'yatex-mode))
 #+END_SRC
 ** yspel.el
+- [[http://ubulog.blogspot.jp/2010/09/emacs.html][ubulog: Emacsから校正支援する]]
 日本語校正支援
 #+BEGIN_SRC emacs-lisp +n
 ;;; git clone git://github.com/yama-natuki/yspel
-;;; http://ubulog.blogspot.com/2010/09/emacs.html
 (my-safe-require 'yspel)
 #+END_SRC
 ** bashdb.el
@@ -3091,11 +3091,10 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
   )
 #+END_SRC
 ** smartrep.el
+- [[http://sheephead.homelinux.org/2011/12/19/6930/][連続操作を素敵にするsmartrep.el作った - sheephead]]
 連続コマンド入力を支援
 #+BEGIN_SRC emacs-lisp +n
-;;; http://sheephead.homelinux.org/2011/12/19/6930/ Marmalade よりインストール
 (my-safe-require 'smartrep
-
   ;; ミニバッファのエコーバックがうざいので消す
   (defadvice smartrep-read-event-loop (around suppress-echo activate)
     "Suppress echo keystrokes in smartrep."
@@ -3179,11 +3178,6 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 ;  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
 ;  )
 #+END_SRC
-** sunrise-commander.el
-2ペインファイラー？．package.el で "SC" からインストール．
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'sunrise-commander)
-#+END_SRC
 ** shell-history.el
 シェルの履歴を履歴ファイルに書きこむ．
 #+BEGIN_SRC emacs-lisp +n
@@ -3249,17 +3243,6 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   ;(define-key undo-tree-map (kbd "C-_") 'undo-tree-redo)
   ;; "C-/" is translated "C-_" in CUI. So, I can't use undo-tree-undo on above setting.
   )
-#+END_SRC
-** egg.el
-- [[https://github.com/bogolisk/egg][bogolisk/egg]]
-git クライアント．
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'egg)
-#+END_SRC
-** keywiz.el
-コマンドが割り当てられているキーバインドを答えるクイズ．
-#+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'keywiz)
 #+END_SRC
 ** highlight-80+.el
 指定したカラムを超えているテキストに色付けする．日本語の考慮なし．やっぱ自分で
@@ -5082,15 +5065,6 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 ;(my-safe-require 'display-deadline)
 ;(display-deadline "進捗報告まであと%d日%h時間%m分" (encode-time 0 0 10 15 11 2010))
-#+END_SRC
-** line-number.el
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'wb-line-number)
-;(set-scroll-bar-mode nil)
-;(setq wb-line-number-scroll-bar t)
-;(wb-line-number-toggle)
-;;; wb-line-numberは微妙だったのでlinum-modeで
-;(global-linum-mode 1)
 #+END_SRC
 ** yatex.el
 #+BEGIN_SRC emacs-lisp +n
