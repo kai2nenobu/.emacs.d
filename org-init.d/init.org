@@ -2570,10 +2570,9 @@ git管理下のファイルのhelmソース。
 ** smart-newline
 スマートに改行を入れる。
 #+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'smart-newline
-;  (define-global-minor-mode global-smart-newline-mode
-;    smart-newline-mode smart-newline-mode)
-;  (global-smart-newline-mode 1))
+(my-safe-require 'smart-newline
+  (add-hook 'prog-mode-hook 'smart-newline-mode)
+  (add-hook 'text-mode-hook 'smart-newline-mode))
 #+END_SRC
 ** ace-jump-mode
 るびきちメルマガより。
