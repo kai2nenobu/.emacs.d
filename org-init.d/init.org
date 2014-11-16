@@ -1430,11 +1430,12 @@ generic で簡単にメジャーモードを作れる．
             `(lambda () (setq mode-name ,(cdr elm)))))
 #+END_SRC
 ** スクロール時にカーソルを移動しない
-`scroll-preserve-screen-position' が nil がデフォルト．t だとカーソルが画面外
-に出るようなスクロールの（スクロール量が多い）時にはカーソルが移動しなくなる．
-nil でも t でもない場合はいつも移動しなくなる．
+=scroll-preserve-screen-position= でスクロール時のカーソル位置を調節できる。
+nil がデフォルトの動作。t だとカーソルが画面外に出るようなスクロール（スクロー
+ル量が多い）の時にはカーソルが移動しなくなる。nil でも t でもない場合は常に移
+動しなくなる。
 #+BEGIN_SRC emacs-lisp +n
-(setq scroll-preserve-screen-position 'always)
+(setq scroll-preserve-screen-position :always)
 #+END_SRC
 ** C-k で改行も切り取る
 kill whole line by `kill-line'
@@ -1448,6 +1449,8 @@ max length of log
 #+END_SRC
 ** リージョン選択時に文字入力するとリージョンを削除する
 - [[http://d.hatena.ne.jp/web7_77/20110705/1309885434][Emacsでリージョンを上書き入力できるようにする - Web7.77]]
+範囲選択時に文字入力や文字削除した際の動作が一般的なエディタと同じ動作になる。
+BackSpaceやC-hでkill-ringに入れずに削除できるのが地味に便利。
 #+BEGIN_SRC emacs-lisp +n
 (delete-selection-mode t)
 #+END_SRC
@@ -1715,10 +1718,7 @@ shift+カーソルキー でウィンドウを移動する．
 `Info-default-directory-list' に追加したディレクトリの texinfo が読めるように
 なる．
 #+BEGIN_SRC emacs-lisp +n
-;; Add personal info directory
-(setq Info-default-directory-list
-      (cons (expand-file-name "~/.emacs.d/info/")
-            Info-default-directory-list))
+(add-to-list 'Info-default-directory-list (locate-user-emacs-file "info"))
 #+END_SRC
 ** スクロールバー
 やっぱり非表示に変更．`scroll-bar-mode' を関数として使えば，全フレームに対し
@@ -1761,6 +1761,7 @@ shift+カーソルキー でウィンドウを移動する．
 #+END_SRC
 * 標準ライブラリ
 ** ediff
+elscreenとの共存が難しそう。
 #+BEGIN_SRC emacs-lisp +n
 ;(eval-after-load "ediff"
 ;  (setq ediff-split-window-function 'split-window-horizontally))
@@ -1804,10 +1805,10 @@ dired でドラッグアンドドロップを使う．実は dired のバッフ�
 ;;              (if window-system (require 'dired-dd)))))
 #+END_SRC
 *** wdired.el
-dired でファイルのリネームをする．
+dired でファイルのリネームをする．最近は =dired-mode= で
+=dired-toggle-read-only (C-x C-q)= でwdired-modeが有効になるようである。
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'wdired
-  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
   (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
   )
 #+END_SRC
