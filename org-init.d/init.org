@@ -2915,6 +2915,7 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 非アクティブなウィンドウの背景色を変更する．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'hiwin
+  (set-face-attribute 'hiwin-face nil :background nil) ;; hiwinデフォルトの背景色を無効化
   (face-spec-set 'hiwin-face ;; 非アクティブウィンドウの背景色を設定
                  '((((class color) (background light))
                     :background "gray90")
