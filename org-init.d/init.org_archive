@@ -587,6 +587,45 @@ org-mode 形式のファイルを変換し wordpress に投稿する．marmalade
   (setq google-calendar-url "http://www.google.com/calendar/ical/username%40gmail.com/private-96087f02e8d133b8d7bab6e5a0712574/basic.ics")  ;;; URL TO YOUR GOOGLE CALENDAR
   (setq google-calendar-auto-update t))
 #+END_SRC
+** ruby 関連
+*** るりまを anything で検索
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-16 Sun 11:23
+:ARCHIVE_FILE: ~/.emacs.d/org-init.d/init.org
+:ARCHIVE_OLPATH: 非標準ライブラリ/ruby 関連
+:ARCHIVE_CATEGORY: init
+:END:
+- [[http://d.hatena.ne.jp/rubikitch/20091223/rurima][Rubyリファレンスマニュアル刷新計画（るりま）をanything.elで検索して生産性を
+  向上する - (rubikitch loves (Emacs Ruby CUI Books))]]
+結構使えるが，anything で選ぶ所の日本語が文字化けしているのと，ヘルプファイル
+が少し見にくいのが気になる．リファレンス全体から探したい時は anything で探し
+て，実際のメソッドの説明などは rsense の方がいいかもしれない．
+#+BEGIN_SRC emacs-lisp +n
+  ;; anything-rurima
+  ;; (auto-install-from-emacswiki "anything-rurima.el")
+  (eval-after-load "anything"
+    '(progn
+       (my-safe-require 'anything-rurima
+         (setq anything-rurima-index-file
+               (locate-user-emacs-file "doc/rubydoc/rurima.e"))
+
+         ;; anything-rurima 用のバッファ名変更
+         (defun anything-rurima-my-rename-buffer ()
+           "Rename anything rurima buffer."
+           (when (string-match (expand-file-name
+                                "refm" (file-name-directory anything-rurima-index-file))
+                               (or buffer-file-name ""))
+             (rename-buffer (concat "*anything rurima "
+                                    (file-name-nondirectory buffer-file-name)
+                                    "*"))))
+         (add-hook 'find-file-hook 'anything-rurima-my-rename-buffer)
+         ;; popwin で表示
+         ;; (eval-after-load "popwin"
+         ;;   '(add-to-list 'popwin:special-display-config
+         ;;                 '("\\'\\*anything rurima " :regexp t :width 0.4 :position right)))
+         ;; popwin で表示できない．バッファ名変更のタイミングが悪いのかも
+         )))
+#+END_SRC
 * 外部プログラムが必要そうなライブラリ
 ** matlab.el
 :PROPERTIES:
@@ -826,3 +865,125 @@ Wanderlust メーラー．設定は .wl, .folders でする．
 #+END_SRC
 
 
+* anything-advent-calendar.el
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-16 Sun 11:25
+:ARCHIVE_FILE: ~/.emacs.d/org-init.d/init.org
+:ARCHIVE_OLPATH: 非標準ライブラリ
+:ARCHIVE_CATEGORY: init
+:END:
+advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/entry/2011/12/12/000301]]
+#+BEGIN_SRC emacs-lisp +n
+;(my-safe-require 'anything-advent-calendar)
+#+END_SRC
+
+* anything.el
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-16 Sun 11:26
+:ARCHIVE_FILE: ~/.emacs.d/org-init.d/init.org
+:ARCHIVE_OLPATH: 非標準ライブラリ
+:ARCHIVE_CATEGORY: init
+:END:
+1つでなんでもできる，汎用インターフェース．
+#+BEGIN_SRC emacs-lisp +n
+;;; (auto-install-batch "anything")
+(my-safe-require 'anything-startup
+  (when (executable-find "cmigemo")
+    (my-safe-require 'anything-migemo))
+
+  (setq anything-idle-delay 0.1)
+  (setq anything-input-idle-delay 0.1)
+  (define-key anything-command-map (kbd "o") 'anything-occur)
+  (define-key anything-command-map (kbd "a") 'anything-apropos)
+  (define-key anything-command-map (kbd "g") 'anything-grep)
+  (define-key anything-command-map (kbd "R") 'anything-resume)
+  (global-set-key (kbd "C-S-a") 'anything-command-map)
+  (eval-after-load "key-chord"
+    '(progn
+       (defalias 'anything-command-prefix anything-command-map)
+       (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
+  (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
+  (add-to-list 'anything-c-source-buffers+ '(migemo))
+
+  ;; agrep-goto でアウトラインを開くアドバイス
+  (defadvice agrep-goto (after org-reveal activate)
+     (when (eq major-mode 'org-mode)
+        (org-reveal))
+     (recenter))
+  ;; ミニバッファの履歴を anything で絞込みする
+  (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
+
+  ;; prefix で候補を選択可能にする
+  (setq anything-enable-shortcuts t)   ; t だと C-number で選択
+  ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
+
+  ;; for filelist
+  ;; (when (linuxp)
+  ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
+  ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
+  ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
+  ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
+  (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
+
+  ;; anything-show-kill-ring
+  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+  (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
+
+  ;;;; external elisp
+
+  ;; anything-font-families
+  ;; http://d.hatena.ne.jp/mooz/20110320/p1
+  (defun anything-font-families ()
+    "Preconfigured `anything' for font family."
+    (interactive)
+    (flet ((anything-mp-highlight-match () nil))
+      (anything-other-buffer
+       '(anything-c-source-font-families)
+       "*anything font families*")))
+
+  (defun anything-font-families-create-buffer ()
+    (with-current-buffer
+        (get-buffer-create "*Fonts*")
+      (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
+            do (insert
+                (propertize (concat family "\n")
+                            'font-lock-face
+                            (list :family family :height 2.0 :weight 'bold))))
+      (font-lock-mode 1)))
+
+  (defvar anything-c-source-font-families
+        '((name . "Fonts")
+          (init lambda ()
+                (unless (anything-candidate-buffer)
+                  (save-window-excursion
+                    (anything-font-families-create-buffer))
+                  (anything-candidate-buffer
+                   (get-buffer "*Fonts*"))))
+          (candidates-in-buffer)
+          (get-line . buffer-substring)
+          (action
+           ("Copy Name" lambda
+            (candidate)
+            (kill-new candidate))
+           ("Insert Name" lambda
+            (candidate)
+            (with-current-buffer anything-current-buffer
+              (insert candidate))))))
+
+  ;;; anything-orgcard.el
+  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
+  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+  (my-safe-require 'anything-orgcard)
+
+  ;; anything-bibtex
+  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
+  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+  (my-safe-require 'anything-bibtex
+    (defun anything-bibtex-cite ()
+      "Anything command to cite bibliography."
+      (interactive)
+      (anything-other-buffer
+       '(anything-c-source-bibtex)
+       "*anything bibtex:")))
+  )
+#+END_SRC

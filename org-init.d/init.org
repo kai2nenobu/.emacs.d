@@ -642,7 +642,6 @@ text-scale-adjust のパクリ．
 (defvar last-buffer-exclude-name-regexp
   (rx (or "*mplayer*" "*Completions*"
           (regexp "^*Org")
-          (regexp "^*anything")
           (regexp "^ "))))
 (defun record-last-buffer ()
   (when (and ;; (one-window-p)
@@ -854,25 +853,6 @@ Leave one space or none, according to the context."
   (when (string-match "/snippets/" (or (buffer-file-name) ""))
     (rename-buffer (concat (buffer-name) " [snippet]")))
   )
-#+END_SRC
-** ミニバッファ中に anything で補完
-どっかからとってきたはずだけど忘れた．
-#+BEGIN_SRC emacs-lisp +n
-(defun anything-my-minibuffer-complete ()
-  ""
-  (interactive)
-  (lexical-let*
-      ((beg (field-beginning))
-       (end (field-end))
-       (string (buffer-substring beg end))
-       (comp (completion-try-completion
-              string
-              minibuffer-completion-table
-              minibuffer-completion-predicate
-              (- (point) beg))))
-    (insert (car comp)))
-  )
-(define-key minibuffer-local-map (kbd "C-s") 'anything-my-minibuffer-complete)
 #+END_SRC
 ** 数値をインクリメント，デクリメント
 - [[http://d.hatena.ne.jp/gongoZ/20091222/1261454818][カーソルの位置にある数字列をインクリメントする emacs lisp 改修 - 質のないDiary H]]
@@ -2991,38 +2971,6 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
                 (add-to-list 'ac-sources 'ac-source-rsense-method)
                 (add-to-list 'ac-sources 'ac-source-rsense-constant))))
 #+END_SRC
-*** るりまを anything で検索
-- [[http://d.hatena.ne.jp/rubikitch/20091223/rurima][Rubyリファレンスマニュアル刷新計画（るりま）をanything.elで検索して生産性を
-  向上する - (rubikitch loves (Emacs Ruby CUI Books))]]
-結構使えるが，anything で選ぶ所の日本語が文字化けしているのと，ヘルプファイル
-が少し見にくいのが気になる．リファレンス全体から探したい時は anything で探し
-て，実際のメソッドの説明などは rsense の方がいいかもしれない．
-#+BEGIN_SRC emacs-lisp +n
-  ;; anything-rurima
-  ;; (auto-install-from-emacswiki "anything-rurima.el")
-  (eval-after-load "anything"
-    '(progn
-       (my-safe-require 'anything-rurima
-         (setq anything-rurima-index-file
-               (locate-user-emacs-file "doc/rubydoc/rurima.e"))
-
-         ;; anything-rurima 用のバッファ名変更
-         (defun anything-rurima-my-rename-buffer ()
-           "Rename anything rurima buffer."
-           (when (string-match (expand-file-name
-                                "refm" (file-name-directory anything-rurima-index-file))
-                               (or buffer-file-name ""))
-             (rename-buffer (concat "*anything rurima "
-                                    (file-name-nondirectory buffer-file-name)
-                                    "*"))))
-         (add-hook 'find-file-hook 'anything-rurima-my-rename-buffer)
-         ;; popwin で表示
-         ;; (eval-after-load "popwin"
-         ;;   '(add-to-list 'popwin:special-display-config
-         ;;                 '("\\'\\*anything rurima " :regexp t :width 0.4 :position right)))
-         ;; popwin で表示できない．バッファ名変更のタイミングが悪いのかも
-         )))
-#+END_SRC
 *** key-combo の設定
 #+BEGIN_SRC emacs-lisp +n
   ;; (eval-after-load "key-combo"
@@ -3301,11 +3249,6 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 ;  (global-set-key (kbd "C-.") 'cycle-buffer)
 ;  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
 ;  )
-#+END_SRC
-** anything-advent-calendar.el
-advent calendar を anything で選んで閲覧．[[http://gongo.hatenablog.com/entry/2011/12/12/000301]]
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'anything-advent-calendar)
 #+END_SRC
 ** sunrise-commander.el
 2ペインファイラー？．package.el で "SC" からインストール．
@@ -3610,17 +3553,6 @@ hilight current column.
   ;; (setq yas/prev-field-key "<S-tab>")
   ;; (define-key yas/minor-mode-map (kbd "C-<tab>") 'yas/expand)
   (setq yas-wrap-around-region t)
-  ;; (defadvice anything-c-yas-complete
-  ;;   (around anything-c-yas-complete-delete-region activate)
-  ;;   "If region is active, delete region before yasnippet completion."
-  ;;   (when mark-active
-  ;;     (let ((reg-beg (region-beginning))
-  ;;           (reg-end (region-end)))
-  ;;       ad-do-it
-  ;;       (delete-region reg-beg reg-end))))
-  ;(ad-deactivate-regexp "anything-c-yas-complete-delete-region")
-  ;; (eval-after-load "auto-complete.el"
-  ;;   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand))
   (yas-load-directory (locate-user-emacs-file "snippets"))
   (yas-global-mode 1)
 
@@ -3636,9 +3568,7 @@ hilight current column.
           (while (string-match "%[^%]" str (match-end 0))
             (setq result (concat result ", "))))
         result)))
-;;; anything-c-yasnippet.el
-;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/anything-c-yasnippet/anything-c-yasnippet.el")
-;;; yasnippet を anything で操作
+;;; yasnippet を helm で操作
   (eval-after-load "helm"
     '(progn
        (my-safe-require 'helm-c-yasnippet
@@ -3743,34 +3673,6 @@ mozrepl を通して firefox を操作する
 
   )
 #+END_SRC
-** anything-books.el
-anything で本管理．
-# #+BEGIN_SRC emacs-lisp +n
-# ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-anything-books/raw/master/anything-books.el")
-# (my-safe-require 'anything-books
-#   (setq abks:books-dir (concat dropbox-directory "/document")) ; PDFファイルのあるディレクトリ（★必須）
-#   (setq abks:open-command "acroread") ; LinuxのAdobeReaderを使う (default)
-
-#   ;; for evince setting (default)
-#   ;; (setq abks:cache-pixel "600")
-#   ;; (setq abks:mkcover-cmd-pdf-postfix nil)
-#   ;; (setq abks:mkcover-cmd '("evince-thumbnailer" "-s" size pdf jpeg))
-
-#   ;; for ImageMagick and GhostScript setting
-#   (setq abks:cache-pixel "600x600")
-#   (setq abks:mkcover-cmd-pdf-postfix "[0]")
-#   (setq abks:mkcover-cmd '("convert" "-resize" size pdf jpeg))
-
-#   ;(define-key mode-specific-map (kbd "b") 'anything-books-command) ; キーバインド
-#   (setq abks:cmd-copy "cp") ; ファイルコピーのコマンド
-#   (setq abks:copy-by-command nil) ; nilにするとEmacsの機能でコピーする（Windowsはnilがいいかも）
-#   (setq abks:preview-temp-dir "/tmp") ; 作業ディレクトリ
-#   )
-# ;; うまく動かんので、とりあえず Ubuntu でやってみよう
-# ;; Ubuntu でもほぼ同じ症状のようだ。
-# ;; とりあえず、一部の pdf しかリストに表示されない。プレビュー自体は
-# ;; 問題ないようだ。
-# #+END_SRC
 ** concurrent.el
 非同期処理フレームワーク．
 #+BEGIN_SRC emacs-lisp +n
@@ -3977,110 +3879,6 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
-** anything.el
-1つでなんでもできる，汎用インターフェース．
-# #+BEGIN_SRC emacs-lisp +n
-# ;;; (auto-install-batch "anything")
-# (my-safe-require 'anything-startup
-#   (when (executable-find "cmigemo")
-#     (my-safe-require 'anything-migemo))
-
-#   (setq anything-idle-delay 0.1)
-#   (setq anything-input-idle-delay 0.1)
-#   (define-key anything-command-map (kbd "o") 'anything-occur)
-#   (define-key anything-command-map (kbd "a") 'anything-apropos)
-#   (define-key anything-command-map (kbd "g") 'anything-grep)
-#   (define-key anything-command-map (kbd "R") 'anything-resume)
-#   (global-set-key (kbd "C-S-a") 'anything-command-map)
-#   (eval-after-load "key-chord"
-#     '(progn
-#        (defalias 'anything-command-prefix anything-command-map)
-#        (key-chord-define-global (kbd ":a") 'anything-command-prefix)))
-#   (add-to-list 'anything-c-source-recentf '(migemo)) ; migemo 化
-#   (add-to-list 'anything-c-source-buffers+ '(migemo))
-
-#   ;; agrep-goto でアウトラインを開くアドバイス
-#   (defadvice agrep-goto (after org-reveal activate)
-#      (when (eq major-mode 'org-mode)
-#         (org-reveal))
-#      (recenter))
-#   ;; ミニバッファの履歴を anything で絞込みする
-#   (define-key minibuffer-local-map (kbd "C-r") 'anything-minibuffer-history)
-
-#   ;; prefix で候補を選択可能にする
-#   (setq anything-enable-shortcuts t)   ; t だと C-number で選択
-#   ;(define-key anything-map "@" 'anything-select-with-prefix-shortcut)
-
-#   ;; for filelist
-#   ;; (when (linuxp)
-#   ;;   (setq anything-grep-candidates-fast-directory-regexp "^/tmp")
-#   ;;   (setq anything-c-filelist-file-name "/tmp/all.filelist"))
-#   ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
-#   ;; よし，linux なら locate 使えるので anything-for-files でいいか．current-dir+ も候補に入るし
-#   (define-key mode-specific-map (kbd "r") 'anything-for-files) ; recentfile 的に使いたい
-
-#   ;; anything-show-kill-ring
-#   (global-set-key (kbd "M-y") 'anything-show-kill-ring)
-#   (setq anything-kill-ring-threshold 4) ; this variable defines minimum length of strings to show
-
-#   ;;;; external elisp
-
-#   ;; anything-font-families
-#   ;; http://d.hatena.ne.jp/mooz/20110320/p1
-#   (defun anything-font-families ()
-#     "Preconfigured `anything' for font family."
-#     (interactive)
-#     (flet ((anything-mp-highlight-match () nil))
-#       (anything-other-buffer
-#        '(anything-c-source-font-families)
-#        "*anything font families*")))
-
-#   (defun anything-font-families-create-buffer ()
-#     (with-current-buffer
-#         (get-buffer-create "*Fonts*")
-#       (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
-#             do (insert
-#                 (propertize (concat family "\n")
-#                             'font-lock-face
-#                             (list :family family :height 2.0 :weight 'bold))))
-#       (font-lock-mode 1)))
-
-#   (defvar anything-c-source-font-families
-#         '((name . "Fonts")
-#           (init lambda ()
-#                 (unless (anything-candidate-buffer)
-#                   (save-window-excursion
-#                     (anything-font-families-create-buffer))
-#                   (anything-candidate-buffer
-#                    (get-buffer "*Fonts*"))))
-#           (candidates-in-buffer)
-#           (get-line . buffer-substring)
-#           (action
-#            ("Copy Name" lambda
-#             (candidate)
-#             (kill-new candidate))
-#            ("Insert Name" lambda
-#             (candidate)
-#             (with-current-buffer anything-current-buffer
-#               (insert candidate))))))
-
-#   ;;; anything-orgcard.el
-#   ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/anything-orgcard.el")
-#   ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
-#   (my-safe-require 'anything-orgcard)
-
-#   ;; anything-bibtex
-#   ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/anything-bibtex.el")
-#   ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
-#   (my-safe-require 'anything-bibtex
-#     (defun anything-bibtex-cite ()
-#       "Anything command to cite bibliography."
-#       (interactive)
-#       (anything-other-buffer
-#        '(anything-c-source-bibtex)
-#        "*anything bibtex:")))
-#   )
-# #+END_SRC
 ** Inertial-scroll.el
 - [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
 慣性スクロール．
@@ -4579,7 +4377,7 @@ view-mode を便利に．
   (key-chord-define global-map "dk" 'describe-key)
   (key-chord-define global-map "db" 'describe-bindings)
   (key-chord-define global-map "dm" 'describe-mode)
-  (key-chord-define global-map "AA" 'anything-apropos)
+  (key-chord-define global-map "AA" 'helm-apropos)
   (key-chord-define global-map ":c" 'org-capture)
   (key-chord-define global-map "hl" 'global-hl-line-mode)
   (key-chord-define global-map "gs" 'magit-status)
@@ -4598,9 +4396,6 @@ view-mode を便利に．
   (key-chord-define global-map "bm" 'bm-toggle)
   (key-chord-define global-map "b[" 'bm-previous)
   (key-chord-define global-map "b]" 'bm-next)
-  ;; (eval-after-load "org"
-  ;;   (eval-after-load "anything-orgcard"
-  ;;     '(key-chord-define org-mode-map "dm" 'aoc:anything-orgcard)))
   )
 #+END_SRC
 ** slime
@@ -4658,7 +4453,6 @@ minibufferで履歴検索．
   (push '("*One-Key*" :position bottom :noselect t) popwin:special-display-config) ; ウィンドウが多いと表示されるのが遅い気がする。
                                         ; しかも表示されるウィンドウの高さが一定でない気もする。どうしてだろう。
   (push '("*sdic*" :height 0.25 :position top :noselect t) popwin:special-display-config)
-  ;(push '("*anything complete" :width 0.4 :position right) popwin:special-display-config)
   (add-to-list 'popwin:special-display-config '("*quickrun*" :position right :width 85))
   (eval-after-load "yatex"
     '(progn
@@ -4669,9 +4463,6 @@ minibufferで履歴検索．
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (eval-after-load "key-chord"
     '(key-chord-define-global ":p" popwin:keymap))
-  ;; anything バッファを除外する（デフォルトで有効になっているので）
-  (setq popwin:special-display-config
-        (delete '("^\\*anything.*\\*$" :regexp t) popwin:special-display-config))
   (add-to-list 'popwin:special-display-config
                '(ert-results-mode :position right :width 80))
   (add-to-list 'popwin:special-display-config
@@ -4994,13 +4785,13 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
     (setq org-tree-slide-heading-emphasis t)
     )
 
-  ;; anything source for src block
+  ;; helm source for src block
   (defvar org-src-my-lang-candidates
     '("asymptote" "awk" "calc" "c" "c++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
       "gnuplot" "haskell" "java" "js" "latex" "ledger" "lisp" "lilypond" "matlab"
       "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
       "sass" "scheme" "screen" "sh" "sql" "sqlite")
-    "Anything command source for Org-mode src block")
+    "Helm command source for Org-mode src block")
   (defvar helm-c-source-org-src-lang
     '((name . "Available language in Org-mode src block")
       (candidates . org-src-my-lang-candidates)
@@ -5317,8 +5108,6 @@ elisp インストーラ．Emacsテクニックバイブルより
   (setq recentf-max-saved-items 3000)
   ;; 最近使ったファイルに加えないファイルを正規表現で指定する
   (setq recentf-exclude '("/TAGS$" "/var/tmp/" "Temp_ExternalEditor"))
-  ;(define-key mode-specific-map "r" 'recentf-open-files) ; C-c r で最近使ったファイルを開く
-  ; anything-fo-files で代替できるので変更
   ;; automatically save recentf file and supress messages
   ;; http://masutaka.net/chalow/2011-10-30-2.html
   (defvar my-recentf-list-prev nil)
