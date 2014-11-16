@@ -2687,9 +2687,9 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   ;                    'display (create-image (expand-file-name "open.xpm" dir))
   ;                    'help-echo "Close tree")))
   ;; アイコンの設定
-  (setq direx:leaf-icon   " - "
-        direx:closed-icon "[+]"
-        direx:open-icon   "[-]")
+  (setq direx:leaf-icon   "- "
+        direx:closed-icon "> "
+        direx:open-icon   "v ")
   ;; キーバインド
   (define-key ctl-x-map (kbd "C-d") 'direx:my-jump)
   (define-key direx:direx-mode-map (kbd "d") 'direx:down-item)
