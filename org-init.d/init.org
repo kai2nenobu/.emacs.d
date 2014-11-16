@@ -173,6 +173,16 @@ ispell が動かなかった。ispell に限らんかもしれんが
           (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
 #+END_SRC
 * 見た目の設定など
+** カーソル色を設定
+=set-cursor-color= だと、フレームの背景色がlightとdarkの場合分けができないの
+で、cursorフェイスを直接変更する。
+#+BEGIN_SRC emacs-lisp
+(face-spec-set 'cursor
+               '((((class color) (background light))
+                  :background "magenta")
+                 (((class color) (background dark))
+                  :background "yellow")))
+#+END_SRC
 ** vc-mode のモードラインを色付け
 バージョンコントロールのモードライン表示をもっと主張させるように色付けする．
 ファイルを修正した場合は色を変更して自分にプレッシャーをかける．
