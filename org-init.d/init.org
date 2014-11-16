@@ -672,16 +672,36 @@ Leave one space or none, according to the context."
     (if (or (looking-at "^\\|\\s)")
             (save-excursion (forward-char -1)
                             (looking-at "$\\|\\s(\\|\\s'"))
-            (and (> (preceding-char) 255)
-                 (> (following-char) 255))  ; 前後が両方共 ascii ではない場合
-            (string-match "、\\|。\\|，\\|．" (char-to-string (preceding-char)))
-            (string-match "、\\|。\\|，\\|．" (char-to-string (following-char)))
-            (string-match "！\\|？" (char-to-string (following-char)))
+            (and (or (> (preceding-char) 255)
+                     (> (following-char) 255))
+                 (not (member (preceding-char) (list ?！ ?？))))
             )
         nil
       (insert ?\s))))
 (defalias 'fixup-whitespace-original 'fixup-whitespace)
 (defalias 'fixup-whitespace 'my-fixup-whitespace)
+
+;; (ert-deftest test-fixup-whitespace ()
+;;   (let ((fixtures '(("あ" "い" "あい")
+;;                     ("あ" "i"  "あi")
+;;                     ("a"  "い" "aい")
+;;                     ("。" "あ" "。あ")
+;;                     ("あ" "。" "あ。")
+;;                     ("。" "a"  "。a" )
+;;                     ("a"  "。" "a。" )
+;;                     ("？" "あ" "？ あ")
+;;                     ("あ" "？" "あ？")
+;;                     ("？" "a"  "？ a")
+;;                     ("a"  "？" "a？" )
+;;                     ))
+;;         actual)
+;;     (cl-loop for (first second expected) in fixtures
+;;              do
+;;              (with-temp-buffer
+;;                (insert first "\n" second)
+;;                (delete-indentation)
+;;                (setq actual (buffer-string))
+;;                (should (string= actual expected))))))
 #+END_SRC
 ** カーソル位置の行を複製するコマンド
 - [[http://d.hatena.ne.jp/syohex/20120325/1332641491][Re: Emacsに現在行や選択範囲を複製する機能を付けたら思いのほか作業効率が上がった - Life is very short]]
