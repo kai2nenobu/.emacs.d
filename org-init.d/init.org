@@ -232,12 +232,6 @@ This function assumes that the file is registered."
      'help-echo (concat state-echo " under the " backend-name
                         " version control system"))))
 #+END_SRC
-** rotate-thema.el
-- [[http://nintos.blogspot.jp/2010/02/emacs.html][好奇心と怠惰の日々: Emacs で 青空文庫を読む。]]
-フォント設定を順番に切り替えられる．
-#+BEGIN_SRC emacs-lisp +n
-;(my-safe-load "rotate-theme")     ; これはフォントとかを順番にプレビューできる
-#+END_SRC
 ** フォント設定
 #+BEGIN_EXAMPLE
 (prin1 (font-family-list))
@@ -816,47 +810,6 @@ Leave one space or none, according to the context."
 
 (eval-after-load "org"
   '(define-key org-mode-map (kbd "C-c '") 'org-my-edit-src-code))
-#+END_SRC
-** リンクを org-mode から pukiwiki 形式に変換
-#+BEGIN_SRC emacs-lisp +n
-(defun my-convert-link-org2pukiwiki ()
-  "Convert link expression from org-mode to pukiwiki."
-  (interactive)
-  (goto-char (point-min))
-  (while (re-search-forward "\\[\\[\\(https?://[^]]+\\)\\]\\[\\([^]]+\\)\\]\\]" nil t)
-    (replace-match "[\\1:\\2]")))
-#+END_SRC
-** リンクをはてな形式から org-mode 形式に変換
-#+BEGIN_SRC emacs-lisp +n
-(defun my-convert-link-hatena2org ()
-  "はてな形式のリンクを org-mode 形式に置換する"
-  (interactive)
-  (goto-char (point-min))
-  (while (re-search-forward "\\[\\(https?:[^]:\n\r]*\\)\\(?::title=\\([^]\n\r]*\\)\\)?\\]" nil t)
-    (if (null (match-string 2))
-        (replace-match "[[\\1]]")
-      (replace-match "[[\\1][\\2]]"))))
-#+END_SRC
-** TeX で pdf と Emacs の相互参照
-- [[http://skalldan.wordpress.com/2011/10/07/tex-%E7%B5%B1%E5%90%88%E7%92%B0%E5%A2%83%E3%81%A7-synctex-%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/][Debian wheezy の TeX 統合環境で SyncTeX を試してみる | Amrta]]
-#+BEGIN_SRC emacs-lisp +n
-;; (require 'dbus)
-
-;; (defun my-evince-inverse-sync (file linecol)
-;;   (let ((buf (get-buffer (file-name-nondirectory file)))
-;;         (line (car linecol))
-;;         (col (cadr linecol)))
-;;     (if (null buf)
-;;         (message "Sorry, %s is not opened..." file)
-;;       (switch-to-buffer buf)
-;;       (goto-line (car linecol))
-;;       (unless (= col -1)
-;;         (move-to-column col)))))
-
-;; (dbus-register-signal
-;;  :session nil "/org/gnome/evince/Window/0"
-;;  "org.gnome.evince.Window" "SyncSource"
-;;        'my-evince-inverse-sync)
 #+END_SRC
 ** find-file 時にバッファ名に補助的な文字列を追加する
 現在は snippet に関するに [snippet] を付加するのみ．しかし，yasnippet のファイ
