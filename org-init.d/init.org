@@ -372,7 +372,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 #+BEGIN_SRC emacs-lisp +n
 (define-key mode-specific-map (kbd "c") 'compile)      ; C-c c で compile
 (define-key mode-specific-map (kbd "s") 'eshell)
-(define-key mode-specific-map (kbd "A") 'align)
+(define-key mode-specific-map (kbd "A") 'align-regexp)
 #+END_SRC
 *** original key map (bind to C-q)
 #+BEGIN_SRC emacs-lisp +n
@@ -416,9 +416,11 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (define-minor-mode indent-tabs-mode "Toggle `indent-tabs-mode'" nil)
 #+END_SRC
 ** Caskと同じライブラリをpackageでインストールする
+=~/.emacs.d/Cask= に書かれているライブラリをpackageでインストールする。ただし
+バージョン指定などの記法は考慮していない。
 #+BEGIN_SRC emacs-lisp +n
 (defun package-sync-cask ()
-  ""
+  "Install libraries in \"~/.emacs.d/Cask\"."
   (interactive)
   (with-temp-buffer
     (insert-file-contents-literally (locate-user-emacs-file "Cask"))
@@ -426,8 +428,9 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
     (let (packages)
       (while (re-search-forward "(depends-on \"\\([^\"]+\\)\")" nil t)
         (add-to-list 'packages (intern (match-string 1)) t))
-      (package-refresh-contents)
-      (mapc 'package-install packages)
+      (when packages
+        (package-refresh-contents)
+        (mapc 'package-install packages))
       )))
 #+END_SRC
 ** フレームの背景色のlight、darkを切り替え
@@ -566,7 +569,7 @@ text-scale-adjust のパクリ．
   (define-key my-original-map (kbd "C-0") 'my-resize-frame-font)
   )
 #+END_SRC
-** org-init.d/init.el を更新するコマンド
+** =org-init.d/init.el= を更新するコマンド
 =org-init.d/init.org= を更新したら，明示的に init.el を更新したい時があるので
 作った．
 #+BEGIN_SRC emacs-lisp +n
