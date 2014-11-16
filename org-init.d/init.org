@@ -2576,6 +2576,7 @@ git管理下のファイルのhelmソース。
 ;  (global-smart-newline-mode 1))
 #+END_SRC
 ** ace-jump-mode
+るびきちメルマガより。
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'ace-jump-mode
   (defun ace-jump-from-isearch ()
@@ -2589,7 +2590,7 @@ git管理下のファイルのhelmソース。
   (define-key isearch-mode-map (kbd "C-M-s") 'ace-jump-from-isearch)
 
   (defvar isearch-ace-jump-mode-timer nil)
-  (defvar isearch-ace-jump-mode-interval 0.2)
+  (defvar isearch-ace-jump-mode-interval 0.4)
 
   (defun isearch-mode-hook--ace-jump-mode ()
     (when (and (not isearch-ace-jump-mode-timer)
@@ -2600,7 +2601,7 @@ git管理下のファイルのhelmソース。
       (setq isearch-ace-jump-mode-timer
             (run-with-idle-timer isearch-ace-jump-mode-interval t
                                  'isearch-ace-jump-timer-function))))
-  ;(add-hook 'isearch-mode-hook 'isearch-mode-hook--ace-jump-mode)
+  (add-hook 'isearch-mode-hook 'isearch-mode-hook--ace-jump-mode)
   (defun isearch-ace-jump-timer-function ()
     (when (memq (length isearch-string) '(1 2))
       (isearch-ace-jump-cancel-timer)
@@ -2611,7 +2612,7 @@ git管理下のファイルのhelmソース。
     (when isearch-ace-jump-mode-timer
       (cancel-timer isearch-ace-jump-mode-timer)
       (setq isearch-ace-jump-mode-timer nil)))
-  ;(add-hook 'isearch-mode-end-hook 'isearch-ace-jump-cancel-timer)
+  (add-hook 'isearch-mode-end-hook 'isearch-ace-jump-cancel-timer)
   )
 #+END_SRC
 ** org-octopress
