@@ -1519,7 +1519,6 @@ IMEパッチを当てていると自動で =w32-ime.el= をロードするので
 (when (and (winp) (featurep 'w32-ime))
   (setq default-input-method "W32-IME")         ;標準IMEの設定
   (w32-ime-initialize)                 ;IMEの初期化
-  (set-cursor-color "yellow")          ;IME OFF時の初期カーソルカラー
   (setq w32-ime-buffer-switch-p t)     ;バッファ切り替え時にIME状態を引き継がない
   ;; IME の on/off を表示
   (setq-default w32-ime-mode-line-state-indicator "[--]")
