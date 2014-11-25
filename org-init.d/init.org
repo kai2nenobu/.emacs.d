@@ -1771,7 +1771,7 @@ elscreenとの共存が難しそう。
 #+END_SRC
 ** dired.el
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'dired)
+(use-package dired)
 
 ;; Automatically guess a target directory
 (setq dired-dwim-target t)
@@ -1787,7 +1787,7 @@ elscreenとの共存が難しそう。
 *** dired+.el
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'dired+)
+(use-package dired+)
 
 (setq ls-lisp-dirs-first t)
 (setq ls-lisp-ignore-case t)
@@ -2102,7 +2102,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** flyspell.el
 編集中にリアルタイムにスペルチェックする．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'flyspell)
+(use-package flyspell)
 #+END_SRC
 ** outline.el
 アウトラインを確認しながら編集するモード．主な目的は `outline-minor-mode' を
@@ -2414,7 +2414,7 @@ info を Emacs で読む．
 ** generic-x.el
 generic を用いて予め定義されているモード．
 #+BEGIN_SRC emacs-lisp +n
-;;; (my-safe-require 'generic-x)
+;;; (use-package generic-x)
 #+END_SRC
 ** filecache.el
 よく開くファイルやディレクトリをキャッシュとして保存しておく．
@@ -2505,7 +2505,7 @@ VBの編集用メジャーモード。
 #+END_SRC
 ** ox-pandoc
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'ox-pandoc)
+(use-package ox-pandoc)
 #+END_SRC
 ** powershell-mode
 #+BEGIN_SRC emacs-lisp +n
@@ -2674,7 +2674,7 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ツリー表示ができる dired．ファイルを操作する機能はまだ限定的．
 #+BEGIN_SRC emacs-lisp +n
 (my-safe-require 'direx
-  (my-safe-require 'direx-project)
+  (use-package direx-project)
   ;; アイコンに画像を使う
   ;(let ((dir (expand-file-name "images/tree-widget/folder/" data-directory)))
   ;  (setq direx:leaf-icon
@@ -2822,8 +2822,8 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 google 天気予報を使う．ロケールを日本にしたいがやり方がわからない．温度表記も
 華氏なのでさっぱりわからん．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'google-weather)
-(my-safe-require 'org-google-weather)
+(use-package google-weather)
+(use-package org-google-weather)
 #+END_SRC
 ** hiwin.el
 - [[http://d.hatena.ne.jp/ksugita0510/20111223][gnupackの開発メモ]]
@@ -2956,7 +2956,7 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 - [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないようにしました - むしゃくしゃしてやった]]
 記号入力の補助．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'key-combo)
+(use-package key-combo)
 #+END_SRC
 ** menu-tree.el
 - [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
@@ -2964,7 +2964,7 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 #+BEGIN_SRC emacs-lisp +n
 ;(when window-system
 ;  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
-;  (my-safe-require 'menu-tree))
+;  (use-package menu-tree))
 #+END_SRC
 ** emoji.el
 - [[https://github.com/imakado/emoji][imakado/emoji]]
@@ -3069,7 +3069,7 @@ vim エミュレータ
 日本語校正支援
 #+BEGIN_SRC emacs-lisp +n
 ;;; git clone git://github.com/yama-natuki/yspel
-(my-safe-require 'yspel)
+(use-package yspel)
 #+END_SRC
 ** bashdb.el
 #+BEGIN_SRC emacs-lisp +n
@@ -3282,7 +3282,7 @@ Emacs からはてなダイアリーに投稿する．
 ** nyan-mode.el
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://raw.github.com/TeMPOraL/nyan-mode/master/nyan-mode.el")
-;; (my-safe-require 'nyan-mode)
+;; (use-package nyan-mode)
 
 #+END_SRC
 ** typing.el
@@ -3296,7 +3296,7 @@ Emacs からはてなダイアリーに投稿する．
 ;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/simple-hatena-mode/tags/release-0.15/simple-hatena-mode.el")
 (my-safe-require 'simple-hatena-mode
-  (my-safe-require 'html-helper-mode)
+  (use-package html-helper-mode)
   (setq simple-hatena-bin "hw.pl")
   (setq simple-hatena-default-id "kbkbkbkb1"))
 #+END_SRC
@@ -3346,14 +3346,14 @@ thing を定義，操作する．
 - [[http://code.google.com/p/emacs-nav/][emacs-nav - Emacs mode for filesystem navigation - Google Project Hosting]]
 ディレクトリのファイル一覧を表示
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'nav)
+(use-package nav)
 #+END_SRC
 ** bookmark-extensions.el
 bookmark.el の拡張．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://mercurial.intuxication.org/hg/emacs-bookmark-extension/raw-file/7a874534bc63/bookmark-extensions.el")
 ;;; anything-bookmark-ext に必要なようだ．多少はブックマークが使いやすくなるのか？
-;(my-safe-require 'bookmark-extensions)
+;(use-package bookmark-extensions)
 #+END_SRC
 使い方がよう分からん．
 ** e2wm.el
@@ -3377,7 +3377,7 @@ magit 用のパースペクティブ．
   ;; e2wm-vcs.el
   ;; (auto-install-from-url "http://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/emacs/dsvn.el")
   ;; (auto-install-from-url "https://github.com/kiwanami/emacs-window-manager/raw/master/e2wm-vcs.el")
-  (my-safe-require 'e2wm-vcs))
+  (use-package e2wm-vcs))
 #+END_SRC
 ** magit.el
 Emacs から git を操作するライブラリ．
@@ -3598,7 +3598,7 @@ mozrepl を通して firefox を操作する
 非同期処理ライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
-(my-safe-require 'deferred)
+(use-package deferred)
 #+END_SRC
 ** helm.el
 インクリメンタルな絞り込みインターフェース．
@@ -3606,7 +3606,7 @@ mozrepl を通して firefox を操作する
 (my-safe-require 'helm-config
   (helm-mode 1)
   (when (executable-find "cmigemo")
-    (my-safe-require 'helm-migemo)
+    (use-package helm-migemo)
     ;; `candidates-in-buffer' でmigemoれるように再定義
     (defun helm-compile-source--candidates-in-buffer (source)
       (helm-aif (assoc 'candidates-in-buffer source)
@@ -3708,7 +3708,7 @@ mozrepl を通して firefox を操作する
 ;  ;;; helm-orgcard.el
 ;  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
 ;  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
-;  (my-safe-require 'helm-orgcard)
+;  (use-package helm-orgcard)
 ; 
 ;  ;; helm-bibtex
 ;  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
@@ -3788,7 +3788,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+END_SRC
 *** helm-ag
 #+BEGIN_SRC emacs-lisp +n
-  (my-safe-require 'helm-ag)
+  (use-package helm-ag)
 #+END_SRC
 *** 最後のカッコ
 #+BEGIN_SRC emacs-lisp +n
@@ -3837,7 +3837,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 もしれない．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/dimitri/switch-window/raw/master/switch-window.el")
-(my-safe-require 'switch-window)
+(use-package switch-window)
 #+END_SRC
 ** hatena-diary-mode.el
 - [[http://hatena-diary-el.sourceforge.jp/][hatena-diary-mode For Emacs]]
@@ -3866,7 +3866,7 @@ simple-hatena-mode のほうが良さそう．ただし，simple-hatena には w
 - [[http://d.hatena.ne.jp/uhiaha888/20101108/1289223580][matlabでもel-doc - uhiaha888の日記]]
 matlab の引数を表示．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'matlab-eldoc)
+(use-package matlab-eldoc)
 #+END_SRC
 ** sdic.el
 辞書をひく．
@@ -3939,7 +3939,7 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "pos-tip.el")
 ;;; (auto-install-from-emacswiki "popup-kill-ring.el")
-;; (my-safe-require 'popup)
+;; (use-package popup)
 ;; (when (null window-system)
 ;;   (my-safe-require 'pos-tip))           ; terminal のときは pos-tip は使えないため．
 ;; (my-safe-require 'popup-kill-ring
@@ -3965,7 +3965,7 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 Emacs キーバインドを強制．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "drill-instructor.el")
-;; (my-safe-require 'drill-instructor)
+;; (use-package drill-instructor)
 ;; (setq drill-instructor-global t)
 ;; やっぱやめた
 #+END_SRC
@@ -3991,8 +3991,8 @@ Emacs のハイライトをそのまま html に変換
 #+BEGIN_SRC emacs-lisp +n
 ;; (my-safe-require 'approx-search
 ;;   (if (boundp 'isearch-search-fun-function)
-;;       (my-safe-require 'approx-isearch)
-;;     (my-safe-require 'approx-old-isearch))
+;;       (use-package approx-isearch)
+;;     (use-package approx-old-isearch))
 ;;   (approx-isearch-set-enable))
 ;; Migemo との共存がちょっとめんどいので一旦コメントアウト
 #+END_SRC
@@ -4349,7 +4349,7 @@ Emacs から xdvi に飛ぶ．
 minibufferで履歴検索．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
-(my-safe-require 'minibuf-isearch)
+(use-package minibuf-isearch)
 #+END_SRC
 ** popwin.el
 - [[https://github.com/m2ym/popwin-el][m2ym/popwin-el]]
@@ -4788,7 +4788,7 @@ org-modeのexport機能を使って印刷する。
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'google-maps)
+(use-package google-maps)
 #+END_SRC
 ** jaunte.el
 - [[http://kawaguchi.posterous.com/emacshit-a-hint][EmacsでHit a Hint(改) - Leave Me In Emacs]]
@@ -4822,7 +4822,7 @@ Hit a Hint でカーソル移動するライブラリ．
 ファイルにポストイット
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://chasen.org/~daiti-m/dist/postit.el")
-;(my-safe-require 'postit)
+;(use-package postit)
 ;; 今のところあまりつかっていない
 #+END_SRC
 ** text-adjust.el
@@ -4832,7 +4832,7 @@ Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://taiyaki.org/elisp/mell/src/mell.el")
 ;;; (auto-install-from-url "http://taiyaki.org/elisp/text-adjust/src/text-adjust.el")
-;; (my-safe-require 'text-adjust)
+;; (use-package text-adjust)
 ;; ファイル保存時に自動的に text-adjust を起動する
 ;; (defun text-adjust-before-save-if-needed ()
 ;;   (when (memq major-mode
@@ -4937,12 +4937,12 @@ phpファイルを扱う．
 Emacs 内から sudo をつかう．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "sudo-ext.el")
-(my-safe-require 'sudo-ext)
+(use-package sudo-ext)
 #+END_SRC
 ** mozc.el
 Emacs でMozcを使う．要 mozc-emacs-helper．
 #+BEGIN_SRC emacs-lisp +n
-;; (my-safe-require 'mozc)
+;; (use-package mozc)
 ;; (setq default-input-method "japanese-mozc")
 #+END_SRC
 ** ibus.el
@@ -5066,7 +5066,7 @@ do nothing. And suppress the output from `message' and
 #+END_SRC
 ** display-deadline.el
 #+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'display-deadline)
+;(use-package display-deadline)
 ;(display-deadline "進捗報告まであと%d日%h時間%m分" (encode-time 0 0 10 15 11 2010))
 #+END_SRC
 ** yatex.el
