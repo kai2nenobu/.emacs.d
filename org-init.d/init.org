@@ -398,7 +398,8 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 #+END_SRC
 ** emacsclient を使う
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'server
+(use-package server
+  :config
   (cond ((not (server-running-p))
          (server-start))
         ((eq (server-running-p) :other)
@@ -1797,8 +1798,9 @@ dired.el, dired-x.el, dired-aux.el の拡張
 dired でファイルのリネームをする．最近は =dired-mode= で
 =dired-toggle-read-only (C-x C-q)= でwdired-modeが有効になるようである。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'wdired
-  (define-key wdired-mode-map (kbd "M-m") '(lambda () (interactive) (dired-move-to-filename)))
+(use-package wdired
+  :config
+  (define-key  wdired-mode-map "M-m" '(lambda () (interactive) (dired-move-to-filename)))
   )
 #+END_SRC
 *** 対話的にls オプションを変更
@@ -2050,7 +2052,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** winner.el
 ウィンドウ構成の変更履歴を辿れる．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'winner
+(use-package winner
+  :config
   (define-key my-original-map (kbd "C-/") 'winner-undo)
   (winner-mode 1))
 #+END_SRC
@@ -2058,7 +2061,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 - [[http://d.hatena.ne.jp/syohex/20110119/1295450495][whitespace-modeの設定 - Life is very short]]
 空白文字類を明示する。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'whitespace
+(use-package whitespace
+  :config
   (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing newline newline-mark))
   (setq whitespace-display-mappings
         '((space-mark ?\u3000 [?\u25a1])
@@ -2084,7 +2088,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 #+END_SRC
 ** align.el
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'align
+(use-package align
+  :config
   (add-to-list 'align-rules-list
                '(latex-table-alignment
                  (regexp . "\\([ \t]*\\)&")
@@ -2108,7 +2113,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 アウトラインを確認しながら編集するモード．主な目的は `outline-minor-mode' を
 使うため．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'outline
+(use-package outline
+  :config
   ;; make outline-level buffer local variable
   (make-variable-buffer-local 'outline-level)
   (setq-default outline-level 'outline-level)
@@ -2126,7 +2132,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** tramp.el
 リモートにあるサーバのファイルを編集する．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'tramp
+(use-package tramp
+  :config
   (setq tramp-default-method (cond ((winp) "sshx")
                                    (t "ssh")))
 
@@ -2166,7 +2173,7 @@ file is a remote file (include directory)."
 ** doc-view.el
 Emacs で pdf 閲覧する．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'doc-view
+(use-package doc-view
   (setq doc-view-continuous t)     ; move next page if execute next-line on bottom edge of image
   (define-key doc-view-mode-map (kbd "l") 'image-forward-hscroll)
   (define-key doc-view-mode-map (kbd "h") 'image-backward-hscroll)
@@ -2215,7 +2222,8 @@ Emacs で pdf 閲覧する．
 #+END_SRC
 ** sh-script.el
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'sh-script
+(use-package sh-script
+  :config
   (setq-default sh-basic-offset 2)
   (setq-default sh-indentation 2))
 #+END_SRC
@@ -2248,7 +2256,8 @@ Emacs lisp によるシェル．リダイレクトがないのがきつい．
     (setq eshell-prompt-regexp "^[^#$]*[$#] ")
 
     ;; eshell の解釈を別のパーサで乗っ取り
-    (my-safe-require 'esh-myparser
+    (use-package esh-myparser
+      :config
       (defun eshell-parser/z (str) (eshell-parser/b str "zsh"))) ; zsh で乗っ取り
 
     ;; elisp として解釈
@@ -2382,7 +2391,8 @@ Emacs lisp によるシェル．リダイレクトがないのがきつい．
 ** info.el
 info を Emacs で読む．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'info
+(use-package info
+  :config
   (define-key Info-mode-map (kbd "M-n") nil) ; clone-buffer とかいう無駄なものが割り当てられてたので無効にする
   (define-key Info-mode-map (kbd "f") 'Info-scroll-up) ; 元のコマンドの Info-follow-reference の利用価値がまだわからない
   (define-key Info-mode-map (kbd "b") 'Info-scroll-down) ; もとはただの beginning-of-buffer なので問題ない
@@ -2420,7 +2430,8 @@ generic を用いて予め定義されているモード．
 よく開くファイルやディレクトリをキャッシュとして保存しておく．
 #+BEGIN_SRC emacs-lisp +n
 ;;; find-file の時に C-TAB で補完できる
-(my-safe-require 'filecache
+(use-package filecache
+  :config
   ;; キャッシュするディレクトリを指定。このディレクトリ下のファイルを補完できる
   ;; ディレクトリは対象外らしい
   (file-cache-add-directory-list
@@ -2429,14 +2440,16 @@ generic を用いて予め定義されているモード．
 ** skk
 #+BEGIN_SRC emacs-lisp +n
 ;; (setq skk-user-directory "~/.emacs.d/ddskk/")
-;; (when (require 'skk-autoloads nil t)
+;; (use-package skk-autoloads
+;;   :config
 ;;   (global-set-key (kbd "C-x C-j") 'skk-mode)
 ;;   (setq skk-byte-compile-init-file t))
 #+END_SRC
 ** desktop.el
 セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'desktop
+(use-package desktop
+  :config
   ;; 保存しないファイルの正規表現
   (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
   (run-at-time t 60 'desktop-save "~/") ; 定期的にdesktop を保存する
@@ -2446,7 +2459,8 @@ generic を用いて予め定義されているモード．
 同じ名前のファイルを開く際にバッファ名にディレクトリ名を付加する．ファイル名が
 かぶったときわかり易くなる．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'uniquify
+(use-package uniquify
+  :config
   ;; filename<dir> 形式のバッファ名にする
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   ;; *で囲まれたバッファ名は対象外にする
@@ -2509,25 +2523,30 @@ VBの編集用メジャーモード。
 #+END_SRC
 ** powershell-mode
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'powershell-mode
+(use-package powershell-mode
+  :config
   (add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode))
   (setq powershell-indent 2)
   )
 #+END_SRC
 ** zeal-at-point
 #+BEGIN_SRC emacs-lisp +n
-(define-key mode-specific-map (kbd "d") 'zeal-at-point)
+(use-package zeal
+  :config
+  (define-key mode-specific-map (kbd "d") 'zeal-at-point))
 #+END_SRC
 ** exec-path-from-shell
 Windowsだと動かないくさい。
 #+BEGIN_SRC emacs-lisp +n
 (if (not (winp))
-  (my-safe-require 'exec-path-from-shell
-      (exec-path-from-shell-initialize)))
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize)))
 #+END_SRC
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'groovy-mode
+(use-package groovy-mode
+  :config
   (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
   (add-hook 'groovy-mode-hook '(lambda () (c-set-style "java")))
   )
@@ -2535,7 +2554,8 @@ Windowsだと動かないくさい。
 ** helm-ls-git
 git管理下のファイルのhelmソース。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'helm-ls-git
+(use-package helm-ls-git
+  :config
   (setq helm-ls-git-show-abs-or-relative 'relative)
   ;; helm-for-filesでgit管理下のファイルも開く
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
@@ -2543,19 +2563,22 @@ git管理下のファイルのhelmソース。
 #+END_SRC
 ** flyckeck
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'flycheck
+(use-package flycheck
+  :config
   (add-hook 'prog-mode-hook 'flycheck-mode)
   (global-set-key (kbd "C-,") 'flycheck-previous-error)
   (global-set-key (kbd "C-.") 'flycheck-next-error)
   (setq flycheck-idle-change-delay 0.5)
   (setq flycheck-display-errors-delay 0.1)
-  (my-safe-require 'flycheck-pos-tip
+  (use-package flycheck-pos-tip
+    :config
     (setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages))
   )
 #+END_SRC
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'git-gutter-fringe
+(use-package git-gutter-fringe
+  :config
   (define-prefix-command 'git-gutter-prefix)
   (define-key git-gutter-prefix (kbd "RET") 'git-gutter:toggle)
   (define-key git-gutter-prefix (kbd "n") 'git-gutter:next-hunk)
@@ -2570,14 +2593,16 @@ git管理下のファイルのhelmソース。
 ** smart-newline
 スマートに改行を入れる。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'smart-newline
+(use-package smart-newline
+  :config
   (add-hook 'prog-mode-hook 'smart-newline-mode)
   (add-hook 'text-mode-hook 'smart-newline-mode))
 #+END_SRC
 ** ace-jump-mode
 るびきちメルマガより。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'ace-jump-mode
+(use-package ace-jump-mode
+  :config
   (defun ace-jump-from-isearch ()
     "Invoke `ace-jump' from isearch."
     (interactive)
@@ -2617,7 +2642,8 @@ git管理下のファイルのhelmソース。
 ** org-octopress
 org-modeでOctpressの記事を書くためのライブラリ。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'org-octopress
+(use-package org-octopress
+  :config
   (defvar octopress-directory (expand-file-name "octopress" dropbox-directory))
   (setq org-octopress-directory-top       (expand-file-name "source" octopress-directory))
   (setq org-octopress-directory-posts     (expand-file-name "source/_posts" octopress-directory))
@@ -2630,12 +2656,14 @@ org-modeでOctpressの記事を書くためのライブラリ。
 ** outline-magic
 outline-modeでorg-cycle風にアウトラインを開閉する。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'outline-magic
+(use-package outline-magic
+  :config
   (define-key outline-minor-mode-map (kbd "<C-tab>") 'outline-cycle))
 #+END_SRC
 ** anzu
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'anzu
+(use-package anzu
+  :config
   (global-anzu-mode)
   (setq anzu-minimum-input-length 3)
   (setq anzu-use-migemo t)
@@ -2646,7 +2674,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ウィンドウを一時的に1ウィンドウにする。
 #+BEGIN_SRC emacs-lisp +n
 (eval-after-load "elscreen"
-  '(my-safe-require 'zoom-window
+  '(use-package zoom-window
+     :config
      (setq zoom-window-use-elscreen t)
      (zoom-window-setup)
      (define-key elscreen-map (kbd "C-z") 'zoom-window-zoom)))
@@ -2655,7 +2684,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 カーソル下のシンボルをハイライトする。highlight-symbol-mode は自動的にカーソ
 ル下のシンボルをハイライトするようになる。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'highlight-symbol
+(use-package highlight-symbol
+  :config
   (setq highlight-symbol-idle-delay 0.5)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'text-mode-hook 'highlight-symbol-mode)
@@ -2673,7 +2703,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 - [[http://d.hatena.ne.jp/syohex/20130202/1359814263][direx.elの設定 - Life is very short]]
 ツリー表示ができる dired．ファイルを操作する機能はまだ限定的．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'direx
+(use-package direx
+  :config
   (use-package direx-project)
   ;; アイコンに画像を使う
   ;(let ((dir (expand-file-name "images/tree-widget/folder/" data-directory)))
@@ -2735,7 +2766,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+END_SRC
 ** multiple-cursor
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'multiple-cursors
+(use-package multiple-cursors
+  :config
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
@@ -2743,7 +2775,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+END_SRC
 ** mark-multiple.el
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'mark-multiple
+(use-package mark-multiple
+  :config
   (global-set-key (kbd "C-<") 'mark-previous-like-this)
   (global-set-key (kbd "C->") 'mark-next-like-this)
   )
@@ -2755,7 +2788,8 @@ package.el からインストール．
 `font-lock-mode' が有効だとハイライトされないみたい．whitespace-mode とかと競
 合してしまうようだ．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'web-mode
+(use-package web-mode
+  :config
   (dolist (ext '("\\.phtml\\'" "\\.tpl\\.php\\'" "\\.jsp\\'" "\\.as[cp]x\\'"
                  "\\.erb\\'" "\\.mustache\\'" "\\.djhtml\\'" "\\.html?\\'"
                  "\\.gsp\\'"))
@@ -2791,7 +2825,8 @@ package.el からインストール．
 トール
 #+BEGIN_SRC emacs-lisp +n
 ;; fill-column-indicator.el
-(my-safe-require 'fill-column-indicator
+(use-package fill-column-indicator
+  :config
   (setq fci-rule-color "gray")
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
   ;(global-fci-mode)
@@ -2829,7 +2864,8 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 - [[http://d.hatena.ne.jp/ksugita0510/20111223][gnupackの開発メモ]]
 非アクティブなウィンドウの背景色を変更する．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'hiwin
+(use-package hiwin
+  :config
   (set-face-attribute 'hiwin-face nil :background nil) ;; hiwinデフォルトの背景色を無効化
   (face-spec-set 'hiwin-face ;; 非アクティブウィンドウの背景色を設定
                  '((((class color) (background light))
@@ -2846,15 +2882,18 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 ;; (auto-install-from-url "http://chrispoole.com/downloads/ac-python.el")
 (eval-after-load "auto-complete"
   '(progn
-     (my-safe-require 'ac-python
+     (use-package ac-python
+       :config
        (add-to-list 'ac-modes 'python-mode))))
 #+END_SRC
 ** ruby 関連
 *** ruby-mode.el
 #+BEGIN_SRC emacs-lisp +n
 ;; ruby-mode
-(my-safe-require 'ruby-mode
-  (my-safe-require 'ruby-electric
+(use-package ruby-mode
+  :config
+  (use-package ruby-electric
+    :config
     (add-hook 'ruby-mode-hook
               (lambda () (ruby-electric-mode t))))
     (define-key ruby-mode-map (kbd "C-c h") 'anything-rurima)
@@ -2892,7 +2931,8 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
          (guide-key/add-local-highlight-command-regexp "rsense-"))
        (add-hook 'ruby-mode-hook 'guide-key/my-hook-function-for-rsense)))
 
-  (my-safe-require 'rsense
+  (use-package rsense
+    :config
     (add-hook 'ruby-mode-hook
               (lambda ()
                 ;; 余計な ac-source を除去
@@ -2930,7 +2970,8 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 カーソルのある行をハイライトする．hl-line+ は hl-line を拡張する．オーバーレ
 イの優先度を設定したり，アイドル時のみハイライトしたりできる．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'hl-line+   ; hl-line is also loaded
+(use-package hl-line+   ; hl-line is also loaded
+  :config
   (global-hl-line-mode 1)
   (defface my-hl-line-face
     '((((class color) (background dark))  ; カラーかつ, 背景が dark ならば,
@@ -2989,13 +3030,15 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 #+BEGIN_SRC emacs-lisp +n
 ;;; Emacs ハイパーリンク作戦
 ;; (add-to-list 'load-path "~/eev-current/")
-(my-safe-require 'eev-all
+(use-package eev-all
+  :config
   (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
   (global-set-key (kbd "M-k") 'kill-this-buffer))
 #+END_SRC
 ** evernote-mode
 #+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'evernote-mode
+;(use-package evernote-mode
+;  :config
 ;  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
 ;  (setq evernote-username "g03090416")
 ;  (global-set-key "\C-c\C-ec" 'evernote-create-note)
@@ -3011,7 +3054,8 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 dokuwiki フロントエンド
 #+BEGIN_SRC emacs-lisp +n
 ;;; 要 simple-wiki.el
-(my-safe-require 'dokuwiki
+(use-package dokuwiki
+  :config
   (setq dokuwiki-username "kai"
         dokuwiki-password "password"
         dokuwiki-base-url "http://"))
@@ -3020,7 +3064,8 @@ dokuwiki フロントエンド
 - [[https://sites.google.com/site/fudist/Home/vimpulse][Vimpulse / viper-modeの使い方 - fudist]]
 vim エミュレータ
 #+BEGIN_SRC emacs-lisp +n
-;; (my-safe-require 'vimpulse
+;; (use-package vimpulse
+;;   :config
 ;;   (viper-go-away)
 ;;   (global-set-key (kbd "<M-delete>") 'toggle-viper-mode)
 ;;   )
@@ -3028,7 +3073,8 @@ vim エミュレータ
 ** guide-key.el
 キーバインドを自動的に表示
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'guide-key
+(use-package guide-key
+  :config
   (setq-default guide-key/guide-key-sequence
                 '("C-c" "C-x v" "C-c p" "C-x RET" "C-x 8"
                   "C-q" "C-x r" "C-S-r" "C-x 4" "C-4" "C-S-a" "C-x 5" "C-5"
@@ -3053,13 +3099,15 @@ vim エミュレータ
 ** save-load-path.el
 #+BEGIN_SRC emacs-lisp +n
 (when (linuxp)
-  (my-safe-require 'save-load-path
+  (use-package save-load-path
+    :config
     (save-load-path-initialize)))
 #+END_SRC
 ** wrap-region.el
 リージョンを特定文字で囲む
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'wrap-region
+(use-package wrap-region
+  :config
   (wrap-region-global-mode t)
   (wrap-region-add-wrapper "`" "'")
   (wrap-region-add-wrapper "$" "$" nil 'yatex-mode))
@@ -3078,7 +3126,8 @@ vim エミュレータ
 ** expand-region.el
 - [[https://github.com/magnars/expand-region.el][magnars/expand-region.el]]
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'expand-region
+(use-package expand-region
+  :config
   (global-set-key (kbd "M-@") 'er/expand-region)
   (eval-after-load "@"
     (key-chord-define-global "@@" 'er/expand-region))
@@ -3087,7 +3136,8 @@ vim エミュレータ
 ** auto-save-buffers-enhanced.el
 アイドル時にファイルを自動保存。auto-save-buffersの機能拡張。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'auto-save-buffers-enhanced
+(use-package auto-save-buffers-enhanced
+  :config
   (setq auto-save-buffers-enhanced-quiet-save-p t)
   (setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t)
   (auto-save-buffers-enhanced t)
@@ -3097,7 +3147,8 @@ vim エミュレータ
 - [[http://sheephead.homelinux.org/2011/12/19/6930/][連続操作を素敵にするsmartrep.el作った - sheephead]]
 連続コマンド入力を支援
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'smartrep
+(use-package smartrep
+  :config
   ;; ミニバッファのエコーバックがうざいので消す
   (defadvice smartrep-read-event-loop (around suppress-echo activate)
     "Suppress echo keystrokes in smartrep."
@@ -3156,7 +3207,8 @@ vim エミュレータ
 ** quickrun.el
 ワンタッチでスクリプト実行．marmalade からインストール
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'quickrun
+(use-package quickrun
+  :config
   (global-set-key (kbd "<C-f11>") 'quickrun)
   (quickrun-add-command  "java8"
                          '((:command . "java8")
@@ -3176,7 +3228,8 @@ vim エミュレータ
 バッファを環状に訪問
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "cycle-buffer.el")
-;(my-safe-require 'cycle-buffer
+;(use-package cycle-buffer
+;  :config
 ;  (global-set-key (kbd "C-.") 'cycle-buffer)
 ;  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
 ;  )
@@ -3185,7 +3238,8 @@ vim エミュレータ
 シェルの履歴を履歴ファイルに書きこむ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/shell-history.el")
-;; (my-safe-require 'shell-history
+;; (use-package shell-history
+;;   :config
 ;;   (setq shell-history-file "~/.zsh_history")
 ;;
 ;;   ;; add command in shell-mode to history file
@@ -3207,7 +3261,8 @@ Emacs で開発環境．
 ** open-junk-file.el
 試行錯誤用ファイルを開く．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'open-junk-file
+(use-package open-junk-file
+  :config
   (setq open-junk-file-format
         (locate-user-emacs-file "junk/%Y/%m/%d-%H%M%S-junk."))
   (define-key mode-specific-map (kbd "j") 'open-junk-file)
@@ -3217,7 +3272,8 @@ Emacs で開発環境．
 式の評価結果を注釈する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "lispxmp.el")
-(my-safe-require 'lispxmp
+(use-package lispxmp
+  :config
   (define-key emacs-lisp-mode-map (kbd "C-c C-d") 'lispxmp)
   )
 #+END_SRC
@@ -3225,7 +3281,8 @@ Emacs で開発環境．
 括弧の対応を保持して編集．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://mumble.net/~campbell/emacs/paredit.el")
-;; (my-safe-require 'paredit
+;; (use-package paredit
+;;   :config
 ;;   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 ;;   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
 ;;   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
@@ -3238,7 +3295,8 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
 - [[http://www.emacswiki.org/emacs/UndoTree][EmacsWiki: Undo Tree]]
 編集履歴を木構造で視覚的に表示しアンドゥできる．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'undo-tree
+(use-package undo-tree
+  :config
   (global-undo-tree-mode)
   (setq-default undo-tree-visualizer-timestamps t) ; display timestamp in visualizer
   ;(define-key undo-tree-map (kbd "C-g") 'undo-tree-visualizer-quit)  ; unable to bind "C-g"?
@@ -3251,7 +3309,8 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
 指定したカラムを超えているテキストに色付けする．日本語の考慮なし．やっぱ自分で
 つくるしかないか．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'highlight-80+
+(use-package highlight-80+
+  :config
   (setq highlight-80+-columns fill-column))
 #+END_SRC
 ** ya-hatena-mode.el
@@ -3261,7 +3320,8 @@ Emacs からはてなダイアリーに投稿する．
 (setq *yhtn:account-info-file* "~/.yhtn-account-info.el") ; デフォルトは .yhtn:account-~~~ だが Ubuntu 環境だと
                                                           ; そのファイル名が認識できない？のかロードできない
 (when (file-exists-p *yhtn:account-info-file*)
-  (my-safe-require 'ya-hatena-mode
+  (use-package ya-hatena-mode
+    :config
     ;; key bind
     (define-key ya-hatena-mode-map "\C-cp" nil)
     (define-key ya-hatena-mode-map "\C-cd" nil)
@@ -3276,7 +3336,8 @@ Emacs からはてなダイアリーに投稿する．
 ** kogiku.el
 - [[http://kogiku.sourceforge.jp/][小菊]]
 #+BEGIN_SRC emacs-lisp +n
-;; (my-safe-require 'kogiku
+;; (use-package kogiku
+;;   :config
 ;;   (setq kogiku-enable-once nil))
 #+END_SRC
 ** nyan-mode.el
@@ -3295,7 +3356,8 @@ Emacs からはてなダイアリーに投稿する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
 ;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/simple-hatena-mode/tags/release-0.15/simple-hatena-mode.el")
-(my-safe-require 'simple-hatena-mode
+(use-package simple-hatena-mode
+  :config
   (use-package html-helper-mode)
   (setq simple-hatena-bin "hw.pl")
   (setq simple-hatena-default-id "kbkbkbkb1"))
@@ -3306,7 +3368,8 @@ Emacs からはてなダイアリーに投稿する．
 インデントの幅やタブを操作，モードラインに表示．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://raw.github.com/yascentur/judge-indent-el/1.0.0/judge-indent.el")
-;(my-safe-require 'judge-indent
+;(use-package judge-indent
+;  :config
 ;  (global-judge-indent-mode t)
 ;  (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
 #+END_SRC
@@ -3314,7 +3377,8 @@ Emacs からはてなダイアリーに投稿する．
 全角空白を明示する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://homepage3.nifty.com/satomii/software/jaspace.el")
-;; (my-safe-require 'jaspace
+;; (use-package jaspace
+;;   :config
 ;;   (setq jaspace-alternate-jaspace-string nil) ; Ricty で全角空白はわかるので nil にする．
 ;;   (setq jaspace-alternate-eol-string "\xab\n"))
 ;; やっぱ常に改行文字はうざかった
@@ -3324,7 +3388,8 @@ Emacs からはてなダイアリーに投稿する．
 thing を定義，操作する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/thing-opt.el")
-(my-safe-require 'thing-opt
+(use-package thing-opt
+  :config
   (define-thing-commands)
   (eval-after-load "key-chord"
     '(progn
@@ -3383,7 +3448,8 @@ magit 用のパースペクティブ．
 Emacs から git を操作するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;; magit.el
-(my-safe-require 'magit
+(use-package magit
+  :config
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
   (setq magit-diff-refine-hunk 'all)
 #+END_SRC
@@ -3444,7 +3510,8 @@ hilight current column.
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/vline.el")
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/col-highlight.el")
-(my-safe-require 'col-highlight
+(use-package col-highlight
+  :config
   ;(column-highlight-mode 1)
   ;; 常に on にしとくのはちょっと重すぎるのでコメントアウト
   (custom-set-faces
@@ -3486,7 +3553,8 @@ hilight current column.
 ;;; yasnippet を helm で操作
   (eval-after-load "helm"
     '(progn
-       (my-safe-require 'helm-c-yasnippet
+       (use-package helm-c-yasnippet
+         :config
          (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
          (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
          )))
@@ -3497,14 +3565,16 @@ cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 (when (winp)
-  (my-safe-require 'cygwin-mount
+  (use-package cygwin-mount
+    :config
     (cygwin-mount-activate)))
 #+END_SRC
 ** zlc.el
 ミニバッファでの補完を zsh ライクにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/mooz/emacs-zlc/raw/master/zlc.el")
-(my-safe-require 'zlc
+(use-package zlc
+  :config
   (let ((map minibuffer-local-map))
     ;; like menu select
     (define-key map (kbd "<down>")  'zlc-select-next-vertical)
@@ -3522,7 +3592,8 @@ cygwin のパスを使えるようにする．
 mozrepl を通して firefox を操作する
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
-(my-safe-require 'moz
+(use-package moz
+  :config
   (defvar moz-scroll-ratio "80") ;; スクロール量の比率。100(%)で1ページ毎のスクロール。
   (defvar moz-scroll-time "15") ;; アニメーション時間。高いほどゆっくりに。
 
@@ -3592,7 +3663,7 @@ mozrepl を通して firefox を操作する
 非同期処理フレームワーク．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/concurrent.el")
-(my-safe-require'concurrent)
+(use-package concurrent)
 #+END_SRC
 ** deferred.el
 非同期処理ライブラリ．
@@ -3603,7 +3674,8 @@ mozrepl を通して firefox を操作する
 ** helm.el
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'helm-config
+(use-package helm-config
+  :config
   (helm-mode 1)
   (when (executable-find "cmigemo")
     (use-package helm-migemo)
@@ -3618,7 +3690,8 @@ mozrepl を通して firefox を操作する
                     (volatile) (match identity)))
         source))
     )
-  (my-safe-require 'helm-descbinds
+  (use-package helm-descbinds
+    :config
     (helm-descbinds-install))
 
   (setq helm-idle-delay 0.1)
@@ -3631,7 +3704,8 @@ mozrepl を通して firefox を操作する
   (setq helm-ff-transformer-show-only-basename t) ; basename のみ表示
   (define-key helm-command-map (kbd "o") 'helm-occur)
   (define-key helm-command-map (kbd "g") 'helm-do-grep)
-  (my-safe-require 'helm-git-grep
+  (use-package helm-git-grep
+    :config
     (define-key helm-command-map "G" 'helm-git-grep))
   (eval-after-load "key-chord"
     '(progn
@@ -3713,7 +3787,8 @@ mozrepl を通して firefox を操作する
 ;  ;; helm-bibtex
 ;  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
 ;  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
-;  (my-safe-require 'helm-bibtex
+;  (use-package helm-bibtex
+;    :config
 ;    (defun helm-bibtex-cite ()
 ;      "Helm command to cite bibliography."
 ;      (interactive)
@@ -3781,7 +3856,7 @@ helm-c-apropos は複数の関数による情報源でできているので，�
 *** helm-ring.el
 mark-ring が helm でたどれる．mark がよくわからなくなった時に使える．
 #+BEGIN_SRC emacs-lisp +n
-  (require 'helm-ring)
+  (use-package helm-ring)
   (push '(migemo) helm-c-source-mark-ring)
   (push '(migemo) helm-c-source-global-mark-ring)
   (define-key helm-command-map (kbd "SPC") 'helm-all-mark-rings)
@@ -3799,7 +3874,8 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 慣性スクロール．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-inertial-scroll/raw/master/inertial-scroll.el")
-;; (my-safe-require 'inertial-scroll
+;; (use-package inertial-scroll
+;;   :config
 ;;   (setq inertias-global-minor-mode-map
 ;;         (inertias-define-keymap
 ;;          '(
@@ -3825,7 +3901,8 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 1つのキーに様々な文字列を割り当てることができる．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/imakado/emacs-smartchr/raw/master/smartchr.el")
-;; (my-safe-require 'smartchr
+;; (use-package smartchr
+;;   :config
 ;;   (global-set-key (kbd "=") (smartchr '(" = " " == " "=")))
 ;;   (global-set-key (kbd "{") (smartchr '("{`!!'}" "{")))
 ;;   (global-set-key (kbd "(") (smartchr '("(`!!')" "(")))
@@ -3844,7 +3921,8 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 はてなダイアリーを編集，投稿するメジャーモード．
 #+BEGIN_SRC emacs-lisp +n
 ;;; http://hatena-diary-el.sourceforge.jp/
-(my-safe-require 'hatena-diary-mode
+(use-package hatena-diary-mode
+  :config
   (setq hatena-usrid "kbkbkbkb1")
   (setq hatena-twitter-flag t)
   (setq hatena-change-day-offset 0)
@@ -3857,7 +3935,8 @@ simple-hatena-mode のほうが良さそう．ただし，simple-hatena には w
 - [[http://d.hatena.ne.jp/amt/20060115/HatenaHelperMode][はてな記法を入力支援する hatenahelper-mode - おもてなしの空間]]
 はてなダイアリーの編集を支援するマイナーモード．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'hatenahelper-mode
+(use-package hatenahelper-mode
+  :config
   (add-hook 'hatena-diary-mode-hook
             '(lambda ()
                (hatenahelper-mode 1))))
@@ -3904,7 +3983,8 @@ matlab の引数を表示．
 強化版 occur．moccur をもとに改造したらしい．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.bookshelf.jp/elc/color-moccur.el")
-(my-safe-require 'color-moccur
+(use-package color-moccur
+  :config
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
@@ -3930,7 +4010,8 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 ** mcomplete.el
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el")
-;(my-safe-require 'mcomplete
+;(use-package mcomplete
+;  :config
 ;  (turn-on-mcomplete-mode))
 #+END_SRC
 ** popup-kill-ring.el
@@ -3941,8 +4022,9 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 ;;; (auto-install-from-emacswiki "popup-kill-ring.el")
 ;; (use-package popup)
 ;; (when (null window-system)
-;;   (my-safe-require 'pos-tip))           ; terminal のときは pos-tip は使えないため．
-;; (my-safe-require 'popup-kill-ring
+;;   (use-package pos-tip))           ; terminal のときは pos-tip は使えないため．
+;; (use-package popup-kill-ring
+;;   :config
 ;;   (global-set-key "\M-y" 'popup-kill-ring)
 ;;   (setq pos-tip-background-color "red")
 ;;   (setq popup-kill-ring-item-size-max 2000) ; サイズが 2000 以上の項目については、2000 までに切り捨てる。
@@ -3972,7 +4054,8 @@ Emacs キーバインドを強制．
 ** yahtml.el
 html 編集モード．
 #+BEGIN_SRC emacs-lisp +n
-;(my-safe-require 'yahtml
+;(use-package yahtml
+;  :config
 ;  (setq auto-mode-alist
 ;        (cons (cons "\\.html$" 'yahtml-mode) auto-mode-alist))
 ;  (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
@@ -3989,7 +4072,8 @@ Emacs のハイライトをそのまま html に変換
 - [[http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el][(Scheme) (Lisp)]]
 曖昧検索できる．
 #+BEGIN_SRC emacs-lisp +n
-;; (my-safe-require 'approx-search
+;; (use-package approx-search
+;;   :config
 ;;   (if (boundp 'isearch-search-fun-function)
 ;;       (use-package approx-isearch)
 ;;     (use-package approx-old-isearch))
@@ -4000,7 +4084,8 @@ Emacs のハイライトをそのまま html に変換
 同一フレーム内に speedbar を作る．そんなに使い方を理解していない．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "sr-speedbar.el")
-(my-safe-require 'sr-speedbar
+(use-package sr-speedbar
+  :config
   (global-set-key (kbd "H-s") 'sr-speedbar-toggle))
 #+END_SRC
 ** cacoo.el
@@ -4011,8 +4096,9 @@ Emacs のハイライトをそのまま html に変換
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/concurrent.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo.el")
 ;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo-plugins.el")
-(my-safe-require 'cacoo ; cacooを読み込み
-  (my-safe-require 'cacoo-plugins)      ; 追加機能
+(use-package cacoo ; cacooを読み込み
+  :config
+  (use-package cacoo-plugins)      ; 追加機能
   (setq cacoo:api-key "gZhx0gy6pachw6ZOuWyC") ; ←CacooのAPIキーを入れる（使わない人は無くてもOK）
   ;; 追加設定
   (setq cacoo:img-regexp
@@ -4096,7 +4182,8 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ライトでも，ダークでもいい感じのコントラストのテーマで人気らしい．
 #+BEGIN_SRC emacs-lisp +n
   ;; color-theme-solarized
-  ;; (my-safe-require 'color-theme-solarized
+  ;; (use-package color-theme-solarized
+  ;;   :config
   ;;   (color-theme-solarized-dark))
   )
 #+END_SRC
@@ -4106,14 +4193,16 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "pink-bliss.el")
-;; (my-safe-require 'pink-bliss
+;; (use-package pink-bliss
+;;   :config
 ;;   (pink-bliss))
 #+END_SRC
 ** viewer.el
 view-mode を便利に．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "viewer.el")
-(my-safe-require 'viewer
+(use-package viewer
+  :config
   (setq view-read-only t)
   ;; 書き込み不能なファイルはview-modeで開くように
   (viewer-stay-in-setup)
@@ -4214,7 +4303,8 @@ view-mode を便利に．
 #+BEGIN_SRC emacs-lisp +n
 (setq-default bm-buffer-persistence t)
 (setq bm-restore-repository-on-load t)
-(my-safe-require 'bm
+(use-package bm
+  :config
   (setq bm-highlight-style 'bm-highlight-only-fringe)  ; fringe にのみ表示
   (add-hook 'after-init-hook 'bm-repository-load)
   (add-hook 'find-file-hooks 'bm-buffer-restore)
@@ -4233,9 +4323,10 @@ view-mode を便利に．
 ;;; (auto-install-from-emacswiki "one-key.el")
 ;;; (auto-install-from-emacswiki "one-key-config.el")
 ;;; (auto-install-from-emacswiki "one-key-default.el")
-;; (my-safe-require 'one-key
-;;   (my-safe-require 'one-key-default)                       ; one-key.el も一緒に読み込んでくれる
-;;   (my-safe-require 'one-key-config)                        ; one-key.el の基本設定をしてくれる
+;; (use-package one-key
+;;   :config
+;;   (use-package one-key-default)                       ; one-key.el も一緒に読み込んでくれる
+;;   (use-package one-key-config)                        ; one-key.el の基本設定をしてくれる
 ;;   (one-key-default-setup-keys)                     ; one-key- で始まるメニュー使える様になる
 ;;   (setq one-key-help-window-max-height 40)         ; ウィンドウの最大高さ
 ;;                                         ; nil だとものすごい大きい *One-Key* バッファが一面に広がってしまうことがあるので。
@@ -4281,7 +4372,8 @@ view-mode を便利に．
 キーボード同時押しでコマンドを実行する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "key-chord.el")
-(my-safe-require 'key-chord
+(use-package key-chord
+  :config
   (setq key-chord-two-keys-delay 0.05)
   (setq key-chord-one-keys-delay 0.05)
   (key-chord-mode 1)
@@ -4319,7 +4411,8 @@ Common Lisp 用マイナーモード．HyperSpec という Common Lisp 用のリ
 #+BEGIN_SRC emacs-lisp +n
 ;;; $ cvs -d :pserver:anonymous:anonymous@common-lisp.net:/project/slime/cvsroot co slime
 (setq inferior-lisp-program "clisp")
-(my-safe-require 'slime
+(use-package slime
+  :config
   (slime-setup)
   ;; 日本語利用
   (setq slime-net-coding-system 'utf-8-unix)
@@ -4331,7 +4424,8 @@ Common Lisp 用マイナーモード．HyperSpec という Common Lisp 用のリ
 Emacs から xdvi に飛ぶ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://xdvi.sourceforge.net/xdvi-search.el")
-(my-safe-require 'xdvi-search
+(use-package xdvi-search
+  :config
   (add-hook 'yatex-mode-hook
             '(lambda ()
                (YaTeX-define-key (kbd "C-d") 'xdvi-jump-to-line)))
@@ -4355,7 +4449,8 @@ minibufferで履歴検索．
 - [[https://github.com/m2ym/popwin-el][m2ym/popwin-el]]
 ポップアップウィンドウインターフェースを提供．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'popwin
+(use-package popwin
+  :config
   (setq display-buffer-function 'popwin:display-buffer)
   ;(setq special-display-function 'popwin:special-display-popup-window)   ; display-buffer-function を変更したくない場合こっち
   (setcar (member 'help-mode popwin:special-display-config)
@@ -4371,7 +4466,8 @@ minibufferで履歴検索．
   (add-to-list 'popwin:special-display-config '("*quickrun*" :position right :width 85))
   (eval-after-load "yatex"
     '(progn
-       (my-safe-require 'popwin-yatex
+       (use-package popwin-yatex
+         :config
          (push '("*YaTeX-typesetting*" :position right :width 80 :noselect t) popwin:special-display-config)
          (push '("** YaTeX HELP **" :position right :width 80 :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
@@ -4391,7 +4487,8 @@ minibufferで履歴検索．
 tex 中の数式をプレビューする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "latex-math-preview.el")
-(my-safe-require 'latex-math-preview
+(use-package latex-math-preview
+  :config
   (autoload 'latex-math-preview-expression "latex-math-preview" nil t)
   (autoload 'latex-math-preview-insert-symbol "latex-math-preview" nil t)
   (autoload 'latex-math-preview-save-image-file "latex-math-preview" nil t)
@@ -4430,7 +4527,8 @@ tex 中の数式をプレビューする．
 Emacs でツイッター．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/hayamiz/twittering-mode/raw/master/twittering-mode.el")
-(my-safe-require 'twittering-mode
+(use-package twittering-mode
+  :config
   ;(setq twittering-use-master-password t)
   (setq twittering-auth-method 'xauth)
   (setq twittering-username "kbkbkbkb1")
@@ -4451,10 +4549,11 @@ Emacs でツイッター．
 ** org-mode.el
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'org
+(use-package org
 #+END_SRC
 *** 一般的設定
 #+BEGIN_SRC emacs-lisp +n
+  :config
   (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
   (setq org-startup-truncated nil)
   (setq org-return-follows-link t)
@@ -4483,7 +4582,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; リンクが日本語で残念な感じにならないように
   (setq org-activate-links '(date bracket radio tag date footnote angle))
   ;; for MobileOrg
-  (my-safe-require 'org-mobile
+  (use-package org-mobile
+    :config
     (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
     (setq org-mobile-inbox-for-pull
           (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
@@ -4695,7 +4795,8 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; external plugin
 ;;; org-tree-slide.el
 ;;; (auto-install-from-url "https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el")
-  (my-safe-require 'org-tree-slide
+  (use-package org-tree-slide
+    :config
     (org-tree-slide-simple-profile)
     (setq org-tree-slide-heading-emphasis t)
     )
@@ -4770,7 +4871,8 @@ If specify ARG, the subtree starts ARGth level headline."
 ** org-reveal
 orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'ox-reveal
+(use-package ox-reveal
+  :config
   (defun org-reveal-open-new-link-filter (data backend info)
     "Add 'target=\"_blank\"' to <a> tag when exported by `ox-reveal'"
     (when (eq backend 'reveal)
@@ -4781,7 +4883,8 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 ** org-printer
 org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'org-printer
+(use-package org-printer
+  :config
   (setq org-printer-template-file (expand-file-name "template.org" org-directory))
   )
 #+END_SRC
@@ -4796,7 +4899,8 @@ Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; jaunte.el
 ;;; (auto-install-from-url "https://raw.github.com/kawaguchi/jaunte.el/master/jaunte.el")
-;(my-safe-require 'jaunte
+;(use-package jaunte
+;  :config
 ;  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
 ;  (setq jaunte-hint-unit 'symbol)
 ;  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
@@ -4850,7 +4954,8 @@ Hit a Hint でカーソル移動するライブラリ．
 ;; prefix 変更。require の前にしないといけないっぽい
 ;; (setq win:switch-prefix "\C-z")
 ;; (setq win:use-frame nil)   ; 新規にフレームを作らない
-;; (my-safe-require 'windows
+;; (use-package windows
+;;   :config
 ;;   ;(win:startup-with-window)               ; 起動時に window1 を選択する？
 ;;   (define-key ctl-x-map (kbd "C-c") 'see-you-again)
 ;;   (define-key ctl-x-map (kbd "C") 'save-buffers-kill-emacs)
@@ -4926,7 +5031,8 @@ Hit a Hint でカーソル移動するライブラリ．
 - [[http://sourceforge.net/projects/php-mode/][PHP mode for Emacs | Free Development software downloads at SourceForge.net]]
 phpファイルを扱う．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'php-mode
+(use-package php-mode
+  :config
   (add-hook 'php-mode-user-hook
             '(lambda ()
                (setq tab-width 2)
@@ -4950,7 +5056,8 @@ Emacs でMozcを使う．要 mozc-emacs-helper．
 Emacsでibusを使えるようにする．これで mozc が使える．
 #+BEGIN_SRC emacs-lisp +n
 (when (linuxp)
-  (my-safe-require 'ibus
+  (use-package ibus
+    :config
     ;; Turn on ibus-mode automatically after loading .emacs
     (add-hook 'after-init-hook 'ibus-mode-on)
     ;; Use C-SPC for Set Mark command
@@ -4974,7 +5081,8 @@ Emacsでibusを使えるようにする．これで mozc が使える．
 - [[http://sourceforge.net/projects/emacs-session/files/][Session Management for Emacs - Browse Files at SourceForge.net]]
 Emacsが終了した時のミニバッファ履歴やカーソル位置を保存する．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'session
+(use-package session
+  :config
   (add-hook 'after-init-hook 'session-initialize)
   (setq session-globals-include '((kill-ring 50)
                                   (session-file-alist 500 t)
@@ -5008,7 +5116,8 @@ elisp インストーラ．Emacsテクニックバイブルより
 非同期自動バイトコンパイル．Emacsテクニックバイブル より．
 #+BEGIN_SRC emacs-lisp +n
 ;; (auto-install-from-emacswiki "auto-async-byte-compile.el")
-;(my-safe-require 'auto-async-byte-compile
+;(use-package auto-async-byte-compile
+;  :config
 ;  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
 ;  (setq auto-async-byte-compile-exclude-files-regexp "diary\\|/junk/")
 ;  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
@@ -5018,7 +5127,8 @@ elisp インストーラ．Emacsテクニックバイブルより
 最近開いたファイルを開く．Emacsテクニックバイブルより．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki recentf-ext.el)
-(my-safe-require 'recentf-ext
+(use-package recentf-ext
+  :config
   ;; 最近のファイル3000個を保存する
   (setq recentf-max-saved-items 3000)
   ;; 最近使ったファイルに加えないファイルを正規表現で指定する
@@ -5061,7 +5171,8 @@ do nothing. And suppress the output from `message' and
 シェルの強化．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://namazu.org/~tsuchiya/elisp/shell-command.el")
-(my-safe-require 'shell-command
+(use-package shell-command
+  :config
   (shell-command-completion-mode))
 #+END_SRC
 ** display-deadline.el
@@ -5108,7 +5219,8 @@ do nothing. And suppress the output from `message' and
     ;; auto-complete-latex.el
     ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
     ;; https://bitbucket.org/tequilasunset/auto-complete-latex/src
-    ;; (my-safe-require 'auto-complete-latex
+    ;; (use-package auto-complete-latex
+    ;;   :config
     ;;   (setq ac-l-dict-directory
     ;;         (expand-file-name "ac-l-dict/"
     ;;                           (file-name-directory (locate-library "auto-complete-latex"))))
@@ -5255,9 +5367,10 @@ do nothing. And suppress the output from `message' and
 引数をミニバッファに表示する．
 #+BEGIN_SRC emacs-lisp +n
 ;; Use Emacs23's eldoc
-(my-safe-require 'eldoc
+(use-package eldoc
+  :config
   ;; (auto-install-from-emacswiki "eldoc-extension.el")
-  ;;(my-safe-require 'eldoc-extension)  ; これをつけるとWarningが起こるのでとりあえず
+  ;;(use-package eldoc-extension)  ; これをつけるとWarningが起こるのでとりあえず
   (setq eldoc-idle-delay 0.05)
   (setq eldoc-echo-area-use-multiline-p t)
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
@@ -5279,7 +5392,8 @@ do nothing. And suppress the output from `message' and
 ** auto-complete.el
 ポップアップメニューで自動補完．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-require 'auto-complete-config
+(use-package auto-complete-config
+  :config
   ;; メジャーモードに関する辞書
   (add-to-list 'ac-dictionary-directories
                (locate-user-emacs-file "ac-dict"))
@@ -5316,7 +5430,8 @@ do nothing. And suppress the output from `message' and
   (define-key ac-complete-mode-map (kbd "M-h") 'ac-quick-help)
 
   ;; camelCase 補完
-  (my-safe-require 'ac-camel-case
+  (use-package ac-camel-case
+    :config
     (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
       (add-to-list source (cons 'match 'ac-camel-case-lisp-all-completion))))
 
@@ -5330,7 +5445,8 @@ do nothing. And suppress the output from `message' and
 スペルチェック．
 #+BEGIN_SRC emacs-lisp +n
 ;; コマンドの設定
-(my-safe-require 'ispell
+(use-package ispell
+  :config
   (setq ispell-program-name "aspell")
   (setq ispell-grep-command "grep") ; デフォルトの egrep が Cygwin ではシンボリックリンク
                                         ; なので，Meadow から起動できない
@@ -5348,7 +5464,8 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 ;; migemo.el
 (when (executable-find "cmigemo")
-  (my-safe-require 'migemo
+  (use-package migemo
+    :config
     (setq migemo-command "cmigemo")
     (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
     (cond ((linuxp)
