@@ -3098,10 +3098,10 @@ vim エミュレータ
 #+END_SRC
 ** save-load-path.el
 #+BEGIN_SRC emacs-lisp +n
-(when (linuxp)
-  (use-package save-load-path
-    :config
-    (save-load-path-initialize)))
+(use-package save-load-path
+  :if (linuxp)
+  :config
+  (save-load-path-initialize))
 #+END_SRC
 ** wrap-region.el
 リージョンを特定文字で囲む
@@ -3319,19 +3319,19 @@ Emacs からはてなダイアリーに投稿する．
 #+BEGIN_SRC emacs-lisp +n
 (setq *yhtn:account-info-file* "~/.yhtn-account-info.el") ; デフォルトは .yhtn:account-~~~ だが Ubuntu 環境だと
                                                           ; そのファイル名が認識できない？のかロードできない
-(when (file-exists-p *yhtn:account-info-file*)
-  (use-package ya-hatena-mode
-    :config
-    ;; key bind
-    (define-key ya-hatena-mode-map "\C-cp" nil)
-    (define-key ya-hatena-mode-map "\C-cd" nil)
-    (define-key ya-hatena-mode-map "\C-cq" nil)
-    (define-key ya-hatena-mode-map "\C-cm" nil)
-    (define-key ya-hatena-mode-map (kbd "C-c C-p") 'yhtn:d:post-blog-collection-buffer)
-    (define-key ya-hatena-mode-map (kbd "C-c C-d") 'yhtn:d:post-draft-collection-buffer)
-    (define-key ya-hatena-mode-map (kbd "C-c C-q") 'yhtn:d:quit)
-    (define-key ya-hatena-mode-map (kbd "C-c C-m") 'yhtn:d:action)
-    ))
+(use-package ya-hatena-mode
+  :if (file-exists-p *yhtn:account-info-file*)
+  :config
+  ;; key bind
+  (define-key ya-hatena-mode-map "\C-cp" nil)
+  (define-key ya-hatena-mode-map "\C-cd" nil)
+  (define-key ya-hatena-mode-map "\C-cq" nil)
+  (define-key ya-hatena-mode-map "\C-cm" nil)
+  (define-key ya-hatena-mode-map (kbd "C-c C-p") 'yhtn:d:post-blog-collection-buffer)
+  (define-key ya-hatena-mode-map (kbd "C-c C-d") 'yhtn:d:post-draft-collection-buffer)
+  (define-key ya-hatena-mode-map (kbd "C-c C-q") 'yhtn:d:quit)
+  (define-key ya-hatena-mode-map (kbd "C-c C-m") 'yhtn:d:action)
+  )
 #+END_SRC
 ** kogiku.el
 - [[http://kogiku.sourceforge.jp/][小菊]]
@@ -3449,6 +3449,7 @@ Emacs から git を操作するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;; magit.el
 (use-package magit
+  :if (executable-find "git")
   :config
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
   (setq magit-diff-refine-hunk 'all)
@@ -3564,10 +3565,10 @@ hilight current column.
 cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
-(when (winp)
-  (use-package cygwin-mount
-    :config
-    (cygwin-mount-activate)))
+(use-package cygwin-mount
+  :if (winp)
+  :config
+  (cygwin-mount-activate))
 #+END_SRC
 ** zlc.el
 ミニバッファでの補完を zsh ライクにする．
@@ -3677,8 +3678,9 @@ mozrepl を通して firefox を操作する
 (use-package helm-config
   :config
   (helm-mode 1)
-  (when (executable-find "cmigemo")
-    (use-package helm-migemo)
+  (use-package helm-migemo
+    :if (executable-find "cmigemo")
+    :config
     ;; `candidates-in-buffer' でmigemoれるように再定義
     (defun helm-compile-source--candidates-in-buffer (source)
       (helm-aif (assoc 'candidates-in-buffer source)
@@ -5055,27 +5057,27 @@ Emacs でMozcを使う．要 mozc-emacs-helper．
 - [[http://www11.atwiki.jp/s-irie/pages/21.html][irie @ ウィキ - ibus.el]]
 Emacsでibusを使えるようにする．これで mozc が使える．
 #+BEGIN_SRC emacs-lisp +n
-(when (linuxp)
-  (use-package ibus
-    :config
-    ;; Turn on ibus-mode automatically after loading .emacs
-    (add-hook 'after-init-hook 'ibus-mode-on)
-    ;; Use C-SPC for Set Mark command
-    (ibus-define-common-key ?\C-\s nil)
-    ;; Use C-/ for Undo command
-    (ibus-define-common-key ?\C-/ nil)
-    ;; Change cursor color depending on IBus status
-    (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
-    ;; Use C-\ for ibus-toggle
-    (global-set-key (kbd "C-\\") 'ibus-toggle)
-    ;; preedit 中に有効にしたいキーバインドは `ibus-define-preedit-key' で追加する
-    (ibus-define-preedit-key 'A-v t)
-    ;(ibus-define-preedit-key 'C-h t)
-    ;; isearch で ibus を無効にする
-    (ibus-disable-isearch)
-    ;; isearch 中はカーソル形状変更
-    (setq ibus-isearch-cursor-type 'hollow)
-    ))
+(use-package ibus
+  :if (linuxp)
+  :config
+  ;; Turn on ibus-mode automatically after loading .emacs
+  (add-hook 'after-init-hook 'ibus-mode-on)
+  ;; Use C-SPC for Set Mark command
+  (ibus-define-common-key ?\C-\s nil)
+  ;; Use C-/ for Undo command
+  (ibus-define-common-key ?\C-/ nil)
+  ;; Change cursor color depending on IBus status
+  (setq ibus-cursor-color '("limegreen" "yellow" "light gray"))
+  ;; Use C-\ for ibus-toggle
+  (global-set-key (kbd "C-\\") 'ibus-toggle)
+  ;; preedit 中に有効にしたいキーバインドは `ibus-define-preedit-key' で追加する
+  (ibus-define-preedit-key 'A-v t)
+  ;(ibus-define-preedit-key 'C-h t)
+  ;; isearch で ibus を無効にする
+  (ibus-disable-isearch)
+  ;; isearch 中はカーソル形状変更
+  (setq ibus-isearch-cursor-type 'hollow)
+  )
 #+END_SRC
 ** session.el
 - [[http://sourceforge.net/projects/emacs-session/files/][Session Management for Emacs - Browse Files at SourceForge.net]]
@@ -5463,25 +5465,25 @@ do nothing. And suppress the output from `message' and
 ローマ字で日本語検索．Windows 用 dll ではなく，Cygwin でビルドすることにした．
 #+BEGIN_SRC emacs-lisp +n
 ;; migemo.el
-(when (executable-find "cmigemo")
-  (use-package migemo
-    :config
-    (setq migemo-command "cmigemo")
-    (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
-    (cond ((linuxp)
-           (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")) ; migemo-dict のパスを指定
-          (t
-           (setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")))
-    (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
-    (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
-    (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
-    (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
-    ;; キャッシュ機能を利用する
-    (setq migemo-use-pattern-alist t)
-    (setq migemo-use-frequent-pattern-alist t)
-    (setq migemo-pattern-alist-length 1024)
-    ;; 起動時に初期化も行う
-    (migemo-init)))
+(use-package migemo
+  :if (executable-find "cmigemo")
+  :config
+  (setq migemo-command "cmigemo")
+  (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
+  (cond ((linuxp)
+         (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")) ; migemo-dict のパスを指定
+        (t
+         (setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")))
+  (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
+  (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
+  (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
+  (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
+  ;; キャッシュ機能を利用する
+  (setq migemo-use-pattern-alist t)
+  (setq migemo-use-frequent-pattern-alist t)
+  (setq migemo-pattern-alist-length 1024)
+  ;; 起動時に初期化も行う
+  (migemo-init))
 #+END_SRC
 ** emacs-w3m
 #+BEGIN_SRC emacs-lisp +n
