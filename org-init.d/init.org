@@ -1512,8 +1512,11 @@ Org-mode のデフォルトと揃えた．
 #+END_SRC
 ** IME
 *** Windows
+- [[https://github.com/chuntaro/NTEmacs64][chuntaro/NTEmacs64]] バージョン24.4からこちらのバイナリを利用中。感謝。
+IMEパッチを当てていると自動で =w32-ime.el= をロードするので、それでIMEパッチ
+の有無を判定する。
 #+BEGIN_SRC emacs-lisp +n
-(when (and (winp) (fboundp 'w32-ime-initialize))
+(when (and (winp) (featurep 'w32-ime))
   (setq default-input-method "W32-IME")         ;標準IMEの設定
   (w32-ime-initialize)                 ;IMEの初期化
   (set-cursor-color "yellow")          ;IME OFF時の初期カーソルカラー
