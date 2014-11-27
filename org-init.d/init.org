@@ -4006,7 +4006,7 @@ matlab の引数を表示．
     (define-key helm-map (kbd "C-c C-a") 'occur-from-helm-occur))
   ; moccur-edit
   ; (auto-install-from-url "http://www.bookshelf.jp/elc/moccur-edit.el")
-  (my-safe-load "moccur-edit"))
+  (use-package moccur-edit))
 #+END_SRC
 ** xdoc2txt.el
 - [[http://www.bookshelf.jp/soft/meadow_23.html#SEC238][Meadow/Emacs memo: ファイルを開く関連]]
@@ -4074,7 +4074,7 @@ html 編集モード．
 ** htmlize.el
 Emacs のハイライトをそのまま html に変換
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-load "htmlize")
+(use-package htmlize :defer t)
 #+END_SRC
 ** approx-search.el
 - [[http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el][(Scheme) (Lisp)]]
@@ -4979,7 +4979,8 @@ Hit a Hint でカーソル移動するライブラリ．
 ** elscreen.el
 ウィンドウの分割情報を保持しておく．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-load "elscreen"
+(use-package "elscreen"
+  :config
   (setq elscreen-display-tab 10)
   (setq elscreen-tab-display-kill-screen nil) ; タブのXを非表示
   (global-set-key (kbd "C-S-n") 'elscreen-next)
@@ -5173,7 +5174,7 @@ do nothing. And suppress the output from `message' and
 #+END_SRC
 ** google.el
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-load "google")
+(use-package google :defer t)
 #+END_SRC
 ** shell-command.el
 シェルの強化．
@@ -5385,7 +5386,8 @@ do nothing. And suppress the output from `message' and
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
 ;; use c-eldoc
-(my-safe-load "c-eldoc"
+(use-package c-eldoc :defer t
+  :config
   (add-hook 'c-mode-hook
             (lambda ()
               (set (make-local-variable 'eldoc-idle-delay) 0.20)
@@ -5395,7 +5397,7 @@ do nothing. And suppress the output from `message' and
 ** dabbrev-ja.el
 日本語でも快適に動的略語展開．
 #+BEGIN_SRC emacs-lisp +n
-(my-safe-load "dabbrev-ja")
+(use-package dabbrev-ja :defer t)
 #+END_SRC
 ** auto-complete.el
 ポップアップメニューで自動補完．
