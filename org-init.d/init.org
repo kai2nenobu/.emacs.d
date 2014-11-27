@@ -4591,18 +4591,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
                           ))
   ;; リンクが日本語で残念な感じにならないように
   (setq org-activate-links '(date bracket radio tag date footnote angle))
-  ;; for MobileOrg
-  (use-package org-mobile
-    :config
-    (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
-    (setq org-mobile-inbox-for-pull
-          (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
-    (add-to-list 'org-agenda-files org-mobile-inbox-for-pull t)
-    (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
-    )
-  ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
-  (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
-  (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
   ;; tag
   (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
@@ -4836,6 +4824,24 @@ If specify ARG, the subtree starts ARGth level headline."
     (when (string-match "pre.src {[^}]*\\(padding-top: 1.2em;\\)[^}]*}" org-html-style-default)
       (setq org-html-style-default
             (replace-match "" t t org-html-style-default 1)))
+    )
+#+END_SRC
+*** org-mobile
+スマホ連携。
+- [[https://github.com/matburt/mobileorg-android/wiki][Android実装]]
+- [[http://mobileorg.ncogni.to/][iOS実装]]
+#+BEGIN_SRC emacs-lisp
+  (use-package org-mobile :defer t
+    :init
+    (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
+    :config
+    (setq org-mobile-directory (expand-file-name "MobileOrg" dropbox-directory))
+    (setq org-mobile-inbox-for-pull
+          (expand-file-name "mobile-capture.org" org-directory)) ; MobileOrg のキャプチャをかきこむファイル
+    (add-to-list 'org-agenda-files org-mobile-inbox-for-pull t)
+    ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
+    (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
+    (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
     )
 #+END_SRC
 *** 最後のカッコ
