@@ -2056,9 +2056,11 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** winner.el
 ウィンドウ構成の変更履歴を辿れる．
 #+BEGIN_SRC emacs-lisp +n
-(use-package winner
+(use-package winner :defer t
+  :commands (winner-undo winner-redo)
+  :init
+  (bind-key "C-/" 'winner-undo my-original-map)
   :config
-  (define-key my-original-map (kbd "C-/") 'winner-undo)
   (winner-mode 1))
 #+END_SRC
 ** whitespace.el
