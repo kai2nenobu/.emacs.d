@@ -4574,9 +4574,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
   (setq org-directory (expand-file-name "memo"  dropbox-directory))
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
-  (setq org-html-coding-system 'utf-8)
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
-  (setq org-html-htmlize-output-type 'css)
   (setq org-src-preserve-indentation nil)
   (setq org-edit-src-content-indentation 0)
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
@@ -4605,10 +4603,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; org-mobile-files のデフォルトは (org-agenda-files)．item.org を追加
   (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
   (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
-  ;; `org-html-style-default' を修正
-  (when (string-match "pre.src {[^}]*\\(padding-top: 1.2em;\\)[^}]*}" org-html-style-default)
-    (setq org-html-style-default
-          (replace-match "" t t org-html-style-default 1)))
   ;; tag
   (setq org-tag-alist '(("Bookmark" . ?b) ("Job" . ?j)
                         ("Emacs" . ?) ("Research" . ?r) ("Lab" . ?l) ("Misc" . ?m)
@@ -4831,6 +4825,18 @@ If specify ARG, the subtree starts ARGth level headline."
         (org-mark-subtree)
         (org-export-as-html-and-open nil))))
   (define-key org-mode-map (kbd "C-c h") 'org-my-export-as-html-current-subtree)
+#+END_SRC
+*** ox-html
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-html :defer t
+    :config
+    (setq org-html-coding-system 'utf-8)
+    (setq org-html-htmlize-output-type 'css)
+    ;; `org-html-style-default' を修正
+    (when (string-match "pre.src {[^}]*\\(padding-top: 1.2em;\\)[^}]*}" org-html-style-default)
+      (setq org-html-style-default
+            (replace-match "" t t org-html-style-default 1)))
+    )
 #+END_SRC
 *** 最後のカッコ
 #+BEGIN_SRC emacs-lisp
