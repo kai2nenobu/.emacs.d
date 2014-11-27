@@ -16,7 +16,8 @@
   (package-initialize))
 
 ;; use-packageを利用する（存在しない場合は無視する）
-(unless (require 'use-package nil t)
+(if (require 'use-package nil t)
+    (setq use-package-verbose t)
   (message "Use-package is unavailable!")
   (defmacro use-package (&rest args)))
 
