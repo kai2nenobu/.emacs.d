@@ -2473,13 +2473,6 @@ generic を用いて予め定義されているモード．
 ** visual-basic-mode
 VBの編集用メジャーモード。
 #+BEGIN_SRC emacs-lisp +n
-(defun visual-basic-mode-hook-function ()
-  (set (make-local-variable 'outline-regexp) "^\\(Private\\|Public\\|Sub\\|Function\\|Dim\\)")
-  (set (make-local-variable 'outline-level) 'visual-basic-mode-outline-level)
-  )
-(defun visual-basic-mode-outline-level ()
-  1)
-(add-hook 'visual-basic-mode-hook 'visual-basic-mode-hook-function)
 (use-package visual-basic-mode
   :mode (("\\.vb\\'"  . visual-basic-mode)
          ("\\.vbs\\'" . visual-basic-mode)
@@ -2487,6 +2480,14 @@ VBの編集用メジャーモード。
          ("\\.bas\\'" . visual-basic-mode)
          ("\\.frm\\'" . visual-basic-mode)
          ("\\.cls\\'" . visual-basic-mode))
+  :init
+  (defun visual-basic-mode-hook-function ()
+    (set (make-local-variable 'outline-regexp) "^\\(Private\\|Public\\|Sub\\|Function\\|Dim\\)")
+    (set (make-local-variable 'outline-level) 'visual-basic-mode-outline-level)
+    )
+  (defun visual-basic-mode-outline-level ()
+    1)
+  (add-hook 'visual-basic-mode-hook 'visual-basic-mode-hook-function)
   :config
   (setq visual-basic-mode-indent 4)
   (eval-after-load "auto-complete"
