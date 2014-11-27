@@ -4851,7 +4851,10 @@ If specify ARG, the subtree starts ARGth level headline."
 ** org-reveal
 orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
 #+BEGIN_SRC emacs-lisp +n
-(use-package ox-reveal
+(use-package ox-reveal :defer t
+  :init
+  (defadvice org-export-dispatch (before load-reveal activate)
+    (require 'ox-reveal nil t))
   :config
   (defun org-reveal-open-new-link-filter (data backend info)
     "Add 'target=\"_blank\"' to <a> tag when exported by `ox-reveal'"
