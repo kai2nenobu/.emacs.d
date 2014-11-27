@@ -2236,7 +2236,9 @@ Emacs で pdf 閲覧する．
 ** eshell.el
 Emacs lisp によるシェル．リダイレクトがないのがきつい．
 #+BEGIN_SRC emacs-lisp +n
-  (lazyload (eshell) "eshell"
+  (use-package eshell :defer t
+    :commands (eshell)
+    :config
     ;; 補完時に大文字小文字を区別しない
     (setq eshell-cmpl-ignore-case t)
     ;; 確認なしでヒストリ保存
@@ -3017,18 +3019,19 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 - [[https://github.com/imakado/emoji][imakado/emoji]]
 
 #+BEGIN_SRC emacs-lisp +n
-(lazyload (emoji-complete-pictogram) "emoji"
+(use-package emoji :defer t
+  :bind ("C-x 8 e" . emoji-complete-pictogram)
+  :config
   (defvar emoji-my-carrier "ezweb" "My carrier for emoji")
   (defadvice emoji-complete-pictogram (after display-image-buffer activate)
     (emoji-display-images-buffer emoji-my-carrier))
   )
-(global-set-key (kbd "C-x 8 e") 'emoji-complete-pictogram)
 #+END_SRC
 ** highlight-indentation
 #+BEGIN_SRC emacs-lisp +n
 ;;; highlight-indentation.el
-(lazyload (highlight-indentation-mode
-           highlight-indentation-current-column-mode) "highlight-indentation"
+(use-package highlight-indentation :defer t
+  :commands (highlight-indentation-mode highlight-indentation-current-column-mode)
   )
 #+END_SRC
 ** eev
@@ -3434,11 +3437,10 @@ IDE的なウィンドウ管理をしてくれるライブラリ．設定され�
 ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
 #+BEGIN_SRC emacs-lisp +n
 ;; e2wm.el
-;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-layout/raw/master/window-layout.el")
-;; (auto-install-from-url "http://github.com/kiwanami/emacs-window-manager/raw/master/e2wm.el")
-(setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
-(global-set-key (kbd "M-+") 'e2wm:start-management)
-(lazyload (e2wm:start-management) "e2wm"
+(use-package e2wm
+  :bind ("M-+" . e2wm:start-management)
+  :config
+  (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
 #+END_SRC
 どうも elscreen などのフレーム制御系のライブラリと相性が悪そう．
 *** e2wm-vcs.el
@@ -4184,7 +4186,9 @@ Emacs の色付けをいろいろなテーマから選べる． 組み込みの�
 #+BEGIN_SRC emacs-lisp +n
 ;;; color-theme.el
 ;;; (auto-install-from-emacswiki "color-theme.el")
-(lazyload (color-theme-select) "color-theme"
+(use-package color-theme :defer t
+  :commands (color-theme-select)
+  :config
   (color-theme-initialize)
 #+END_SRC
 *** color-theme-solarized.el
