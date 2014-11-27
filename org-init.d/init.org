@@ -4814,6 +4814,10 @@ If specify ARG, the subtree starts ARGth level headline."
         (org-export-as-html-and-open nil))))
   (define-key org-mode-map (kbd "C-c h") 'org-my-export-as-html-current-subtree)
 #+END_SRC
+*** orgの設定終了
+#+BEGIN_SRC emacs-lisp
+  )
+#+END_SRC
 *** ox-html
 #+BEGIN_SRC emacs-lisp
   (use-package ox-html :defer t
@@ -4843,10 +4847,6 @@ If specify ARG, the subtree starts ARGth level headline."
     (add-to-list 'org-mobile-files (expand-file-name "item.org" org-directory))
     (add-to-list 'org-mobile-files (expand-file-name "lecture.org" org-directory))
     )
-#+END_SRC
-*** 最後のカッコ
-#+BEGIN_SRC emacs-lisp
-  )
 #+END_SRC
 ** org-reveal
 orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
