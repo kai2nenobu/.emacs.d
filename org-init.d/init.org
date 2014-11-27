@@ -2713,7 +2713,9 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 - [[http://d.hatena.ne.jp/syohex/20130202/1359814263][direx.elの設定 - Life is very short]]
 ツリー表示ができる dired．ファイルを操作する機能はまだ限定的．
 #+BEGIN_SRC emacs-lisp +n
-(use-package direx
+(use-package direx :defer t
+  :commands direx:my-jump
+  :bind ("C-x C-d" . direx:my-jump)
   :config
   (use-package direx-project)
   ;; アイコンに画像を使う
@@ -2735,7 +2737,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
         direx:closed-icon "> "
         direx:open-icon   "v ")
   ;; キーバインド
-  (define-key ctl-x-map (kbd "C-d") 'direx:my-jump)
   (define-key direx:direx-mode-map (kbd "d") 'direx:down-item)
   (define-key direx:direx-mode-map (kbd "u") 'direx:up-item)
   (define-key direx:direx-mode-map (kbd "f") 'direx:next-sibling-item)
@@ -2776,11 +2777,10 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+END_SRC
 ** multiple-cursor
 #+BEGIN_SRC emacs-lisp +n
-(use-package multiple-cursors
-  :config
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package multiple-cursors :defer t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("M-R" . mc/mark-all-dwim))
   )
 #+END_SRC
 ** mark-multiple.el
@@ -3270,20 +3270,19 @@ Emacs で開発環境．
 ** open-junk-file.el
 試行錯誤用ファイルを開く．
 #+BEGIN_SRC emacs-lisp +n
-(use-package open-junk-file
+(use-package open-junk-file :defer t
+  :bind ("C-c j" . open-junk-file)
   :config
   (setq open-junk-file-format
         (locate-user-emacs-file "junk/%Y/%m/%d-%H%M%S-junk."))
-  (define-key mode-specific-map (kbd "j") 'open-junk-file)
   )
 #+END_SRC
 ** lispxmp.el
 式の評価結果を注釈する．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "lispxmp.el")
-(use-package lispxmp
-  :config
-  (define-key emacs-lisp-mode-map (kbd "C-c C-d") 'lispxmp)
+(use-package lispxmp :defer t
+  :bind ("C-c C-d" . lispxmp)
   )
 #+END_SRC
 ** paredit.el
@@ -3995,12 +3994,12 @@ matlab の引数を表示．
 強化版 occur．moccur をもとに改造したらしい．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.bookshelf.jp/elc/color-moccur.el")
-(use-package color-moccur
+(use-package color-moccur :defer t
+  :bind ("M-s o" . occur-by-moccur)
   :config
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
-  (global-set-key (kbd "M-s o") 'occur-by-moccur)
   (with-eval-after-load "helm"
     ;; helm-occurからmoccurを発動する
     (defun occur-from-helm-occur ()
@@ -4096,9 +4095,8 @@ Emacs のハイライトをそのまま html に変換
 同一フレーム内に speedbar を作る．そんなに使い方を理解していない．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "sr-speedbar.el")
-(use-package sr-speedbar
-  :config
-  (global-set-key (kbd "H-s") 'sr-speedbar-toggle))
+(use-package sr-speedbar :defer t
+  :bind ("H-s" . sr-speedbar-toggle))
 #+END_SRC
 ** cacoo.el
 - [[http://d.hatena.ne.jp/kiwanami/20110303/1299174459][cacoo.el v2.0 リリース - 技術日記＠kiwanami]]
@@ -4315,10 +4313,13 @@ view-mode を便利に．
 ** bm.el
 可視ブックマークをつける。たぶん本来のブックマークとは違うけど。
 #+BEGIN_SRC emacs-lisp +n
-(setq-default bm-buffer-persistence t)
-(setq bm-restore-repository-on-load t)
-(use-package bm
+(use-package bm :defer t
+  :bind (("M-M" . bm-toggle)
+         ("M-[" . bm-previous)
+         ("M-]" . bm-next))
   :config
+  (setq-default bm-buffer-persistence t)
+  (setq bm-restore-repository-on-load t)
   (setq bm-highlight-style 'bm-highlight-only-fringe)  ; fringe にのみ表示
   (add-hook 'after-init-hook 'bm-repository-load)
   (add-hook 'find-file-hooks 'bm-buffer-restore)
@@ -4328,9 +4329,7 @@ view-mode を便利に．
   (add-hook 'kill-emacs-hook '(lambda ()
                                 (bm-buffer-save-all)
                                 (bm-repository-save)))
-  (global-set-key (kbd "M-M") 'bm-toggle)
-  (global-set-key (kbd "M-[") 'bm-previous)
-  (global-set-key (kbd "M-]") 'bm-next))
+  )
 #+END_SRC
 ** one-key.el
 #+BEGIN_SRC emacs-lisp +n
