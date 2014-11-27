@@ -2529,8 +2529,8 @@ VBの編集用メジャーモード。
 ** powershell-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package powershell-mode
+  :mode "\\.ps1\\'"
   :config
-  (add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode))
   (setq powershell-indent 2)
   )
 #+END_SRC
@@ -2551,8 +2551,9 @@ Windowsだと動かないくさい。
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package groovy-mode
+  :mode (("\\.groovy\\'" . groovy-mode)
+         ("\\.gradle\\'" . groovy-mode))
   :config
-  (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
   (add-hook 'groovy-mode-hook '(lambda () (c-set-style "java")))
   )
 #+END_SRC
@@ -2794,12 +2795,21 @@ package.el からインストール．
 合してしまうようだ．
 #+BEGIN_SRC emacs-lisp +n
 (use-package web-mode
+  :mode (("\\.phtml\\'"     . web-mode)
+         ("\\.tpl\\.php\\'" . web-mode)
+         ("\\.jsp\\'"       . web-mode)
+         ("\\.as[cp]x\\'"   . web-mode)
+         ("\\.erb\\'"       . web-mode)
+         ("\\.mustache\\'"  . web-mode)
+         ("\\.djhtml\\'"    . web-mode)
+         ("\\.html?\\'"     . web-mode)
+         ("\\.gsp\\'"       . web-mode))
+  :init
+  ;; web-modeをmagic-mode-alistで起動する
+  (dolist (cns magic-fallback-mode-alist)
+    (when (eq (cdr cns) 'html-mode)
+      (add-to-list 'magic-mode-alist (cons (car cns) 'web-mode))))
   :config
-  (dolist (ext '("\\.phtml\\'" "\\.tpl\\.php\\'" "\\.jsp\\'" "\\.as[cp]x\\'"
-                 "\\.erb\\'" "\\.mustache\\'" "\\.djhtml\\'" "\\.html?\\'"
-                 "\\.gsp\\'"))
-    (add-to-list 'auto-mode-alist (cons ext 'web-mode)))
-
   (define-key web-mode-map (kbd "C-c C-c") 'web-mode-tag-match)
 
   ;; timer
@@ -2815,12 +2825,6 @@ package.el からインストール．
   (defun web-mode-disable-my-eldoc ()
     (interactive)
     (setq web-mode-my-timer (cancel-timer web-mode-my-timer)))
-
-  ;; web-modeをmagic-mode-alistで起動する
-  (dolist (cns magic-fallback-mode-alist)
-    (when (eq (cdr cns) 'html-mode)
-      (add-to-list 'magic-mode-alist (cons (car cns) 'web-mode))))
-
   (add-hook 'web-mode-hook 'emmet-mode)
   )
 #+END_SRC
@@ -2847,16 +2851,11 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 バッチファイル編集用のメジャーモード．
 #+BEGIN_SRC emacs-lisp +n
 ;; (auto-install-from-url "http://ftp.gnu.org/old-gnu/emacs/windows/contrib/bat-mode.el")
-(setq auto-mode-alist
-       (append
-        (list (cons "\\.[bB][aA][tT]$" 'bat-mode))
-        ;; For DOS init files
-        (list (cons "CONFIG\\."   'bat-mode))
-        (list (cons "AUTOEXEC\\." 'bat-mode))
-        auto-mode-alist))
-
-(autoload 'bat-mode "bat-mode"
-      "DOS and Windows BAT files" t)
+(use-package bat-mode
+  :mode (("\\.[bB][aA][tT]$" . bat-mode)
+         ("CONFIG\\."        . bat-mode)
+         ("AUTOEXEC\\."      . bat-mode))
+  )
 #+END_SRC
 ** google-weather
 google 天気予報を使う．ロケールを日本にしたいがやり方がわからない．温度表記も
@@ -3531,8 +3530,10 @@ hilight current column.
 テンプレート挿入ライブラリ．柔軟性が高すぎて設定に困る．
 #+BEGIN_SRC emacs-lisp +n
 ;;;; yasnippet.el
-(lazyload (yas-expand yas-minor-mode helm-c-yas-complete) "yasnippet"
-  (add-to-list 'auto-mode-alist '("\\.\\(ya\\)?snippet\\'" . snippet-mode))
+(use-package yasnippet
+  :commands (yas-expand yas-minor-mode helm-c-yas-complete)
+  :mode "\\.\\(ya\\)?snippet\\'"
+  :config
   ;; キーバインドは以下を参考にした
   ;; http://emacs.g.hatena.ne.jp/Shinnya/20100805/1281034504
   (setq yas-trigger-key (kbd "<C-tab>"))      ; TAB だと auto-complete とかぶるので変更
