@@ -4744,8 +4744,8 @@ Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://chasen.org/~daiti-m/dist/postit.el")
 (use-package postit)
-今のところあまりつかっていない
 #+END_SRC
+今のところあまりつかっていない
 ** text-adjust.el
 - [[http://d.hatena.ne.jp/rubikitch/20090220/text_adjust][全角文字と半角文字の間に自動でスペースを開ける text-adjust.el を使ってみ
   た - (rubikitch loves (Emacs Ruby CUI Books))]]
