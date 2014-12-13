@@ -16,8 +16,10 @@
   (package-initialize))
 
 ;; use-packageを利用する（存在しない場合は無視する）
-(unless (require 'use-package nil t)
-  (defun use-package (&rest args)))
+(if (require 'use-package nil t)
+    (setq use-package-verbose t)
+  (message "Use-package is unavailable!")
+  (defmacro use-package (&rest args)))
 
 ;;; org-babel を使って初期化ファイルをロード
 (defvar org-init-directory (locate-user-emacs-file "org-init.d"))
