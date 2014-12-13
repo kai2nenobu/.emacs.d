@@ -2790,13 +2790,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
          ("M-R" . mc/mark-all-dwim))
   )
 #+END_SRC
-** mark-multiple.el
-#+BEGIN_SRC emacs-lisp +n
-(use-package mark-multiple
-  :config
-  (global-set-key (kbd "C-<") 'mark-previous-like-this)
-  (global-set-key (kbd "C->") 'mark-next-like-this)
-  )
 #+END_SRC
 ** web-mode.el
 - [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
@@ -3328,26 +3321,6 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   :config
   (setq highlight-80+-columns fill-column))
 #+END_SRC
-** ya-hatena-mode.el
-- [[https://github.com/takaishi/ya-hatena-mode][takaishi/ya-hatena-mode]]
-Emacs からはてなダイアリーに投稿する．
-#+BEGIN_SRC emacs-lisp +n
-(setq *yhtn:account-info-file* "~/.yhtn-account-info.el") ; デフォルトは .yhtn:account-~~~ だが Ubuntu 環境だと
-                                                          ; そのファイル名が認識できない？のかロードできない
-(use-package ya-hatena-mode
-  :if (file-exists-p *yhtn:account-info-file*)
-  :config
-  ;; key bind
-  (define-key ya-hatena-mode-map "\C-cp" nil)
-  (define-key ya-hatena-mode-map "\C-cd" nil)
-  (define-key ya-hatena-mode-map "\C-cq" nil)
-  (define-key ya-hatena-mode-map "\C-cm" nil)
-  (define-key ya-hatena-mode-map (kbd "C-c C-p") 'yhtn:d:post-blog-collection-buffer)
-  (define-key ya-hatena-mode-map (kbd "C-c C-d") 'yhtn:d:post-draft-collection-buffer)
-  (define-key ya-hatena-mode-map (kbd "C-c C-q") 'yhtn:d:quit)
-  (define-key ya-hatena-mode-map (kbd "C-c C-m") 'yhtn:d:action)
-  )
-#+END_SRC
 ** kogiku.el
 - [[http://kogiku.sourceforge.jp/][小菊]]
 #+BEGIN_SRC emacs-lisp +n
@@ -3361,38 +3334,12 @@ Emacs からはてなダイアリーに投稿する．
 (use-package nyan-mode)
 
 #+END_SRC
-** typing.el
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "typing.el")
-(autoload 'typing-of-emacs "typing" "The Typing Of Emacs, a game." t)
-#+END_SRC
-** simple-hatena-mode.el
-はてな編集用のメジャーモード．投稿機能あり．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://tuvalu.santafe.edu/~nelson/tools/html-helper-mode.el")
-;;; (auto-install-from-url "http://svn.coderepos.org/share/lang/elisp/simple-hatena-mode/tags/release-0.15/simple-hatena-mode.el")
-(use-package simple-hatena-mode
-  :config
-  (use-package html-helper-mode)
-  (setq simple-hatena-bin "hw.pl")
-  (setq simple-hatena-default-id "kbkbkbkb1"))
-#+END_SRC
 ** judge-indent.el
 - [[http://d.hatena.ne.jp/yascentur/20110626/1309099966][Emacs でインデント幅とタブ幅を自動判定するマイナーモード judge-indent.el -
   キーボードをたたくとき]]
 インデントの幅やタブを操作，モードラインに表示．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://raw.github.com/yascentur/judge-indent-el/1.0.0/judge-indent.el")
-#+END_SRC
-** jaspace.el
-全角空白を明示する．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://homepage3.nifty.com/satomii/software/jaspace.el")
-;; (use-package jaspace
-;;   :config
-;;   (setq jaspace-alternate-jaspace-string nil) ; Ricty で全角空白はわかるので nil にする．
-;;   (setq jaspace-alternate-eol-string "\xab\n"))
-;; やっぱ常に改行文字はうざかった
 (use-package judge-indent
   :config
   (global-judge-indent-mode t)
@@ -3931,32 +3878,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 もしれない．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://github.com/dimitri/switch-window/raw/master/switch-window.el")
-(use-package switch-window)
-#+END_SRC
-** hatena-diary-mode.el
-- [[http://hatena-diary-el.sourceforge.jp/][hatena-diary-mode For Emacs]]
-はてなダイアリーを編集，投稿するメジャーモード．
-#+BEGIN_SRC emacs-lisp +n
-;;; http://hatena-diary-el.sourceforge.jp/
-(use-package hatena-diary-mode
-  :config
-  (setq hatena-usrid "kbkbkbkb1")
-  (setq hatena-twitter-flag t)
-  (setq hatena-change-day-offset 0)
-  (setq hatena-default-coding-system 'utf-8-unix)
-  )
-#+END_SRC
-simple-hatena-mode のほうが良さそう．ただし，simple-hatena には web から日記を
-ダウンロードする機能がないので，そのために hatena-diary の方を残しておく．
-** hatenahelper-mode.el
-- [[http://d.hatena.ne.jp/amt/20060115/HatenaHelperMode][はてな記法を入力支援する hatenahelper-mode - おもてなしの空間]]
-はてなダイアリーの編集を支援するマイナーモード．
-#+BEGIN_SRC emacs-lisp +n
-(use-package hatenahelper-mode
-  :config
-  (add-hook 'hatena-diary-mode-hook
-            '(lambda ()
-               (hatenahelper-mode 1))))
+(use-package switch-window :defer t)
 #+END_SRC
 ** matlab-eldoc.el
 - [[http://d.hatena.ne.jp/uhiaha888/20101108/1289223580][matlabでもel-doc - uhiaha888の日記]]
@@ -4024,62 +3946,6 @@ pdf や word のテキスト部分を抽出して表示する．Windows 専用�
 #+BEGIN_SRC emacs-lisp +n
 ;; (when (winp)
 ;;   (my-safe-load "xdoc2txt.el"))
-#+END_SRC
-** mcomplete.el
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el")
-;(use-package mcomplete
-;  :config
-;  (turn-on-mcomplete-mode))
-#+END_SRC
-** popup-kill-ring.el
-キルリングをポップアップで表示．これの代わりに anything-show-kill-ring を使う
-ことにした．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "pos-tip.el")
-;;; (auto-install-from-emacswiki "popup-kill-ring.el")
-;; (use-package popup)
-;; (when (null window-system)
-;;   (use-package pos-tip))           ; terminal のときは pos-tip は使えないため．
-;; (use-package popup-kill-ring
-;;   :config
-;;   (global-set-key "\M-y" 'popup-kill-ring)
-;;   (setq pos-tip-background-color "red")
-;;   (setq popup-kill-ring-item-size-max 2000) ; サイズが 2000 以上の項目については、2000 までに切り捨てる。
-;;   (setq popup-kill-ring-timeout 0.1)        ; tooltip 表示までの delay
-;;   ;; Windows でも tooltip を表示するように defadvice
-;;   ;; Windows の時の window-system が考慮されていなかったのでそれを追加しただけ。
-;;   (defadvice popup-kill-ring-pos-tip-show (after popup-kill-ring-pos-tip-show-on-windows activate)
-;;     (when (eq window-system 'w32)
-;;       (pos-tip-show str popup-kill-ring-pos-tip-color pos nil 0 nil nil nil 0)))
-;;   ;; M-n, M-p で候補選択
-;;   (define-key popup-kill-ring-keymap (kbd "M-n") 'popup-kill-ring-next)
-;;   (define-key popup-kill-ring-keymap (kbd "M-p") 'popup-kill-ring-previous)
-;;   ;; yank の直後の場合は yank した文字列を消す
-;;   (defadvice popup-kill-ring (before popup-kill-ring-after-yank activate)
-;;     (when (eq last-command 'yank)
-;;       (undo)))     ; undo はすこし安直すぎるかもしれない
-;; )
-#+END_SRC
-** drill-instructor.el
-Emacs キーバインドを強制．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "drill-instructor.el")
-;; (use-package drill-instructor)
-;; (setq drill-instructor-global t)
-;; やっぱやめた
-#+END_SRC
-** yahtml.el
-html 編集モード．
-#+BEGIN_SRC emacs-lisp +n
-;(use-package yahtml
-;  :config
-;  (setq auto-mode-alist
-;        (cons (cons "\\.html$" 'yahtml-mode) auto-mode-alist))
-;  (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
-;  ;(setq yahtml-kanji-code 4)   ; setq で設定すると utf-8 で保存できない．defvar の時点で 4 にしとくといいけどなんでやねん．
-;  (setq yahtml-kanji-code 'utf-8-unix)
-;  (setq yahtml-www-browser "firefox"))
 #+END_SRC
 ** htmlize.el
 Emacs のハイライトをそのまま html に変換
@@ -4336,56 +4202,6 @@ view-mode を便利に．
                                 (bm-buffer-save-all)
                                 (bm-repository-save)))
   )
-#+END_SRC
-** one-key.el
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "one-key.el")
-;;; (auto-install-from-emacswiki "one-key-config.el")
-;;; (auto-install-from-emacswiki "one-key-default.el")
-;; (use-package one-key
-;;   :config
-;;   (use-package one-key-default)                       ; one-key.el も一緒に読み込んでくれる
-;;   (use-package one-key-config)                        ; one-key.el の基本設定をしてくれる
-;;   (one-key-default-setup-keys)                     ; one-key- で始まるメニュー使える様になる
-;;   (setq one-key-help-window-max-height 40)         ; ウィンドウの最大高さ
-;;                                         ; nil だとものすごい大きい *One-Key* バッファが一面に広がってしまうことがあるので。
-;;   (setq one-key-items-per-line nil)
-;;   (global-set-key (kbd "C-S-r") 'one-key-menu-C-x-r) ; C-S-r を C-x r と同じにする
-;;   (global-set-key (kbd "C-4") 'one-key-menu-C-x-4) ; C-4 を C-x 4 と同じにする
-;;   (global-set-key (kbd "C-5") 'one-key-menu-C-x-5) ; C-5 を C-x 5 と同じにする
-;;   (global-set-key (kbd "<C-return>") 'one-key-menu-C-x-RET) ; C-RET を C-x RET と同じにする
-
-;;   ;; (my-safe-load "one-key-menu-my-mode-specific")                   ; 自作 mode-specific キーバインド
-;;   ;; (add-to-list 'one-key-mode-alist '(mode-specific . one-key-menu-my-mode-specific))
-;;   ;; (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-mode-specific") . one-key-menu-my-mode-specific))
-;;   ;; (global-set-key (kbd "C-c") 'one-key-menu-my-mode-specific)
-
-;;   (eval-after-load "yatex"
-;;     '(progn
-;;        (my-safe-load "one-key-menu-my-YaTeX-begin")      ; 自作 yatex キーバインド表
-;;        (add-to-list 'one-key-mode-alist '(yatex-mode . one-key-menu-my-YaTeX-begin))
-;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-YaTeX-begin") . one-key-menu-my-YaTeX-begin))
-;;        (add-hook 'yatex-mode-hook
-;;                  '(lambda () (YaTeX-define-key (kbd "b") 'one-key-menu-my-YaTeX-begin)))))
-;;   (eval-after-load "wl"
-;;     '(progn
-;;        (my-safe-load "one-key-menu-my-wl-folder") ; template wl-folder-mode 用キーバインド表
-;;        (add-to-list 'one-key-mode-alist '(wl-folder-mode . one-key-menu-my-wl-folder))
-;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-folder") . one-key-menu-my-wl-folder))
-;;        (add-hook 'wl-folder-mode-hook
-;;                  '(lambda () (define-key wl-folder-mode-map (kbd "?") 'one-key-menu-my-wl-folder)))
-;;        (my-safe-load "one-key-menu-my-wl-summary") ; template wl-summary-mode 用キーバインド表
-;;        (add-to-list 'one-key-mode-alist '(wl-summary-mode . one-key-menu-my-wl-summary))
-;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-wl-summary") . one-key-menu-my-wl-summary))
-;;        (add-hook 'wl-summary-mode-hook
-;;                  '(lambda () (define-key wl-summary-mode-map (kbd "?") 'one-key-menu-my-wl-summary)))))
-;;   (eval-after-load "elscreen"
-;;     '(progn
-;;        (my-safe-load "one-key-menu-my-elscreen") ; template elscreen 用キーバインド表
-;;        (add-to-list 'one-key-mode-alist '(elscreen . one-key-menu-my-elscreen))
-;;        (add-to-list 'one-key-toplevel-alist '(("type key here" . "my-elscreen") . one-key-menu-my-elscreen))
-;;        (global-set-key (kbd "C-z") 'one-key-menu-my-elscreen)))
-;;   )
 #+END_SRC
 ** key-chord.el
 キーボード同時押しでコマンドを実行する．
@@ -5099,21 +4915,6 @@ Emacsが終了した時のミニバッファ履歴やカーソル位置を保存
   (run-at-time t 60 'session-save-session)
   )
 #+END_SRC
-** auto-install.el
-elisp インストーラ．Emacsテクニックバイブルより
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "auto-install.el")
-;; auto-installによってインストールされるEmacs Lispをロードパスに加える
-;; デフォルトは ~/.emacs.d/auto-install/
-;; (lazyload (auto-install-from-url auto-install-from-emacswiki
-;;            auto-install-from-gist auto-install-batch) "auto-install"
-;;   ;; 起動時にEmacsWikiのページ名を補完候補に加える
-;;   (auto-install-update-emacswiki-package-name t)
-;;   ;; install-elisp.el互換モードのにする
-;;   (auto-install-compatibility-setup)
-;;   ;; ediff関連のバッファを１つのフレームにまとめる
-;;   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
-#+END_SRC
 ** auto-async-byte-compile.el
 非同期自動バイトコンパイル．Emacsテクニックバイブル より．
 #+BEGIN_SRC emacs-lisp +n
@@ -5487,57 +5288,6 @@ do nothing. And suppress the output from `message' and
   (setq migemo-pattern-alist-length 1024)
   ;; 起動時に初期化も行う
   (migemo-init))
-#+END_SRC
-** emacs-w3m
-#+BEGIN_SRC emacs-lisp +n
-(autoload 'w3m "w3m"
-  "Interface for w3m on Emacs." t)
-(autoload 'w3m-find-file "w3m"
-  "Find a local file using emacs-w3m." t)
-(autoload 'w3m-search "w3m-search"
-  "Search words using emacs-w3m." t)
-(autoload 'w3m-weather "w3m-weather"
-  "Display a weather report." t)
-(autoload 'w3m-antenna "w3m-antenna"
-  "Report changes of web sites." t)
-(autoload 'w3m-namazu "w3m-namazu"
-  "Search files with Namazu." t)
-;; need to visit login website
-(eval-after-load "w3m"
-  '(progn
-     (setq w3m-use-cookies t)
-     (define-key w3m-mode-map (kbd "F") 'w3m-view-next-page)
-     (define-key w3m-mode-map (kbd "f") 'w3m-scroll-up-or-next-url)
-     (define-key w3m-mode-map (kbd "e") 'my-w3m-HaH) ; w3m-edit-this-url
-     (define-key w3m-mode-map (kbd "C-l") 'w3m-goto-url) ; recenter-top-bottom
-     (define-key w3m-mode-map (kbd "z") 'recenter-top-bottom)
-     ))
-(eval-after-load "w3m-search"
-  '(progn
-     (setq w3m-search-engine-alist (append
-                                    '(("kakaku" "http://kakaku.com/search_results/?query=%s")
-                                      ("eow" "http://eow.alc.co.jp/%s/UTF-8/")
-                                      ("Wikipedia" "http://ja.wikipedia.org/wiki/%s")
-                                      ("google scholar" "http://scholar.google.co.jp/scholar?q=%s&hl=ja&lr=")
-                                      ("amazon" "http://www.amazon.co.jp/s/ref=nb_sb_noss?__mk_ja_JP=%u30AB%u30BF%u30AB%u30CA&url=search-alias%3Daps&field-keywords=%s")) ; うまく動かん
-                                    w3m-search-engine-alist))
-     (setq w3m-uri-replace-alist (append
-                                   '(("\\`k:" w3m-search-uri-replace "kakaku")
-                                     ("\\`d:" w3m-search-uri-replace "eow")
-                                     ("\\`g:" w3m-search-uri-replace "google")
-                                     ("\\`w:" w3m-search-uri-replace "Wikipedia")
-                                     ("\\`gs:" w3m-search-uri-replace "google scholar")
-                                     ("\\`a:" w3m-search-uri-replace "amazon"))
-                                   w3m-uri-replace-alist))
-     ))
-
-(defun my-w3m-HaH ()
-  "Visit url by hit-a-hint.
-文字の部分も jaunte の候補が出てしまうので
-改良の余地有り。またボタンが押せないのはどうしようね。"
-  (interactive)
-  (jaunte)
-  (w3m-view-this-url))
 #+END_SRC
 ** 測定終了
 #+BEGIN_SRC emacs-lisp +n
