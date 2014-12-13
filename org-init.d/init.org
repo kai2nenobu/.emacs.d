@@ -2549,10 +2549,10 @@ VBの編集用メジャーモード。
 ** exec-path-from-shell
 Windowsだと動かないくさい。
 #+BEGIN_SRC emacs-lisp +n
-(if (not (winp))
-  (use-package exec-path-from-shell
-    :config
-    (exec-path-from-shell-initialize)))
+(use-package exec-path-from-shell
+  :if (not (winp))
+  :config
+  (exec-path-from-shell-initialize))
 #+END_SRC
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp +n
@@ -5200,6 +5200,7 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 (use-package auto-complete-config
   :config
+  (ac-config-default)
   ;; メジャーモードに関する辞書
   (add-to-list 'ac-dictionary-directories
                (locate-user-emacs-file "ac-dict"))
@@ -5207,7 +5208,6 @@ do nothing. And suppress the output from `message' and
   ;;     nil
   ;;   (ac-config-default))
   ;; 23 でも大丈夫になったらしい 2011-06-04 (Sat)
-  (ac-config-default)
   (setq ac-auto-show-menu 0.08)       ; 補完メニュー表示の遅延時間
   (setq ac-quick-help-delay 0.5)     ; help 表示の遅延時間
   (define-key my-original-map (kbd "TAB") 'auto-complete) ; あえて手動で補完したい時
