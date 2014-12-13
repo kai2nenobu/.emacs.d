@@ -2462,8 +2462,9 @@ generic を用いて予め定義されているモード．
   :config
   ;; 保存しないファイルの正規表現
   (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
-  (run-at-time t 60 'desktop-save "~/") ; 定期的にdesktop を保存する
-  (desktop-save-mode t))
+  ;; Emacs起動直後にリストアするファイル数。残りは遅延してリストアされる
+  (setq desktop-restore-eager 1)
+  (desktop-save-mode 1))
 #+END_SRC
 ** uniquify.el
 同じ名前のファイルを開く際にバッファ名にディレクトリ名を付加する．ファイル名が
