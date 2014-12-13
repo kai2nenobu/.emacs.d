@@ -3051,18 +3051,18 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
 #+END_SRC
 ** evernote-mode
 #+BEGIN_SRC emacs-lisp +n
-;(use-package evernote-mode
-;  :config
-;  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
-;  (setq evernote-username "g03090416")
-;  (global-set-key "\C-c\C-ec" 'evernote-create-note)
-;  (global-set-key "\C-c\C-eo" 'evernote-open-note)
-;  (global-set-key "\C-c\C-es" 'evernote-search-notes)
-;  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
-;  (global-set-key "\C-c\C-ew" 'evernote-write-note)
-;  (global-set-key "\C-c\C-ep" 'evernote-post-region)
-;  (global-set-key "\C-c\C-eb" 'evernote-browser)
-;  )
+(use-package evernote-mode
+  :config
+  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
+  (setq evernote-username "g03090416")
+  (global-set-key "\C-c\C-ec" 'evernote-create-note)
+  (global-set-key "\C-c\C-eo" 'evernote-open-note)
+  (global-set-key "\C-c\C-es" 'evernote-search-notes)
+  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
+  (global-set-key "\C-c\C-ew" 'evernote-write-note)
+  (global-set-key "\C-c\C-ep" 'evernote-post-region)
+  (global-set-key "\C-c\C-eb" 'evernote-browser)
+  )
 #+END_SRC
 ** dokuwiki
 dokuwiki フロントエンド
@@ -3244,35 +3244,35 @@ vim エミュレータ
 バッファを環状に訪問
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki "cycle-buffer.el")
-;(use-package cycle-buffer
-;  :config
-;  (global-set-key (kbd "C-.") 'cycle-buffer)
-;  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
-;  )
+(use-package cycle-buffer
+  :config
+  (global-set-key (kbd "C-.") 'cycle-buffer)
+  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
+  )
 #+END_SRC
 ** shell-history.el
 シェルの履歴を履歴ファイルに書きこむ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/shell-history.el")
-;; (use-package shell-history
-;;   :config
-;;   (setq shell-history-file "~/.zsh_history")
-;;
-;;   ;; add command in shell-mode to history file
-;;   (defadvice comint-send-input (before add-to-shell-history activate)
-;;     (when (eq major-mode 'shell-mode)
-;;       (add-to-shell-history (buffer-substring (point-at-bol) (point-at-eol)))))
-;;   )
+(use-package shell-history
+  :config
+  (setq shell-history-file "~/.zsh_history")
+
+  ;; add command in shell-mode to history file
+  (defadvice comint-send-input (before add-to-shell-history activate)
+    (when (eq major-mode 'shell-mode)
+      (add-to-shell-history (buffer-substring (point-at-bol) (point-at-eol)))))
+  )
 #+END_SRC
 ** cedet.el
 - [[http://cedet.sourceforge.net/][Collection of Emacs Development Environment Tools Homepage]]
 Emacs で開発環境．
 #+BEGIN_SRC emacs-lisp +n
-;; (my-safe-load (expand-file-name "repo/cedet-1.0/common/cedet.el" dropbox-directory)
-;;   (global-ede-mode 1)                      ; Enable the Project management system
-;;   (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
-;;   (global-srecode-minor-mode 1)            ; Enable template insertion menu
-;;   )
+(use-package cedet
+  (global-ede-mode 1)                      ; Enable the Project management system
+  (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
+  (global-srecode-minor-mode 1)            ; Enable template insertion menu
+  )
 #+END_SRC
 ** open-junk-file.el
 試行錯誤用ファイルを開く．
@@ -3296,13 +3296,13 @@ Emacs で開発環境．
 括弧の対応を保持して編集．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://mumble.net/~campbell/emacs/paredit.el")
-;; (use-package paredit
-;;   :config
-;;   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-;;   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-;;   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
-;;   (add-hook 'ielm-mode-hook 'enable-paredit-mode)
-;;   )
+(use-package paredit
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook 'enable-paredit-mode)
+  )
 #+END_SRC
 paredit.el をつけておくとファイルを開くときにメジャーモードの判定に失敗したり
 する．何でかは分からんが不便なのでコメントアウトしとく
@@ -3351,14 +3351,14 @@ Emacs からはてなダイアリーに投稿する．
 ** kogiku.el
 - [[http://kogiku.sourceforge.jp/][小菊]]
 #+BEGIN_SRC emacs-lisp +n
-;; (use-package kogiku
-;;   :config
-;;   (setq kogiku-enable-once nil))
+(use-package kogiku
+  :config
+  (setq kogiku-enable-once nil))
 #+END_SRC
 ** nyan-mode.el
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://raw.github.com/TeMPOraL/nyan-mode/master/nyan-mode.el")
-;; (use-package nyan-mode)
+(use-package nyan-mode)
 
 #+END_SRC
 ** typing.el
@@ -3383,10 +3383,6 @@ Emacs からはてなダイアリーに投稿する．
 インデントの幅やタブを操作，モードラインに表示．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "https://raw.github.com/yascentur/judge-indent-el/1.0.0/judge-indent.el")
-;(use-package judge-indent
-;  :config
-;  (global-judge-indent-mode t)
-;  (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
 #+END_SRC
 ** jaspace.el
 全角空白を明示する．
@@ -3397,6 +3393,10 @@ Emacs からはてなダイアリーに投稿する．
 ;;   (setq jaspace-alternate-jaspace-string nil) ; Ricty で全角空白はわかるので nil にする．
 ;;   (setq jaspace-alternate-eol-string "\xab\n"))
 ;; やっぱ常に改行文字はうざかった
+(use-package judge-indent
+  :config
+  (global-judge-indent-mode t)
+  (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
 #+END_SRC
 ** thing-opt.el
 - [[http://dev.ariel-networks.com/articles/emacs/part5/][リージョン選択(松山智大) — ありえるえりあ]]
@@ -3433,7 +3433,7 @@ bookmark.el の拡張．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://mercurial.intuxication.org/hg/emacs-bookmark-extension/raw-file/7a874534bc63/bookmark-extensions.el")
 ;;; anything-bookmark-ext に必要なようだ．多少はブックマークが使いやすくなるのか？
-;(use-package bookmark-extensions)
+(use-package bookmark-extensions)
 #+END_SRC
 使い方がよう分からん．
 ** e2wm.el
@@ -3796,22 +3796,22 @@ mozrepl を通して firefox を操作する
             (with-current-buffer helm-current-buffer
               (insert candidate))))))
 
-;  ;;; helm-orgcard.el
-;  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
-;  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
-;  (use-package helm-orgcard)
-; 
-;  ;; helm-bibtex
-;  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
-;  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
-;  (use-package helm-bibtex
-;    :config
-;    (defun helm-bibtex-cite ()
-;      "Helm command to cite bibliography."
-;      (interactive)
-;      (helm-other-buffer
-;       '(helm-c-source-bibtex)
-;       "*helm bibtex:")))
+  ;;; helm-orgcard.el
+  ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
+  ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
+  (use-package helm-orgcard)
+ 
+  ;; helm-bibtex
+  ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
+  ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
+  (use-package helm-bibtex
+    :config
+    (defun helm-bibtex-cite ()
+      "Helm command to cite bibliography."
+      (interactive)
+      (helm-other-buffer
+       '(helm-c-source-bibtex)
+       "*helm bibtex:")))
 #+END_SRC
 *** シンプルなバッファ移動
 #+BEGIN_SRC emacs-lisp +n
@@ -3891,29 +3891,29 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 慣性スクロール．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://github.com/kiwanami/emacs-inertial-scroll/raw/master/inertial-scroll.el")
-;; (use-package inertial-scroll
-;;   :config
-;;   (setq inertias-global-minor-mode-map
-;;         (inertias-define-keymap
-;;          '(
-;;            ("<wheel-up>"   . inertias-down-wheel)
-;;            ("<wheel-down>" . inertias-up-wheel)
-;;            ("<mouse-4>"    . inertias-down-wheel)
-;;            ("<mouse-5>"    . inertias-up-wheel)
-;;            ("<next>"  . inertias-up)
-;;            ("<prior>" . inertias-down)
-;;            ("C-v"     . inertias-up)
-;;            ("M-v"     . inertias-down)
-;;            ) inertias-prefix-key))
-;;   (inertias-global-minor-mode 1)
-;;   (setq inertias-initial-velocity 90) ; 初速（大きいほど一気にスクロールする）
-;;   (setq inertias-initial-velocity-wheel 50) ; ホイールの初速（大きいほど一気にスクロールする）
-;;   (setq inertias-friction 200)        ; 摩擦抵抗（大きいほどすぐ止まる）
-;;   (setq inertias-rest-coef 0)         ; 画面端でのバウンド量（0はバウンドしない。1.0で弾性反発）
-;;   (setq inertias-update-time 1)      ; 画面描画のwait時間（msec）
-;;   )
-;; 見た目はおもろいし、わかりやすくなる。しかし、スクロールするのに多少の時間がかかるので、常用するのは微妙かもしれん。
+(use-package inertial-scroll
+  :config
+  (setq inertias-global-minor-mode-map
+        (inertias-define-keymap
+         '(
+           ("<wheel-up>"   . inertias-down-wheel)
+           ("<wheel-down>" . inertias-up-wheel)
+           ("<mouse-4>"    . inertias-down-wheel)
+           ("<mouse-5>"    . inertias-up-wheel)
+           ("<next>"  . inertias-up)
+           ("<prior>" . inertias-down)
+           ("C-v"     . inertias-up)
+           ("M-v"     . inertias-down)
+           ) inertias-prefix-key))
+  (inertias-global-minor-mode 1)
+  (setq inertias-initial-velocity 90) ; 初速（大きいほど一気にスクロールする）
+  (setq inertias-initial-velocity-wheel 50) ; ホイールの初速（大きいほど一気にスクロールする）
+  (setq inertias-friction 200)        ; 摩擦抵抗（大きいほどすぐ止まる）
+  (setq inertias-rest-coef 0)         ; 画面端でのバウンド量（0はバウンドしない。1.0で弾性反発）
+  (setq inertias-update-time 1)      ; 画面描画のwait時間（msec）
+  )
 #+END_SRC
+見た目はおもろいし、わかりやすくなる。しかし、スクロールするのに多少の時間がかかるので、常用するのは微妙かもしれん。
 ** smartchr.el
 1つのキーに様々な文字列を割り当てることができる．
 #+BEGIN_SRC emacs-lisp +n
@@ -4090,14 +4090,14 @@ Emacs のハイライトをそのまま html に変換
 - [[http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el][(Scheme) (Lisp)]]
 曖昧検索できる．
 #+BEGIN_SRC emacs-lisp +n
-;; (use-package approx-search
-;;   :config
-;;   (if (boundp 'isearch-search-fun-function)
-;;       (use-package approx-isearch)
-;;     (use-package approx-old-isearch))
-;;   (approx-isearch-set-enable))
-;; Migemo との共存がちょっとめんどいので一旦コメントアウト
+(use-package approx-search
+  :config
+  (if (boundp 'isearch-search-fun-function)
+      (use-package approx-isearch)
+    (use-package approx-old-isearch))
+  (approx-isearch-set-enable))
 #+END_SRC
+Migemo との共存がちょっとめんどいので一旦コメントアウト
 ** sr-speedbar.el
 同一フレーム内に speedbar を作る．そんなに使い方を理解していない．
 #+BEGIN_SRC emacs-lisp +n
@@ -4899,35 +4899,35 @@ Hit a Hint でカーソル移動するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
 ;;; jaunte.el
 ;;; (auto-install-from-url "https://raw.github.com/kawaguchi/jaunte.el/master/jaunte.el")
-;(use-package jaunte
-;  :config
-;  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
-;  (setq jaunte-hint-unit 'symbol)
-;  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
-; 
-;  ;; info では参照のみを対象とする
-;  (defun my-jaunte-forward-word ()
-;    "Move to beginning of a forward word, and return point."
-;    (interactive)
-;    (if (eq major-mode 'Info-mode)
-;        (progn
-;          (Info-next-reference)
-;          (point))
-;      (if (looking-at "\\w")
-;          (forward-thing jaunte-hint-unit))
-;      (if (re-search-forward "\\w" nil 'eob)
-;          (backward-char))
-;      (point)))
-;  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
-;  )
+(use-package jaunte
+  :config
+  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
+  (setq jaunte-hint-unit 'symbol)
+  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
+ 
+  ;; info では参照のみを対象とする
+  (defun my-jaunte-forward-word ()
+    "Move to beginning of a forward word, and return point."
+    (interactive)
+    (if (eq major-mode 'Info-mode)
+        (progn
+          (Info-next-reference)
+          (point))
+      (if (looking-at "\\w")
+          (forward-thing jaunte-hint-unit))
+      (if (re-search-forward "\\w" nil 'eob)
+          (backward-char))
+      (point)))
+  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
+  )
 #+END_SRC
 ** postit.el
 - [[http://web.archive.org/web/19981202211943/www.is.s.u-tokyo.ac.jp/~tama/source.html][Tama's Softwares]]
 ファイルにポストイット
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://chasen.org/~daiti-m/dist/postit.el")
-;(use-package postit)
-;; 今のところあまりつかっていない
+(use-package postit)
+今のところあまりつかっていない
 #+END_SRC
 ** text-adjust.el
 - [[http://d.hatena.ne.jp/rubikitch/20090220/text_adjust][全角文字と半角文字の間に自動でスペースを開ける text-adjust.el を使ってみ
@@ -4952,21 +4952,22 @@ Hit a Hint でカーソル移動するライブラリ．
 ;;; (auto-install-from-url "http://www.gentei.org/~yuuji/software/windows.el")
 ;;; (auto-install-from-url "http://www.gentei.org/~yuuji/software/revive.el")
 ;; prefix 変更。require の前にしないといけないっぽい
-;; (setq win:switch-prefix "\C-z")
-;; (setq win:use-frame nil)   ; 新規にフレームを作らない
-;; (use-package windows
-;;   :config
-;;   ;(win:startup-with-window)               ; 起動時に window1 を選択する？
-;;   (define-key ctl-x-map (kbd "C-c") 'see-you-again)
-;;   (define-key ctl-x-map (kbd "C") 'save-buffers-kill-emacs)
-;;   (global-set-key (kbd "C-S-n") 'win-next-window)
-;;   (global-set-key (kbd "C-S-p") 'win-prev-window)
-;;   ;; revive.el によりレジューム
-;;   ;(add-hook 'after-init-hook 'resume-windows)      ; 起動時にレジュームする
-;;   ;; これをつけるとエラーが起きる。なんか bm のところで止まってる？
-;;   ;; 少々めんどいが毎回手作業でレジュームすることにする
-;;   ;; (aset win:names-prefix 2 "tex") ; なんとなくこれでウィンドウタイトルを変えられそう
-;;   )
+(use-package windows :defer t
+  :init
+  (setq win:switch-prefix "\C-z")
+  (setq win:use-frame nil)   ; 新規にフレームを作らない
+  :config
+  ;(win:startup-with-window)               ; 起動時に window1 を選択する？
+  (define-key ctl-x-map (kbd "C-c") 'see-you-again)
+  (define-key ctl-x-map (kbd "C") 'save-buffers-kill-emacs)
+  (global-set-key (kbd "C-S-n") 'win-next-window)
+  (global-set-key (kbd "C-S-p") 'win-prev-window)
+  ;; revive.el によりレジューム
+  ;(add-hook 'after-init-hook 'resume-windows)      ; 起動時にレジュームする
+  ;; これをつけるとエラーが起きる。なんか bm のところで止まってる？
+  ;; 少々めんどいが毎回手作業でレジュームすることにする
+  ;; (aset win:names-prefix 2 "tex") ; なんとなくこれでウィンドウタイトルを変えられそう
+  )
 #+END_SRC
 ** elscreen.el
 ウィンドウの分割情報を保持しておく．
@@ -5117,12 +5118,12 @@ elisp インストーラ．Emacsテクニックバイブルより
 非同期自動バイトコンパイル．Emacsテクニックバイブル より．
 #+BEGIN_SRC emacs-lisp +n
 ;; (auto-install-from-emacswiki "auto-async-byte-compile.el")
-;(use-package auto-async-byte-compile
-;  :config
-;  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
-;  (setq auto-async-byte-compile-exclude-files-regexp "diary\\|/junk/")
-;  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-;  )
+(use-package auto-async-byte-compile
+  :config
+  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
+  (setq auto-async-byte-compile-exclude-files-regexp "diary\\|/junk/")
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+  )
 #+END_SRC
 ** recentf-ext.el
 最近開いたファイルを開く．Emacsテクニックバイブルより．
@@ -5178,8 +5179,9 @@ do nothing. And suppress the output from `message' and
 #+END_SRC
 ** display-deadline.el
 #+BEGIN_SRC emacs-lisp +n
-;(use-package display-deadline)
-;(display-deadline "進捗報告まであと%d日%h時間%m分" (encode-time 0 0 10 15 11 2010))
+(use-package display-deadline
+  :config
+  (display-deadline "進捗報告まであと%d日%h時間%m分" (encode-time 0 0 10 15 11 2010)))
 #+END_SRC
 ** yatex.el
 #+BEGIN_SRC emacs-lisp +n
