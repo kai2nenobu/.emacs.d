@@ -4979,6 +4979,19 @@ do nothing. And suppress the output from `message' and
   :config
   (shell-command-completion-mode))
 #+END_SRC
+** stripe-buffer
+#+BEGIN_SRC emacs-lisp
+(use-package stripe-buffer :defer t
+  :init
+  (add-hook 'dired-mode-hook 'stripe-buffer-mode)
+  :config
+  (face-spec-set 'stripe-highlight
+                 '((((class color) (background light))
+                    :background "#eeeeee")
+                   (((class color) (background dark))
+                    :background "#111111")))
+  )
+#+END_SRC
 ** display-deadline.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package display-deadline
