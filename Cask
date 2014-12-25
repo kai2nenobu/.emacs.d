@@ -44,6 +44,7 @@
 (depends-on "migemo")
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
+(depends-on "open-junk-file")
 (depends-on "org")
 (depends-on "org-magit")
 (depends-on "org-octopress")
