@@ -2686,7 +2686,7 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   :config
   (global-anzu-mode)
   (setq anzu-minimum-input-length 3)
-  (setq anzu-use-migemo t)
+  (when (executable-find "cmigemo") (setq anzu-use-migemo t))
   (global-set-key (kbd "M-%") 'anzu-query-replace)
   (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp))
 #+END_SRC
