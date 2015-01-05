@@ -3467,14 +3467,23 @@ Emacs から git を操作するライブラリ．
   ;; (add-hook 'magit-mode-hook 'my-magit-apply-file-header-face t)
   ;; あんま上手くいかんねー
 #+END_SRC
-*** logにデフォルトで =--all= オプションをつける
+*** magit-key-mode時にデフォルトでオンにするオプション
 - [[http://emacs.stackexchange.com/questions/3289/can-i-have-the-git-log-all-option-be-initially-selected][magit - Can I have the git-log "--all" option be initially selected? - Emacs Stack Exchange]]
+- [[elisp:(find-function%20'magit-key-mode-generate)][magit-key-mode.elの `magit-key-mode-generate']] あたりを参考にした
 #+BEGIN_SRC emacs-lisp
-  (defun magit-log-all ()
-    (interactive)
-    (magit-key-mode-popup-logging)
-    (magit-key-mode-toggle-option (quote logging) "--all"))
-  (define-key magit-mode-map (kbd "l") 'magit-log-all)
+  (defvar magit-key-mode-my-default-switches
+     '((logging "--all") (committing "--verbose")))
+  (defun magit-key-mode-my-switch-advice (group switches)
+    (eval
+     `(defadvice ,(intern (concat "magit-key-mode-popup-" (symbol-name group)))
+          (after switch-advice activate)
+        ,(format "Toggle default switches for %S menu" group)
+        (dolist (s (list ,@switches))
+          (magit-key-mode-toggle-option (quote ,group) s))
+        )))
+  (mapc (lambda (g)
+          (magit-key-mode-my-switch-advice (car g) (cdr g)))
+        magit-key-mode-my-default-switches)
 #+END_SRC
 *** フック
 #+BEGIN_SRC emacs-lisp +n
