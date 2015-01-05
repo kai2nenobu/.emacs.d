@@ -2821,6 +2821,10 @@ package.el からインストール．
   :config
   (define-key web-mode-map (kbd "C-c C-c") 'web-mode-tag-match)
 
+  ;; indent
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset    2)
+
   ;; timer
   (defvar web-mode-my-timer nil)
   (defvar web-mode-my-eldoc-time 0.5)
