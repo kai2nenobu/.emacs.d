@@ -3421,6 +3421,7 @@ Emacs から git を操作するライブラリ．
   :config
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
   (setq magit-diff-refine-hunk 'all)
+  (setq magit-log-show-margin nil) ; ログの右マージンを表示しない
 #+END_SRC
 *** キーバインド
 #+BEGIN_SRC emacs-lisp +n
