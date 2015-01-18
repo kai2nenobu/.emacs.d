@@ -2583,6 +2583,8 @@ git管理下のファイルのhelmソース。
 (use-package flycheck :defer t
   :init
   (add-hook 'prog-mode-hook 'flycheck-mode)
+  :bind (("C-," . previous-error)
+         ("C-." . next-error))
   :config
   (setq flycheck-idle-change-delay 0.5)
   (setq flycheck-display-errors-delay 0.1)
@@ -3226,8 +3228,8 @@ vim エミュレータ
 ワンタッチでスクリプト実行．marmalade からインストール
 #+BEGIN_SRC emacs-lisp +n
 (use-package quickrun :defer t
+  :bind ("<C-f11>" . quickrun)
   :config
-  (global-set-key (kbd "<C-f11>") 'quickrun)
   (quickrun-add-command  "java8"
                          '((:command . "java8")
                            (:compile-only . "javac8 -Werror %o %s")
