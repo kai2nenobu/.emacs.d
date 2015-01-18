@@ -3861,6 +3861,13 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
+** helm-locate
+#+BEGIN_SRC emacs-lisp
+(use-package helm-locate :defer t
+  :if (executable-find "locate")
+  :config
+  (setq helm-locate-command "locate %s -e -A %s"))
+#+END_SRC
 ** Inertial-scroll.el
 - [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
 慣性スクロール．
