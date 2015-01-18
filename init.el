@@ -5,7 +5,7 @@
 ;; package.el初期設定
 (when (require 'package nil t)
   ;; location to get package informations
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/")))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
 
 ;; caskかpackageのどちらかで初期化
 (if (file-exists-p "~/.cask/cask.el")
