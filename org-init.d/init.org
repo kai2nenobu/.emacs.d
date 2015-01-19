@@ -177,7 +177,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 ** カーソル色を設定
 =set-cursor-color= だと、フレームの背景色がlightとdarkの場合分けができないの
 で、cursorフェイスを直接変更する。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (face-spec-set 'cursor
                '((((class color) (background light))
                   :background "magenta")
@@ -438,7 +438,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 ** フレームの背景色のlight、darkを切り替え
 残念ながら現在のフレームのlight、darkは切り替えられないみたい。このコマンドで
 lightとdarkを切り替えた後に、新しくフレームを作成する必要がある。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (defun toggle-frame-background-class ()
   "Toggle a background class (light or dark) of deafult frame."
   (interactive)
@@ -2032,7 +2032,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 (define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
 #+END_SRC
 *** 最後のカッコ
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
 ** diff.el
@@ -3476,7 +3476,7 @@ Emacs から git を操作するライブラリ．
 *** magit-key-mode時にデフォルトでオンにするオプション
 - [[http://emacs.stackexchange.com/questions/3289/can-i-have-the-git-log-all-option-be-initially-selected][magit - Can I have the git-log "--all" option be initially selected? - Emacs Stack Exchange]]
 - [[elisp:(find-function%20'magit-key-mode-generate)][magit-key-mode.elの `magit-key-mode-generate']] あたりを参考にした
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
   (defvar magit-key-mode-my-default-switches
      '((logging "--all") (committing "--verbose")))
   (defun magit-key-mode-my-switch-advice (group switches)
@@ -3867,7 +3867,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   )
 #+END_SRC
 ** helm-locate
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package helm-locate :defer t
   :if (executable-find "locate")
   :config
@@ -4777,7 +4777,7 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
 スマホ連携。
 - [[https://github.com/matburt/mobileorg-android/wiki][Android実装]]
 - [[http://mobileorg.ncogni.to/][iOS実装]]
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package org-mobile :defer t
   :init
   (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
@@ -5098,7 +5098,7 @@ do nothing. And suppress the output from `message' and
   (shell-command-completion-mode))
 #+END_SRC
 ** stripe-buffer
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package stripe-buffer :defer t
   :init
   (add-hook 'dired-mode-hook 'stripe-buffer-mode)
