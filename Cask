@@ -1,4 +1,5 @@
 (source gnu)
+(source org)
 (source melpa)
 
 (depends-on "anzu")
@@ -45,7 +46,7 @@
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
 (depends-on "open-junk-file")
-(depends-on "org")
+(depends-on "org-plus-contrib")
 (depends-on "org-magit")
 (depends-on "org-octopress")
 (depends-on "ox-pandoc")
