@@ -4681,12 +4681,33 @@ If specify ARG, the subtree starts ARGth level headline."
         (org-export-as-html-and-open nil))))
   (define-key org-mode-map (kbd "C-c h") 'org-my-export-as-html-current-subtree)
 #+END_SRC
+*** 自作関数
+#+CAPTION: Windowsの場合は一時的にシェルの名前をnilにするアドバイス
+#+BEGIN_SRC emacs-lisp +n
+  (defadvice org-open-file (around restore-shell activate)
+    "Windowsの場合は一時的にシェルの名前をnilにする"
+    (when (eq system-type 'windows-nt)
+      (let ((orig-shell-file-name shell-file-name)
+            (shell-file-name nil))
+        ad-do-it
+        (setq shell-file-name orig-shell-file-name)))
+#+END_SRC
+- [[http://stackoverflow.com/questions/11553123/linking-to-files-on-windows-network-share][emacs - Linking to files on Windows Network Share - Stack Overflow]]
+UNC Pathへリンクさ
+れているファイルを =org-open-at-point= で開こうとすると
+: eval: ShellExecute failed: 指定されたファイルが見つかりません。
+と怒られる問題への対策。
+
+どうもWindowsで =shell-file-name= をbashにしていると、 =//server/path= という
+UNC Pathを開こうとして「ファイルが見つかりません」になるようだ。シェルをnilに
+しておくと、 =\\server\path= が（コマンドプロンプトに？）渡されて、正しく開く
+ことができる。
 *** orgの設定終了
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
 *** ox-html
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package ox-html :defer t
   :config
   (setq org-html-coding-system 'utf-8)
