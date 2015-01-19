@@ -4443,6 +4443,9 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-edit-src-content-indentation 0)
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
   (add-to-list 'org-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
+  (add-to-list 'org-file-apps '("\\.docx?\\'" . default))
+  (add-to-list 'org-file-apps '("\\.xlsx?\\'" . default))
+  (add-to-list 'org-file-apps '("\\.pptx?\\'" . default))
   ;; agenda で参照する org ファイル達
   (setq org-agenda-files `(,org-default-notes-file
                            ,(expand-file-name "task.org" org-directory)
@@ -4571,7 +4574,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 *** export 関連
 #+BEGIN_SRC emacs-lisp +n
   ;; config about latex exporting
-  (setcdr (assoc "\\.pdf\\'" org-file-apps) "/usr/bin/acroread %s")
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . default))
   ;(setq org-export-latex-coding-system 'utf-8-unix)
   (setq org-latex-pdf-process '("latexmk -pdfdvi %f")) ; process for tex->pdf
   ;(setq org-export-latex-date-format "%Y-%m-%d")
