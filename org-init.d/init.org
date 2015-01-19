@@ -2217,8 +2217,7 @@ Emacs で pdf 閲覧する．
 ** cua-mode.el
 矩形範囲の編集を便利にする．
 #+BEGIN_SRC emacs-lisp +n
-(cua-mode 1)
-(setq cua-enable-cua-keys nil)
+(cua-selection-mode 1)
 (defun cua-my-dec-rectangle (decriment)
   "Decrement each line of CUA rectangle by prefix amount."
   (interactive "p")
