@@ -2562,6 +2562,13 @@ Windowsだと動かないくさい。
   :config
   (exec-path-from-shell-initialize))
 #+END_SRC
+** gradle-mode
+Gradleタスクを実行するマイナーモード。
+#+BEGIN_SRC emacs-lisp
+(use-package gralde-mode
+  :init
+  (add-hook 'groovy-mode-hook 'gradle-mode))
+#+END_SRC
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package groovy-mode :defer t
