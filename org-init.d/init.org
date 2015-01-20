@@ -5037,6 +5037,30 @@ Emacsが終了した時のミニバッファ履歴やカーソル位置を保存
   (setq desktop-globals-to-save '(desktop-missing-file-warning))
   ;; 定期的に session を保存
   (run-at-time t 60 'session-save-session)
+#+END_SRC
+*** helmのソースを保存するリストから除外する
+#+BEGIN_SRC emacs-lisp +n
+  (defadvice session-save-session (before exclude-helm-sources activate)
+    "Add helm sources to `session-globals-exclude'."
+    (mapc #'(lambda (source) (add-to-list 'session-globals-exclude source))
+          (apropos-internal "^helm-\\(?:c-\\)?source-" 'boundp)))
+#+END_SRC
+
+=helm-show-kill-ring= を実行しようとすると
+: Symbol's value as variable is void: \.\.\.
+と怒られて実行できない問題の対策。根本的な原因はhelmのソースを表す変数が
+sessionライブラリによって復元されているのが原因。
+
+sessionが保存するファイル(=~/.emacs.d/.session=)には以下のように =\.\.\.= と
+いうシンボルが保存されており、上記のエラーが発生する。
+: (setq-default helm-c-source-kill-ring '((name . "Kill Ring") (init lambda nil (helm-attrset \.\.\. last-command)) （以下略）
+=\.\.\.= という風に保存されてしまう原因そのものはよく分からない。
+
+遅延初期化しているhelmソースが影響を受けそうなので、すべてのhelmソースを除外
+するようアドバイスすることで対策する。正規表現で除外する変数名を指定できるよ
+うな設定項目があればいいのに。
+*** 最後のカッコ
+#+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
 ** auto-async-byte-compile.el
