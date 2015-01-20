@@ -2754,10 +2754,15 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
         direx:closed-icon "> "
         direx:open-icon   "v ")
   ;; キーバインド
-  (define-key direx:direx-mode-map (kbd "d") 'direx:down-item)
-  (define-key direx:direx-mode-map (kbd "u") 'direx:up-item)
-  (define-key direx:direx-mode-map (kbd "f") 'direx:next-sibling-item)
-  (define-key direx:direx-mode-map (kbd "b") 'direx:previous-sibling-item)
+  (bind-keys :map direx:direx-mode-map
+             ("l" . direx:down-item)
+             ("h" . direx:up-item)
+             ("j" . direx:next-item)
+             ("k" . direx:previous-item)
+             ("d" . direx:down-item)
+             ("u" . direx:up-item)
+             ("f" . direx:next-sibling-item)
+             ("b" . direx:previous-sibling-item))
   ;; popwin 設定に追加
   (eval-after-load "popwin"
     '(push '(direx:direx-mode :position left :width 40 :dedicated t)
