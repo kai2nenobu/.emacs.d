@@ -4690,7 +4690,7 @@ If specify ARG, the subtree starts ARGth level headline."
       (let ((orig-shell-file-name shell-file-name)
             (shell-file-name nil))
         ad-do-it
-        (setq shell-file-name orig-shell-file-name)))
+        (setq shell-file-name orig-shell-file-name))))
 #+END_SRC
 - [[http://stackoverflow.com/questions/11553123/linking-to-files-on-windows-network-share][emacs - Linking to files on Windows Network Share - Stack Overflow]]
 UNC Pathへリンクさ
