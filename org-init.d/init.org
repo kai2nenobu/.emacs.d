@@ -2453,6 +2453,16 @@ generic を用いて予め定義されているモード．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** mykie
+状況に応じて実行するコマンドを切り替えることができるライブラリ。
+#+BEGIN_SRC emacs-lisp
+(use-package mykie
+  :config
+  (mykie:global-set-key "C-a"
+    :default move-beginning-of-line
+    :bolp    back-to-indentation)
+  )
+#+END_SRC
 ** visual-basic-mode
 VBの編集用メジャーモード。
 #+BEGIN_SRC emacs-lisp +n
