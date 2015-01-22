@@ -11,10 +11,10 @@
 * はじめに
 org-babel を使って org-mode で設定ファイルを記述しています．
 
-1. ~/.emacs.d/init.el 読み込み
-2. `org-babel-load-file' で  ~/.emacs.d/org-init.d/init.org から
-   ~/.emacs.d/org-init/init.el を生成
-3. ~/.emacs.d/org-init/init.el を読み込み
+1. =~/.emacs.d/init.el= 読み込み
+2. =org-babel-load-file= で  =~/.emacs.d/org-init.d/init.org= から
+   =~/.emacs.d/org-init/init.el= を生成
+3. =~/.emacs.d/org-init/init.el= を読み込み
 
 #+CAPTION: =~/.emacs.d/init.el=
 #+INCLUDE: "~/.emacs.d/init.el" src emacs-lisp
