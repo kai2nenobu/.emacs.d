@@ -4417,6 +4417,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-src-preserve-indentation t)
+  (setq org-special-ctrl-a/e 'reversed) ; C-aを2回押すとヘッドラインやアイテムの先頭に移動する
   (plist-put org-format-latex-options ':scale 1.8) ; 解像度が大きいので数式の大きさを拡大
   (add-to-list 'org-latex-packages-alist '("" "bm" t))  ;; export 時に bm パッケージをロード
   (add-to-list 'org-file-apps '("\\.docx?\\'" . default))
