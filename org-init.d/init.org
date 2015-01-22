@@ -8,33 +8,6 @@
 #+OPTIONS: html5-fancy:t
 #+OPTIONS: toc:2 num:nil ^:nil
 
-* Future work                                                      :noexport:
-** iserach などで perl 正規表現を使う
-- [[http://fukuyama.co/foreign-regexp][Emacs正規表現から解放されました]]
-foreign-regexp.el ので実現できるらしので，そのうち導入しよう．
-** org-mode の pre タグにタイトル的な部分を追加したい
-** yasnippet を auto-complete するときに
-ドキュメントを表示する．展開結果をポップアップできると一番いいんだが．いまい
-ちどうやってドキュメントを定義するのかよくわかっていない．yasnippet もハッシュ
-テーブル使っているようで理解するのが難しそう．
-** 日本語の禁則処理
-kinsoku.el で行頭禁則と行末禁則はできるようだが，単語境界を禁則に出来ればもっ
-とメールや文章が書けるのだが．
-** thing-opt でカーソル周りのオブジェクトを選択できるようになったので，あとは vim ライクにオブジェクトをマーク，キルしたい．
-** yatex のインクルード構造ブラウザでメインファイルをいちいち聞かないようにする
-** xdvi-search でのフォーカス操作
-defadvice で前置引数を使いたい現在のところ，フォーカスを移動するのは wmctrl でできるが，毎回移動するのはめんどい
-** 正規表現に一致する行に bm
-** 起動時間測定をもっと賢くする
-** init.el 分割
-** 折り返しする column をハイライトするようなモード。折り返しの大体の目安がほしい
-** UWSC のメジャーモードを作る．generic じゃコントロールできん．
-uwsc.el をつくってみた．`define-derived-mode'．
-** org-mode のタグをつける際に，
-** windows.el が使えた。少々改良できたらいいな。タブとか、*---* なバッファの復元とか
-** IME の ON/OFF に連動してカーソル色を変えたりを、自作したほうがいい気がする
-** one-key の代わりに現在のキーバインドを動的に表示できる elisp
-** yatex のキー割り当てが ??? なのを修正する
 * はじめに
 org-babel を使って org-mode で設定ファイルを記述しています．
 
@@ -141,38 +114,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
                (file-directory-p (concat dir "/" file)))
       (add-to-list 'load-path (concat dir "/" file)))))
 #+END_SRC
-** 安全な require, load, autoload マクロ
-- [[http://d.hatena.ne.jp/khiker/20091120/emacs_require_load_macro][require/loadに成功/失敗したらメッセージを出すマクロ - とりあえず暇だったし何となく始めたブログ]]
-- [[http://www.sodan.org/~knagano/emacs/dotemacs.html][dot.emacs]]
-- [[http://e-arrows.sakura.ne.jp/2010/03/macros-in-emacs-el.html][.emacs.elで定義しておくと便利なマクロ - 八発白中]]
-#+BEGIN_SRC emacs-lisp +n
-;; use like this (my-safe-require 'skk body)
-(defmacro my-safe-require (feature &rest body)
-  (declare (indent 1))
-  `(if (require ,feature nil t)
-       (progn
-         (message "Require success: %s from %s" ,feature (locate-library (symbol-name ,feature)))
-         ,@body)
-     (message "Require error: %s" ,feature)))
-
-;; use like this (my-safe-load "skk" body)
-(defmacro my-safe-load (name &rest body)
-  (declare (indent 1))
-  `(if (load ,name t)
-       (progn
-         (message "Load success: %s from %s" ,name (locate-library ,name))
-         ,@body)
-     (message "Load error: %s" ,name)))
-
-(defmacro lazyload (func lib &rest body)
-  (declare (indent 2))
-  `(when (locate-library ,lib)
-     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
-     (eval-after-load ,lib
-       '(progn
-          ,@body
-          (message "Lazy load success: %s from %s" ,lib (locate-library ,lib))))))
-#+END_SRC
 * 見た目の設定など
 ** カーソル色を設定
 =set-cursor-color= だと、フレームの背景色がlightとdarkの場合分けができないの
@@ -226,46 +167,6 @@ ispell が動かなかった。ispell に限らんかもしれんが
   (defvar my-current-font-size my-default-font-size "Current font size")
   (when (member "Ricty" (font-family-list))
     (set-frame-font (format "Ricty %d" my-current-font-size) nil t))
-
-  ;; ;; 標準のフォントサイズ
-  ;; (defvar my-current-font-size nil "Standard font size")
-  ;; (defvar my-font-str nil "Standard font string")
-  ;; (defvar my-font-set-str nil "Font string to create fontset")
-  ;; (cond ((linuxp)
-  ;;        (setq my-current-font-size 16)
-  ;;        (setq my-font-set-str "-unknown-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1"))
-  ;;       ((winp)
-  ;;        (setq my-current-font-size 18)
-  ;;        (setq my-font-set-str "-outline-Ricty-normal-normal-normal-*-%d-*-*-*-*-0-iso10646-1")))
-  ;; ;; それぞれのフォントサイズに対応したフォントセットを作る
-  ;; ;; http://f41.aaa.livedoor.jp/%7Ekonbu/emacs/font-setting.el
-  ;; (defvar my-current-font-size-list '(12 14 16 18 19 20 22 23 24 27 32))
-  ;; (let (size
-  ;;       (size-list my-current-font-size-list))
-  ;;   (while size-list
-  ;;     (setq size (car size-list))
-  ;;     (setq size-list (cdr size-list))
-  ;;     (create-fontset-from-ascii-font (format my-font-set-str size) nil "myfont")))
-  ;; ;; 発音記号のフォント
-  ;; (set-fontset-font "fontset-myfont"
-  ;;                   'ipa
-  ;;                   (font-spec :family "SILDoulos IPA93")) ; うまくいかん
-  ;; ;; (set-fontset-font "fontset-default"
-  ;; ;;                  'japanese-jisx0208
-  ;; ;;                  (font-spec :family "TakaoExゴシック")) ; なぜか fontset-default にするとうまくいく
-  ;; (defvar nandemo "あいうえおかきくけこさしすせそ")
-  ;; ;; フォントを設定
-  ;; (cond ((linuxp)
-  ;;        (add-to-list 'default-frame-alist
-  ;;              '(font . "-*-*-normal-normal-normal-*-16-*-*-*-*-*-fontset-myfont")))
-  ;;       ((winp)
-  ;;        (add-to-list 'default-frame-alist
-  ;;              '(font . "-*-*-normal-normal-normal-*-18-*-*-*-*-*-fontset-myfont"))))
-  ;; ;; ;; アスキーフォント設定
-  ;; ;; (set-fontset-font nil '(    #x0 .   #x6ff) (font-spec :family "Ricty" :size my-current-font-size))
-  ;; ;; ;(set-face-attribute 'default nil :family "Inconsolata" :height 130)
-  ;; ;; ;; 日本語フォント設定
-  ;; ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Ricty" :size my-current-font-size))
   )
 
 ;;; list-faces-display 用の文字列
@@ -1063,73 +964,6 @@ C-u 100 M-x increment-string-as-number ;; replaced by \"88\""
   (save-excursion
     (replace-string "、" "，" nil (point-min) (point-max))))
 #+END_SRC
-** カーソル位置を動かさないスクロール
-残念ながら `scroll-preserve-screen-position' でスクロールの制御ができたので自
-作した意味はなかった．参考のために残しておく．
-#+BEGIN_SRC emacs-lisp +n
-;;; 2011-02-06 (Sun)
-;; my-count-lines-window が論理行を数えるため，長い行を折り返していると
-;; 移動する行数がずれる．めんどくさいので気が向いたら修正する
-;; (defun my-scroll-up-half-window ()
-;;   "Scroll up half of window-height putting point on line relative to the selected window."
-;;   (interactive)
-;;   (let ((line (my-count-lines-window)))
-;;     (scroll-up (/ (window-height) 2))
-;;     (move-to-window-line line)))
-
-;; (defun my-scroll-down-half-window ()
-;;   "Scroll down half of window-height putting point on line relative to the selected window."
-;;   (interactive)
-;;   (let ((line (my-count-lines-window)))
-;;     (scroll-down (/ (window-height) 2))
-;;     (move-to-window-line line)))
-
-;;; 2011-02-06 (Sun)
-;; ちなみに数える行数は論理行である -> 物理行で数えるようにした
-;; (defun my-count-lines-window ()
-;;   "Count lines relative to the selected window. The number of line begins 0."
-;;   (interactive)
-;;   (let* (;(deactivate-mark nil)       ; prevent to deactivate region by this command
-;;          (window-string (buffer-substring-no-properties (window-start) (point)))
-;;          (line-string-list (split-string window-string "\n"))
-;;          (line-count 0) line-count-list)
-;;     (setq line-count (1- (length line-string-list)))
-;;     (unless truncate-lines      ; consider folding back
-;;       ;; `line-count-list' is list of the number of physical line which each logical line has.
-;;       (setq line-count-list (mapcar '(lambda (str)
-;;                                        (/ (my-count-string-columns str) (window-width)))
-;;                                     line-string-list))
-;;       (setq line-count (+ line-count (apply '+ line-count-list))))
-;;     line-count))
-
-;; count string width (columns)
-;; (defun my-count-string-columns (str)
-;;   "Count columns of string. The number of column begins 0."
-;;   (with-temp-buffer
-;;     (insert str)
-;;     (current-column)))
-
-;; (defun my-count-lines-window ()
-;;   "Return line relative to the selected window. The number of line begins 0."
-;;   (interactive)
-;;   (if (equal (current-column) 0)
-;;       (count-lines (window-start) (point))
-;;     (1- (count-lines (window-start) (point)))))
-
-
-;;; scroll-up, down でウィンドウに対する相対的なカーソル位置を動かさないアドバイス
-;; (defadvice scroll-up (around scroll-up-relative activate)
-;;   "Scroll up relatively without move of cursor."
-;;   (let ((line (my-count-lines-window)))
-;;     ad-do-it
-;;     (move-to-window-line line)))
-
-;; (defadvice scroll-down (around scroll-down-relative activate)
-;;   "Scroll down relatively without move of cursor."
-;;   (let ((line (my-count-lines-window)))
-;;     ad-do-it
-;;     (move-to-window-line line)))
-#+END_SRC
 ** other-window を空気を読んで賢くする
 Emacs テクニックバイブルより．アスペクト比によってどう分割するかを変更する工
 夫なども自分で入れている．
@@ -1161,69 +995,6 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
   (cond ((equal prefix '(4)) (other-window -1))
         ((equal prefix '(16)) (window-toggle-division))
         (t (other-window 1))))
-#+END_SRC
-** uwsc-mode
-generic で簡単にメジャーモードを作れる．
-#+BEGIN_SRC emacs-lisp +n
-;;; 2011-01-23 (Sun)
-(define-generic-mode uwsc-generic-mode
-  ;; コメントになる文字列の指定
-  '("//")
-  ;; キーワードの指定
-  '("DIM" "PUBLIC" "CONST" "IF" "THEN" "ELSE" "IFB" "ELSEIF" "ENDIF" "SELECT" "CASE" "DEFAULT" "SELEND" "FOR"
-    "NEXT" "TO" "STEP" "WHILE" "WEND" "REPEAT" "UNTIL" "CALL" "BREAK" "CONTINUE" "EXIT" "EXITEXIT" "PRINT" "AND" "OR" "XOR"
-    "MOD" "PROCEDURE" "FUNCTION" "FEND" "RESULT" "VAR" "DEF" "DLL" "OPTION" "THREAD" "CLASS" "ENDCLASS"
-    "THIS" "GLOBAL" "WITH" "ENDWITH" "TEXTBLOCK" "ENDTEXTBLOCK" "HASHTBL" "TRY" "ENDTRY" "EXCEPT" "FINALLY"
-    "dim" "public" "const" "if" "then" "else" "ifb" "elseif" "endif" "select" "case" "default" "selend" "for"
-    "next" "to" "step" "while" "wend" "repeat" "until" "call" "break" "continue" "exit" "exitexit" "print" "and" "or" "xor"
-    "mod" "procedure" "function" "fend" "result" "var" "def" "dll" "option" "thread" "class" "endclass"
-    "this" "global" "with" "endwith" "textblock" "endtextblock" "hashtbl" "try" "endtry" "except" "finally"
-    "Dim" "Public" "Const" "If" "Then" "Else" "Ifb" "Elseif" "Endif" "Select" "Case" "Default" "Selend" "For"
-    "Next" "To" "Step" "While" "Wend" "Repeat" "Until" "Call" "Break" "Continue" "Exit" "Exitexit"  "Print" "And" "Or" "Xor"
-    "Mod" "Procedure" "Function" "Fend" "Result" "Var" "Def" "Dll" "Option" "Thread" "Class" "Endclass"
-    "This" "Global" "With" "Endwith" "Textblock" "Endtextblock" "Hashtbl" "Try" "Endtry" "Except" "Finally")
-  ;; もうちょっと難しいキーワードの指定
-  '(("[0-9]+" . font-lock-constant-face))
-  ;; auto-mode-alist に追加
-  '("\\.uws$")
-  nil
-  "Major mode for UWSC-generic")
-#+END_SRC
-** Emacs のフルスクリーン
-自作コマンドを作っていたが、Emacs標準で =toggle-frame-fullscreen= が定義され
-てるので、これでよし。
-#+BEGIN_SRC emacs-lisp +n
-;(defun toggle-fullscreen ()
-;  (interactive)
-;  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
-;                                            nil 'fullboth)))
-(global-set-key (kbd "<f11>") 'toggle-frame-fullscreen)
-#+END_SRC
-** ChangeLog と同じ形式で日付曜日挿入
-#+BEGIN_SRC emacs-lisp +n
-(defun my-insert-date (&optional time)
-  (interactive)
-  (unless (boundp 'time)
-    (setq time (current-time)))
-  (let ((system-time-locale "C"))
-    (insert (format-time-string "%Y-%m-%d (%a)" time))))
-
-(defun my-show-date (&optional time)
-  (interactive)
-  (unless (boundp 'time)
-    (setq time (current-time)))
-  (let ((system-time-locale "C"))
-    (format-time-string "%Y-%m-%d (%a)" time)))
-#+END_SRC
-** Emacs で印刷する
-#+BEGIN_SRC emacs-lisp +n
-(setq my-print-command-format "nkf -e | e2ps -a4 -p -nh | lpr")
-(defun my-print-region (begin end)
-   (interactive "r")
-   (shell-command-on-region begin end my-print-command-format))
-(defun my-print-buffer ()
-   (interactive)
-   (my-print-region (point-min) (point-max)))
 #+END_SRC
 ** 時間測定ポイント
 #+BEGIN_SRC emacs-lisp +n
@@ -1273,111 +1044,6 @@ generic で簡単にメジャーモードを作れる．
     (interactive "e")
     (popup-menu menu-bar-edit-menu))
   (global-set-key [mouse-3] 'bingalls-edit-menu))
-#+END_SRC
-** Power Line
-モードラインを矢印風に装飾する．使ってみたもののモードラインの情報量がだいぶ
-減ったのでやっぱり使わないことにした．
-- [[http://www.emacswiki.org/emacs-en/PowerLine][EmacsWiki: Power Line]]
-- [[http://d.hatena.ne.jp/kenjiskywalker/20120502/1335922233][Emacsにpowerlineを入れてみたら超絶coolだった - kenjiskywalker no memo]]
-#+BEGIN_SRC emacs-lisp +n
-;; (defun arrow-right-xpm (color1 color2)
-;;   "Return an XPM right arrow string representing."
-;;   (format "/* XPM */
-;; static char * arrow_right[] = {
-;; \"12 18 2 1\",
-;; \".	c %s\",
-;; \" 	c %s\",
-;; \".           \",
-;; \"..          \",
-;; \"...         \",
-;; \"....        \",
-;; \".....       \",
-;; \"......      \",
-;; \".......     \",
-;; \"........    \",
-;; \".........   \",
-;; \".........   \",
-;; \"........    \",
-;; \".......     \",
-;; \"......      \",
-;; \".....       \",
-;; \"....        \",
-;; \"...         \",
-;; \"..          \",
-;; \".           \"};"  color1 color2))
-
-;; (defun arrow-left-xpm (color1 color2)
-;;   "Return an XPM right arrow string representing."
-;;   (format "/* XPM */
-;; static char * arrow_right[] = {
-;; \"12 18 2 1\",
-;; \".	c %s\",
-;; \" 	c %s\",
-;; \"           .\",
-;; \"          ..\",
-;; \"         ...\",
-;; \"        ....\",
-;; \"       .....\",
-;; \"      ......\",
-;; \"     .......\",
-;; \"    ........\",
-;; \"   .........\",
-;; \"   .........\",
-;; \"    ........\",
-;; \"     .......\",
-;; \"      ......\",
-;; \"       .....\",
-;; \"        ....\",
-;; \"         ...\",
-;; \"          ..\",
-;; \"           .\"};"  color2 color1))
-
-;; (defconst color1 "#555")
-;; (defconst color2 "#333")
-
-;; (defvar arrow-right-1 (create-image (arrow-right-xpm color1 color2) 'xpm t :ascent 'center))
-;; (defvar arrow-right-2 (create-image (arrow-right-xpm color2 "None") 'xpm t :ascent 'center))
-;; (defvar arrow-left-1  (create-image (arrow-left-xpm color2 color1) 'xpm t :ascent 'center))
-;; (defvar arrow-left-2  (create-image (arrow-left-xpm "None" color2) 'xpm t :ascent 'center))
-
-;; (defun set-power-line ()
-;;   "Set mode-line to power line."
-;;   (interactive)
-;;   (setq-default mode-line-format
-;;                 (list  '(:eval (concat (propertize " %b " 'face 'mode-line-color-1)
-;;                                        (propertize " " 'display arrow-right-1)))
-;;                        '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
-;;                                        (propertize " " 'display arrow-right-2)))
-
-;;                        ;; Justify right by filling with spaces to right fringe - 16
-;;                        ;; (16 should be computed rahter than hardcoded)
-;;                        '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
-
-;;                        '(:eval (concat (propertize " " 'display arrow-left-2)
-;;                                        (propertize " %p " 'face 'mode-line-color-2)))
-;;                        '(:eval (concat (propertize " " 'display arrow-left-1)
-;;                                        (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
-;;                        ))
-
-;;   (make-face 'mode-line-color-1)
-;;   (set-face-attribute 'mode-line-color-1 nil
-;;                       :foreground "#fff"
-;;                       :background color1)
-
-;;   (make-face 'mode-line-color-2)
-;;   (set-face-attribute 'mode-line-color-2 nil
-;;                       :foreground "#fff"
-;;                       :background color2)
-
-;;   (set-face-attribute 'mode-line nil
-;;                       :foreground "#fff"
-;;                       :background "#000"
-;;                       :box nil)
-;;   (set-face-attribute 'mode-line-inactive nil
-;;                       :foreground "#fff"
-;;                       :background "#000")
-;;   )
-;; (add-hook 'after-init-hook 'set-power-line)
 #+END_SRC
 ** モードラインのモード表示を変更する
 *** マイナーモード
@@ -2068,12 +1734,6 @@ Works in Microsoft Windows, Mac OS X, Linux."
 (use-package align :defer t
   :config
   (add-to-list 'align-rules-list
-               '(latex-table-alignment
-                 (regexp . "\\([ \t]*\\)&")
-                 (repeat . t)
-                 (modes . '(yatex-mode))))
-
-  (add-to-list 'align-rules-list
                '(pukiwiki-table-alignment
                  (regexp . "\\([ \t]*\\)|")
                  (spacing . 0)
@@ -2189,182 +1849,12 @@ Emacs で pdf 閲覧する．
   (cua-incr-rectangle (- decriment)))
 (define-key cua--rectangle-keymap (kbd "M-d") 'cua-my-dec-rectangle)
 #+END_SRC
-** open-dribble
-キー入力を記録してファイルに保存する．あんまり意味がなかったのでコメントアウ
-ト．
-#+BEGIN_SRC emacs-lisp +n
-;; (defvar my-dribble-file (concat user-emacs-directory ".dribble") "dribble file")
-;; (open-dribble-file my-dribble-file)
-#+END_SRC
 ** sh-script.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package sh-script :defer t
   :config
   (setq-default sh-basic-offset 2)
   (setq-default sh-indentation 2))
-#+END_SRC
-** eshell.el
-Emacs lisp によるシェル．リダイレクトがないのがきつい．
-#+BEGIN_SRC emacs-lisp +n
-  (use-package eshell :defer t
-    :commands (eshell)
-    :config
-    ;; 補完時に大文字小文字を区別しない
-    (setq eshell-cmpl-ignore-case t)
-    ;; 確認なしでヒストリ保存
-    (setq eshell-ask-to-save-history (quote always))
-    ;; 補完時にサイクルする
-    (setq eshell-cmpl-cycle-completions t)
-    ;;補完候補がこの数値以下だとサイクルせずに候補表示
-    (setq eshell-cmpl-cycle-cutoff-length 5)
-    ;; 履歴で重複を無視する
-    (setq eshell-hist-ignoredups t)
-    ;; prompt文字列の変更
-    (defun my-eshell-prompt ()
-      (concat (eshell/pwd) "\n$ " ))
-    (setq eshell-prompt-function 'my-eshell-prompt)
-    ;; (setq eshell-prompt-function
-    ;;       '(lambda ()
-    ;;         (concat "hoge "
-    ;;                 (eshell/pwd)
-    ;;                 ;(if (= (user-uid) 0) "]\n# " "]\n$ ")
-    ;;                 )))
-    ;; 変更したprompt文字列に合う形でpromptの初まりを指定(C-aで"$ "の次にカーソルがくるようにする)
-    ;; これの設定を上手くしとかないとタブ補完も効かなくなるっぽい
-    (setq eshell-prompt-regexp "^[^#$]*[$#] ")
-
-    ;; eshell の解釈を別のパーサで乗っ取り
-    (use-package esh-myparser
-      :config
-      (defun eshell-parser/z (str) (eshell-parser/b str "zsh"))) ; zsh で乗っ取り
-
-    ;; elisp として解釈
-    (defun eshell/e (arg) (eval (read (format "%s" arg))))
-
-    ;; eshell の Unix コマンドエミュレーションを無効にする
-    (progn
-      (defmacro eval-after-load* (name &rest body)
-        (declare (indent 1))
-        `(eval-after-load ,name '(progn ,@body)))
-      (defun eshell-disable-unix-command-emulation ()
-        (eval-after-load* "em-ls"
-          (fmakunbound 'eshell/ls))
-        (eval-after-load* "em-unix"
-          (mapc 'fmakunbound '(eshell/agrep
-                               eshell/basename
-                               eshell/cat
-                               eshell/cp
-                               eshell/date
-                               eshell/diff
-                               eshell/dirname
-                               eshell/du
-                               eshell/egrep
-                               eshell/fgrep
-                               eshell/glimpse
-                               eshell/grep
-                               eshell/info
-                               eshell/ln
-                               eshell/locate
-                               eshell/make
-                               eshell/man
-                               eshell/mkdir
-                               eshell/mv
-                               eshell/occur
-                               eshell/rm
-                               eshell/rmdir
-                               eshell/su
-                               eshell/sudo
-                               eshell/time))))
-      (eshell-disable-unix-command-emulation))
-
-    ;; eshell のコマンドライン上の挙動を変更する（るびきちメルマガ）
-    (defun eshell-in-command-line-p ()
-      (<= eshell-last-output-end (point)))
-    (defmacro defun-eshell-cmdline (key &rest body)
-      (let ((cmd (intern (format "eshell-cmdline/%s" key))))
-        `(progn
-           (add-hook 'eshell-mode-hook
-                     (lambda () (define-key eshell-mode-map (read-kbd-macro ,key) ',cmd)))
-           (defun ,cmd ()
-             (interactive)
-             (if (not (eshell-in-command-line-p))
-                 (call-interactively (lookup-key (current-global-map) (read-kbd-macro ,key)))
-               ,@body)))))
-    (defun eshell-history-and-bol (func)
-      (delete-region eshell-last-output-end (point-max))
-      (funcall func 1)
-      (goto-char (point-max)));eshell-last-output-end))
-    ;; コマンドライン上の挙動変更
-    (defun-eshell-cmdline "C-p"
-      (let ((last-command 'eshell-previous-matching-input-from-input))
-        (eshell-history-and-bol 'eshell-previous-matching-input-from-input)))
-    (defun-eshell-cmdline "C-n"
-      (let ((last-command 'eshell-previous-matching-input-from-input))
-        (eshell-history-and-bol 'eshell-next-input)))
-    (defun-eshell-cmdline "C-w"
-      (delete-region (eshell-bol) (point-max)))
-    (defun-eshell-cmdline "M-^"
-      (my-minibuffer-delete-parent-directory))
-    (defun-eshell-cmdline "C-r"
-      (anything-eshell-history))
-    ;; `anything-eshell-history' 実行前に recenter する
-    (defadvice anything-eshell-history (before recenter-top activate)
-      (recenter 1))
-    ;; 1回1回履歴のアクセスをリセットする
-    (defadvice eshell-send-input (after history-position activate)
-      (setq eshell-history-index -1))
-
-    ;; eev と協調
-    ;; (defun eeeshell (s &optional e)
-    ;;   (interactive "r")
-    ;;   (eev s e)
-    ;;   (eepitch-eshell)
-    ;;   (eepitch-line ". $EE"))
-    ;; (setq eepitch-code '(eshell))
-    ;; (setq eeb-defaults '(eeeshell ee-delimiter-hash nil t t))
-    ;; (eeb-define 'eeeshell-bounded 'eeeshell 'ee-delimiter-hash nil t t)
-    ;; (global-set-key (kbd "<f6>") 'eepitch-this-line)
-    ;; ;; 文字列入力関数
-    ;; (defun eshell/readstr (varname &optional default)
-    ;;   "文字列を入力させて変数VARNAMEに記憶する。デフォルト値も指定できる。"
-    ;;   (set (intern varname)
-    ;;        (read-string (format "%s%s: " varname
-    ;;                             (if default (format " (default: %s)" default) ""))
-    ;;                     nil nil default)))
-    ;; (defun eshell/readfncd (varname)
-    ;;   "ファイル名を入力させて変数VARNAMEに記憶し、そのディレクトリに移動する。"
-    ;;   (let ((fn (read-file-name (format "%s: " varname))))
-    ;;     (eshell/pushd (file-name-directory fn))
-    ;;     (set (intern varname) (file-name-nondirectory fn))))
-    ;; (defun eshell/readfn (varname)
-    ;;   "ファイル名を入力させて変数VARNAMEに記憶する。"
-    ;;   (set (intern varname)
-    ;;        (file-relative-name (read-file-name (format "%s: " varname)))))
-    ;; (defun eshell/readdir (varname)
-    ;;   "ディレクトリ名を入力させて変数VARNAMEに記憶する。"
-    ;;   (set (intern varname) (read-directory-name (format "%s: " varname))))
-    ;; ;; escript
-    ;; (eval-after-load "anything"
-    ;;   '(progn
-    ;;      (defvar anything-c-escript-file-name
-    ;;        (expand-file-name "memo/escript.org" dropbox-directory))
-    ;;      (defvar anything-c-source-search-escript
-    ;;        '((name . "E-script search")
-    ;;          (candidates-file anything-c-escript-file-name update)
-    ;;          (target-file . anything-c-escript-file-name)
-    ;;          (get-line . anything-c-occur-get-line)
-    ;;          (recenter)
-    ;;          (requires-pattern . 3)
-    ;;          (migemo)
-    ;;          (type . line)))
-
-    ;;      (defun anything-escript-search ()
-    ;;        (interactive)
-    ;;        (anything :sources 'anything-c-source-search-escript
-    ;;                  :buffer "*anything-escript-search*"
-    ;;                  :follow-mode t))
-    ;;      ))
-    )
 #+END_SRC
 ** info.el
 info を Emacs で読む．
@@ -2402,30 +1892,6 @@ info を Emacs で読む．
 カーソル近くのファイルや URL を find-file で開く．
 #+BEGIN_SRC emacs-lisp +n
 (ffap-bindings)
-#+END_SRC
-** generic-x.el
-generic を用いて予め定義されているモード．
-#+BEGIN_SRC emacs-lisp +n
-;;; (use-package generic-x)
-#+END_SRC
-** filecache.el
-よく開くファイルやディレクトリをキャッシュとして保存しておく．
-#+BEGIN_SRC emacs-lisp +n
-;;; find-file の時に C-TAB で補完できる
-(use-package filecache :defer t
-  :config
-  ;; キャッシュするディレクトリを指定。このディレクトリ下のファイルを補完できる
-  ;; ディレクトリは対象外らしい
-  (file-cache-add-directory-list
-   (list "~/.emacs.d/" "~/.emacs.d/auto-install/" "~/.emacs.d/site-lisp")))
-#+END_SRC
-** skk
-#+BEGIN_SRC emacs-lisp +n
-;; (setq skk-user-directory "~/.emacs.d/ddskk/")
-;; (use-package skk-autoloads
-;;   :config
-;;   (global-set-key (kbd "C-x C-j") 'skk-mode)
-;;   (setq skk-byte-compile-init-file t))
 #+END_SRC
 ** desktop.el
 セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)．
@@ -2787,7 +2253,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
          ("M-R" . mc/mark-all-dwim))
   )
 #+END_SRC
-#+END_SRC
 ** web-mode.el
 - [[http://web-mode.org/][web-mode.el - HTML template editing (PHP/JSP/ASP) for Emacs]]
 package.el からインストール．
@@ -2861,13 +2326,6 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
          ("CONFIG\\."        . bat-mode)
          ("AUTOEXEC\\."      . bat-mode))
   )
-#+END_SRC
-** google-weather
-google 天気予報を使う．ロケールを日本にしたいがやり方がわからない．温度表記も
-華氏なのでさっぱりわからん．
-#+BEGIN_SRC emacs-lisp +n
-(use-package google-weather :defer t)
-(use-package org-google-weather :defer t)
 #+END_SRC
 ** hiwin.el
 - [[http://d.hatena.ne.jp/ksugita0510/20111223][gnupackの開発メモ]]
@@ -2991,93 +2449,6 @@ google 天気予報を使う．ロケールを日本にしたいがやり方が�
   (setq hl-line-overlay-priority 1)  ; ハイライトの優先度．個人的には低くしたい
   )
 #+END_SRC
-** editable-help.el
-- [[http://d.hatena.ne.jp/meech/searchdiary?word=%2A%5BEmacs%5D][Emacs - Emacs ひきこもり生活]]
-みんなで編集可能な *Help* バッファ．id:meech さんのサーバにファイルを使っている．
-#+BEGIN_SRC emacs-lisp +n
-;; editable-help.el
-;; (auto-install-from-url "https://raw.github.com/gist/614195/dcdf01bcfa3fbd03c38957058e513687c7f3b4ab/editable-help.el")
-;;(my-safe-load "editable-help")
-#+END_SRC
-ヘルプするたびに一々ネット接続しに行くのがうざかったので，コメントアウト．
-** key-combo.el
-- [[http://d.hatena.ne.jp/uk-ar/20120313/1331644314][key-combo v1.3をリリース:post-command-hookを使うelispと併用しても問題ないようにしました - むしゃくしゃしてやった]]
-記号入力の補助．
-#+BEGIN_SRC emacs-lisp +n
-(use-package key-combo :defer t)
-#+END_SRC
-** menu-tree.el
-- [[http://www11.atwiki.jp/s-irie/pages/13.html][irie @ ウィキ - menu-tree.el]]
-メニューバーを日本語化する．Windows 環境では一部文字化けあり．
-#+BEGIN_SRC emacs-lisp +n
-;(when window-system
-;  (setq menu-tree-coding-system 'utf-8)   ; require の前に設定したほうがよさそう
-;  (use-package menu-tree))
-#+END_SRC
-** emoji.el
-- [[https://github.com/imakado/emoji][imakado/emoji]]
-
-#+BEGIN_SRC emacs-lisp +n
-(use-package emoji :defer t
-  :bind ("C-x 8 e" . emoji-complete-pictogram)
-  :config
-  (defvar emoji-my-carrier "ezweb" "My carrier for emoji")
-  (defadvice emoji-complete-pictogram (after display-image-buffer activate)
-    (emoji-display-images-buffer emoji-my-carrier))
-  )
-#+END_SRC
-** highlight-indentation
-#+BEGIN_SRC emacs-lisp +n
-;;; highlight-indentation.el
-(use-package highlight-indentation :defer t
-  :commands (highlight-indentation-mode highlight-indentation-current-column-mode)
-  )
-#+END_SRC
-** eev
-るびきちメルマガより
-#+BEGIN_SRC emacs-lisp +n
-;;; Emacs ハイパーリンク作戦
-;; (add-to-list 'load-path "~/eev-current/")
-(use-package eev-all :defer t
-  :config
-  (global-set-key (kbd "M-e") 'eek-eval-sexp-eol)
-  (global-set-key (kbd "M-k") 'kill-this-buffer))
-#+END_SRC
-** evernote-mode
-#+BEGIN_SRC emacs-lisp +n
-(use-package evernote-mode
-  :config
-  (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8"))
-  (setq evernote-username "g03090416")
-  (global-set-key "\C-c\C-ec" 'evernote-create-note)
-  (global-set-key "\C-c\C-eo" 'evernote-open-note)
-  (global-set-key "\C-c\C-es" 'evernote-search-notes)
-  (global-set-key "\C-c\C-eS" 'evernote-do-saved-search)
-  (global-set-key "\C-c\C-ew" 'evernote-write-note)
-  (global-set-key "\C-c\C-ep" 'evernote-post-region)
-  (global-set-key "\C-c\C-eb" 'evernote-browser)
-  )
-#+END_SRC
-** dokuwiki
-dokuwiki フロントエンド
-#+BEGIN_SRC emacs-lisp +n
-;;; 要 simple-wiki.el
-(use-package dokuwiki :defer t
-  :config
-  (setq dokuwiki-username "kai"
-        dokuwiki-password "password"
-        dokuwiki-base-url "http://"))
-#+END_SRC
-** vimpulse
-- [[https://sites.google.com/site/fudist/Home/vimpulse][Vimpulse / viper-modeの使い方 - fudist]]
-vim エミュレータ
-#+BEGIN_SRC emacs-lisp +n
-;; (use-package vimpulse
-;;   :config
-;;   (viper-go-away)
-;;   (global-set-key (kbd "<M-delete>") 'toggle-viper-mode)
-;;   )
-#+END_SRC
 ** guide-key.el
 キーバインドを自動的に表示
 #+BEGIN_SRC emacs-lisp +n
@@ -3120,18 +2491,7 @@ vim エミュレータ
   (add-hook 'text-mode 'wrap-region-mode)
   :config
   (wrap-region-add-wrapper "`" "'")
-  (wrap-region-add-wrapper "$" "$" nil 'yatex-mode))
-#+END_SRC
-** yspel.el
-- [[http://ubulog.blogspot.jp/2010/09/emacs.html][ubulog: Emacsから校正支援する]]
-日本語校正支援
-#+BEGIN_SRC emacs-lisp +n
-;;; git clone git://github.com/yama-natuki/yspel
-(use-package yspel :defer t)
-#+END_SRC
-** bashdb.el
-#+BEGIN_SRC emacs-lisp +n
-(autoload 'bashdb "bashdb" "BASH Debugger mode via GUD and bashdb" t)
+  )
 #+END_SRC
 ** expand-region.el
 - [[https://github.com/magnars/expand-region.el][magnars/expand-region.el]]
@@ -3205,13 +2565,6 @@ vim エミュレータ
                                 ("C-b" . (org-backward-heading-same-level 1))
                                 ("C-u" . outline-up-heading)))
        ))
-
-  ;; (eval-after-load "yatex"
-  ;;   '(progn
-  ;;      (smartrep-define-key
-  ;;       YaTeX-mode-map "C-c" '(("C-n" . (outline-next-visible-heading 1))
-  ;;                              ("C-p" . (outline-previous-visible-heading 1))))
-  ;;      ))
   )
 #+END_SRC
 ** quickrun.el
@@ -3232,40 +2585,6 @@ vim エミュレータ
     "Java8でも一時ファイルを作らないようアドバイス"
     (when (string= (ad-get-arg 0) "java8")
       (setq ad-return-value nil)))
-  )
-#+END_SRC
-** cycle-buffer.el
-バッファを環状に訪問
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "cycle-buffer.el")
-(use-package cycle-buffer
-  :config
-  (global-set-key (kbd "C-.") 'cycle-buffer)
-  (global-set-key (kbd "C-,") 'cycle-buffer-backward)
-  )
-#+END_SRC
-** shell-history.el
-シェルの履歴を履歴ファイルに書きこむ．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/shell-history.el")
-(use-package shell-history
-  :config
-  (setq shell-history-file "~/.zsh_history")
-
-  ;; add command in shell-mode to history file
-  (defadvice comint-send-input (before add-to-shell-history activate)
-    (when (eq major-mode 'shell-mode)
-      (add-to-shell-history (buffer-substring (point-at-bol) (point-at-eol)))))
-  )
-#+END_SRC
-** cedet.el
-- [[http://cedet.sourceforge.net/][Collection of Emacs Development Environment Tools Homepage]]
-Emacs で開発環境．
-#+BEGIN_SRC emacs-lisp +n
-(use-package cedet
-  (global-ede-mode 1)                      ; Enable the Project management system
-  (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
-  (global-srecode-minor-mode 1)            ; Enable template insertion menu
   )
 #+END_SRC
 ** open-junk-file.el
@@ -3314,76 +2633,6 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   ;; "C-/" is translated "C-_" in CUI. So, I can't use undo-tree-undo on above setting.
   )
 #+END_SRC
-** highlight-80+.el
-指定したカラムを超えているテキストに色付けする．日本語の考慮なし．やっぱ自分で
-つくるしかないか．
-#+BEGIN_SRC emacs-lisp +n
-(use-package highlight-80+ :defer t
-  :config
-  (setq highlight-80+-columns fill-column))
-#+END_SRC
-** kogiku.el
-- [[http://kogiku.sourceforge.jp/][小菊]]
-#+BEGIN_SRC emacs-lisp +n
-(use-package kogiku
-  :config
-  (setq kogiku-enable-once nil))
-#+END_SRC
-** nyan-mode.el
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://raw.github.com/TeMPOraL/nyan-mode/master/nyan-mode.el")
-(use-package nyan-mode)
-
-#+END_SRC
-** judge-indent.el
-- [[http://d.hatena.ne.jp/yascentur/20110626/1309099966][Emacs でインデント幅とタブ幅を自動判定するマイナーモード judge-indent.el -
-  キーボードをたたくとき]]
-インデントの幅やタブを操作，モードラインに表示．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://raw.github.com/yascentur/judge-indent-el/1.0.0/judge-indent.el")
-(use-package judge-indent
-  :config
-  (global-judge-indent-mode t)
-  (setq judge-indent-major-modes '(c-mode python-mode sh-mode)))
-#+END_SRC
-** thing-opt.el
-- [[http://dev.ariel-networks.com/articles/emacs/part5/][リージョン選択(松山智大) — ありえるえりあ]]
-thing を定義，操作する．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/thing-opt.el")
-(use-package thing-opt :defer t
-  :config
-  (define-thing-commands)
-  (eval-after-load "key-chord"
-    '(progn
-       (key-chord-define-global "dw" 'kill-word*)
-       (key-chord-define-global "yw" 'copy-word)
-       (key-chord-define-global "vw" 'mark-word*)
-       (key-chord-define-global "ds" 'kill-sexp*)
-       (key-chord-define-global "ys" 'copy-sexp)
-       (key-chord-define-global "vs" 'mark-sexp*)
-       (key-chord-define-global "dq" 'kill-string)
-       (key-chord-define-global "yq" 'copy-string)
-       (key-chord-define-global "vq" 'mark-string)
-       (key-chord-define-global "dl" 'kill-up-list)
-       (key-chord-define-global "yl" 'copy-up-list)
-       (key-chord-define-global "vl" 'mark-up-list)))
-  )
-#+END_SRC
-** nav.el
-- [[http://code.google.com/p/emacs-nav/][emacs-nav - Emacs mode for filesystem navigation - Google Project Hosting]]
-ディレクトリのファイル一覧を表示
-#+BEGIN_SRC emacs-lisp +n
-(use-package nav :defer t)
-#+END_SRC
-** bookmark-extensions.el
-bookmark.el の拡張．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://mercurial.intuxication.org/hg/emacs-bookmark-extension/raw-file/7a874534bc63/bookmark-extensions.el")
-;;; anything-bookmark-ext に必要なようだ．多少はブックマークが使いやすくなるのか？
-(use-package bookmark-extensions)
-#+END_SRC
-使い方がよう分からん．
 ** e2wm.el
 - [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
   （旧名称 ewm.el） - 技術日記＠kiwanami]]
@@ -3860,92 +3109,6 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   :config
   (setq helm-locate-command "locate %s -e -A %s"))
 #+END_SRC
-** Inertial-scroll.el
-- [[http://d.hatena.ne.jp/kiwanami/20101008/1286518936][deferred.el リリース - 技術日記＠kiwanami]]
-慣性スクロール．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://github.com/kiwanami/emacs-inertial-scroll/raw/master/inertial-scroll.el")
-(use-package inertial-scroll
-  :config
-  (setq inertias-global-minor-mode-map
-        (inertias-define-keymap
-         '(
-           ("<wheel-up>"   . inertias-down-wheel)
-           ("<wheel-down>" . inertias-up-wheel)
-           ("<mouse-4>"    . inertias-down-wheel)
-           ("<mouse-5>"    . inertias-up-wheel)
-           ("<next>"  . inertias-up)
-           ("<prior>" . inertias-down)
-           ("C-v"     . inertias-up)
-           ("M-v"     . inertias-down)
-           ) inertias-prefix-key))
-  (inertias-global-minor-mode 1)
-  (setq inertias-initial-velocity 90) ; 初速（大きいほど一気にスクロールする）
-  (setq inertias-initial-velocity-wheel 50) ; ホイールの初速（大きいほど一気にスクロールする）
-  (setq inertias-friction 200)        ; 摩擦抵抗（大きいほどすぐ止まる）
-  (setq inertias-rest-coef 0)         ; 画面端でのバウンド量（0はバウンドしない。1.0で弾性反発）
-  (setq inertias-update-time 1)      ; 画面描画のwait時間（msec）
-  )
-#+END_SRC
-見た目はおもろいし、わかりやすくなる。しかし、スクロールするのに多少の時間がかかるので、常用するのは微妙かもしれん。
-** smartchr.el
-1つのキーに様々な文字列を割り当てることができる．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://github.com/imakado/emacs-smartchr/raw/master/smartchr.el")
-;; (use-package smartchr
-;;   :config
-;;   (global-set-key (kbd "=") (smartchr '(" = " " == " "=")))
-;;   (global-set-key (kbd "{") (smartchr '("{`!!'}" "{")))
-;;   (global-set-key (kbd "(") (smartchr '("(`!!')" "(")))
-;;   )
-;; 若干使いにくい。プログラミングの時だけ有効とかにしたほうがいいか
-#+END_SRC
-** switch-window.el
-ウィンドウの移動を番号で指定して移動する．C-x o の代替としてはまあまあいいか
-もしれない．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://github.com/dimitri/switch-window/raw/master/switch-window.el")
-(use-package switch-window :defer t)
-#+END_SRC
-** matlab-eldoc.el
-- [[http://d.hatena.ne.jp/uhiaha888/20101108/1289223580][matlabでもel-doc - uhiaha888の日記]]
-matlab の引数を表示．
-#+BEGIN_SRC emacs-lisp +n
-(use-package matlab-eldoc :defer t)
-#+END_SRC
-** sdic.el
-辞書をひく．
-#+BEGIN_SRC emacs-lisp +n
-;; (autoload 'sdic-describe-word
-;;   "sdic" "英単語の意味を調べる" t nil)
-;; (global-set-key  (kbd "C-c d") 'sdic-describe-word)
-;; (autoload 'sdic-describe-word-at-point
-;;   "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
-;; (global-set-key (kbd "C-c D") 'sdic-describe-word-at-point)
-;; ;; 英和検索で使用する辞書
-;; (setq sdic-eiwa-dictionary-list
-;;       '((sdicf-client "~/.emacs.d/dict/gene.sdic")))
-;; ;; 和英検索で使用する辞書
-;; (setq sdic-waei-dictionary-list
-;;       '((sdicf-client "~/.emacs.d/dict/jedict.sdic")))
-;; ;; 文字色
-;; (setq sdic-face-color "pink")
-#+END_SRC
-** navi2ch.el
-2ch ビューアー．
-#+BEGIN_SRC emacs-lisp +n
-(use-package navi2ch
-  :commands (navi2ch)
-  :config
-  (progn
-     (defadvice navi2ch-article-next-message (after recenter-after activate)
-       (recenter))
-     (defadvice navi2ch-article-previous-message (after recenter-after activate)
-       (recenter))
-     (define-key navi2ch-article-mode-map (kbd "]") 'navi2ch-article-next-link)
-     (define-key navi2ch-article-mode-map (kbd "[") 'navi2ch-article-previous-link)
-     ))
-#+END_SRC
 ** color-moccur.el
 強化版 occur．moccur をもとに改造したらしい．
 #+BEGIN_SRC emacs-lisp +n
@@ -3966,269 +3129,6 @@ matlab の引数を表示．
   ; moccur-edit
   ; (auto-install-from-url "http://www.bookshelf.jp/elc/moccur-edit.el")
   (use-package moccur-edit))
-#+END_SRC
-** xdoc2txt.el
-- [[http://www.bookshelf.jp/soft/meadow_23.html#SEC238][Meadow/Emacs memo: ファイルを開く関連]]
-pdf や word のテキスト部分を抽出して表示する．Windows 専用．
-#+BEGIN_SRC emacs-lisp +n
-;; (when (winp)
-;;   (my-safe-load "xdoc2txt.el"))
-#+END_SRC
-** htmlize.el
-Emacs のハイライトをそのまま html に変換
-#+BEGIN_SRC emacs-lisp +n
-(use-package htmlize :defer t)
-#+END_SRC
-** approx-search.el
-- [[http://www.geocities.co.jp/SiliconValley-PaloAlto/7043/#approx-search.el][(Scheme) (Lisp)]]
-曖昧検索できる．
-#+BEGIN_SRC emacs-lisp +n
-(use-package approx-search
-  :config
-  (if (boundp 'isearch-search-fun-function)
-      (use-package approx-isearch)
-    (use-package approx-old-isearch))
-  (approx-isearch-set-enable))
-#+END_SRC
-Migemo との共存がちょっとめんどいので一旦コメントアウト
-** sr-speedbar.el
-同一フレーム内に speedbar を作る．そんなに使い方を理解していない．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "sr-speedbar.el")
-(use-package sr-speedbar :defer t
-  :bind ("H-s" . sr-speedbar-toggle))
-#+END_SRC
-** cacoo.el
-- [[http://d.hatena.ne.jp/kiwanami/20110303/1299174459][cacoo.el v2.0 リリース - 技術日記＠kiwanami]]
-インライン画像表示 & cacoo編集．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/deferred.el")
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-deferred/raw/master/concurrent.el")
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo.el")
-;;; (auto-install-from-url "https://github.com/kiwanami/emacs-cacoo/raw/master/cacoo-plugins.el")
-(use-package cacoo :defer t; cacooを読み込み
-  :config
-  (use-package cacoo-plugins)      ; 追加機能
-  ;; 追加設定
-  (setq cacoo:img-regexp
-        '("\\[img:\\(.*\\)\\][^]\n\r]*$" ; cacoo のデフォルト
-          "\\[\\[file:\\([^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode のファイルリンクにマッチさせる
-          "\\[\\[\\(http:[^]\n\r]*\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\)\\]\\(\\[[^]\n\r]*\\]\\)?\\]" ; org-mode の http リンクにマッチさせる
-          ))
-  (setq cacoo:external-viewer nil)
-  (setq cacoo:img-dir (concat user-emacs-directory ".cacoo-cache"))
-  (setq cacoo:img-dir-ok t) ; 画像フォルダは確認無しで作る(my-safe-require 'cacoo
-  (global-set-key (kbd "M-c") 'toggle-cacoo-minor-mode)
-  (add-to-list 'cacoo:translation-exts "pdf") ; imagemagick で png 形式に変換して表示するファイルの拡張子を登録する
-                                              ; デフォルトでは ("ps" "eps" "svg")
-  (setq cacoo:png-background "white")
-  ;; org-mode のリンクの下線を消す
-  ;; http://sheephead.homelinux.org/2011/02/09/6582/
-  (defadvice toggle-cacoo-minor-mode
-    (around my-toggle-cacoo-minor activate)
-    (if (string-equal mode-name "Org")
-        (if cacoo-minor-mode
-            (progn
-              ad-do-it
-              (set-face-underline 'org-link t))
-          (progn
-            (set-face-underline 'org-link nil)
-            ad-do-it))
-      ad-do-it))
-  ;; 別 prefix を定義する
-  (define-prefix-command 'cacoo-my-minor-mode-keymap)
-  (setq cacoo-my-map-alist
-        '(("q" . cacoo:minor-mode-off-command)
-          ("n"   . cacoo:navi-next-diagram-command)
-          ("p"   . cacoo:navi-prev-diagram-command)
-
-          ("r"   . cacoo:reload-next-diagram-command)
-          ("R"   . cacoo:reload-all-diagrams-command)
-
-          ("g"   . cacoo:reload-or-revert-current-diagram-command)
-
-          ("t"   . cacoo:revert-next-diagram-command)
-          ("T"   . cacoo:revert-all-diagrams-command)
-
-          ("d"   . cacoo:display-next-diagram-command)
-          ("D"   . cacoo:display-all-diagrams-command)
-
-          ("I"   . cacoo:anything-command)
-          ("i"   . cacoo:insert-pattern-command)
-          ("y"   . cacoo:insert-yank-command)
-
-          ("N"   . cacoo:create-new-diagram-command)
-          ("e"   . cacoo:edit-next-diagram-command)
-          ("v"   . cacoo:view-next-diagram-command)
-          ("V"   . cacoo:view-local-cache-next-diagram-command)
-
-          ("C"   . cacoo:clear-all-cache-files-command)
-
-          ("l"   . cacoo:open-diagram-list-command)))
-  (mapc
-   (lambda (i)
-     (define-key cacoo-my-minor-mode-keymap
-       (if (stringp (car i))
-           (read-kbd-macro (car i)) (car i))
-       (cdr i)))
-   cacoo-my-map-alist)
-  (define-key cacoo-minor-mode-keymap (kbd "M-c") 'cacoo-my-minor-mode-keymap)
-  )
-#+END_SRC
-** color-theme.el
-Emacs の色付けをいろいろなテーマから選べる． 組み込みのカラーテーマでなかなか
-いいのは，
-- Clarity and Beauty :: dark 系でわりかし見やすい．自分設定とあまり変わらないか
-  も．しかし，モードラインの文字色だけは見にくい．
-#+BEGIN_SRC emacs-lisp +n
-;;; color-theme.el
-;;; (auto-install-from-emacswiki "color-theme.el")
-(use-package color-theme :defer t
-  :commands (color-theme-select)
-  :config
-  (color-theme-initialize)
-#+END_SRC
-*** color-theme-solarized.el
-- [[https://github.com/sellout/emacs-color-theme-solarized][sellout/emacs-color-theme-solarized]]
-ライトでも，ダークでもいい感じのコントラストのテーマで人気らしい．
-#+BEGIN_SRC emacs-lisp +n
-  ;; color-theme-solarized
-  ;; (use-package color-theme-solarized
-  ;;   :config
-  ;;   (color-theme-solarized-dark))
-  )
-#+END_SRC
-背景と本文のコントラストが足りなかった．またコメントの色が本文と似ていてわかり
-にくいので使うのはやめた．
-** pink-bliss.el
-ピンク色カラーテーマ．気分を変えるにはいいが，すぐ飽きる．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "pink-bliss.el")
-;; (use-package pink-bliss
-;;   :config
-;;   (pink-bliss))
-#+END_SRC
-** viewer.el
-view-mode を便利に．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "viewer.el")
-(use-package viewer :defer t
-  :config
-  (setq view-read-only t)
-  ;; 書き込み不能なファイルはview-modeで開くように
-  (viewer-stay-in-setup)
-  ;; 特定のファイルは view-mode で開く
-  (setq view-mode-by-default-regexp "\\.log$")
-  ;; view-mode ではカーソル色を青にする
-  ;; Emacs24 の view-mode でカーソルが青くなるのは
-  ;; ibus.el の設定で、ibus が使えないときにカーソルが
-  ;; 青くなるからだった。
-  ;; (when (<= emacs-major-version 23)
-  ;;   (defadvice view-mode (before set-view-mode-cursor-color activate)
-  ;;     "Before execute view-mode, set cursor-color blue."
-  ;;     (if view-mode
-  ;;         (set-cursor-color "yellow")
-  ;;       (set-cursor-color "blue"))))
-  ;; 結局ややこしいのでつけないことにした
-
-  ;; view-mode の時モードラインを色づけ
-  (setq viewer-mode-line-color-unwritable "tomato")
-  (setq viewer-mode-line-color-view "orange")
-  ;; root ユーザ時はモードラインの色を変える
-  (setq viewer-mode-line-color-root "magenta")
-  ;; root のため条件を書き加えるために関数を再定義
-  (defun viewer-change-mode-line-color ()
-    (interactive)
-    (when (eq (selected-window)
-              (get-buffer-window (current-buffer)))
-      (set-face-background
-       'mode-line
-       (cond ((and buffer-file-name view-mode
-                   (not (file-writable-p buffer-file-name)))
-              viewer-mode-line-color-unwritable)
-             (view-mode
-              viewer-mode-line-color-view)
-             ((let ((name (or list-buffers-directory (buffer-file-name))))
-                (and (tramp-tramp-file-p name)
-                     (string= (tramp-file-name-real-user (tramp-dissect-file-name name))
-                              "root")))
-              viewer-mode-line-color-root)
-             (t
-              viewer-mode-line-color-default)))))
-
-  (viewer-change-mode-line-color-setup)
-  ;; 閲覧用キーマップ
-  (defvar pager-keybind
-    `( ;; vi-like
-      ("h" . backward-char)
-      ("l" . forward-char)
-      ("k" . previous-line)
-      ("j" . next-line)
-      ("K" . ,(lambda () (interactive) (previous-line 4)))
-      ("J" . ,(lambda () (interactive) (next-line 4)))
-      ("0" . move-beginning-of-line)
-      ("^" . back-to-indentation)
-      ("$" . move-end-of-line)
-      ;; ("b" . inertias-up)               ; inertial-scroll に変更。微妙か。
-      ;; ("f" . inertias-down)
-      ("b" . scroll-down)
-      ("f" . scroll-up)
-      ;("\C-u" . ,(lambda () (interactive) (scroll-down (/ (window-height) 2))))
-      ;("\C-d" . ,(lambda () (interactive) (scroll-up (/ (window-height) 2))))
-      ("p" . ,(lambda (arg) (interactive "p") (scroll-down arg)))
-      ("n" . ,(lambda (arg) (interactive "p") (scroll-up arg)))
-      ;("y" . ,(lambda () (interactive) (scroll-down 1)))
-      ("e" . jaunte)
-      ("g" . ,(lambda (line) (interactive "p") (goto-line line)))
-      ("G" . end-of-buffer)
-      ("M" . move-to-window-line-top-bottom)
-      ("H" . ,(lambda () (interactive) (move-to-window-line 0)))
-      ("L" . ,(lambda () (interactive) (move-to-window-line -1)))
-      ("z" . recenter-top-bottom)
-      ;; bm-easy
-      ("m" . bm-toggle)
-      ("[" . bm-previous)
-      ("]" . bm-next)
-      ;; langhelp-like
-      ("c" . scroll-other-window-down)
-      ("v" . scroll-other-window)
-      ))
-  (defun define-many-keys (keymap key-table &optional includes)
-    (let (key cmd)
-      (dolist (key-cmd key-table)
-        (setq key (car key-cmd)
-              cmd (cdr key-cmd))
-        (if (or (not includes) (member key includes))
-            (define-key keymap key cmd))))
-    keymap)
-
-  (defun view-mode-hook0 ()
-    (define-many-keys view-mode-map pager-keybind)
-    ;;(hl-line-mode 1)
-    (define-key view-mode-map " " 'scroll-up))
-  (add-hook 'view-mode-hook 'view-mode-hook0)
-  )
-#+END_SRC
-** bm.el
-可視ブックマークをつける。たぶん本来のブックマークとは違うけど。
-#+BEGIN_SRC emacs-lisp +n
-(use-package bm :defer t
-  :bind (("M-M" . bm-toggle)
-         ("M-[" . bm-previous)
-         ("M-]" . bm-next))
-  :config
-  (setq-default bm-buffer-persistence t)
-  (setq bm-restore-repository-on-load t)
-  (setq bm-highlight-style 'bm-highlight-only-fringe)  ; fringe にのみ表示
-  (add-hook 'after-init-hook 'bm-repository-load)
-  (add-hook 'find-file-hooks 'bm-buffer-restore)
-  (add-hook 'after-revert-hook 'bm-buffer-restore)
-  (add-hook 'kill-buffer-hook 'bm-buffer-save)
-  (add-hook 'after-save-hook 'bm-buffer-save)
-  (add-hook 'kill-emacs-hook '(lambda ()
-                                (bm-buffer-save-all)
-                                (bm-repository-save)))
-  )
 #+END_SRC
 ** key-chord.el
 キーボード同時押しでコマンドを実行する．
@@ -4267,47 +3167,6 @@ view-mode を便利に．
   (key-chord-define global-map "b]" 'bm-next)
   )
 #+END_SRC
-** slime
-Common Lisp 用マイナーモード．HyperSpec という Common Lisp 用のリファレンスが
-あるらしいのでいつか入れよう．
-#+BEGIN_SRC emacs-lisp +n
-;;; $ cvs -d :pserver:anonymous:anonymous@common-lisp.net:/project/slime/cvsroot co slime
-(use-package slime :defer t
-  :init
-  (setq inferior-lisp-program "clisp")
-  :config
-  (slime-setup)
-  ;; 日本語利用
-  (setq slime-net-coding-system 'utf-8-unix)
-  ;; カーソル付近にある単語の情報を表示
-  ;;(slime-autodoc-mode)
-  )
-#+END_SRC
-** xdvi-search.el
-Emacs から xdvi に飛ぶ．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://xdvi.sourceforge.net/xdvi-search.el")
-(use-package xdvi-search :defer t
-  :config
-  (add-hook 'yatex-mode-hook
-            '(lambda ()
-               (YaTeX-define-key (kbd "C-d") 'xdvi-jump-to-line)))
-  ;; xdvi-jump-to-line しても xdvi にフォーカスが移らないので、移るようにする
-  ;; 簡易すぎるので複数 xdvi が立ち上がっているとダメかも？
-  ;; はじめて defadvice を使ったが便利ちゃんだ
-  (defadvice xdvi-jump-to-line (after xdvi-search-focus-to-xdvi activate)
-    "After xdvi-jum-to-line, focus to xdvik"
-    (shell-command "wmctrl -a xdvi")))
-;; --src-special の指定はお忘れなく
-;; TeX-master というローカル変数を相対パスで指定する（もしくは ~ を含めると
-;; いけないのかもしれない）とうまく動かないので注意
-#+END_SRC
-** minibuf-isearch.el
-minibufferで履歴検索．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
-(use-package minibuf-isearch :defer t)
-#+END_SRC
 ** popwin.el
 - [[https://github.com/m2ym/popwin-el][m2ym/popwin-el]]
 ポップアップウィンドウインターフェースを提供．
@@ -4327,12 +3186,6 @@ minibufferで履歴検索．
                                         ; しかも表示されるウィンドウの高さが一定でない気もする。どうしてだろう。
   (push '("*sdic*" :height 0.25 :position top :noselect t) popwin:special-display-config)
   (add-to-list 'popwin:special-display-config '("*quickrun*" :position right :width 85))
-  (eval-after-load "yatex"
-    '(progn
-       (use-package popwin-yatex
-         :config
-         (push '("*YaTeX-typesetting*" :position right :width 80 :noselect t) popwin:special-display-config)
-         (push '("** YaTeX HELP **" :position right :width 80 :noselect t) popwin:special-display-config))))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
   (eval-after-load "key-chord"
@@ -4343,70 +3196,6 @@ minibufferで履歴検索．
                '(compilation-mode :position right :width 80))
   (setq popwin:special-display-config
         (delete '(" *undo-tree*" :width 60 :position right) popwin:special-display-config))
-  )
-#+END_SRC
-** latex-math-preview.el
-- [[http://www16.atwiki.jp/ytk5/pages/13.html][ytk5 @ ウィキ - latex-math-preview.el]]
-tex 中の数式をプレビューする．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-emacswiki "latex-math-preview.el")
-(use-package latex-math-preview :defer t
-  :commands (latex-math-preview-expression
-             latex-math-preview-insert-symbol
-             latex-math-preview-save-image-file
-             latex-math-preview-beamer-frame)
-  :config
-  (add-hook 'yatex-mode-hook
-            '(lambda ()
-               (YaTeX-define-key "\C-p" 'latex-math-preview-expression)
-               ;; (YaTeX-define-key "\C-p" 'latex-math-preview-save-image-file)
-               (define-key YaTeX-mode-map (kbd "C-c j") 'latex-math-preview-insert-symbol)
-               (YaTeX-define-key "\C-j" 'latex-math-preview-last-symbol-again)
-               (YaTeX-define-key "\C-f" 'latex-math-preview-beamer-frame)
-               ))
-  (setq latex-math-preview-in-math-mode-p-func 'YaTeX-in-math-mode-p) ; 数式の判断に yatex のものを使う
-  ;; 用いるパッケージ
-  (setq latex-math-preview-latex-template-header
-        "\\documentclass{article}
-\\pagestyle{empty}
-\\usepackage{amsmath,amssymb,amsthm}
-\\usepackage{bm}")
-  ;; プレビューする書式を追加
-  (add-to-list 'latex-math-preview-match-expression
-               '(0 . "\\\\begin{table\\(\\|\\*\\)}\\(\\(.\\|\n\\)*?\\)\\\\end{table\\(\\|\\*\\)}")) ; table 環境
-  ;; latex ではなく platex を使用するように変更．また， dvipng だと日本語非対応なので gs-to-png にする。のは無理だった。
-  (setq latex-math-preview-tex-to-png-for-preview '(platex dvipng))
-  (setq latex-math-preview-tex-to-png-for-save '(platex dvipng))
-  ;(setq latex-math-preview-tex-to-png-for-preview '(platex dvips-to-eps gs-to-png))
-  ;(setq latex-math-preview-tex-to-png-for-save '(platex dvipdfmx gs-to-png))
-  (setq latex-math-preview-tex-to-eps-for-save '(platex dvips-to-eps))
-  (setq latex-math-preview-tex-to-ps-for-save '(platex dvips-to-ps))
-  (setq latex-math-preview-beamer-to-png '(platex dvipdfmx gs-to-png))
-
-  ;; (add-to-list 'latex-math-preview-command-option-alist '(gs-to-png "-q" "-dSAFER" "-dNOPAUSE" "-dBATCH" "-sDEVICE=png16m" "-dEPSCrop" "-r600"))
-  )
-#+END_SRC
-** twittering-mode.el
-Emacs でツイッター．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "https://github.com/hayamiz/twittering-mode/raw/master/twittering-mode.el")
-(use-package twittering-mode :defer t
-  :config
-  ;(setq twittering-use-master-password t)
-  (setq twittering-auth-method 'xauth)
-  (setq twittering-username "kbkbkbkb1")
-  (setq twittering-icon-mode t)
-  (setq twittering-fill-column 50)
-  (setq twittering-status-format "%i %s / %S,  %@:\n%FOLD{%T}\n  from %f%L%r%R\n ") ; 表示のフォーマット
-
-  (setq twittering-initial-timeline-spec-string ;   最初からから開くタイムライン
-        '(":home"
-          ":search/emacs/"
-          ":search/keysnail/"))
-  ;; バッファ名に [twitter] を追加する
-  ;(defadvice twittering-start (after my-twittering-start-add-buffer-name activate)
-  ;  (rename-buffer (concat (buffer-name) " [twitter]")))
-  ; :home にしか追加されなかった．どの関数にアドバイスすればいいかわからん・・・
   )
 #+END_SRC
 ** org-mode.el
@@ -4815,82 +3604,6 @@ Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package google-maps :defer t)
 #+END_SRC
-** jaunte.el
-- [[http://kawaguchi.posterous.com/emacshit-a-hint][EmacsでHit a Hint(改) - Leave Me In Emacs]]
-Hit a Hint でカーソル移動するライブラリ．
-#+BEGIN_SRC emacs-lisp +n
-;;; jaunte.el
-;;; (auto-install-from-url "https://raw.github.com/kawaguchi/jaunte.el/master/jaunte.el")
-(use-package jaunte
-  :config
-  (setq jaunte-keys (mapcar #'identity "asdfghjkl"))
-  (setq jaunte-hint-unit 'symbol)
-  (define-key mode-specific-map "e" 'jaunte) ; C-c e で Hit a Hint 移動
- 
-  ;; info では参照のみを対象とする
-  (defun my-jaunte-forward-word ()
-    "Move to beginning of a forward word, and return point."
-    (interactive)
-    (if (eq major-mode 'Info-mode)
-        (progn
-          (Info-next-reference)
-          (point))
-      (if (looking-at "\\w")
-          (forward-thing jaunte-hint-unit))
-      (if (re-search-forward "\\w" nil 'eob)
-          (backward-char))
-      (point)))
-  (defalias 'jaunte-forward-word 'my-jaunte-forward-word)
-  )
-#+END_SRC
-** postit.el
-- [[http://web.archive.org/web/19981202211943/www.is.s.u-tokyo.ac.jp/~tama/source.html][Tama's Softwares]]
-ファイルにポストイット
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://chasen.org/~daiti-m/dist/postit.el")
-(use-package postit)
-#+END_SRC
-今のところあまりつかっていない
-** text-adjust.el
-- [[http://d.hatena.ne.jp/rubikitch/20090220/text_adjust][全角文字と半角文字の間に自動でスペースを開ける text-adjust.el を使ってみ
-  た - (rubikitch loves (Emacs Ruby CUI Books))]]
-テキストの細かいところを修正し，統一する
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://taiyaki.org/elisp/mell/src/mell.el")
-;;; (auto-install-from-url "http://taiyaki.org/elisp/text-adjust/src/text-adjust.el")
-;; (use-package text-adjust)
-;; ファイル保存時に自動的に text-adjust を起動する
-;; (defun text-adjust-before-save-if-needed ()
-;;   (when (memq major-mode
-;;               '(org-mode text-mode change-log-mode yatex-mode))
-;;     (text-adjust-buffer)))
-;; (defalias 'spacer 'text-adjust-space-buffer)
-;; (add-hook 'before-save-hook 'text-adjust-before-save-if-needed)
-;; ソースファイルの時なんかに勝手に整形するのは危険なのでコメントアウト
-#+END_SRC
-** windows.el
-ウィンドウの分割情報を保存する．revive.el もあったほうがいい．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://www.gentei.org/~yuuji/software/windows.el")
-;;; (auto-install-from-url "http://www.gentei.org/~yuuji/software/revive.el")
-;; prefix 変更。require の前にしないといけないっぽい
-(use-package windows :defer t
-  :init
-  (setq win:switch-prefix "\C-z")
-  (setq win:use-frame nil)   ; 新規にフレームを作らない
-  :config
-  ;(win:startup-with-window)               ; 起動時に window1 を選択する？
-  (define-key ctl-x-map (kbd "C-c") 'see-you-again)
-  (define-key ctl-x-map (kbd "C") 'save-buffers-kill-emacs)
-  (global-set-key (kbd "C-S-n") 'win-next-window)
-  (global-set-key (kbd "C-S-p") 'win-prev-window)
-  ;; revive.el によりレジューム
-  ;(add-hook 'after-init-hook 'resume-windows)      ; 起動時にレジュームする
-  ;; これをつけるとエラーが起きる。なんか bm のところで止まってる？
-  ;; 少々めんどいが毎回手作業でレジュームすることにする
-  ;; (aset win:names-prefix 2 "tex") ; なんとなくこれでウィンドウタイトルを変えられそう
-  )
-#+END_SRC
 ** elscreen.el
 ウィンドウの分割情報を保持しておく．
 #+BEGIN_SRC emacs-lisp +n
@@ -5100,14 +3813,6 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 (use-package google :defer t)
 #+END_SRC
-** shell-command.el
-シェルの強化．
-#+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://namazu.org/~tsuchiya/elisp/shell-command.el")
-(use-package shell-command :defer t
-  :config
-  (shell-command-completion-mode))
-#+END_SRC
 ** stripe-buffer
 #+BEGIN_SRC emacs-lisp +n
 (use-package stripe-buffer :defer t
@@ -5119,194 +3824,6 @@ do nothing. And suppress the output from `message' and
                     :background "#eeeeee")
                    (((class color) (background dark))
                     :background "#111111")))
-  )
-#+END_SRC
-** display-deadline.el
-#+BEGIN_SRC emacs-lisp +n
-(use-package display-deadline
-  :config
-  (display-deadline "進捗報告まであと%d日%h時間%m分" (encode-time 0 0 10 15 11 2010)))
-#+END_SRC
-** yatex.el
-#+BEGIN_SRC emacs-lisp +n
-;; yatex-mode の起動
-(use-package yatex :defer t
-  :mode "\\.tex\\'"
-  :init
-  (setq YaTeX-inhibit-prefix-letter t)    ; prefix を C-c C-英字 にする．1 にすると C-c 大文字英字 が無効になる
-  :config
-  (progn
-    (setq YaTeX-user-completion-table
-          (locate-user-emacs-file ".yatexrc"))
-    (setq tex-command "latexmk -pdfdvi -pv"       ; latexmk は複数回のコンパイル支援
-          makeindex-command "mendex"
-          bibtex-command "pbibtex"
-          dviprint-command-format "dvipdfmx %s"
-          dvi2-command "pxdvi -geo +0+0 -s 4" ; xdvi='pxdvi' のエイリアスをはってるのだが，
-                                        ; このコマンドはエイリアスを見てくれないようなので直接指定する
-          YaTeX-kanji-code nil  ;; 文章作成時の日本語文字コード
-          ;; 0: no-converion
-          ;; 1: Shift JIS (windows & dos default)
-          ;; 2: ISO-2022-JP (other default)
-          ;; 3: EUC
-          ;; 4: UTF-8
-          ;; nil: automatic
-          )
-    (setq YaTeX-use-AMS-LaTeX t)            ; ams パッケージの補完を可能にする
-    (setq YaTeX-skip-default-reader t)      ; setction 型の命令の引数指定をスキップする
-    (setq YaTeX-help-file
-          (expand-file-name "YATEXHLP.jp" (file-name-directory (locate-library "yatex"))))
-    (setq YaTeX-help-file-private
-          (locate-user-emacs-file "doc/YATEXHLP-private.jp"))
-
-    (put 'YaTeX-parent-file 'safe-local-variable
-         (lambda (x)
-           (string-match "\.tex$" x)))
-    ;; auto-complete-latex.el
-    ;; http://d.hatena.ne.jp/tequilasunset/20100424/p1
-    ;; https://bitbucket.org/tequilasunset/auto-complete-latex/src
-    ;; (use-package auto-complete-latex
-    ;;   :config
-    ;;   (setq ac-l-dict-directory
-    ;;         (expand-file-name "ac-l-dict/"
-    ;;                           (file-name-directory (locate-library "auto-complete-latex"))))
-    ;;   (add-hook 'yatex-mode-hook 'ac-l-setup))
-    ;; 少々重すぎる
-#+END_SRC
-*** begin-end 型のコマンドに名前をつける
-#+BEGIN_SRC emacs-lisp +n
-    (defun YaTeX-define-begend-key-with-name (key env &optional map)
-      "Define YaTeX-make-begin-end command with name and bind it."
-      (let ((func (intern (format "YaTeX-make-begin-end-%s" env))))
-        (fset func
-              `(lambda (arg)
-                 ,(format "Make LaTeX environment command of \\begin{%s} ... \\end{%s}."
-                         env env)
-                 (interactive "P")
-                 (YaTeX-insert-begin-end ,env arg)))
-        (YaTeX-define-key key func map)))
-
-    (loop for (key envname)
-         in '(("ba" "align") ("bc" "center") ("bd" "document") ("bD" "description")
-              ("be" "enumerate") ("bE" "equation") ("bf" "frame") ("bg" "gather")
-              ("bi" "itemize") ("bl" "flushleft") ("bm" "minipage") ("bt" "tabbing")
-              ("bT" "tabular") ("b\^t" "table") ("bp" "picture") ("bq" "quote")
-              ("bQ" "quotation") ("br" "flushright") ("bv" "verbatim") ("bV" "verse"))
-          do (YaTeX-define-begend-key-with-name key envname))
-#+END_SRC
-*** その他
-#+BEGIN_SRC emacs-lisp +n
-    ;; popwin との協調
-    (eval-after-load "popwin"
-      '(progn
-         (defadvice YaTeX-help (around YaTeX-help-no-select activate)
-           (let (cbuffer (current-buffer))
-             ad-do-it
-             (switch-to-buffer cbuffer)
-             (and (get-buffer-window YaTeX-help-buffer)
-                  (select-window (get-buffer-window YaTeX-help-buffer)))))
-         (defadvice YaTeX-apropos (after YaTeX-apropos-no-select activate)
-           (and (get-buffer-window YaTeX-help-buffer)
-                (select-window (get-buffer-window YaTeX-help-buffer))))))
-
-    ;; (setq YaTeX-sectioning-indent 2)
-    ;; (setq YaTeX-environment-indent 2)
-    (add-hook 'yatex-mode-hook          ; every time hook when yatex-mode is executed
-              '(lambda ()
-                 (auto-fill-mode 1)         ; auto-fill-mode enabled
-                 (reftex-mode 1)            ; reftex-mode enabled
-                 (define-key reftex-mode-map (kbd "C-c /") nil) ; enable `yatex-apropos'
-                 (flyspell-mode 1)          ; flyspell-mode enabled
-                 (outline-minor-mode 1)
-                 ;; setting for outline-minor-mode
-                 (setq outline-level 'latex-outline-level)
-                 (setq outline-regexp-alist
-                       '(("documentclass" . -2)
-                         ("part" . -1)
-                         ("chapter" . 0)
-                         ("section" . 1)
-                         ("subsection" . 2)
-                         ("subsubsection" . 3)
-                         ("begin{frame}" . 4)
-                         ("paragraph" . 4)
-                         ("subparagraph" . 5)
-                         ("appendix" . 0)))
-                 (setq outline-regexp
-                       (concat "[ \t]*\\\\\\("
-                               (mapconcat 'car outline-regexp-alist "\\|")
-                               "\\)\\*?"))
-                 ))))
-
-(add-hook 'yatex-mode-load-hook     ; one time hook when yatex.el is loaded
-          '(lambda ()
-             (define-key YaTeX-mode-map (kbd "<backtab>") 'outline-my-global-cycle)
-             (define-key YaTeX-mode-map (kbd "C-c C-p") 'outline-previous-visible-heading)
-             (define-key YaTeX-mode-map (kbd "C-c C-n") 'outline-next-visible-heading)
-             (YaTeX-my-set-sectioning-face)
-             ))
-
-(defun YaTeX-my-set-sectioning-face ()
-  ""
-  (custom-set-faces
-   ;; YaTeX-sectioning-0 is #6a5acd
-   '(YaTeX-sectioning-0 ((((class color)) (:foreground "#d9d900" :background "#6a5acd" :height 1.4))))
-   '(YaTeX-sectioning-1 ((((class color)) (:foreground "#d9d900" :background "#2a5acd" :height 1.4))))
-   '(YaTeX-sectioning-2 ((((class color)) (:foreground "#d9d900" :background "#2a2acd" :height 1.4))))
-   '(YaTeX-sectioning-3 ((((class color)) (:foreground "#d9d900" :background "#aa33cd" :height 1.4))))
-   '(YaTeX-sectioning-4 ((((class color)) (:foreground "#d9d900" :background "#aa5a6a" :height 1.4))))
-   '(YaTeX-sectioning-5 ((((class color)) (:foreground "#d9d900" :background "#aa006a" :height 1.4))))
-   '(YaTeX-sectioning-6 ((((class color)) (:foreground "#d9d900" :background "#5a5a5a" :height 1.4))))
-   ))
-
-;; function to find hierarchy for LaTeX
-(defun latex-outline-level ()
-  (save-excursion
-    (looking-at outline-regexp)
-    (let* ((title (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
-      (if (assoc title outline-regexp-alist)
-          (assoc-default title outline-regexp-alist)
-        (length title)))))
-
-;; cycle outline level
-(defun outline-my-cycle-level ()
-  (interactive)
-  (when (outline-on-heading-p)
-    (beginning-of-line)
-    (let* ((visible-eol (save-excursion (move-end-of-line nil) (point)))
-           (eos (save-excursion (outline-end-of-subtree) (point)))
-           (cur-level (funcall outline-level))
-           (next-level (save-excursion (outline-next-heading)
-                                       (when (outline-on-heading-p)
-                                         (funcall outline-level))))
-           (has-children (and next-level (< cur-level next-level))))
-      (if (and (eq visible-eol eos))
-          (progn
-            (show-children)
-            (show-entry)
-            (message (if has-children "CHILDREN" "SUBTREE (NO CHILDREN)")))
-        (if (and has-children
-                 (save-excursion (outline-next-heading)
-                                 (= (next-overlay-change (point)) (point-at-eol))))
-            (progn (show-subtree)
-                   (message "SUBTREE"))
-          (hide-subtree)
-          (message "FOLDED")
-          )))
-    ;(hide-leaves)
-    ;(outline-end-of-heading)
-    ;(outline-end-of-subtree)
-    ))
-(defadvice YaTeX-indent-line (around cycle-heading activate)
-  "If cursor is on outline heading, cycle heading. Otherwise indent line."
-  (if (outline-on-heading-p)
-      (outline-my-cycle-level)
-    ad-do-it))
-
-(defun outline-my-global-cycle ()
-  (interactive)
-  (if (eq last-command 'outline-my-global-cycle)
-        (hide-sublevels 1000)
-    (hide-sublevels 1))
   )
 #+END_SRC
 ** eldoc.el
@@ -5332,11 +3849,6 @@ do nothing. And suppress the output from `message' and
               (set (make-local-variable 'eldoc-idle-delay) 0.20)
               (c-turn-on-eldoc-mode)
               )))
-#+END_SRC
-** dabbrev-ja.el
-日本語でも快適に動的略語展開．
-#+BEGIN_SRC emacs-lisp +n
-(use-package dabbrev-ja :defer t)
 #+END_SRC
 ** auto-complete.el
 ポップアップメニューで自動補完．
@@ -5367,7 +3879,7 @@ do nothing. And suppress the output from `message' and
                   ac-source-variables ac-source-symbols
                   ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   ;; auto-complete を有効にするモード
-  (dolist (library '(yatex-mode matlab-mode matlab-shell-mode ruby-mode
+  (dolist (library '(matlab-mode matlab-shell-mode ruby-mode
                                 magit-log-edit-mode eshell-mode))
     (add-to-list 'ac-modes library))
   (add-hook 'sh-mode-hook
@@ -5388,8 +3900,6 @@ do nothing. And suppress the output from `message' and
 
 (my-measure-message-time "Non-standard elisp setting.")
 #+END_SRC
-* 外部プログラムが必要そうなライブラリ
-ポータブルにはしにくそうなやつ
 ** ispell.el
 スペルチェック．
 #+BEGIN_SRC emacs-lisp +n
@@ -5403,9 +3913,7 @@ do nothing. And suppress the output from `message' and
   (setq ispell-silently-savep t) ; 確認なしに辞書に保存する
   ;; 日本語ファイル中の英単語スペルチェックを可能にする
   (eval-after-load "ispell"
-    '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]")))
-                                        ; tex の記法は無視
-  (add-hook 'yatex-mode-hook (function (lambda () (setq ispell-parser 'tex)))))
+    '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]"))))
 #+END_SRC
 ** migemo.el
 - [[http://d.hatena.ne.jp/j-kyoda/20110316][emacs23(Windows)でcmigemoを使う - j-kyodaのつぶやき]]
