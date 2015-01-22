@@ -1365,35 +1365,6 @@ shift+カーソルキー でウィンドウを移動する．
   :config
   (scroll-bar-mode 0))
 #+END_SRC
-** customize によって変更される設定
-#+BEGIN_SRC emacs-lisp +n
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "")))))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(cfw:face-day-title ((t :background "grey10")))
- '(cfw:face-default-content ((t :foreground "green2")))
- '(cfw:face-header ((t (:foreground "maroon2" :weight bold))))
- '(cfw:face-holiday ((t :background "grey10" :foreground "purple" :weight bold)))
- '(cfw:face-regions ((t :foreground "cyan")))
- '(cfw:face-saturday ((t :foreground "blue" :weight bold)))
- '(cfw:face-select ((t :background "blue4")))
- '(cfw:face-sunday ((t :foreground "red" :weight bold)))
- '(cfw:face-title ((t (:foreground "darkgoldenrod3" :weight bold :height 2.0 :inherit variable-pitch))))
- '(cfw:face-today ((t :foreground: "cyan" :weight bold)))
- '(cfw:face-today-title ((t :background "red4" :weight bold)))
- '(col-highlight ((t (:background "gray10"))))
- '(linum ((t (:inherit (shadow default) :background "gray50" :foreground "yellow"))))
- '(scroll-bar ((t :foreground "magenta")))
- '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
-#+END_SRC
 ** 時間測定ポイント
 #+BEGIN_SRC emacs-lisp +n
 (my-measure-message-time "Customize variable.")
@@ -3944,7 +3915,14 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 (my-measure-message-time "Big elisp setting.")
 #+END_SRC
-* ややこしい機能を有効にする設定
+* 内部的な設定を読み込む
+#+BEGIN_SRC emacs-lisp +n
+(let ((internal-file (locate-user-emacs-file "internal.el")))
+  (when (file-exists-p internal-file)
+    (load internal-file)))
+#+END_SRC
+* 自動挿入される設定
+** デフォルトでは無効になっているコマンドを有効化
 #+BEGIN_SRC emacs-lisp +n
 (put 'scroll-left 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -3952,9 +3930,32 @@ do nothing. And suppress the output from `message' and
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 #+END_SRC
-* 環境specificな設定を読み込む
+** customize によって変更される設定
 #+BEGIN_SRC emacs-lisp +n
-(let ((specific-file (locate-user-emacs-file "internal.el")))
-  (when (file-exists-p specific-file)
-    (load specific-file)))
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((quickrun-option-timeout-seconds . 10) (quickrun-option-args . "") (quickrun-option-cmdopt . "")))))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(cfw:face-day-title ((t :background "grey10")))
+ '(cfw:face-default-content ((t :foreground "green2")))
+ '(cfw:face-header ((t (:foreground "maroon2" :weight bold))))
+ '(cfw:face-holiday ((t :background "grey10" :foreground "purple" :weight bold)))
+ '(cfw:face-regions ((t :foreground "cyan")))
+ '(cfw:face-saturday ((t :foreground "blue" :weight bold)))
+ '(cfw:face-select ((t :background "blue4")))
+ '(cfw:face-sunday ((t :foreground "red" :weight bold)))
+ '(cfw:face-title ((t (:foreground "darkgoldenrod3" :weight bold :height 2.0 :inherit variable-pitch))))
+ '(cfw:face-today ((t :foreground: "cyan" :weight bold)))
+ '(cfw:face-today-title ((t :background "red4" :weight bold)))
+ '(col-highlight ((t (:background "gray10"))))
+ '(linum ((t (:inherit (shadow default) :background "gray50" :foreground "yellow"))))
+ '(scroll-bar ((t :foreground "magenta")))
+ '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
 #+END_SRC
