@@ -2540,7 +2540,7 @@ Windowsだと動かないくさい。
 ** gradle-mode
 Gradleタスクを実行するマイナーモード。
 #+BEGIN_SRC emacs-lisp
-(use-package gralde-mode
+(use-package gralde-mode :defer t
   :init
   (add-hook 'groovy-mode-hook 'gradle-mode))
 #+END_SRC
