@@ -2458,10 +2458,10 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 #+BEGIN_SRC emacs-lisp +n
 (use-package wrap-region :defer t
   :init
-  (add-hook 'prog-mode 'wrap-region-mode)
-  (add-hook 'text-mode 'wrap-region-mode)
+  (add-hook 'prog-mode-hook 'wrap-region-mode)
+  (add-hook 'text-mode-hook 'wrap-region-mode)
   :config
-  (wrap-region-add-wrapper "`" "'")
+  (wrap-region-add-wrapper "`" "'" nil '(emacs-lisp-mode lisp-interaction-mode))
   )
 #+END_SRC
 ** expand-region.el
