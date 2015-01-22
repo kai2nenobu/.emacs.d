@@ -3449,6 +3449,14 @@ UNC Pathへリンクさ
 UNC Pathを開こうとして「ファイルが見つかりません」になるようだ。シェルをnilに
 しておくと、 =\\server\path= が（コマンドプロンプトに？）渡されて、正しく開く
 ことができる。
+*** 他ライブラリ連携
+wrap-regionを使って、リージョンを各種markup文字を囲めるようにする。
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'wrap-region
+    (mapc #'(lambda (wrapper)
+              (wrap-region-add-wrapper wrapper wrapper nil 'org-mode))
+          (mapcar 'car org-emphasis-alist)))
+#+END_SRC
 *** orgの設定終了
 #+BEGIN_SRC emacs-lisp +n
   )
