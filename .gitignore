@@ -24,3 +24,5 @@
 /.org-id-locations
 /.org-timestamps/
 /url/
+/.emacs.desktop
+/.emacs.desktop.lock
