@@ -3462,6 +3462,13 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 #+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
+*** helm-buffers
+#+BEGIN_SRC emacs-lisp +n
+(use-package helm-buffers :defer t
+  :config
+  (setq helm-buffer-max-length nil) ; ファイル名の表示幅。nilなら一番長いファイル名に合わせる
+  )
+#+END_SRC
 *** ox-html
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-html :defer t
