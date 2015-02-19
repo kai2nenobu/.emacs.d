@@ -1990,16 +1990,6 @@ Gradleタスクを実行するマイナーモード。
   (add-hook 'groovy-mode-hook '(lambda () (c-set-style "java")))
   )
 #+END_SRC
-** helm-ls-git
-git管理下のファイルのhelmソース。
-#+BEGIN_SRC emacs-lisp +n
-(use-package helm-ls-git
-  :config
-  (setq helm-ls-git-show-abs-or-relative 'relative)
-  ;; helm-for-filesでgit管理下のファイルも開く
-  (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
-  )
-#+END_SRC
 ** flyckeck
 #+BEGIN_SRC emacs-lisp +n
 (use-package flycheck :defer t
@@ -3467,6 +3457,16 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 (use-package helm-buffers :defer t
   :config
   (setq helm-buffer-max-length nil) ; ファイル名の表示幅。nilなら一番長いファイル名に合わせる
+  )
+#+END_SRC
+*** helm-ls-git
+git管理下のファイルのhelmソース。
+#+BEGIN_SRC emacs-lisp +n
+(use-package helm-ls-git :defer t
+  :config
+  (setq helm-ls-git-show-abs-or-relative 'relative)
+  ;; helm-for-filesでgit管理下のファイルも開く
+  (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
   )
 #+END_SRC
 *** ox-html
