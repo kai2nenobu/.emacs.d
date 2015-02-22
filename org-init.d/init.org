@@ -1394,7 +1394,11 @@ elscreenとの共存が難しそう。
 *** dired+.el
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
-(use-package dired+ :defer t)
+(use-package dired+ :defer t
+  :init
+  (with-eval-after-load 'dired
+    (require 'dired+))
+  )
 
 (setq ls-lisp-dirs-first t)
 (setq ls-lisp-ignore-case t)
