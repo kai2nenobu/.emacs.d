@@ -276,6 +276,14 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 関数実行時にライブラリをロードする
+既にロードされている関数に対してautoloadはできないので、defadviceで関数実行前
+にロードするようにする。
+#+BEGIN_SRC emacs-lisp
+(defmacro add-autoload (function feature)
+  `(defadvice ,function (before autoload activate)
+     (require (quote ,feature) nil t)))
+#+END_SRC
 ** インデントに空白を使うか使わないか切り替えるマイナーモード
 =indent-tabs-mode= は変数しか定義されておらず、切り替えるコマンドがなかったの
 でマイナーモードとして定義した。単に =indent-tabs-mode= を切り替えるだけのモー
@@ -3467,6 +3475,8 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 git管理下のファイルのhelmソース。
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-ls-git :defer t
+  :init
+  (add-autoload helm-for-files helm-ls-git)
   :config
   (setq helm-ls-git-show-abs-or-relative 'relative)
   ;; helm-for-filesでgit管理下のファイルも開く
