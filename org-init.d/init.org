@@ -989,7 +989,7 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
          (other-pt (point)))
     (delete-window)
     (if (= (window-height) before-height)
-        (split-windaiow-vertically)
+        (split-window-vertically)
       (split-window-horizontally))
     (when top-left-p (other-window 1))
     (switch-to-buffer other-buf t)
