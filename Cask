@@ -41,6 +41,7 @@
 (depends-on "idle-highlight-mode")
 (depends-on "key-chord")
 (depends-on "lispxmp")
+(depends-on "mag-menu")
 (depends-on "magit")
 (depends-on "migemo")
 (depends-on "multiple-cursors")
