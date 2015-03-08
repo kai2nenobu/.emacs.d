@@ -276,6 +276,13 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** javaコマンドオプションをメニュー表示
+#+BEGIN_SRC emacs-lisp +n
+(use-package java-options :defer t
+  :commands java-options
+  :load-path "my-lisp"
+  )
+#+END_SRC
 ** 関数実行時にライブラリをロードする
 既にロードされている関数に対してautoloadはできないので、defadviceで関数実行前
 にロードするようにする。
