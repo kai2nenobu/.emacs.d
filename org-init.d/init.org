@@ -3229,6 +3229,10 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
                         ("Ruby" . ?) ("Shell" . ?) ("はてな" . ?)))
   (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "WAIT(w)" "|" "DONE(d)" "DROP(D)" "SOMEDAY(s)")))
   (setq org-log-done nil) ; DONEの時刻を記録 はやっぱやめた
+  ;; org-modeのバッファにフォーカスした時にorg-revealする
+  ;; もっと適切な単位のhookがありそうだけどわからない
+  (add-hook 'window-configuration-change-hook
+            #'(lambda () (when (eq major-mode 'org-mode) (org-reveal))))
 #+END_SRC
 *** capture 関連
 #+BEGIN_SRC emacs-lisp +n
