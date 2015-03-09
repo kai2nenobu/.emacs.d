@@ -1031,6 +1031,12 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 (my-measure-message-time "My original function.")
 #+END_SRC
 * その他一般的な動作設定
+** プロセスの文字コードを設定
+#+BEGIN_SRC emacs-lisp
+(cond ((winp)
+       (add-to-list 'process-coding-system-alist '("java" . cp932-dos))
+       ))
+#+END_SRC
 ** ファイル末尾の自動改行挿入をしない
 #+BEGIN_SRC emacs-lisp +n
 (setq require-final-newline nil)
