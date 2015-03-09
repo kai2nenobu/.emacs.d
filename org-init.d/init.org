@@ -2820,10 +2820,8 @@ mozrepl を通して firefox を操作する
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
 (use-package moz :defer t
-  :config
-  (defvar moz-scroll-ratio "80") ;; スクロール量の比率。100(%)で1ページ毎のスクロール。
-  (defvar moz-scroll-time "15") ;; アニメーション時間。高いほどゆっくりに。
-
+  :commands (moz-send-line moz-scroll-down moz-scroll-up moz-prev-tab moz-page-reload)
+  :init
   (defun moz-send-line (str)
     (interactive)
     (comint-send-string (inferior-moz-process)
@@ -2883,7 +2881,9 @@ mozrepl を通して firefox を操作する
     "Open current page of Firefox on emacs-w3m."
     (interactive)
     (w3m-browse-url (jk/moz-url)))
-
+  :config
+  (defvar moz-scroll-ratio "80") ;; スクロール量の比率。100(%)で1ページ毎のスクロール。
+  (defvar moz-scroll-time "15") ;; アニメーション時間。高いほどゆっくりに。
   )
 #+END_SRC
 ** concurrent.el
