@@ -3608,8 +3608,7 @@ org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-pandoc :defer t
   :init
-  (defadvice org-export-dispatch (before load-pandoc activate)
-    (require 'ox-pandoc nil t))
+  (add-autoload org-export-dispatch ox-pandoc)
   )
 #+END_SRC
 
