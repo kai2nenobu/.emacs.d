@@ -276,6 +276,21 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** クォートのシングルとダブルを交換する
+"'abc'" を '"abc"' に変換するコマンド。" と ' の両方を文字列の境界として使え
+る言語向け。
+#+BEGIN_SRC emacs-lisp
+(defun my-exchange-quote (beg end)
+  "Exchange single quote and double quote (\" <-> ').
+If no region, exchange all quotes in buffer."
+  (interactive "r")
+  (unless (and beg end)
+    (setq beg (point-min) end (point-max)))
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "\"\\|'" end t)
+      (replace-match (if (string= (match-string 0) "\"") "'" "\"")))))
+#+END_SRC
 ** javaコマンドオプションをメニュー表示
 #+BEGIN_SRC emacs-lisp +n
 (use-package java-options :defer t
