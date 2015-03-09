@@ -250,7 +250,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (define-key my-original-map (kbd "C-q") 'quoted-insert)
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
-(define-key my-original-map (kbd "C-w") 'my-window-resizer)
+(define-key my-original-map (kbd "C-w") 'delete-trailing-whitespace)
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
