@@ -3624,6 +3624,11 @@ org-modeのexport機能を使って印刷する。
 (use-package ox-pandoc :defer t
   :init
   (add-autoload org-export-dispatch ox-pandoc)
+  :config
+  ;; reveal.js向け設定
+  (setcdr (assq ?V org-pandoc-menu-entry)
+        '("to revealjs." org-pandoc-export-to-revealjs)) ; エクスポートする関数を変更
+  (setq org-pandoc-options-for-revealjs '((variable . "theme:default"))) ; reveal.jsのデフォルトテーマを利用
   )
 #+END_SRC
 
