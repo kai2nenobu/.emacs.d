@@ -3163,9 +3163,6 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (key-chord-define global-map "@k" '(lambda () (interactive)
                                        (kill-buffer)
                                        (delete-window)))
-  (key-chord-define global-map "bm" 'bm-toggle)
-  (key-chord-define global-map "b[" 'bm-previous)
-  (key-chord-define global-map "b]" 'bm-next)
   )
 #+END_SRC
 ** popwin.el
