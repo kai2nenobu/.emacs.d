@@ -1934,6 +1934,9 @@ info を Emacs で読む．
   :commands longlines-jp-mode
   :init
   (add-hook 'org-mode-hook 'longlines-jp-mode)
+  (add-hook 'org-mode-hook
+            #'(lambda () (setq longlines-jp-exclude-regex
+                               (rx bol (* space) (or "#+" "*" "-" "|")))))
   (bind-key "C-j" 'longlines-jp-mode my-original-map)
   :config
   (setq skk-henkan-mode nil
