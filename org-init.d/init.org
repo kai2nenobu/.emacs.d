@@ -2293,7 +2293,9 @@ package.el からインストール．
     (when (eq (cdr cns) 'html-mode)
       (add-to-list 'magic-mode-alist (cons (car cns) 'web-mode))))
   :config
-  (define-key web-mode-map (kbd "C-c C-c") 'web-mode-navigate)
+  (bind-keys :map web-mode-map
+             ("C-c C-c" . web-mode-navigate)
+             ("C-c C-s" . web-mode-surround))
 
   ;; indent
   (setq web-mode-markup-indent-offset 2
