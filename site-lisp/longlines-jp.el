@@ -69,7 +69,7 @@ This is used when `longlines-jp-show-hard-newlines' is on."
   :group 'longlines-jp
   :type 'string)
 
-(defcustom longlines-jp-exclude-regex "" "")
+(defcustom longlines-jp-exclude-regex nil "")
 (make-variable-buffer-local 'longlines-jp-exclude-regex)
 
 ;; Internal variables
@@ -284,13 +284,14 @@ not need to be wrapped, move point to the next line and return t."
   "Place point where we should break the current line, and return t.
 If the line should not be broken, return nil; point remains on the
 line."
-  (move-to-column fill-column)
-  (if (and (save-excursion
-             (goto-char (point-at-bol))
-             ;; FIXME: If `longlines-jp-exclude-regex' just after a soft break,
-             ;; successive long line isn't broken
-             (not (re-search-forward longlines-jp-exclude-regex (point-at-eol) :noerror)))
-           (looking-at "[^\r\n]"))
+  (if (and (or (nul longlines-jp-exclude-regex)
+               (progn (goto-char (point-at-bol))
+                      ;; FIXME: If `longlines-jp-exclude-regex' just after a soft break,
+                      ;; successive long line isn't broken
+                      (not (re-search-forward longlines-jp-exclude-regex (point-at-eol) :noerror))))
+           (progn
+             (move-to-column fill-column)
+             (looking-at "[^\r\n]")))
       ;; This line is too long.  Can we break it?
       (or (longlines-jp-find-break-backward)
           (progn (move-to-column fill-column)
