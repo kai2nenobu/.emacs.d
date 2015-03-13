@@ -2304,7 +2304,7 @@ package.el からインストール．
   (defvar web-mode-my-eldoc-time 0.5)
   (defun web-mode-my-eldoc ()
     (when (eq major-mode 'web-mode)
-      (web-mode-xpath)))
+      (web-mode-dom-xpath)))
   (defun web-mode-enable-my-eldoc ()
     (interactive)
     (setq web-mode-my-timer
