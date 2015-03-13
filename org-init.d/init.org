@@ -1933,11 +1933,13 @@ info を Emacs で読む．
 (use-package longlines-jp :defer t
   :commands longlines-jp-mode
   :init
-  (add-hook 'org-mode-hook 'longlines-jp-mode)
-  (add-hook 'org-mode-hook
-            #'(lambda () (setq longlines-jp-exclude-regex
-                               (rx bol (* space) (or "#+" "*" "-" "|")))))
   (bind-key "C-j" 'longlines-jp-mode my-original-map)
+  (add-hook 'org-mode-hook
+            #'longlines-jp-exclude-regex-for-org-mode)
+  (defun longlines-jp-exclude-regex-for-org-mode ()
+     (with-eval-after-load 'longlines-jp
+       (setq longlines-jp-exclude-regex
+             (rx bol (* space) (or "#+" "*" ":" "|")))))
   :config
   (setq skk-henkan-mode nil
         skk-current-rule-tree nil)
