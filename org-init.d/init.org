@@ -3270,6 +3270,25 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (add-hook 'window-configuration-change-hook
             #'(lambda () (when (eq major-mode 'org-mode) (org-reveal))))
 #+END_SRC
+*** dynamic block
+dynamic blockを利用すると動的に更新される文章が書ける。保存時に自動でdynamic blockが更新されるようにする。
+#+BEGIN_SRC emacs-lisp +n
+  (defun org-my-auto-update-all-dblocks ()
+    "Updtae all dynamic blocks in Org-mode buffer."
+    (when (eq major-mode 'org-mode)
+      (org-update-all-dblocks)))
+  ;(add-hook 'before-save-hook 'org-my-auto-update-all-dblocks)
+#+END_SRC
+
+名前のついたブロックの内容をそのまま参照するdynamic block。
+#+BEGIN_SRC emacs-lisp +n
+  (defun org-dblock-write:reference-block (params)
+    "Dynamic block to refer to a named block specified :ref-name."
+    (let* ((ref-name (plist-get params :ref-name))
+           (block-pos (org-babel-find-named-block ref-name))
+           (block (save-excursion (goto-char block-pos) (org-element-at-point))))
+      (insert (org-element-property :value block))))
+#+END_SRC
 *** capture 関連
 #+BEGIN_SRC emacs-lisp +n
   (setq org-capture-templates
