@@ -284,7 +284,7 @@ not need to be wrapped, move point to the next line and return t."
   "Place point where we should break the current line, and return t.
 If the line should not be broken, return nil; point remains on the
 line."
-  (if (and (or (nul longlines-jp-exclude-regex)
+  (if (and (or (null longlines-jp-exclude-regex)
                (progn (goto-char (point-at-bol))
                       ;; FIXME: If `longlines-jp-exclude-regex' just after a soft break,
                       ;; successive long line isn't broken
