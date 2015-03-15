@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: with-eval-after-load
+# key: weval
+# binding: direct-keybinding
+# --
+(with-eval-after-load ${1:feature}
+  $0)
