@@ -3563,6 +3563,31 @@ git管理下のファイルのhelmソース。
           (replace-match "" t t org-html-style-default 1)))
   )
 #+END_SRC
+**** infoへのリンクをhtmlへのリンクに変換する
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'ox-html
+  (defvar org-export-html-my-info-link-alist
+    '(("org" . "http://orgmode.org/manual/")
+      ("emacs" . "http://www.gnu.org/software/emacs/manual/html_node/emacs/")
+      ("elisp" . "http://www.gnu.org/software/emacs/manual/html_node/elisp/")))
+
+  (defun org-export-html-my-info-link-filter (data back-end channel)
+    "Convert an info type link to a HTML type link.
+The html link is determined from `org-export-html-my-info-link-alist'."
+    (let* ((link-plist (nth 0 (cdr (org-find-text-property-in-string :parent data))))
+           (link-type (plist-get link-plist :type))
+           (link-path (plist-get link-plist :path)))
+      (when (and (eq back-end 'html)
+                 (string= link-type "info")
+                 (string-match "\\([^#]*\\)#\\(.*\\)" link-path))
+        (let* ((name (match-string 1 link-path))
+               (node (replace-regexp-in-string "%20" "-" (match-string 2 link-path)))
+               (man-root (assoc-default name info-link-alist))
+               (url (concat man-root (if (string= node "Top") "" (concat node ".html")))))
+          (replace-regexp-in-string "href=\"\\([^\"]*\\)\"" url data t t 1)))))
+
+  (add-to-list 'org-export-filter-link-functions 'org-export-html-my-info-link-filter))
+#+END_SRC
 *** org-eldoc
 - [[http://orgmode.org/cgit.cgi/org-mode.git/plain/contrib/lisp/org-eldoc.el][org公式のcontribディレクトリ]]からダウンロードしたが、org-plus-contribには無
   いみたいである。なぜだ。
