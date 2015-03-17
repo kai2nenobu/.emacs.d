@@ -3582,7 +3582,7 @@ The html link is determined from `org-export-html-my-info-link-alist'."
                  (string-match "\\([^#]*\\)#\\(.*\\)" link-path))
         (let* ((name (match-string 1 link-path))
                (node (replace-regexp-in-string "%20" "-" (match-string 2 link-path)))
-               (man-root (assoc-default name info-link-alist))
+               (man-root (assoc-default name org-export-html-my-info-link-alist))
                (url (concat man-root (if (string= node "Top") "" (concat node ".html")))))
           (replace-regexp-in-string "href=\"\\([^\"]*\\)\"" url data t t 1)))))
 
