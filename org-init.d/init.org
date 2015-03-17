@@ -3284,14 +3284,17 @@ dynamic blockを利用すると動的に更新される文章が書ける。保�
   ;(add-hook 'before-save-hook 'org-my-auto-update-all-dblocks)
 #+END_SRC
 
-名前のついたブロックの内容をそのまま参照するdynamic block。
+名前のついたブロックの内容をそのまま参照するdynamic block。orgのソースブロックを参照する想定。
 #+BEGIN_SRC emacs-lisp +n
   (defun org-dblock-write:reference-block (params)
     "Dynamic block to refer to a named block specified :ref-name."
     (let* ((ref-name (plist-get params :ref-name))
-           (block-pos (org-babel-find-named-block ref-name))
-           (block (save-excursion (goto-char block-pos) (org-element-at-point))))
-      (insert (org-element-property :value block))))
+           (block-pos (org-babel-find-named-block ref-name)))
+      (if block-pos
+          (insert (save-excursion
+                    (goto-char block-pos)
+                    (org-element-property :value (org-element-at-point))))
+        (insert (format "Not found a block named \"%s\"" ref-name)))))
 #+END_SRC
 *** capture 関連
 #+BEGIN_SRC emacs-lisp +n
