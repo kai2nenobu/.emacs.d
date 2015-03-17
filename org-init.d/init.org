@@ -352,7 +352,7 @@ lightとdarkを切り替えた後に、新しくフレームを作成する必�
   "Toggle an alpha in the current frame."
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
-    (set-frame-parameter nil 'alpha (if (< alpha 1.0) 1.0 default-alpha))))
+    (set-frame-parameter nil 'alpha (if (and alpha (< alpha 1.0)) 1.0 default-alpha))))
 #+END_SRC
 ** ERT関連
 Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置のテスト名を取得する
