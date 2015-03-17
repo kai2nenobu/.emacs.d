@@ -2,6 +2,7 @@
 (source org)
 (source melpa)
 
+(depends-on "ace-jump-mode")
 (depends-on "anzu")
 (depends-on "auto-complete")
 (depends-on "auto-save-buffers-enhanced")
