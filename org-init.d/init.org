@@ -1737,6 +1737,8 @@ Works in Microsoft Windows, Mac OS X, Linux."
 ** align.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package align :defer t
+  :init
+  (bind-key "C-a" 'align my-original-map)
   :config
   (add-to-list 'align-rules-list
                '(pukiwiki-table-alignment
