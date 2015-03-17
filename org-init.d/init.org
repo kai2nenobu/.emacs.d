@@ -2091,6 +2091,8 @@ Gradleタスクを実行するマイナーモード。
 るびきちメルマガより。
 #+BEGIN_SRC emacs-lisp +n
 (use-package ace-jump-mode :defer t
+  :init
+  (add-autoload isearch-forward ace-jump-mode)
   :config
   (defun ace-jump-from-isearch ()
     "Invoke `ace-jump' from isearch."
