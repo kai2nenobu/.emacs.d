@@ -2654,6 +2654,10 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   ;; bind redo to "C-_" because default bind "C-?" is unavailable in CUI
   ;(define-key undo-tree-map (kbd "C-_") 'undo-tree-redo)
   ;; "C-/" is translated "C-_" in CUI. So, I can't use undo-tree-undo on above setting.
+  ;; undo履歴の保存
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+        `(("." . ,(locate-user-emacs-file "undo-hist"))))
   )
 #+END_SRC
 ** e2wm.el
