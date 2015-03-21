@@ -3,5 +3,5 @@
 # key: weval
 # binding: direct-keybinding
 # --
-(with-eval-after-load ${1:feature}
+(with-eval-after-load '${1:feature}
   $0)

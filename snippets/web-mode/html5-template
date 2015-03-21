@@ -1,7 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: HTML5 template
 # key: html5
-# binding: direct-keybinding
 # --
 <!DOCTYPE html>
 <html>

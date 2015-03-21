@@ -1,7 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: Plain table
 # key: tab
-# binding: direct-keybinding
 # --
 <table>
   <tbody>
