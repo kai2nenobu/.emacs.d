@@ -2426,10 +2426,6 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
     :config
     (add-hook 'ruby-mode-hook
               (lambda ()
-                ;; 余計な ac-source を除去
-                (dolist (source '(ac-source-features ac-source-functions
-                                                     ac-source-variables ac-source-symbols))
-                  (setq ac-sources (delq source ac-sources)))
                 ;; rsense の ac-source を追加
                 (add-to-list 'ac-sources 'ac-source-rsense-method)
                 (add-to-list 'ac-sources 'ac-source-rsense-constant))))
@@ -3984,19 +3980,10 @@ do nothing. And suppress the output from `message' and
   (setq ac-candidate-menu-min 0) ; 候補が1つでも補完メニューを表示する
   (setq ac-disable-inline t) ; 候補が1つの場合のインライン補完を無効にする
 
-  ;; デフォルトの情報源
-  (setq-default ac-sources
-                '(ac-source-filename ac-source-features
-                  ac-source-functions ac-source-yasnippet
-                  ac-source-variables ac-source-symbols
-                  ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   ;; auto-complete を有効にするモード
   (dolist (library '(matlab-mode matlab-shell-mode ruby-mode
                                 magit-log-edit-mode eshell-mode))
     (add-to-list 'ac-modes library))
-  (add-hook 'sh-mode-hook
-            (lambda ()
-                   (add-to-list 'ac-sources 'ac-source-yasnippet)))
   ;; key bind
   (define-key ac-complete-mode-map (kbd "<C-tab>") 'yas/expand)
   (define-key ac-complete-mode-map (kbd "C-s") 'ac-isearch)
