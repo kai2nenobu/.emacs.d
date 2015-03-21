@@ -2033,15 +2033,20 @@ Windowsだと動かないくさい。
 ** gradle-mode
 Gradleタスクを実行するマイナーモード。
 #+BEGIN_SRC emacs-lisp +n
-(use-package gralde-mode :defer t
+(use-package gradle-mode :defer t
   :init
-  (add-hook 'groovy-mode-hook 'gradle-mode))
+  (autoload 'gradle-major-mode "gradle-mode")
+  (add-to-list 'auto-mode-alist '("\\.gradle\\'" . gradle-major-mode))
+  :config
+  ;; gradle-mode sholud be major-mode
+  (define-key gradle-mode-map (kbd "TAB") 'c-indent-line-or-region)
+  (define-derived-mode gradle-major-mode groovy-mode "GradleM"
+    (use-local-map gradle-mode-map))
+  )
 #+END_SRC
 ** groovy-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package groovy-mode :defer t
-  :mode (("\\.groovy\\'" . groovy-mode)
-         ("\\.gradle\\'" . groovy-mode))
   :config
   (add-hook 'groovy-mode-hook '(lambda () (c-set-style "java")))
   )
