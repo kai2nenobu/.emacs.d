@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Dependency: groovy-all
+# key: dep-groovy-all
+# --
+compile 'org.codehaus.groovy:groovy-all:${1:version$(yas-choose-value '("2.4.1" "2.3.10"))}'

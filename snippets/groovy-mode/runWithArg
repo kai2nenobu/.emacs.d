@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Customize task: Run task with arguments
+# key: runWithArg
+# --
+run {
+    if (project.hasProperty('argLine')) {
+        args argLine.split(' +')
+    }
+}

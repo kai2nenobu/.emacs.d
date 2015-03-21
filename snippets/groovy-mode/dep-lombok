@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Dependency: lombok
+# key: dep-lombok
+# expand-env: ((versions '("1.16.2" "1.16.0")))
+# --
+provided 'org.projectlombok:lombok:${1:version$(yas-choose-value '("1.16.2" "1.16.0"))}'
