@@ -1675,6 +1675,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
 - [[http://www.clear-code.com/blog/2012/4/3.html][Emacs上でカラフルにdiffを表示する - ククログ(2012-04-03)]]
 #+BEGIN_SRC emacs-lisp +n
 (use-package diff :defer t
+  :config
 ;; diffの表示方法を変更
 (defun diff-mode-setup-faces ()
   ;; 追加された行は緑で表示
@@ -1818,6 +1819,7 @@ file is a remote file (include directory)."
 Emacs で pdf 閲覧する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package doc-view :defer t
+  :config
   (setq doc-view-continuous t)     ; move next page if execute next-line on bottom edge of image
   (define-key doc-view-mode-map (kbd "l") 'image-forward-hscroll)
   (define-key doc-view-mode-map (kbd "h") 'image-backward-hscroll)
