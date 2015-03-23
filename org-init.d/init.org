@@ -3636,8 +3636,21 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
                 (propertize (org-link-unescape path) 'face 'org-link)
                 (propertize (if search-option (concat "::" search-option) "")
                             'face 'font-lock-type-face)))))
+  ;; table-cell
+  (defun org-eldoc-clipped-table-cell ()
+    "Return a whole string of a clipped cell."
+    (let* ((obj (org-element-context))
+           (element-type (car obj)))
+      (when (eq element-type 'table-cell)
+        (let* ((props (cadr obj))
+               (beg (plist-get props :contents-begin))
+               (end (plist-get props :contents-end)))
+          (when (text-property-any beg end 'org-cwidth t)
+            (buffer-substring-no-properties beg end))))))
   (defadvice org-eldoc-documentation-function (around get-link activate)
-    (setq ad-return-value (or (org-eldoc-get-link) ad-do-it)))
+    (setq ad-return-value (or (org-eldoc-get-link)
+                              (org-eldoc-clipped-table-cell)
+                              ad-do-it)))
   )
 #+END_SRC
 
