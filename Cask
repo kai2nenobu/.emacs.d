@@ -35,6 +35,7 @@
 (depends-on "helm-ls-git")
 (depends-on "helm-migemo")
 (depends-on "helm-package")
+(depends-on "helm-swoop")
 (depends-on "highlight-symbol")
 (depends-on "hiwin")
 (depends-on "htmlize")

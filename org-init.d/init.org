@@ -3128,6 +3128,16 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
+*** helm-swoop
+#+BEGIN_SRC emacs-lisp
+(use-package helm-swoop :defer t
+  :init
+  (with-eval-after-load 'helm
+    (bind-key "s" 'helm-swoop helm-command-map))
+  :config
+  (setq helm-swoop-split-direction 'hirozontal) ; ウィンドウ分割方向
+  )
+#+END_SRC
 ** helm-locate
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-locate :defer t
