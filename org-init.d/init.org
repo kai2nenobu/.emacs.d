@@ -2125,7 +2125,7 @@ Gradleタスクを実行するマイナーモード。
                                  'isearch-ace-jump-timer-function))))
   (add-hook 'isearch-mode-hook 'isearch-mode-hook--ace-jump-mode)
   (defun isearch-ace-jump-timer-function ()
-    (when (memq (length isearch-string) '(1 2))
+    (when (= (length isearch-string) 1)
       (isearch-ace-jump-cancel-timer)
       (setq quit-flag t)
       (run-with-idle-timer 0 nil 'message "")
