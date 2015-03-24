@@ -46,6 +46,8 @@
 (depends-on "mag-menu")
 (depends-on "magit")
 (depends-on "migemo")
+(depends-on "moz")
+(depends-on "moz-controller")
 (depends-on "multiple-cursors")
 (depends-on "mykie")
 (depends-on "nyan-mode")

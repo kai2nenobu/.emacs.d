@@ -2851,73 +2851,13 @@ cygwin のパスを使えるようにする．
 ** moz.el
 mozrepl を通して firefox を操作する
 #+BEGIN_SRC emacs-lisp +n
-;;; (auto-install-from-url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
-(use-package moz :defer t
-  :commands (moz-send-line moz-scroll-down moz-scroll-up moz-prev-tab moz-page-reload)
-  :init
-  (defun moz-send-line (str)
-    (interactive)
-    (comint-send-string (inferior-moz-process)
-                        (concat moz-repl-name ".pushenv('printPrompt', 'inputMode'); "
-                                moz-repl-name ".setenv('inputMode', 'line'); "
-                                moz-repl-name ".setenv('printPrompt', false); undefined; "))
-    (comint-send-string (inferior-moz-process) (concat str "; "))
-    (comint-send-string (inferior-moz-process)
-                        (concat moz-repl-name ".popenv('inputMode', 'printPrompt'); undefined;\n")))
-  (defun moz-scroll-down ()
-    (interactive)
-    (moz-send-line (concat "(function(){var t=" moz-scroll-time ",r=" moz-scroll-ratio " ;var i=0,w =document.documentElement,s=gBrowser.selectedBrowser.contentWindow.scrollY,e=s+w.clientHeight/(100/r),v=(e-s)/t,c=s;for(i;i<t;i++){setTimeout(function(){c+=v;content.scrollTo(0,c);},i+1)}})();")))
-  (defun moz-scroll-up ()
-    (interactive)
-    (moz-send-line (concat "(function(){var t=" moz-scroll-time ",r=" moz-scroll-ratio " ;var i=0,w =document.documentElement,s=gBrowser.selectedBrowser.contentWindow.scrollY,e=s+w.clientHeight/(100/r),v=(e-s)/t,c=s;for(i;i<t;i++){setTimeout(function(){c-=v;content.scrollTo(0,c);},i+1)}})();")))
-  (defun moz-prev-tab ()
-    (interactive)
-    (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(-1, true)"))
-  (defun moz-next-tab ()
-    (interactive)
-    (moz-send-line "gBrowser.mTabContainer.advanceSelectedTab(1, true)"))
-  (defun moz-page-reload ()
-    (interactive)
-    (moz-send-line "BrowserReload()"))
-
-  ;; http://blogs.openaether.org/?p=236
-  (defun jk/moz-get (attr)
-    (comint-send-string (inferior-moz-process) attr)
-    ;; try to give the repl a chance to respond
-    (sleep-for 0 100))
-  (defun jk/moz-get-current-url ()
-    (interactive)
-    (jk/moz-get "repl._workContext.content.location.href"))
-  (defun jk/moz-get-current-title ()
-    (interactive)
-    (jk/moz-get "repl._workContext.content.document.title"))
-  (defun jk/moz-get-current (moz-fun)
-    (funcall moz-fun)
-    ;; doesn't work if repl takes too long to output string
-    (save-excursion
-      (set-buffer (process-buffer (inferior-moz-process)))
-      (goto-char (point-max))
-      (previous-line)
-      (setq jk/moz-current (buffer-substring-no-properties
-                            (+ (point-at-bol) (length moz-repl-name) 3)
-                            (- (point-at-eol) 1))))
-    (message "%s" jk/moz-current)
-    jk/moz-current)
-  (defun jk/moz-url ()
-    (interactive)
-    (jk/moz-get-current 'jk/moz-get-current-url))
-  (defun jk/moz-title ()
-    (interactive)
-    (jk/moz-get-current 'jk/moz-get-current-title))
-  ;; Firefox のページを emacs-w3m で開く
-  (defun jk/moz-url-w3m ()
-    "Open current page of Firefox on emacs-w3m."
-    (interactive)
-    (w3m-browse-url (jk/moz-url)))
-  :config
-  (defvar moz-scroll-ratio "80") ;; スクロール量の比率。100(%)で1ページ毎のスクロール。
-  (defvar moz-scroll-time "15") ;; アニメーション時間。高いほどゆっくりに。
-  )
+(use-package moz :defer t)
+#+END_SRC
+*** [[https://github.com/RenWenshan/emacs-moz-controller][moz-controller.el]]
+mozreplを使ったコマンドもろもろを定義しているライブラリ。自作コマンドが不要になった。
+#+BEGIN_SRC emacs-lisp
+(use-package moz-controller :defer t
+)
 #+END_SRC
 ** concurrent.el
 非同期処理フレームワーク．
