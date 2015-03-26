@@ -3680,8 +3680,8 @@ Google Map を表示する．
   :config
   (setq elscreen-display-tab 10)
   (setq elscreen-tab-display-kill-screen nil) ; タブのXを非表示
-  (bind-key "M-n" 'elscreen-next)
-  (bind-key "M-p" 'elscreen-previous)
+  (bind-key* "M-n" 'elscreen-next)
+  (bind-key* "M-p" 'elscreen-previous)
   (cl-loop for i from 1 to 10
            do
            (bind-key (format "M-%d" (mod i 10))
