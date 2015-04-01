@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Replace all occurance
+# key: rep-all-occurance
+# --
+(while (re-search-forward "${1:old}" nil t)
+  (replace-match "${2:new}"))

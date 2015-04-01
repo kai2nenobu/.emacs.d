@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Go to `point-max'
+# key: goto-point-max
+# --
+(goto-char (point-max))
