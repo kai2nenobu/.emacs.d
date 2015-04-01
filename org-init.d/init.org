@@ -1410,6 +1410,9 @@ elscreenとの共存が難しそう。
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired :defer t
   :config
+  (bind-key "M-p" nil dired-mode-map)
+  (bind-key "M-n" nil dired-mode-map)
+
 ;; Automatically guess a target directory
 (setq dired-dwim-target t)
 
@@ -1428,6 +1431,9 @@ dired.el, dired-x.el, dired-aux.el の拡張
   :init
   (with-eval-after-load 'dired
     (require 'dired+))
+  :config
+  (bind-key "M-p" nil dired-mode-map)
+  (bind-key "M-n" nil dired-mode-map)
   )
 
 (setq ls-lisp-dirs-first t)
@@ -2688,6 +2694,8 @@ Emacs から git を操作するライブラリ．
 (use-package magit :defer t
   :if (executable-find "git")
   :config
+  (bind-key "M-p" nil magit-status-mode-map)
+  (bind-key "M-n" nil magit-status-mode-map)
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
   (setq magit-diff-refine-hunk 'all)
   (setq magit-log-show-margin nil) ; ログの右マージンを表示しない
@@ -3680,8 +3688,8 @@ Google Map を表示する．
   :config
   (setq elscreen-display-tab 10)
   (setq elscreen-tab-display-kill-screen nil) ; タブのXを非表示
-  (bind-key* "M-n" 'elscreen-next)
-  (bind-key* "M-p" 'elscreen-previous)
+  (bind-key "M-n" 'elscreen-next)
+  (bind-key "M-p" 'elscreen-previous)
   (cl-loop for i from 1 to 10
            do
            (bind-key (format "M-%d" (mod i 10))
