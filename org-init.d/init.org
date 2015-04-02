@@ -276,6 +276,89 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** カーソル下の文字のエンコード結果を表示する
+文字を様々な文字符号化方式でエンコードした結果を表示する。 =describe-char= と同じような使い勝手のつもり。
+#+BEGIN_SRC emacs-lisp +n
+(defun describe-encoded-char (pos)
+  "Describe how the character at POS is encoded by various coding-systems.
+If a coding-system can't safely encode the character, display \"?\"."
+  (interactive "d")
+  (let ((coding-systems '(utf-8 utf-16be shift_jis cp932 iso-2022-jp))
+        (fmt "%15s: %s\n")
+        (char (char-after pos))
+        (byte-to-hex (lambda (byte) (format "%02x" byte))))
+    (with-help-window (help-buffer)
+      (with-current-buffer standard-output
+        (insert (format fmt "character" (char-to-string char)))
+        (insert (format (if (<= char #xffff) "%15s: U+%04x\n" "%15s: U+%06x\n")
+                        "code point" char))
+        (cl-loop for coding-system in coding-systems
+                 do
+                 (let* ((encoded-bytes (encode-coding-char char coding-system))
+                        (encoded-hex (if encoded-bytes
+                                         (concat "0x"
+                                                 (mapconcat byte-to-hex encoded-bytes ""))
+                                       "?")))
+                   (insert (format fmt coding-system encoded-hex))))
+        ))))
+#+END_SRC
+
+実行例
+#+BEGIN_SRC text
+      character: a
+     code point: U+0061
+          utf-8: 0x61
+       utf-16be: 0x61
+      shift_jis: 0x61
+          cp932: 0x61
+    iso-2022-jp: 0x61
+#+END_SRC
+#+BEGIN_SRC text
+      character: あ
+     code point: U+3042
+          utf-8: 0xe38182
+       utf-16be: 0x3042
+      shift_jis: 0x82a0
+          cp932: 0x82a0
+    iso-2022-jp: 0x1b24422422
+#+END_SRC
+#+BEGIN_SRC text
+      character: ｱ
+     code point: U+ff71
+          utf-8: 0xefbdb1
+       utf-16be: 0xff71
+      shift_jis: 0xb1
+          cp932: 0xb1
+    iso-2022-jp: ?
+#+END_SRC
+#+BEGIN_SRC text
+      character: 亜
+     code point: U+4e9c
+          utf-8: 0xe4ba9c
+       utf-16be: 0x4e9c
+      shift_jis: 0x889f
+          cp932: 0x889f
+    iso-2022-jp: 0x1b24423021
+#+END_SRC
+#+BEGIN_SRC text
+      character: ①
+     code point: U+2460
+          utf-8: 0xe291a0
+       utf-16be: 0x2460
+      shift_jis: ?
+          cp932: 0x8740
+    iso-2022-jp: ?
+#+END_SRC
+#+CAPTION: サロゲートペア
+#+BEGIN_SRC text
+      character: 𩸽
+     code point: U+029e3d
+          utf-8: 0xf0a9b8bd
+       utf-16be: 0xd867de3d
+      shift_jis: ?
+          cp932: ?
+    iso-2022-jp: ?
+#+END_SRC
 ** クォートのシングルとダブルを交換する
 "'abc'" を '"abc"' に変換するコマンド。" と ' の両方を文字列の境界として使え
 る言語向け。
