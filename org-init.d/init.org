@@ -284,14 +284,14 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 If a coding-system can't safely encode the character, display \"?\"."
   (interactive "d")
   (let ((coding-systems '(utf-8 utf-16be shift_jis cp932 iso-2022-jp))
-        (fmt "%15s: %s\n")
+        (label-fmt "%15s: ")
         (char (char-after pos))
         (byte-to-hex (lambda (byte) (format "%02x" byte))))
     (with-help-window (help-buffer)
       (with-current-buffer standard-output
-        (insert (format fmt "character" (char-to-string char)))
-        (insert (format (if (<= char #xffff) "%15s: U+%04x\n" "%15s: U+%06x\n")
-                        "code point" char))
+        (insert (concat (format label-fmt "character") (char-to-string char) "\n"))
+        (insert (concat (format label-fmt "code point")
+                        (format (if (<= char #xffff) "U+%04x" "U+%06x") char) "\n"))
         (cl-loop for coding-system in coding-systems
                  do
                  (let* ((encoded-bytes (encode-coding-char char coding-system))
@@ -299,7 +299,7 @@ If a coding-system can't safely encode the character, display \"?\"."
                                          (concat "0x"
                                                  (mapconcat byte-to-hex encoded-bytes ""))
                                        "?")))
-                   (insert (format fmt coding-system encoded-hex))))
+                   (insert (concat (format label-fmt coding-system) encoded-hex "\n"))))
         ))))
 #+END_SRC
 
