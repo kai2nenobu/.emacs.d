@@ -2026,6 +2026,59 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
   (custom-set-variables '(irfc-assoc-mode t)) ; irfc-modeを自動で有効にする
   )
 #+END_SRC
+*** helmインターフェースを作成
+RFCの番号をいちいち覚えておくのがめんどくさいので、helmで絞り込めるようにした。RFCの一覧は =rfc-index.xml= から抽出する。
+
+最初は =libxml-parse-xml-region= でRFCの情報をDOMで返そうとした。しかし、RFCが7000件近くあると、DOMのサイズが大きすぎるからなのか =helm-irfc--condidates= がnilを返してしまう現象が発生した。しょうがないので正規表現で必要な情報だけ取ってくることにした。
+
+最初は =(:doc-id "RFC0001" :title "Hostsoftware")= のようなplistで1つのRFCを表現していた。ところが =real-to-display= や =action= で実行される関数には、選択した候補の =cdr= が渡されるみたいで =("RFC0001" :title "Hostsoftware")= のような不完全な情報になってしまうようであった。なのでリストの先頭に適当な要素を追加している。
+#+BEGIN_SRC emacs-lisp
+(autoload 'helm-irfc "irfc" "Helm interface for `irfc'." t)
+(with-eval-after-load 'irfc
+  (defun helm-irfc ()
+    "Helm interface for `irfc'."
+    (interactive)
+    (helm :sources '(helm-source-irfc)
+          :buffer  "*helm-irfc*"))
+
+  (defvar helm-source-irfc
+    '((name . "RFC List")
+      (candidates . helm-irfc--candidates)
+      (real-to-display . helm-irfc--real-to-display)
+      (action . helm-irfc-visit)
+      ))
+
+  (defun helm-irfc-visit (rfc)
+    (let ((doc-id (plist-get rfc :doc-id)))
+      (irfc-visit (substring doc-id 3))))
+
+  (defun helm-irfc--candidates ()
+    "Return a list of RFC from a index xml.
+You should download the index xml (named rfc-index.xml) into `irfc-directory'
+from \"http://www.ietf.org/rfc/rfc-index.xml\"."
+    (with-temp-buffer
+      (insert-file-contents-literally (expand-file-name "rfc-index.xml" irfc-directory))
+      (goto-char (point-min))
+      (let ((doc-id-regexp "^        <doc-id>\\(RFC[0-9]+\\)</doc-id>")
+            (title-regexp  "^        <title>\\([^<]+\\)</title>")
+            (i 0)
+            rfc-list)
+        (while (re-search-forward doc-id-regexp nil t)
+          (let ((doc-id (match-string 1)))
+            (re-search-forward title-regexp nil t)
+            (push (list (incf i) ; cdrが渡されても大丈夫なようにリストの先頭にインデックスを加えておく
+                        :doc-id doc-id
+                        :title (match-string 1))
+                  rfc-list)))
+        (reverse rfc-list)
+        )))
+
+  (defun helm-irfc--real-to-display (rfc)
+    (let ((doc-id (plist-get rfc :doc-id))
+          (title (plist-get rfc :title)))
+      (format "[%s] %s" doc-id title)))
+  )
+#+END_SRC
 ** longlines-jp
 日本語を考慮して =fill-column= で仮想的に折り返す。
 #+BEGIN_SRC emacs-lisp
@@ -3091,7 +3144,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
   ;;; (auto-install-from-url "https://raw.github.com/gist/1345100/332610ed43c0c310be3281280285fc41b3d4cbdd/helm-orgcard.el")
   ;;; Org-mode のリファレンスカードを使って機能検索 http://d.hatena.ne.jp/kiwanami/20111109/1320857773
   (use-package helm-orgcard)
- 
+
   ;; helm-bibtex
   ;; (auto-install-from-url "https://raw.github.com/gist/1523216/b8060f8c0792988e862a42f27a18e1d4d35d965d/helm-bibtex.el")
   ;; http://d.hatena.ne.jp/k6ky/20111227/1324987106
