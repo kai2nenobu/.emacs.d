@@ -41,6 +41,7 @@
 (depends-on "htmlize")
 (depends-on "httprepl")
 (depends-on "idle-highlight-mode")
+(depends-on "irfc")
 (depends-on "key-chord")
 (depends-on "lispxmp")
 (depends-on "mag-menu")
