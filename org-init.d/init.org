@@ -2043,21 +2043,31 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
 
   (defvar helm-source-irfc
     '((name . "RFC List")
-      (candidates . helm-irfc--candidates)
+      (init . (lambda () (unless helm-irfc-cache
+                           (setq helm-irfc-cache (helm-irfc--candidates)))))
+      (candidates . helm-irfc-cache)
       (real-to-display . helm-irfc--real-to-display)
       (action . helm-irfc-visit)
       ))
+  (defvar irfc-index-file (expand-file-name "rfc-index.xml" irfc-directory))
+  (defvar irfc-index-url  (concat irfc-download-base-url "rfc-index.xml"))
+  (defvar helm-irfc-cache nil)
 
   (defun helm-irfc-visit (rfc)
-    (let ((doc-id (plist-get rfc :doc-id)))
-      (irfc-visit (substring doc-id 3))))
+    (let* ((doc-id (plist-get rfc :doc-id))
+           (num (string-to-number (substring doc-id 3))))
+      (if (= num 0)
+          (error "Invalid doc-id: %S" doc-id)
+        (irfc-visit num))))
 
   (defun helm-irfc--candidates ()
     "Return a list of RFC from a index xml.
-You should download the index xml (named rfc-index.xml) into `irfc-directory'
-from \"http://www.ietf.org/rfc/rfc-index.xml\"."
+The index xml (rfc-index.xml) is downloaded from \"http://www.ietf.org/rfc/rfc-index.xml\"."
+    ;; TODO: download a index file when it is modified
+    (unless (file-exists-p irfc-index-file)
+      (url-copy-file irfc-index-url irfc-index-file))
     (with-temp-buffer
-      (insert-file-contents-literally (expand-file-name "rfc-index.xml" irfc-directory))
+      (insert-file-contents-literally irfc-index-file)
       (goto-char (point-min))
       (let ((doc-id-regexp "^        <doc-id>\\(RFC[0-9]+\\)</doc-id>")
             (title-regexp  "^        <title>\\([^<]+\\)</title>")
@@ -2066,7 +2076,7 @@ from \"http://www.ietf.org/rfc/rfc-index.xml\"."
         (while (re-search-forward doc-id-regexp nil t)
           (let ((doc-id (match-string 1)))
             (re-search-forward title-regexp nil t)
-            (push (list (incf i) ; cdrが渡されても大丈夫なようにリストの先頭にインデックスを加えておく
+            (push (list (incf i) ; cdrで渡されても大丈夫なようにリストの先頭にインデックスを加えておく
                         :doc-id doc-id
                         :title (match-string 1))
                   rfc-list)))
