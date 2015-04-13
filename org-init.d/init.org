@@ -2024,6 +2024,9 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 (use-package irfc :defer t
   :config
   (custom-set-variables '(irfc-assoc-mode t)) ; irfc-modeを自動で有効にする
+  (bind-keys :map irfc-mode-map
+             ("<backspace>" . scroll-down)
+             ("S-SPC" . scroll-down))
   )
 #+END_SRC
 *** helmインターフェースを作成
