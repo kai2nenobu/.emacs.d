@@ -2048,13 +2048,21 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
     '((name . "RFC List")
       (init . (lambda () (unless helm-irfc-cache
                            (setq helm-irfc-cache (helm-irfc--candidates)))))
-      (candidates . helm-irfc-cache)
+      (candidates . (lambda ()
+                      (let ((lst (copy-sequence helm-irfc-cache)))
+                        (sort lst helm-irfc-sort-function))))
       (real-to-display . helm-irfc--real-to-display)
       (action . helm-irfc-visit)
       ))
   (defvar irfc-index-file (expand-file-name "rfc-index.xml" irfc-directory))
   (defvar irfc-index-url  (concat irfc-download-base-url "rfc-index.xml"))
   (defvar helm-irfc-cache nil)
+  (defcustom helm-irfc-sort-function 'helm-irfc-reverse-doc-id-order "")
+
+  (defun helm-irfc-reverse-doc-id-order (can1 can2)
+    (string< (plist-get (cdr can2) :doc-id) (plist-get (cdr can1) :doc-id)))
+  (defun helm-irfc-title-order (can1 can2)
+    (string< (plist-get (cdr can1) :title) (plist-get (cdr can2) :title)))
 
   (defun helm-irfc-visit (rfc)
     (let* ((doc-id (plist-get rfc :doc-id))
