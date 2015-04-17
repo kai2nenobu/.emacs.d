@@ -3641,11 +3641,11 @@ If specify ARG, the subtree starts ARGth level headline."
 #+BEGIN_SRC emacs-lisp +n
   (defadvice org-open-file (around restore-shell activate)
     "Windowsの場合は一時的にシェルの名前をnilにする"
-    (when (eq system-type 'windows-nt)
-      (let ((orig-shell-file-name shell-file-name)
-            (shell-file-name nil))
-        ad-do-it
-        (setq shell-file-name orig-shell-file-name))))
+    (let ((orig-shell-file-name shell-file-name))
+      (when (eq system-type 'windows-nt)
+        (setq shell-file-name nil))
+      ad-do-it
+      (setq shell-file-name orig-shell-file-name)))
 #+END_SRC
 - [[http://stackoverflow.com/questions/11553123/linking-to-files-on-windows-network-share][emacs - Linking to files on Windows Network Share - Stack Overflow]]
 UNC Pathへリンクさ
