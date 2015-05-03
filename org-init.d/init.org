@@ -2075,6 +2075,7 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
   (defun irfc-ensure-index-file ()
     "Ensure that a index file exists. If not, download the index xml."
     ;; TODO: consider in offline environment
+    (make-directory (file-name-directory (irfc-index-file)) :force)
     (let ((url-cache-creation-function #'irfc-index-file)) ; treat a downloaded index as cache
       (url-copy-file irfc-index-url (irfc-index-file) t)))
 
