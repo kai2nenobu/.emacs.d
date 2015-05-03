@@ -2054,7 +2054,8 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
       (real-to-display . helm-irfc--real-to-display)
       (action . helm-irfc-visit)
       ))
-  (defvar irfc-index-file (expand-file-name "rfc-index.xml" irfc-directory))
+  (defun irfc-index-file (&optional dummy)
+    (expand-file-name "rfc-index.xml" irfc-directory))
   (defvar irfc-index-url  (concat irfc-download-base-url "rfc-index.xml"))
   (defvar helm-irfc-cache nil)
   (defcustom helm-irfc-sort-function 'helm-irfc-reverse-doc-id-order "")
@@ -2074,11 +2075,12 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
   (defun helm-irfc--candidates ()
     "Return a list of RFC from a index xml.
 The index xml (rfc-index.xml) is downloaded from \"http://www.ietf.org/rfc/rfc-index.xml\"."
-    ;; TODO: download a index file when it is modified
-    (unless (file-exists-p irfc-index-file)
-      (url-copy-file irfc-index-url irfc-index-file))
+    ;; download the index xml
+    ;; TODO: consider in offline environment
+    (let ((url-cache-creation-function #'irfc-index-file)) ; treat a downloaded index as cache
+      (url-copy-file irfc-index-url (irfc-index-file) t))
     (with-temp-buffer
-      (insert-file-contents-literally irfc-index-file)
+      (insert-file-contents-literally (irfc-index-file))
       (goto-char (point-min))
       (let ((doc-id-regexp "^        <doc-id>\\(RFC[0-9]+\\)</doc-id>")
             (title-regexp  "^        <title>\\([^<]+\\)</title>")
