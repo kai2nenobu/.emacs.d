@@ -2072,13 +2072,16 @@ RFCの番号をいちいち覚えておくのがめんどくさいので、helm�
           (error "Invalid doc-id: %S" doc-id)
         (irfc-visit num))))
 
+  (defun irfc-ensure-index-file ()
+    "Ensure that a index file exists. If not, download the index xml."
+    ;; TODO: consider in offline environment
+    (let ((url-cache-creation-function #'irfc-index-file)) ; treat a downloaded index as cache
+      (url-copy-file irfc-index-url (irfc-index-file) t)))
+
   (defun helm-irfc--candidates ()
     "Return a list of RFC from a index xml.
 The index xml (rfc-index.xml) is downloaded from \"http://www.ietf.org/rfc/rfc-index.xml\"."
-    ;; download the index xml
-    ;; TODO: consider in offline environment
-    (let ((url-cache-creation-function #'irfc-index-file)) ; treat a downloaded index as cache
-      (url-copy-file irfc-index-url (irfc-index-file) t))
+    (irfc-ensure-index-file)
     (with-temp-buffer
       (insert-file-contents-literally (irfc-index-file))
       (goto-char (point-min))
