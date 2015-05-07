@@ -1,3 +1,8 @@
+;; ~/.emacs.d/ 外の場所から読み込めるようにする
+;; http://blog.shibayu36.org/entry/2015/05/01/172215
+(when load-file-name
+  (setq user-emacs-directory (file-name-directory load-file-name)))
+
 ;;; 文字コーディング設定
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
