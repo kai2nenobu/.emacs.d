@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Directory where this shell script exsits
+# key: scriptdir
+# --
+DIR=$(dirname $(readlink -e "\$0"))
