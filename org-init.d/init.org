@@ -3388,7 +3388,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; agenda で参照する org ファイル達
   (setq org-agenda-files `(,org-default-notes-file
                            ,(expand-file-name "task.org" org-directory)
-                           ,(expand-file-name "TIPS.org" org-directory)
                            ,(expand-file-name "contract.org" org-directory)
                            ,(expand-file-name "english.org" org-directory)
                            ,(expand-file-name "jobhunt.org" org-directory)
