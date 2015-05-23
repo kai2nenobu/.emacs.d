@@ -3356,6 +3356,8 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
                '(compilation-mode :position right :width 80))
   (setq popwin:special-display-config
         (delete '(" *undo-tree*" :width 60 :position right) popwin:special-display-config))
+  ;; *Help* バッファをワンキーで固定
+  (define-key help-mode-map (kbd "s") 'popwin:stick-popup-window)
   )
 #+END_SRC
 ** org-mode.el
