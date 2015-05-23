@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Idiom: Add provided configurations
+# key: provided
+# --
+configurations { provided }
+
+sourceSets.main.compileClasspath += configurations.provided
+sourceSets.test.compileClasspath += configurations.provided
