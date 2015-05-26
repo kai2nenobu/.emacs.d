@@ -509,8 +509,9 @@ Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置�
 #+BEGIN_SRC emacs-lisp +n
 (defadvice open-line (after and-indent (N) activate)
   "Indent after open-line."
-  (indent-region (point-at-bol)
-                 (point-at-eol (1+ (ad-get-arg 0)))))
+  (save-excursion
+    (forward-line N)
+    (funcall indent-line-function)))
 #+END_SRC
 ** M-r でカーソル移動した時，インデントの先頭の桁にカーソルを移動する
 #+BEGIN_SRC emacs-lisp +n
