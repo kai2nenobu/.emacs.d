@@ -2802,9 +2802,6 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 #+BEGIN_SRC emacs-lisp +n
 (use-package open-junk-file :defer t
   :bind ("C-c j" . open-junk-file)
-  :config
-  (setq open-junk-file-format
-        (locate-user-emacs-file "junk/%Y/%m/%d-%H%M%S-junk."))
   )
 #+END_SRC
 ** lispxmp.el
