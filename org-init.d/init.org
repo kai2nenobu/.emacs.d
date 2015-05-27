@@ -3821,9 +3821,20 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-reveal :defer t
   :init
-  (defadvice org-export-dispatch (before load-reveal activate)
-    (require 'ox-reveal nil t))
+  (add-autoload org-export-dispatch ox-reveal)
   :config
+  (setq org-reveal-root (concat "file:///" (expand-file-name "reveal.js" org-directory))
+        org-reveal-slide-number t
+        org-reveal-center nil
+        org-reveal-margin "0.1"
+        org-reveal-transition "slide"
+        org-reveal-transition-speed "fast")
+  (setq org-reveal-title-slide-template
+        "<h2 class=\"title\">%t</h2>
+<h3 class=\"author\">%a</h3>
+<h3 class=\"email\">%e</h3>
+<h3 class=\"date\">%d</h3>")
+
   (defun org-reveal-open-new-link-filter (data backend info)
     "Add 'target=\"_blank\"' to <a> tag when exported by `ox-reveal'"
     (when (eq backend 'reveal)
