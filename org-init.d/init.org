@@ -3372,7 +3372,6 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   (setq org-return-follows-link t)
   (setq org-adapt-indentation nil)  ; 見出しのレベルに合わせたインデントは適用しない
   (setq org-src-fontify-natively t)
-  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-src-preserve-indentation t)
