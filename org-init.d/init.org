@@ -1485,6 +1485,14 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** lisp-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package lisp-mode :defer t
+  :config
+  (defun emacs-lisp-configuration ()
+     (setq tab-width 8))
+  (add-hook 'emacs-lisp-mode-hook #'emacs-lisp-configuration))
+#+END_SRC
 ** ediff
 elscreenとの共存が難しそう。
 #+BEGIN_SRC emacs-lisp +n
