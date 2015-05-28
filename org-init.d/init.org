@@ -386,8 +386,9 @@ If no region, exchange all quotes in buffer."
 にロードするようにする。
 #+BEGIN_SRC emacs-lisp
 (defmacro add-autoload (function feature)
-  `(defadvice ,function (before autoload activate)
-     (require (quote ,feature) nil t)))
+  (let ((advice-name (intern (concat "autoload-" (symbol-name feature)))))
+    `(defadvice ,function (before ,advice-name activate)
+       (require (quote ,feature) nil t))))
 #+END_SRC
 ** インデントに空白を使うか使わないか切り替えるマイナーモード
 =indent-tabs-mode= は変数しか定義されておらず、切り替えるコマンドがなかったの
