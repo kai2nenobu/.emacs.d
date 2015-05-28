@@ -3827,7 +3827,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
   (setq org-reveal-root (concat "file:///" (expand-file-name "reveal.js" org-directory))
         org-reveal-slide-number t
         org-reveal-center nil
-        org-reveal-margin "0.1"
+        org-reveal-margin "0.02"
         org-reveal-transition "slide"
         org-reveal-transition-speed "fast")
   (setq org-reveal-title-slide-template
