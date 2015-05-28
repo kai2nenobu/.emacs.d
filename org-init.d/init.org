@@ -3706,6 +3706,16 @@ git管理下のファイルのhelmソース。
           (replace-match "" t t org-html-style-default 1)))
   )
 #+END_SRC
+**** 見出しの数字の末尾にピリオドを追加する
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'ox-html
+  (defun org-html-headline-period (data backend info)
+    "Add a period to the end of headline number."
+    (when (eq backend 'html)
+      (replace-regexp-in-string "<span class=\"section-number-.*\">.*</span>" "\0." data)))
+  (add-to-list 'org-export-filter-headline-functions #'org-html-headline-period)
+  )
+#+END_SRC
 **** infoへのリンクをhtmlへのリンクに変換する
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'ox-html
