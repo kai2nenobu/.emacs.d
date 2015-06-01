@@ -3844,6 +3844,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
   :config
   (setq org-reveal-root (concat "file:///" (expand-file-name "reveal.js" org-directory))
         org-reveal-slide-number t
+        org-reveal-history t
         org-reveal-center nil
         org-reveal-margin "0.02"
         org-reveal-transition "slide"
