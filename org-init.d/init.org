@@ -3719,8 +3719,8 @@ git管理下のファイルのhelmソース。
 (with-eval-after-load 'ox-html
   (defun org-html-headline-period (data backend info)
     "Add a period to the end of headline number."
-    (when (eq backend 'html)
-      (replace-regexp-in-string "<span class=\"section-number-.*\">.*</span>" "\0." data)))
+    (when (org-export-derived-backend-p backend 'html)
+      (replace-regexp-in-string "<span class=\"section-number-.*\">.*</span>" "\\&." data)))
   (add-to-list 'org-export-filter-headline-functions #'org-html-headline-period)
   )
 #+END_SRC
