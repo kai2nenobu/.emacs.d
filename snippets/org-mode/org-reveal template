@@ -1,0 +1,19 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: org-reveal template
+# key: o-r
+# --
+#+TITLE: ${1:title}
+#+AUTHOR: `user-full-name`
+#+EMAIL: `user-mail-address`
+#+DATE: `(org-read-date)`
+
+#+LANGUAGE: ja
+#+DESCRIPTION: ${2:description}
+#+OPTIONS: num:1 toc:1 ^:nil
+
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: slide
+#+REVEAL_EXTRA_CSS: ./slide.css
+#+REVEAL_ROOT: reveal.js
+#+OPTIONS: reveal_width:800 reveal_height:600
+#+OPTIONS: reveal_center:nil
