@@ -2,5 +2,5 @@
 # name: Idiom: Set up a encoding of compiled files
 # key: encoding
 # --
-tasks.with(AbstractCompile).each { it.options.encoding = "\${${1:encoding}}" }
+tasks.withType(AbstractCompile).each { it.options.encoding = "${1:encoding}" }
 $0
