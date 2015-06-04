@@ -17,7 +17,7 @@
 (if (file-exists-p "~/.cask/cask.el")
     (progn
       (require 'cask "~/.cask/cask.el")
-      (cask-initialize)
+      (defvar my-cask-bundle (cask-initialize) "My cask-bundle object")
       (require 'pallet nil t))
   (package-initialize))
 
