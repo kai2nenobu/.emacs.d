@@ -42,6 +42,7 @@
 (depends-on "httprepl")
 (depends-on "idle-highlight-mode")
 (depends-on "irfc")
+(depends-on "irfc-x" :git "https://github.com/kai2nenobu/irfc-x.git")
 (depends-on "key-chord")
 (depends-on "lispxmp")
 (depends-on "mag-menu")

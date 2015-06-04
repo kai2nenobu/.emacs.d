@@ -2039,82 +2039,9 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
              ("S-SPC" . scroll-down))
   )
 #+END_SRC
-*** helmインターフェースを作成
-RFCの番号をいちいち覚えておくのがめんどくさいので、helmで絞り込めるようにした。RFCの一覧は =rfc-index.xml= から抽出する。
-
-最初は =libxml-parse-xml-region= でRFCの情報をDOMで返そうとした。しかし、RFCが7000件近くあると、DOMのサイズが大きすぎるからなのか =helm-irfc--condidates= がnilを返してしまう現象が発生した。しょうがないので正規表現で必要な情報だけ取ってくることにした。
-
-最初は =(:doc-id "RFC0001" :title "Hostsoftware")= のようなplistで1つのRFCを表現していた。ところが =real-to-display= や =action= で実行される関数には、選択した候補の =cdr= が渡されるみたいで =("RFC0001" :title "Hostsoftware")= のような不完全な情報になってしまうようであった。なのでリストの先頭に適当な要素を追加している。
+*** irfc-x
 #+BEGIN_SRC emacs-lisp
-(autoload 'helm-irfc "irfc" "Helm interface for `irfc'." t)
-(with-eval-after-load 'irfc
-  (defun helm-irfc ()
-    "Helm interface for `irfc'."
-    (interactive)
-    (helm :sources '(helm-source-irfc)
-          :buffer  "*helm-irfc*"))
-
-  (defvar helm-source-irfc
-    '((name . "RFC List")
-      (init . (lambda () (unless helm-irfc-cache
-                           (setq helm-irfc-cache (helm-irfc--candidates)))))
-      (candidates . (lambda ()
-                      (let ((lst (copy-sequence helm-irfc-cache)))
-                        (sort lst helm-irfc-sort-function))))
-      (real-to-display . helm-irfc--real-to-display)
-      (action . helm-irfc-visit)
-      ))
-  (defun irfc-index-file (&optional dummy)
-    (expand-file-name "rfc-index.xml" irfc-directory))
-  (defvar irfc-index-url  (concat irfc-download-base-url "rfc-index.xml"))
-  (defvar helm-irfc-cache nil)
-  (defcustom helm-irfc-sort-function 'helm-irfc-reverse-doc-id-order "")
-
-  (defun helm-irfc-reverse-doc-id-order (can1 can2)
-    (string< (plist-get (cdr can2) :doc-id) (plist-get (cdr can1) :doc-id)))
-  (defun helm-irfc-title-order (can1 can2)
-    (string< (plist-get (cdr can1) :title) (plist-get (cdr can2) :title)))
-
-  (defun helm-irfc-visit (rfc)
-    (let* ((doc-id (plist-get rfc :doc-id))
-           (num (string-to-number (substring doc-id 3))))
-      (if (= num 0)
-          (error "Invalid doc-id: %S" doc-id)
-        (irfc-visit num))))
-
-  (defun irfc-ensure-index-file ()
-    "Ensure that a index file exists. If not, download the index xml."
-    ;; TODO: consider in offline environment
-    (make-directory (file-name-directory (irfc-index-file)) :force)
-    (let ((url-cache-creation-function #'irfc-index-file)) ; treat a downloaded index as cache
-      (url-copy-file irfc-index-url (irfc-index-file) t)))
-
-  (defun helm-irfc--candidates ()
-    "Return a list of RFC from a index xml.
-The index xml (rfc-index.xml) is downloaded from \"http://www.ietf.org/rfc/rfc-index.xml\"."
-    (irfc-ensure-index-file)
-    (with-temp-buffer
-      (insert-file-contents-literally (irfc-index-file))
-      (goto-char (point-min))
-      (let ((doc-id-regexp "^        <doc-id>\\(RFC[0-9]+\\)</doc-id>")
-            (title-regexp  "^        <title>\\([^<]+\\)</title>")
-            (i 0)
-            rfc-list)
-        (while (re-search-forward doc-id-regexp nil t)
-          (let ((doc-id (match-string 1)))
-            (re-search-forward title-regexp nil t)
-            (push (list (incf i) ; cdrで渡されても大丈夫なようにリストの先頭にインデックスを加えておく
-                        :doc-id doc-id
-                        :title (match-string 1))
-                  rfc-list)))
-        (reverse rfc-list)
-        )))
-
-  (defun helm-irfc--real-to-display (rfc)
-    (let ((doc-id (plist-get rfc :doc-id))
-          (title (plist-get rfc :title)))
-      (format "[%s] %s" doc-id title)))
-  )
+(use-package irfc :defer t)
 #+END_SRC
 ** longlines-jp
 日本語を考慮して =fill-column= で仮想的に折り返す。
