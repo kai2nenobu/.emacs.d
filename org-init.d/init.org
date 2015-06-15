@@ -276,6 +276,18 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 画面のDPIを計算する
+#+BEGIN_SRC emacs-lisp +n
+(defun dpi (inch &optional width height)
+  (interactive "nInput a screen size in inch: \nnInput a pixel width: \nnInput a pixel height: ")
+  (let* ((w (or width (display-pixel-width)))
+         (h (or height (display-pixel-height)))
+         (diago (sqrt (+ (* w w) (* h h))))
+         (dpi (/ w (* inch (/ w diago)))))
+    (if (called-interactively-p 'interactive)
+        (message "%5.2fdpi" dpi)
+      dpi)))
+#+END_SRC
 ** カーソル下の文字のエンコード結果を表示する
 文字を様々な文字符号化方式でエンコードした結果を表示する。 =describe-char= と同じような使い勝手のつもり。
 #+BEGIN_SRC emacs-lisp +n
