@@ -164,9 +164,17 @@ ispell が動かなかった。ispell に限らんかもしれんが
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
+  (defvar my-default-font nil "Default font family")
+  (let ((font-list (font-family-list)))
+    (cond ((member "Ricty" font-list)
+           (setq my-default-font "Ricty"
+                 my-default-font-size 15))
+          ((member "ＭＳ ゴシック" font-list)
+           (setq my-default-font "ＭＳ ゴシック"
+                  my-default-font-size 12))))
   (defvar my-current-font-size my-default-font-size "Current font size")
-  (when (member "Ricty" (font-family-list))
-    (set-frame-font (format "Ricty %d" my-current-font-size) nil t))
+  (when my-default-font
+    (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t))
   )
 
 ;;; list-faces-display 用の文字列
