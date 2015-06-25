@@ -165,13 +165,14 @@ ispell が動かなかった。ispell に限らんかもしれんが
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
   (defvar my-default-font nil "Default font family")
-  (let ((font-list (font-family-list)))
-    (cond ((member "Ricty" font-list)
-           (setq my-default-font "Ricty"
-                 my-default-font-size 15))
-          ((member "ＭＳ ゴシック" font-list)
-           (setq my-default-font "ＭＳ ゴシック"
-                  my-default-font-size 12))))
+  (defvar my-font-alist '(("Ricty" . 15) ("ＭＳ ゴシック" . 12) ("hoge" . 3))
+    "Alist of a font family and size")
+  (cl-loop for (font . size) in my-font-alist
+           when (member font (font-family-list))
+           do
+           (setq my-default-font font
+                 my-default-font-size size)
+           until (member font (font-family-list)))
   (defvar my-current-font-size my-default-font-size "Current font size")
   (when my-default-font
     (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t))
