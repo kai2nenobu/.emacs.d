@@ -3324,11 +3324,12 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+BEGIN_SRC emacs-lisp +n
   :config
   (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
+  (bind-key "M-o M-o" 'org-src-fontify-block org-mode-map)
   (setq org-startup-folded 'content)
   (setq org-startup-truncated nil)
   (setq org-return-follows-link t)
   (setq org-adapt-indentation nil)  ; 見出しのレベルに合わせたインデントは適用しない
-  (setq org-src-fontify-natively t)
+  (setq org-src-fontify-natively nil)
   (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
   (setq org-export-copy-to-kill-ring nil) ; don't copy exported content to kill ring
   (setq org-src-preserve-indentation t)
