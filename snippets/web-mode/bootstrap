@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Use Bootstrap 3 via CDN
+# key: bootstrap
+# --
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/${1:3.3.5}/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/$1/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/$1/js/bootstrap.min.js"></script>
