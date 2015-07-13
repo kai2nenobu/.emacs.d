@@ -3672,7 +3672,8 @@ git管理下のファイルのhelmソース。
   (add-autoload helm-for-files helm-ls-git)
   :config
   ;; `helm-source-ls-git' の初期化のために `helm-source-ls-git' を実行する
-  (with-timeout (0.01) (helm-ls-git-ls))
+  (setq helm-source-ls-git (helm-make-source "Git files" 'helm-ls-git-source
+                             :fuzzy-match helm-ls-git-fuzzy-match))
   (setq helm-ls-git-show-abs-or-relative 'relative)
   ;; helm-for-filesでgit管理下のファイルも開く
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
