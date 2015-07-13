@@ -285,6 +285,15 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** C-aでインデント位置にカーソル移動するアドバイス
+IDEでよくあるやつ。
+#+BEGIN_SRC emacs-lisp +n
+(defadvice move-beginning-of-line (around to-indentation activate)
+  "Move to the beginning of non-white space character before bol."
+  (if (= (current-column) (current-indentation))
+      ad-do-it
+    (back-to-indentation)))
+#+END_SRC
 ** 画面のDPIを計算する
 #+BEGIN_SRC emacs-lisp +n
 (defun dpi (inch &optional width height)
@@ -2088,9 +2097,6 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp
 (use-package mykie
   :config
-  (mykie:global-set-key "C-a"
-    :default move-beginning-of-line
-    :bolp    back-to-indentation)
   )
 #+END_SRC
 ** visual-basic-mode
