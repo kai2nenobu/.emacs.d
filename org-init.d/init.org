@@ -3677,6 +3677,11 @@ git管理下のファイルのhelmソース。
   (setq helm-ls-git-show-abs-or-relative 'relative)
   ;; helm-for-filesでgit管理下のファイルも開く
   (add-to-list 'helm-for-files-preferred-list 'helm-source-ls-git)
+  ;; gitリポジトリ外で `helm-ls-git-init' がエラーになるのをアドバイスで回避する
+  ;; `helm-ls-git-list-files' が返すnilを `split-string' しようとしてエラーになっているので
+  ;; 返り値がnilのの時は空文字にすることで回避できる。
+  (defadvice helm-ls-git-list-files (after nil-to-empty activate)
+    (unless ad-return-value (setq ad-return-value "")))
   )
 #+END_SRC
 *** ox-html
