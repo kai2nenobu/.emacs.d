@@ -2105,6 +2105,16 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp
 (use-package mykie
   :config
+  (mykie:define-key-with-self-key
+      "r" :region my-query-replace-region-to
+          :region&C-u (my-query-replace-region-to t))
+  (defun my-query-replace-region-to (&optional whole)
+    (let* ((from (buffer-substring-no-properties (region-beginning) (region-end)))
+           (to (read-string (format "Query replace %s with: " from))))
+      (save-excursion
+        (goto-char (if whole (point-min) (region-beginning)))
+        (deactivate-mark)
+        (query-replace from to))))
   )
 #+END_SRC
 ** visual-basic-mode
