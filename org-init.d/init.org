@@ -2331,7 +2331,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 (use-package highlight-symbol :defer t
   :init
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
-  (add-hook 'text-mode-hook 'highlight-symbol-mode)
   :config
   (setq highlight-symbol-idle-delay 0.5)
   )
