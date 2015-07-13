@@ -2339,7 +2339,11 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package emmet-mode :defer t
   :config
-  (setq emmet-preview-default nil))
+  (setq emmet-preview-default nil)
+  (defun emmet-cheat-sheet ()
+    (interactive)
+    (browse-url "http://docs.emmet.io/cheat-sheet/"))
+  )
 #+END_SRC
 ** direx.el
 - [[http://cx4a.blogspot.jp/2011/12/popwineldirexel.html][LOAD-TIME-VALUE: popwin.elと相性が良いシンプルなディレクトリ・エクスプローラ、direx.elを作りました]]
