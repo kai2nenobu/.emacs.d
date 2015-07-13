@@ -1515,6 +1515,14 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** electric-pair-mode
+引用符や括弧のようなペアになっている2つの文字を自動挿入するライブラリ。
+#+BEGIN_SRC emacs-lisp +n
+(use-package electric-pair-mode
+  :config
+  (electric-pair-mode 1) ; `electric-pair-mode' is a global minor mode
+  )
+#+END_SRC
 ** lisp-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package lisp-mode :defer t
@@ -2666,7 +2674,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
   (add-hook 'prog-mode-hook 'wrap-region-mode)
   (add-hook 'text-mode-hook 'wrap-region-mode)
   :config
-  (wrap-region-add-wrapper "`" "'" nil '(emacs-lisp-mode lisp-interaction-mode))
+  (wrap-region-add-wrapper "`" "'" nil 'lisp-mode)
   )
 #+END_SRC
 ** expand-region.el
