@@ -47,6 +47,7 @@
 (depends-on "lispxmp")
 (depends-on "mag-menu")
 (depends-on "magit")
+(depends-on "markdown-mode")
 (depends-on "migemo")
 (depends-on "moz")
 (depends-on "moz-controller")

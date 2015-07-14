@@ -2066,6 +2066,27 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[http://jblevins.org/projects/markdown-mode/][markdown-mode]]
+Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= も定義されている。
+#+BEGIN_SRC emacs-lisp +n
+(use-package markdown-mode :defer t
+  :init
+  ;; Use `gfm-mode' instead of `markdown-mode'
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+  :config
+  (defun toggle-moz-repl-auto-refresh (&optional buffer)
+    "Automatically refresh a firefox when a markdown file has changed."
+    (interactive)
+    (with-current-buffer (or buffer (current-buffer))
+      (if (memq 'moz-controller-page-refresh after-save-hook)
+          (progn
+            (remove-hook 'after-save-hook 'moz-controller-page-refresh :local)
+            (message "Disable auto refresh"))
+        (add-hook 'after-save-hook 'moz-controller-page-refresh nil :local)
+        (message "Enable auto refresh"))))
+  )
+#+END_SRC
 ** irfc
 EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp
