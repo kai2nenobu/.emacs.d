@@ -3026,7 +3026,13 @@ mozrepl を通して firefox を操作する
 mozreplを使ったコマンドもろもろを定義しているライブラリ。自作コマンドが不要になった。
 #+BEGIN_SRC emacs-lisp
 (use-package moz-controller :defer t
-)
+  :commands (moz-controller-page-refresh moz-controller-page-down
+             moz-controller-page-up moz-controller-tab-close
+             moz-controller-zoom-in moz-controller-zoom-out
+             moz-controller-zoom-reset moz-controller-tab-previous
+             moz-controller-tab-next moz-controller-view-page-source
+             moz-controller-get-current-url)
+  )
 #+END_SRC
 ** concurrent.el
 非同期処理フレームワーク．
