@@ -392,7 +392,7 @@ If a coding-system can't safely encode the character, display \"?\"."
 ** クォートのシングルとダブルを交換する
 "'abc'" を '"abc"' に変換するコマンド。" と ' の両方を文字列の境界として使え
 る言語向け。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (defun my-exchange-quote (beg end)
   "Exchange single quote and double quote (\" <-> ').
 If no region, exchange all quotes in buffer."
@@ -414,7 +414,7 @@ If no region, exchange all quotes in buffer."
 ** 関数実行時にライブラリをロードする
 既にロードされている関数に対してautoloadはできないので、defadviceで関数実行前
 にロードするようにする。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (defmacro add-autoload (function feature)
   (let ((advice-name (intern (concat "autoload-" (symbol-name feature)))))
     `(defadvice ,function (before ,advice-name activate)
@@ -1147,7 +1147,7 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 #+END_SRC
 * その他一般的な動作設定
 ** プロセスの文字コードを設定
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (cond ((winp)
        (add-to-list 'process-coding-system-alist '("java" . cp932-dos))
        ))
@@ -2089,7 +2089,7 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
 #+END_SRC
 ** irfc
 EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package irfc :defer t
   :config
   (custom-set-variables '(irfc-assoc-mode t)) ; irfc-modeを自動で有効にする
@@ -2099,12 +2099,12 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
   )
 #+END_SRC
 *** irfc-x
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package irfc :defer t)
 #+END_SRC
 ** longlines-jp
 日本語を考慮して =fill-column= で仮想的に折り返す。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package longlines-jp :defer t
   :commands longlines-jp-mode
   :init
@@ -2123,7 +2123,7 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+END_SRC
 ** mykie
 状況に応じて実行するコマンドを切り替えることができるライブラリ。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package mykie
   :config
   (mykie:define-key-with-self-key
@@ -3045,7 +3045,7 @@ mozrepl を通して firefox を操作する
 #+END_SRC
 *** [[https://github.com/RenWenshan/emacs-moz-controller][moz-controller.el]]
 mozreplを使ったコマンドもろもろを定義しているライブラリ。自作コマンドが不要になった。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package moz-controller :defer t
   :commands (moz-controller-page-refresh moz-controller-page-down
              moz-controller-page-up moz-controller-tab-close
@@ -3267,7 +3267,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   )
 #+END_SRC
 *** helm-swoop
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package helm-swoop :defer t
   :init
   (with-eval-after-load 'helm
@@ -3674,7 +3674,7 @@ UNC Pathを開こうとして「ファイルが見つかりません」になる
 ことができる。
 *** 他ライブラリ連携
 wrap-regionを使って、リージョンを各種markup文字を囲めるようにする。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
   (with-eval-after-load 'wrap-region
     (mapc #'(lambda (wrapper)
               (wrap-region-add-wrapper wrapper wrapper nil 'org-mode))
