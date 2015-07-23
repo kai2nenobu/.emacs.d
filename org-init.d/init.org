@@ -2069,6 +2069,19 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[http://ppareit.github.io/graphviz-dot-mode/][graphviz-dot-mode]]
+[[http://www.graphviz.org/][Graphviz]]のDOT記法を編集するメジャーモード。あらかじめ =compile-command= が設定されているので、 =compile= を実行するとDOTファイルが画像に変換される。
+#+BEGIN_SRC emacs-lisp +n
+(use-package graphviz-dot-mode :defer t
+  :config
+  (defun graphviz-dot-my-hook-function ()
+    ;; 問い合わせなしでコンパイルする
+    (set (make-local-variable 'compilation-read-command) nil))
+  (add-hook 'graphviz-dot-mode-hook 'graphviz-dot-my-hook-function)
+  (with-eval-after-load 'org-src
+    (setcdr (assoc "dot" org-src-lang-modes) 'graphviz-dot))
+  )
+#+END_SRC
 ** [[https://github.com/sensorflo/adoc-mode][adoc-mode]]
 [[http://www.methods.co.nz/asciidoc/][AsciiDoc]]編集用メジャーモード。
 #+BEGIN_SRC emacs-lisp +n
