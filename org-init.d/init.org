@@ -3785,6 +3785,26 @@ The html link is determined from `org-export-html-my-info-link-alist'."
 
   (add-to-list 'org-export-filter-link-functions 'org-export-html-my-info-link-filter))
 #+END_SRC
+*** org-babel
+org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
+#+BEGIN_SRC emacs-lisp +n
+(use-package org-babel :defer t
+  :config
+  ;; 評価可能なソースブロック設定
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((emacs-lisp . t)
+                                 (dot . t)))
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package ob-core :defer t
+  :config
+  (defun org-my-confirmation-function (lang body)
+    (not (string= lang "dot")))
+  (setq org-confirm-babel-evaluate #'org-my-confirmation-function)
+  )
+#+END_SRC
 *** org-eldoc
 - [[http://orgmode.org/cgit.cgi/org-mode.git/plain/contrib/lisp/org-eldoc.el][org公式のcontribディレクトリ]]からダウンロードしたが、org-plus-contribには無
   いみたいである。なぜだ。
