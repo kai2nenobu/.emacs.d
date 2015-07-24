@@ -3,6 +3,7 @@
 (source melpa)
 
 (depends-on "ace-jump-mode")
+(depends-on "adoc-mode")
 (depends-on "anzu")
 (depends-on "auto-complete")
 (depends-on "auto-save-buffers-enhanced")

@@ -2066,6 +2066,15 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/sensorflo/adoc-mode][adoc-mode]]
+[[http://www.methods.co.nz/asciidoc/][AsciiDoc]]編集用メジャーモード。
+#+BEGIN_SRC emacs-lisp +n
+(use-package adoc-mode :defer t
+  :mode (("\\.asciidoc\\'" . adoc-mode)
+         ("\\.adoc\\'"     . adoc-mode)
+         ("\\.ad\\'"       . adoc-mode))
+  )
+#+END_SRC
 ** [[http://jblevins.org/projects/markdown-mode/][markdown-mode]]
 Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= も定義されている。
 #+BEGIN_SRC emacs-lisp +n
