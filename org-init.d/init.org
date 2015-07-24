@@ -2070,10 +2070,12 @@ info を Emacs で読む．
 Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= も定義されている。
 #+BEGIN_SRC emacs-lisp +n
 (use-package markdown-mode :defer t
-  :init
   ;; Use `gfm-mode' instead of `markdown-mode'
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+  :mode (("\\.markdown\\'" . gfm-mode)
+         ("\\.mdown\\'"    . gfm-mode)
+         ("\\.mkdn\\'"     . gfm-mode)
+         ("\\.mkd\\'"      . gfm-mode)
+         ("\\.md\\'"       . gfm-mode))
   )
 #+END_SRC
 ** irfc
