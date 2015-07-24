@@ -695,28 +695,31 @@ Leave one space or none, according to the context."
       (insert ?\s))))
 (defalias 'fixup-whitespace-original 'fixup-whitespace)
 (defalias 'fixup-whitespace 'my-fixup-whitespace)
+#+END_SRC
 
-;; (ert-deftest test-fixup-whitespace ()
-;;   (let ((fixtures '(("あ" "い" "あい")
-;;                     ("あ" "i"  "あi")
-;;                     ("a"  "い" "aい")
-;;                     ("。" "あ" "。あ")
-;;                     ("あ" "。" "あ。")
-;;                     ("。" "a"  "。a" )
-;;                     ("a"  "。" "a。" )
-;;                     ("？" "あ" "？ あ")
-;;                     ("あ" "？" "あ？")
-;;                     ("？" "a"  "？ a")
-;;                     ("a"  "？" "a？" )
-;;                     ))
-;;         actual)
-;;     (cl-loop for (first second expected) in fixtures
-;;              do
-;;              (with-temp-buffer
-;;                (insert first "\n" second)
-;;                (delete-indentation)
-;;                (setq actual (buffer-string))
-;;                (should (string= actual expected))))))
+テスト
+#+BEGIN_SRC emacs-lisp :tangle no
+(ert-deftest test-fixup-whitespace ()
+  (let ((fixtures '(("あ" "い" "あい")
+                    ("あ" "i"  "あi")
+                    ("a"  "い" "aい")
+                    ("。" "あ" "。あ")
+                    ("あ" "。" "あ。")
+                    ("。" "a"  "。a" )
+                    ("a"  "。" "a。" )
+                    ("？" "あ" "？ あ")
+                    ("あ" "？" "あ？")
+                    ("？" "a"  "？ a")
+                    ("a"  "？" "a？" )
+                    ))
+        actual)
+    (cl-loop for (first second expected) in fixtures
+             do
+             (with-temp-buffer
+               (insert first "\n" second)
+               (delete-indentation)
+               (setq actual (buffer-string))
+               (should (string= actual expected))))))
 #+END_SRC
 ** カーソル位置の行を複製するコマンド
 - [[http://d.hatena.ne.jp/syohex/20120325/1332641491][Re: Emacsに現在行や選択範囲を複製する機能を付けたら思いのほか作業効率が上がった - Life is very short]]
