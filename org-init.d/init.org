@@ -3015,7 +3015,7 @@ cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 (use-package cygwin-mount
-  :if (winp)
+  :if (and (winp) (executable-find "mount"))
   :config
   (cygwin-mount-activate))
 #+END_SRC
