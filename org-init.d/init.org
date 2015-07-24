@@ -2074,17 +2074,6 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
   ;; Use `gfm-mode' instead of `markdown-mode'
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-  :config
-  (defun toggle-moz-repl-auto-refresh (&optional buffer)
-    "Automatically refresh a firefox when a markdown file has changed."
-    (interactive)
-    (with-current-buffer (or buffer (current-buffer))
-      (if (memq 'moz-controller-page-refresh after-save-hook)
-          (progn
-            (remove-hook 'after-save-hook 'moz-controller-page-refresh :local)
-            (message "Disable auto refresh"))
-        (add-hook 'after-save-hook 'moz-controller-page-refresh nil :local)
-        (message "Enable auto refresh"))))
   )
 #+END_SRC
 ** irfc
@@ -3052,7 +3041,18 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
              moz-controller-zoom-in moz-controller-zoom-out
              moz-controller-zoom-reset moz-controller-tab-previous
              moz-controller-tab-next moz-controller-view-page-source
-             moz-controller-get-current-url)
+             moz-controller-get-current-url toggle-moz-repl-auto-refresh)
+  :config
+  (defun toggle-moz-repl-auto-refresh (&optional buffer)
+    "Automatically refresh a firefox when a markdown file has changed."
+    (interactive)
+    (with-current-buffer (or buffer (current-buffer))
+      (if (memq 'moz-controller-page-refresh after-save-hook)
+          (progn
+            (remove-hook 'after-save-hook 'moz-controller-page-refresh :local)
+            (message "Disable auto refresh"))
+        (add-hook 'after-save-hook 'moz-controller-page-refresh nil :local)
+        (message "Enable auto refresh"))))
   )
 #+END_SRC
 ** concurrent.el
