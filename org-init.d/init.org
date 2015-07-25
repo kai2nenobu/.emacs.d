@@ -3449,6 +3449,10 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
   ;; もっと適切な単位のhookがありそうだけどわからない
   (add-hook 'window-configuration-change-hook
             #'(lambda () (when (eq major-mode 'org-mode) (org-reveal))))
+  ;; org-babelで評価可能なソースブロック設定
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((emacs-lisp . t)
+                                 (dot . t)))
 #+END_SRC
 *** dynamic block
 dynamic blockを利用すると動的に更新される文章が書ける。保存時に自動でdynamic blockが更新されるようにする。
@@ -3785,18 +3789,8 @@ The html link is determined from `org-export-html-my-info-link-alist'."
 
   (add-to-list 'org-export-filter-link-functions 'org-export-html-my-info-link-filter))
 #+END_SRC
-*** org-babel
+*** babel関連
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
-#+BEGIN_SRC emacs-lisp +n
-(use-package org-babel :defer t
-  :config
-  ;; 評価可能なソースブロック設定
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               '((emacs-lisp . t)
-                                 (dot . t)))
-  )
-#+END_SRC
-
 #+BEGIN_SRC emacs-lisp +n
 (use-package ob-core :defer t
   :config
