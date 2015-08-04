@@ -2085,6 +2085,51 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/wildsoul/plantuml-mode][plantuml-mode]]
+[[http://plantuml.com/index.html][PlantUML]]のUMLを編集するメジャーモード。plantuml-mode.elをロードするにはplantuml.jarを使用できるようにしておく必要がある。
+
+なぜかplantuml.jarでUMLテキストを画像ファイルに変換するコマンドが定義されていないので =plantuml-execute= コマンドを自前で定義した。
+#+BEGIN_SRC emacs-lisp +n
+(use-package plantuml-mode :defer t
+  :mode (("\\.plu\\'" . plantuml-mode)
+         ("\\.uml\\'" . plantuml-mode))
+  :init
+  ;; 本来は :config 中に書きたいところだけど `plantuml-jar-path' と `plantuml-mode-map' が
+  ;; 設定されていないと plantuml-mode.el のロードに失敗するので、あらかじめここで設定しておく
+  (setq plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
+  (setq plantuml-mode-map (make-sparse-keymap))
+  :config
+  (defun plantuml-execute ()
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (call-process "java" nil nil nil
+                    "-jar" plantuml-jar-path "-charset" "UTF-8" filename)))
+  (bind-key "C-c C-c" 'plantuml-execute plantuml-mode-map)
+  ;; org-babelと連携
+  (with-eval-after-load 'org
+    ;; plantumlソースブロックを評価可能にする
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (cons '(plantuml . t) org-babel-load-languages)))
+  (with-eval-after-load 'ob-plantuml
+    (setq org-plantuml-jar-path plantuml-jar-path))
+  )
+#+END_SRC
+
+簡単なシーケンス図を書いてみる。
+#+BEGIN_SRC plantuml :file auth-sequence.svg :cmdline -charset UTF-8 :exports both
+@startuml
+    クライアント -> サーバ: Authentication Request
+    サーバ --> クライアント: Authentication Response
+@enduml
+#+END_SRC
+
+#+CAPTION: 画像への変換結果
+#+ATTR_HTML: :width 400 :alt 認証処理のシーケンス図 :title 認証処理 :border 1
+#+RESULTS:
+[[file:auth-sequence.svg]]
+*** 参考
+- [[http://d.hatena.ne.jp/a_bicky/20121016/1350347857][Emacs から PlantUML を使ってみた - あらびき日記]]
+- [[http://yohshiy.blog.fc2.com/blog-category-22.html][PlantUML | プログラマーズ雑記帳]]
 ** [[http://ppareit.github.io/graphviz-dot-mode/][graphviz-dot-mode]]
 [[http://www.graphviz.org/][Graphviz]]のDOT記法を編集するメジャーモード。あらかじめ =compile-command= が設定されているので、 =compile= を実行するとDOTファイルが画像に変換される。
 #+BEGIN_SRC emacs-lisp +n

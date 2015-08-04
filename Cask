@@ -64,6 +64,7 @@
 (depends-on "ox-pandoc")
 (depends-on "ox-reveal")
 (depends-on "pallet")
+(depends-on "plantuml-mode")
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")
