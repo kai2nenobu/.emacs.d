@@ -313,7 +313,7 @@ IDEでよくあるやつ。
   "Describe how the character at POS is encoded by various coding-systems.
 If a coding-system can't safely encode the character, display \"?\"."
   (interactive "d")
-  (let ((coding-systems '(utf-8 utf-16be shift_jis cp932 iso-2022-jp))
+  (let ((coding-systems '(utf-8 utf-16be shift_jis shift_jis-2004 cp932 iso-2022-jp))
         (label-fmt "%15s: ")
         (char (char-after pos))
         (byte-to-hex (lambda (byte) (format "%02x" byte))))
