@@ -285,6 +285,22 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** カレントバッファに紐づくファイル名を変更するコマンド
+#+BEGIN_SRC emacs-lisp +n
+(defun rename-current-buffer-file ()
+  "Rename the name of a visited file."
+  (interactive)
+  (let ((oldname (buffer-file-name))
+        newname overwritep)
+    (unless oldname (error "Not associated with a regular file"))
+    (setq newname (read-file-name "Input new file name: "
+                                  default-directory nil nil oldname))
+    (setq overwritep (and (file-exists-p newname)
+                          (or (y-or-n-p (format "%s already exists. Overwrite? " newname))
+                              (error "File already exists: %s" newname))))
+    (rename-file oldname newname overwritep)
+    (set-visited-file-name newname)))
+#+END_SRC
 ** C-aでインデント位置にカーソル移動するアドバイス
 IDEでよくあるやつ。
 #+BEGIN_SRC emacs-lisp +n
