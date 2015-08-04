@@ -2111,7 +2111,8 @@ info を Emacs で読む．
     (org-babel-do-load-languages 'org-babel-load-languages
                                  (cons '(plantuml . t) org-babel-load-languages)))
   (with-eval-after-load 'ob-plantuml
-    (setq org-plantuml-jar-path plantuml-jar-path))
+    (setq org-plantuml-jar-path plantuml-jar-path)
+    (add-to-list 'org-my-evaluatable-languages "plantuml"))
   )
 #+END_SRC
 
@@ -2139,8 +2140,11 @@ info を Emacs で読む．
     ;; 問い合わせなしでコンパイルする
     (set (make-local-variable 'compilation-read-command) nil))
   (add-hook 'graphviz-dot-mode-hook 'graphviz-dot-my-hook-function)
+  ;; org-babel連携
   (with-eval-after-load 'org-src
     (setcdr (assoc "dot" org-src-lang-modes) 'graphviz-dot))
+  (with-eval-after-load 'ob-dot
+    (add-to-list 'org-my-evaluatable-languages "dot"))
   )
 #+END_SRC
 ** [[https://github.com/sensorflo/adoc-mode][adoc-mode]]
@@ -3872,8 +3876,10 @@ org-babelを利用するとorg文書中のプログラムを評価してごに�
 #+BEGIN_SRC emacs-lisp +n
 (use-package ob-core :defer t
   :config
+  (defvar org-my-evaluatable-languages nil
+    "Evaluatable languages in org src block without confirmation")
   (defun org-my-confirmation-function (lang body)
-    (not (string= lang "dot")))
+    (not (member lang org-my-evaluatable-languages)))
   (setq org-confirm-babel-evaluate #'org-my-confirmation-function)
   )
 #+END_SRC
