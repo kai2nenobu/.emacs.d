@@ -2101,6 +2101,23 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
          ("\\.mkdn\\'"     . gfm-mode)
          ("\\.mkd\\'"      . gfm-mode)
          ("\\.md\\'"       . gfm-mode))
+  :config
+  (defun my-orgtbl-to-mdtbl (&optional beg end)
+    "Convert a org-mode table into markdown one."
+    (interactive)
+    (setq beg (if (use-region-p) (region-beginning) (point-min))
+          end (if (use-region-p) (region-end)       (point-max)))
+    (save-excursion
+      (goto-char beg)
+      (while (re-search-forward "-\\+-" end t)
+        (replace-match "-|-"))))
+
+  (defun my-markdown-mode-hook-function ()
+    (orgtbl-mode 1)
+    ;; automatically convert org-mode table into markdown one
+    (add-hook 'after-save-hook #'my-orgtbl-to-mdtbl nil t)
+    )
+  (add-hook 'markdown-mode-hook #'my-markdown-mode-hook-function)
   )
 #+END_SRC
 ** irfc
