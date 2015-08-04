@@ -11,6 +11,7 @@
 (depends-on "bm")
 (depends-on "cask")
 (depends-on "color-moccur")
+(depends-on "csv-mode")
 (depends-on "dash")
 (depends-on "dired+")
 (depends-on "direx")
