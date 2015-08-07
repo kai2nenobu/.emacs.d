@@ -2992,6 +2992,10 @@ Emacs から git を操作するライブラリ．
 #+END_SRC
 *** 自作関数
 #+BEGIN_SRC emacs-lisp +n
+  (defadvice magit-revision-refresh-buffer (after show-diff activate)
+    "Automatically diff of all hunks in `magit-reivision-mode'."
+    (magit-section-show-level-3-all))
+
   (defun magit-my-commit-current-file ()
     "Commit changes in acurrent file.
   Changes are displayed in `magit-log-edit-buffer'."
