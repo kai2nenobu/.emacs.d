@@ -2977,7 +2977,7 @@ Emacs から git を操作するライブラリ．
   (bind-key "M-p" nil magit-status-mode-map)
   (bind-key "M-n" nil magit-status-mode-map)
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
-  (setq magit-diff-refine-hunk 'all)
+  (setq magit-diff-refine-hunk t)
   (setq magit-log-show-margin nil) ; ログの右マージンを表示しない
 #+END_SRC
 *** キーバインド
