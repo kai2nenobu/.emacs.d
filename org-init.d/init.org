@@ -285,6 +285,17 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** バッファに紐づくファイルパスをコピーする
+#+BEGIN_SRC emacs-lisp +n
+(defun my-copy-file-path (&optional buffer)
+  "Copy a file path associated with BUFFER to `kill-ring'."
+  (interactive)
+  (let ((path (buffer-file-name buffer)))
+    (if (null path)
+        (error "Not visit file")
+      (kill-new path)
+      (message "Copy file path: %s" path))))
+#+END_SRC
 ** カレントバッファに紐づくファイル名を変更するコマンド
 #+BEGIN_SRC emacs-lisp +n
 (defun rename-current-buffer-file ()
