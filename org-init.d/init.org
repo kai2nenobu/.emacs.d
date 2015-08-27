@@ -2097,7 +2097,7 @@ info を Emacs で読む．
 #+END_SRC
 * 非標準ライブラリ
 ** Golang関連
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package go-mode :defer t
   :config
   ;; キーバインド
