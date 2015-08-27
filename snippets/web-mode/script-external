@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Load an external JavaScript file
+# key: script-external
+# --
+<script src="${1:source path}"></script>
+$0

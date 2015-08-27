@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Write an inline JavaScript
+# key: script-inline
+# --
+<script>
+$0
+</script>
