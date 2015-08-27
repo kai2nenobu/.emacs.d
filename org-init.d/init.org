@@ -2085,6 +2085,24 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** Golang関連
+#+BEGIN_SRC emacs-lisp
+(use-package go-mode :defer t
+  :config
+  ;; キーバインド
+  (bind-key "C-c C-f" 'gofmt go-mode-map)
+  (bind-key "C-c C-d" 'godoc-at-point go-mode-map)
+  (use-package go-autocomplete)
+  (use-package go-eldoc)
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
+  ;; 他ライブラリ連携
+  (with-eval-after-load 'popwin
+    (add-to-list 'popwin:special-display-config
+               '(godoc-mode :position right :width 80)))
+  )
+#+END_SRC
+*** 参考
+- [[http://emacs-jp.github.io/programming/golang.html][Goプログラミングの環境構築 - Emacs JP]]
 ** [[https://github.com/wildsoul/plantuml-mode][plantuml-mode]]
 [[http://plantuml.com/index.html][PlantUML]]のUMLを編集するメジャーモード。plantuml-mode.elをロードするにはplantuml.jarを使用できるようにしておく必要がある。
 
