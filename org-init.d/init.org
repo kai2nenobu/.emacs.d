@@ -2801,10 +2801,22 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
   (setq hl-line-overlay-priority 1)  ; ハイライトの優先度．個人的には低くしたい
   )
 #+END_SRC
+** [[https://github.com/justbur/emacs-which-key][which-key]]
+guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :config
+  (which-key-setup-side-window-right)
+  (setq which-key-idle-delay 0.5
+        which-key-separator "→"
+        which-key-side-window-max-width 0.5)
+  (which-key-mode)
+  )
+#+END_SRC
 ** guide-key.el
 キーバインドを自動的に表示
 #+BEGIN_SRC emacs-lisp +n
-(use-package guide-key
+(use-package guide-key :disabled t
   :config
   (setq-default guide-key/guide-key-sequence
                 '("C-c" "C-x v" "C-c p" "C-x RET" "C-x 8"
