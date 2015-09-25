@@ -2096,6 +2096,16 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** csv-mode
+#+BEGIN_SRC emacs-lisp
+(use-package csv-mode
+  :config
+  (bind-keys :map csv-mode-map
+             ("TAB" . csv-forward-field)
+             ("<backtab>" . csv-backward-field))
+  (setq csv-invisibility-default nil)
+  )
+#+END_SRC
 ** Golang関連
 #+BEGIN_SRC emacs-lisp +n
 (use-package go-mode :defer t
