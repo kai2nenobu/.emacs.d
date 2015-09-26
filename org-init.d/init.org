@@ -1548,7 +1548,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** electric-pair-mode
 引用符や括弧のようなペアになっている2つの文字を自動挿入するライブラリ。
 #+BEGIN_SRC emacs-lisp +n
-(use-package electric-pair-mode
+(use-package elec-pair
   :config
   (electric-pair-mode 1) ; `electric-pair-mode' is a global minor mode
   )
