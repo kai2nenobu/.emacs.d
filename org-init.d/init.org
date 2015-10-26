@@ -2105,6 +2105,13 @@ info を Emacs で読む．
              ("<backtab>" . csv-backward-field))
   (setq csv-invisibility-default nil)
   (setq csv-align-padding 0)
+  ;; 桁ぞろえをトグルできるようにアドバイスする
+  (defvar csv-aligned-p "Whether `csv-mode' is aligned" nil) ; should be buffer local
+  (defadvice csv-align-fields (around toggle-align-state activate)
+    (if csv-aligned-p
+        (call-interactively #'csv-unalign-fields)
+      ad-do-it)
+    (setq csv-aligned-p (not csv-aligned-p)))
   )
 #+END_SRC
 ** Golang関連
