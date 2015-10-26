@@ -2104,6 +2104,7 @@ info を Emacs で読む．
              ("TAB" . csv-forward-field)
              ("<backtab>" . csv-backward-field))
   (setq csv-invisibility-default nil)
+  (setq csv-align-padding 0)
   )
 #+END_SRC
 ** Golang関連
