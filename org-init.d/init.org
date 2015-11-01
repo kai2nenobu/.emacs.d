@@ -4448,7 +4448,6 @@ do nothing. And suppress the output from `message' and
  '(cfw:face-today ((t :foreground: "cyan" :weight bold)))
  '(cfw:face-today-title ((t :background "red4" :weight bold)))
  '(col-highlight ((t (:background "gray10"))))
- '(linum ((t (:inherit (shadow default) :background "gray50" :foreground "yellow"))))
  '(scroll-bar ((t :foreground "magenta")))
  '(twittering-uri-face ((t (:foreground "cyan" :underline t)))))
 #+END_SRC
