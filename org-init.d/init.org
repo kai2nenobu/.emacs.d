@@ -2096,6 +2096,20 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** js2-mode
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode :defer t
+  :mode "\\.js\\'"
+  :config
+  (setq js2-basic-offset 2)
+  (bind-keys :mode js2-mode-map
+             ("C-." . js2-next-error)
+             ("C-," . js2-previous-error))
+  (defun js2-previous-error (&optional reset)
+    (interactive)
+    (js2-next-error -1 reset))
+  )
+#+END_SRC
 ** csv-mode
 #+BEGIN_SRC emacs-lisp
 (use-package csv-mode
@@ -2138,6 +2152,7 @@ info を Emacs で読む．
 なぜかplantuml.jarでUMLテキストを画像ファイルに変換するコマンドが定義されていないので =plantuml-execute= コマンドを自前で定義した。
 #+BEGIN_SRC emacs-lisp +n
 (use-package plantuml-mode :defer t
+  :if (file-readable-p (expand-file-name "~/bin/plantuml.jar"))
   :mode (("\\.plu\\'" . plantuml-mode)
          ("\\.uml\\'" . plantuml-mode))
   :init
