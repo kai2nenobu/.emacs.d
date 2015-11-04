@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Load jQuery from CDN
+# key: jquery
+# --
+<script src="https://code.jquery.com/jquery-${1:1.11.3}.min.js"></script>
