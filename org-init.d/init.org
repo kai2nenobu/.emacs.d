@@ -1485,12 +1485,13 @@ shift+カーソルキー でウィンドウを移動する．
 #+END_SRC
 ** シェルの設定
 #+BEGIN_SRC emacs-lisp +n
-(cond ((winp)
-       (setq shell-file-name "bash.exe"
-             explisit-shell-file-name "bash.exe"))
-      ((linuxp)
-       (setq explicit-shell-file-name "/bin/bash")
-       (setq shell-file-name "/bin/bash")))
+(cond ((executable-find "bash")
+       (setq shell-file-name (executable-find "bash")
+             explisit-shell-file-name (executable-find "bash")))
+      ((and (winp)
+            (file-executable-p (expand-file-name "cmdproxy.exe" exec-directory)))
+       (setq explicit-shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))
+       (setq shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))))
 #+END_SRC
 ** hide inputting password
 #+BEGIN_SRC emacs-lisp +n
