@@ -3924,6 +3924,24 @@ git管理下のファイルのhelmソース。
   (add-to-list 'org-export-filter-headline-functions #'org-html-headline-period)
   )
 #+END_SRC
+**** Twitter Bootstrap連携
+エクスポートしたHTMLのCSSにTwitter Bootstrapを使うようにしたので、フィルタを使って色んな要素にBootstrapのクラスを付加する。
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'ox-html
+  (defun org-export-html-my-bootstrap-table-filter (data backend info)
+    "Add Bootstrap classes into table elements."
+    (when (org-export-derived-backend-p backend 'html)
+      (replace-regexp-in-string
+       "<table" "<table class=\"table table-bordered\"" data)))
+  (defun org-export-html-my-bootstrap-container-filter (data backend info)
+    "Add \"container\" class into the most outside div."
+    (when (org-export-derived-backend-p backend 'html)
+      (replace-regexp-in-string
+       "<div id=\"content\"" "<div id=\"content\" class=\"container\"" data)))
+  (add-to-list 'org-export-filter-table-functions #'org-export-html-my-bootstrap-table-filter)
+  (add-to-list 'org-export-filter-final-output-functions #'org-export-html-my-bootstrap-container-filter)
+  )
+#+END_SRC
 **** infoへのリンクをhtmlへのリンクに変換する
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'ox-html
