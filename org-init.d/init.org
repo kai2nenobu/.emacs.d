@@ -2179,7 +2179,7 @@ info を Emacs で読む．
 #+END_SRC
 
 簡単なシーケンス図を書いてみる。
-#+BEGIN_SRC plantuml :file auth-sequence.svg :cmdline -charset UTF-8 :exports both
+#+BEGIN_SRC plantuml :file ../images/auth-sequence.svg :cmdline -charset UTF-8 :exports both
 @startuml
     クライアント -> サーバ: Authentication Request
     サーバ --> クライアント: Authentication Response
@@ -2189,7 +2189,7 @@ info を Emacs で読む．
 #+CAPTION: 画像への変換結果
 #+ATTR_HTML: :width 400 :alt 認証処理のシーケンス図 :title 認証処理 :border 1
 #+RESULTS:
-[[file:auth-sequence.svg]]
+[[file:../images/auth-sequence.svg]]
 *** 参考
 - [[http://d.hatena.ne.jp/a_bicky/20121016/1350347857][Emacs から PlantUML を使ってみた - あらびき日記]]
 - [[http://yohshiy.blog.fc2.com/blog-category-22.html][PlantUML | プログラマーズ雑記帳]]
