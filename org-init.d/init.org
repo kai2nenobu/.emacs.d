@@ -4388,6 +4388,9 @@ do nothing. And suppress the output from `message' and
   (define-key ac-complete-mode-map (kbd "C-s") 'ac-isearch)
   (define-key ac-complete-mode-map (kbd "M-h") 'ac-quick-help)
 
+  ;; 情報源のデフォルト値にyasnippet情報源を加える
+  (cl-pushnew 'ac-source-yasnippet (default-value 'ac-sources))
+
   ;; camelCase 補完
   (use-package ac-camel-case
     :config
