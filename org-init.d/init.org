@@ -3887,6 +3887,7 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 git管理下のファイルのhelmソース。
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-ls-git :defer t
+  :if (executable-find "git")
   :init
   (add-autoload helm-for-files helm-ls-git)
   :config
