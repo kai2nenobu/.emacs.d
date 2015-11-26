@@ -1546,6 +1546,13 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** sql
+#+BEGIN_SRC emacs-lisp
+(use-package sql :defer t
+  :config
+  (use-package sql-indent)
+  )
+#+END_SRC
 ** electric-pair-mode
 引用符や括弧のようなペアになっている2つの文字を自動挿入するライブラリ。
 #+BEGIN_SRC emacs-lisp +n
@@ -2899,6 +2906,7 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
   (setq auto-save-buffers-enhanced-quiet-save-p t)
   (setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t)
   (auto-save-buffers-enhanced t)
+  (add-to-list 'auto-save-buffers-enhanced-exclude-regexps "\\[\\*Org Src")
   )
 #+END_SRC
 ** smartrep.el
