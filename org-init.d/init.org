@@ -3995,9 +3995,7 @@ org-babelを利用するとorg文書中のプログラムを評価してごに�
 orgドキュメント内で様々なヒントをミニバッファに表示する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package org-eldoc :defer t
-  :commands (org-eldoc-load)
   :init
-  (add-hook 'org-mode-hook #'org-eldoc-load)
   (add-hook 'org-mode-hook #'eldoc-mode)
   :config
   ;; リンク文字列をeldocで表示する
