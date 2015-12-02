@@ -3998,9 +3998,9 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
   ;; リンク文字列をeldocで表示する
   (defun org-eldoc-get-link ()
     "Return a raw link if on a link or nil."
-    (let* ((obj (org-element-context))
-           (element-type (car obj))
-           (link-props (cadr obj))
+    (let* ((ctx (org-element-context))
+           (element-type (car ctx))
+           (link-props (cadr ctx))
            (type (plist-get link-props :type))
            (path (plist-get link-props :path))
            (application (plist-get link-props :application))
@@ -4015,10 +4015,10 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
   ;; table-cell
   (defun org-eldoc-clipped-table-cell ()
     "Return a whole string of a clipped cell."
-    (let* ((obj (org-element-context))
-           (element-type (car obj)))
+    (let* ((ctx (org-element-context))
+           (element-type (car ctx)))
       (when (eq element-type 'table-cell)
-        (let* ((props (cadr obj))
+        (let* ((props (cadr ctx))
                (beg (plist-get props :contents-begin))
                (end (plist-get props :contents-end)))
           (when (text-property-any beg end 'org-cwidth t)
