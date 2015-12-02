@@ -2958,6 +2958,18 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
                                 ("C-b" . (org-backward-heading-same-level 1))
                                 ("C-u" . outline-up-heading)))
        ))
+
+  (with-eval-after-load 'web-mode
+    (define-key web-mode-map (kbd "C-c C-n") nil) ; unbind key
+    (smartrep-define-key web-mode-map "C-c C-n"
+      '(("n" . web-mode-dom-traverse)
+        ("p" . web-mode-element-sibling-previous)
+        ("f" . web-mode-element-sibling-next)
+        ("b" . web-mode-element-sibling-previous)
+        ("u" . web-mode-element-parent)
+        ("d" . web-mode-dom-traverse)
+        ("TAB" . web-mode-fold-or-unfold)
+        )))
   )
 #+END_SRC
 ** quickrun.el
