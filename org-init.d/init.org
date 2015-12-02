@@ -2673,19 +2673,12 @@ package.el からインストール．
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset    2)
 
-  ;; timer
-  (defvar web-mode-my-timer nil)
-  (defvar web-mode-my-eldoc-time 0.5)
-  (defun web-mode-my-eldoc ()
-    (when (eq major-mode 'web-mode)
-      (web-mode-dom-xpath)))
-  (defun web-mode-enable-my-eldoc ()
-    (interactive)
-    (setq web-mode-my-timer
-          (run-with-idle-timer web-mode-my-eldoc-time t 'web-mode-my-eldoc)))
-  (defun web-mode-disable-my-eldoc ()
-    (interactive)
-    (setq web-mode-my-timer (cancel-timer web-mode-my-timer)))
+  ;; eldoc
+  (defun web-mode-enable-eldoc ()
+    (eldoc-mode 1)
+    (setq-local eldoc-documentation-function #'web-mode-dom-xpath))
+  (add-hook 'web-mode-hook #'web-mode-enable-eldoc)
+
   (add-hook 'web-mode-hook 'emmet-mode)
   )
 #+END_SRC
