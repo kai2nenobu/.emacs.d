@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 #+TITLE: Emacs の初期設定
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+
+#+HTML_HEAD: <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+#+HTML_HEAD: <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
+
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: section
 #+OPTIONS: html5-fancy:t
