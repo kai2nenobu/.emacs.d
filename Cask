@@ -70,6 +70,7 @@
 (depends-on "pallet")
 (depends-on "plantuml-mode")
 (depends-on "popwin")
+(depends-on "powershell")
 (depends-on "prodigy")
 (depends-on "projectile")
 (depends-on "quickrun")

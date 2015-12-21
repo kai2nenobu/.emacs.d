@@ -2365,8 +2365,7 @@ VBの編集用メジャーモード。
 #+END_SRC
 ** powershell-mode
 #+BEGIN_SRC emacs-lisp +n
-(use-package powershell-mode :defer t
-  :mode "\\.ps1\\'"
+(use-package powershell :defer t
   :config
   (setq powershell-indent 2)
   )
