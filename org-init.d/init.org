@@ -888,8 +888,8 @@ Leave one space or none, according to the context."
   (interactive)
   (org-my-edit-src-exit 'save))
 
-(eval-after-load "org"
-  '(define-key org-mode-map (kbd "C-c '") 'org-my-edit-src-code))
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c '") 'org-my-edit-src-code))
 #+END_SRC
 ** find-file 時にバッファ名に補助的な文字列を追加する
 現在は snippet に関するに [snippet] を付加するのみ．しかし，yasnippet のファイ
@@ -1577,7 +1577,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** ediff
 elscreenとの共存が難しそう。
 #+BEGIN_SRC emacs-lisp +n
-;(eval-after-load "ediff"
+;(with-eval-after-load 'ediff
 ;  (setq ediff-split-window-function 'split-window-horizontally))
 #+END_SRC
 ** dired.el
@@ -2331,7 +2331,7 @@ VBの編集用メジャーモード。
   (add-hook 'visual-basic-mode-hook 'visual-basic-mode-hook-function)
   :config
   (setq visual-basic-mode-indent 4)
-  (eval-after-load "auto-complete"
+  (with-eval-after-load 'auto-complete
     '(add-to-list 'ac-modes 'visual-basic-mode))
   (defun visual-basic-combine ()
     (interactive)
@@ -2442,8 +2442,8 @@ Gradleタスクを実行するマイナーモード。
   (define-key git-gutter-prefix (kbd "s") 'git-gutter:stage-hunk)
   (define-key git-gutter-prefix (kbd "r") 'git-gutter:revert-hunk)
   (define-key git-gutter-prefix (kbd "d") 'git-gutter:popup-hunk)
-  (eval-after-load "key-chord"
-    '(key-chord-define global-map ":g" 'git-gutter-prefix))
+  (with-eval-after-load 'key-chord
+    (key-chord-define global-map ":g" 'git-gutter-prefix))
   )
 #+END_SRC
 ** smart-newline
@@ -2532,8 +2532,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ** zoom-window
 ウィンドウを一時的に1ウィンドウにする。
 #+BEGIN_SRC emacs-lisp +n
-(eval-after-load "elscreen"
-  '(use-package zoom-window :defer t
+(with-eval-after-load 'elscreen
+  (use-package zoom-window :defer t
      :init
      (bind-key "C-z" 'zoom-window-zoom elscreen-map)
      :config
@@ -2601,8 +2601,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
              ("f" . direx:next-sibling-item)
              ("b" . direx:previous-sibling-item))
   ;; popwin 設定に追加
-  (eval-after-load "popwin"
-    '(push '(direx:direx-mode :position left :width 40 :dedicated t)
+  (with-eval-after-load 'popwin
+    (push '(direx:direx-mode :position left :width 40 :dedicated t)
             popwin:special-display-config))
   ;; my function
   (defun direx:my-external-open-item-at-point (&optional point)
@@ -2768,17 +2768,16 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
                              (rsense-version "v")
                              (rsense-where-is "w"))
       do (define-key my-rsense-map (read-kbd-macro key) command))
-  ;; (eval-after-load "key-chord"
-  ;;   '(key-chord-define ruby-mode-map "rs" 'my-rsense-prefix))
+  ;; (with-eval-after-load 'key-chord
+  ;;   (key-chord-define ruby-mode-map "rs" 'my-rsense-prefix))
   (define-key ruby-mode-map (kbd "C-c i") 'my-rsense-prefix)
 
-  (eval-after-load "guide-key"
-    '(progn
-       (defun guide-key/my-hook-function-for-rsense ()
-         (dolist (key '("C-c" "C-c i"))
-           (guide-key/add-local-guide-key-sequence key))
-         (guide-key/add-local-highlight-command-regexp "rsense-"))
-       (add-hook 'ruby-mode-hook 'guide-key/my-hook-function-for-rsense)))
+  (with-eval-after-load 'guide-key
+    (defun guide-key/my-hook-function-for-rsense ()
+      (dolist (key '("C-c" "C-c i"))
+        (guide-key/add-local-guide-key-sequence key))
+      (guide-key/add-local-highlight-command-regexp "rsense-"))
+    (add-hook 'ruby-mode-hook 'guide-key/my-hook-function-for-rsense))
 
   (use-package rsense
     :config
@@ -2790,19 +2789,18 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 #+END_SRC
 *** key-combo の設定
 #+BEGIN_SRC emacs-lisp +n
-  ;; (eval-after-load "key-combo"
-  ;;   '(progn
-  ;;      (key-combo-define ruby-mode-map (kbd "=") '(" = " " == " " === "))
-  ;;      (key-combo-define ruby-mode-map (kbd "=~") " =~ ")
-  ;;      ;; (key-combo-define ruby-mode-map (kbd "=>") " => ")
-  ;;      ;; (key-combo-define ruby-mode-map (kbd "<=") " <= ")
-  ;;      (key-combo-define ruby-mode-map (kbd ",") ", ")
-  ;;      (key-combo-define ruby-mode-map (kbd "!=") " != ")
-  ;;      (key-combo-define ruby-mode-map (kbd "<") '(" < " " << " " <= "))
-  ;;      (key-combo-define ruby-mode-map (kbd ">") '(" > " " >> " " >= "))
-  ;;      (key-combo-define ruby-mode-map (kbd "/") '("/" "/`!!'/")) ; どうも ac-source-filename のオムニ補完と競合してるっぽい
-  ;;      ))
-  ;; (add-hook 'ruby-mode-hook (lambda () (key-combo-mode t)))g
+  ;; (with-eval-after-load 'key-combo
+  ;;   (key-combo-define ruby-mode-map (kbd "=") '(" = " " == " " === "))
+  ;;   (key-combo-define ruby-mode-map (kbd "=~") " =~ ")
+  ;;   ;; (key-combo-define ruby-mode-map (kbd "=>") " => ")
+  ;;   ;; (key-combo-define ruby-mode-map (kbd "<=") " <= ")
+  ;;   (key-combo-define ruby-mode-map (kbd ",") ", ")
+  ;;   (key-combo-define ruby-mode-map (kbd "!=") " != ")
+  ;;   (key-combo-define ruby-mode-map (kbd "<") '(" < " " << " " <= "))
+  ;;   (key-combo-define ruby-mode-map (kbd ">") '(" > " " >> " " >= "))
+  ;;   (key-combo-define ruby-mode-map (kbd "/") '("/" "/`!!'/")) ; どうも ac-source-filename のオムニ補完と競合してるっぽい
+  ;;   )
+  ;; (add-hook 'ruby-mode-hook (lambda () (key-combo-mode t)))
   )
 #+END_SRC
 *** 参考URL
@@ -2890,8 +2888,8 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 #+BEGIN_SRC emacs-lisp +n
 (use-package expand-region :defer t
   :init
-  (eval-after-load 'key-chord
-    '(key-chord-define-global "@@" 'er/expand-region))
+  (with-eval-after-load 'key-chord
+    (key-chord-define-global "@@" 'er/expand-region))
   :bind ("M-@" . er/expand-region)
   )
 #+END_SRC
@@ -2949,15 +2947,14 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
                         ("g" . (beginning-of-buffer-other-window 0))
                         ("G" . (end-of-buffer-other-window 0))))
 
-  (eval-after-load "org"
-    '(progn
-       (smartrep-define-key
-           org-mode-map "C-c" '(("C-n" . outline-next-visible-heading)
-                                ("C-p" . outline-previous-visible-heading)
-                                ("C-f" . (org-forward-heading-same-level 1))
-                                ("C-b" . (org-backward-heading-same-level 1))
-                                ("C-u" . outline-up-heading)))
-       ))
+  (with-eval-after-load 'org
+    (smartrep-define-key
+        org-mode-map "C-c" '(("C-n" . outline-next-visible-heading)
+                             ("C-p" . outline-previous-visible-heading)
+                             ("C-f" . (org-forward-heading-same-level 1))
+                             ("C-b" . (org-backward-heading-same-level 1))
+                             ("C-u" . outline-up-heading)))
+       )
 
   (with-eval-after-load 'web-mode
     (define-key web-mode-map (kbd "C-c C-n") nil) ; unbind key
@@ -3194,13 +3191,12 @@ hilight current column.
             (setq result (concat result ", "))))
         result)))
 ;;; yasnippet を helm で操作
-  (eval-after-load "helm"
-    '(progn
-       (use-package helm-c-yasnippet
-         :config
-         (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
-         (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
-         )))
+  (with-eval-after-load 'helm
+     (use-package helm-c-yasnippet
+       :config
+       (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+       (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
+       ))
   (yas-global-mode 1)
   )
 #+END_SRC
@@ -3309,10 +3305,9 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
   (use-package helm-git-grep
     :config
     (define-key helm-command-map "G" 'helm-git-grep))
-  (eval-after-load "key-chord"
-    '(progn
-       (defalias 'helm-command-prefix helm-command-map)
-       (key-chord-define-global (kbd ":h") 'helm-command-prefix)))
+  (with-eval-after-load 'key-chord
+     (defalias 'helm-command-prefix helm-command-map)
+     (key-chord-define-global (kbd ":h") 'helm-command-prefix))
   (add-to-list 'helm-source-recentf '(migemo)) ; migemo 化
   ;(add-to-list 'helm-source-buffers-list '(migemo))
 
@@ -3498,7 +3493,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (when (executable-find "cmigemo")
     (setq moccur-use-migemo t))           ; 検索に migemo を使う
   (setq moccur-split-word t)              ; 複数の単語で検索できる
-  (with-eval-after-load "helm"
+  (with-eval-after-load 'helm
     ;; helm-occurからmoccurを発動する
     (defun occur-from-helm-occur ()
       "Call `occur-by-moccur' from `helm' content."
@@ -3562,8 +3557,8 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (add-to-list 'popwin:special-display-config '("*quickrun*" :position right :width 85))
   (push '("*latex-math-preview-expression*" :position right :width 0.4 :noselect t) popwin:special-display-config)
   (push '("*MATLAB Help*" :position right :width 0.4) popwin:special-display-config)
-  (eval-after-load "key-chord"
-    '(key-chord-define-global ":p" popwin:keymap))
+  (with-eval-after-load 'key-chord
+    (key-chord-define-global ":p" popwin:keymap))
   (add-to-list 'popwin:special-display-config
                '(ert-results-mode :position right :width 80))
   (add-to-list 'popwin:special-display-config
@@ -3985,6 +3980,20 @@ The html link is determined from `org-export-html-my-info-link-alist'."
           (replace-regexp-in-string "href=\"\\([^\"]*\\)\"" url data t t 1)))))
 
   (add-to-list 'org-export-filter-link-functions 'org-export-html-my-info-link-filter))
+#+END_SRC
+**** HTMLの相対パスを絶対パスに変換する
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'ox-html
+  (defun org-export-html-relative-filter (data back-end channel)
+    ""
+    (let ((regex "\\(?:src\\|href\\)=\"\\([^\"]*\\)\""))
+      (while (re-search-forward regex nil t)
+        (let ((path (match-string 1)))
+          (when (equal (substring path 0 1) "/")
+            (replace-match "\&#abc" nil nil nil 1)))))
+    )
+  (add-to-list 'org-export-filter-link-functions 'org-export-html-relative-filter)
+  )
 #+END_SRC
 *** babel関連
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
@@ -4429,8 +4438,8 @@ do nothing. And suppress the output from `message' and
   (setq ispell-personal-dictionary "~/.aspell.en.pws") ; 個人用辞書
   (setq ispell-silently-savep t) ; 確認なしに辞書に保存する
   ;; 日本語ファイル中の英単語スペルチェックを可能にする
-  (eval-after-load "ispell"
-    '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]"))))
+  (with-eval-after-load 'ispell
+    (add-to-list 'ispell-skip-region-alist '("[^\000-\377]"))))
 #+END_SRC
 ** migemo.el
 - [[http://d.hatena.ne.jp/j-kyoda/20110316][emacs23(Windows)でcmigemoを使う - j-kyodaのつぶやき]]
