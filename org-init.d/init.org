@@ -4445,32 +4445,34 @@ do nothing. And suppress the output from `message' and
 - [[http://d.hatena.ne.jp/j-kyoda/20110316][emacs23(Windows)でcmigemoを使う - j-kyodaのつぶやき]]
 ローマ字で日本語検索．Windows 用 dll ではなく，Cygwin でビルドすることにした．
 #+BEGIN_SRC emacs-lisp +n
-(use-package migemo
-  :if (executable-find "cmigemo")
-  :init
-  (defun migemo-dict-find ()
-    "Find a migemo dictionary"
-    (-find #'file-readable-p
-           (list
-            (expand-file-name "utf-8/migemo-dict" "/usr/local/cmigemo")
-            (expand-file-name "utf-8/migemo-dict" "/usr/local/share/migemo")
-            (expand-file-name "dict/utf-8/migemo-dict"
-                              (file-name-directory (executable-find "cmigemo"))))))
-  :config
-  (setq migemo-command "cmigemo")
-  (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
-  ;; migemo-dict のパスを指定
-  (setq migemo-dictionary (migemo-dict-find))
-  (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
-  (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
-  (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
-  (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
-  ;; キャッシュ機能を利用する
-  (setq migemo-use-pattern-alist t)
-  (setq migemo-use-frequent-pattern-alist t)
-  (setq migemo-pattern-alist-length 1024)
-  ;; 起動時に初期化も行う
-  (migemo-init))
+  (use-package migemo
+    :if (executable-find "cmigemo")
+    :init
+    (defun migemo-dict-find ()
+      "Find a migemo dictionary"
+      (cl-loop for dict
+               in (list
+                   (expand-file-name "utf-8/migemo-dict" "/usr/local/cmigemo")
+                   (expand-file-name "utf-8/migemo-dict" "/usr/local/share/migemo")
+                   (expand-file-name "dict/utf-8/migemo-dict"
+                                     (file-name-directory (executable-find "cmigemo"))))
+               when (file-readable-p dict)
+               return dict))
+    :config
+    (setq migemo-command "cmigemo")
+    (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
+    ;; migemo-dict のパスを指定
+    (setq migemo-dictionary (migemo-dict-find))
+    (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
+    (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
+    (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
+    (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
+    ;; キャッシュ機能を利用する
+    (setq migemo-use-pattern-alist t)
+    (setq migemo-use-frequent-pattern-alist t)
+    (setq migemo-pattern-alist-length 1024)
+    ;; 起動時に初期化も行う
+    (migemo-init))
 #+END_SRC
 ** 測定終了
 #+BEGIN_SRC emacs-lisp +n
