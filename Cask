@@ -17,6 +17,7 @@
 (depends-on "direx")
 (depends-on "drag-stuff")
 (depends-on "ecukes")
+(depends-on "editorconfig")
 (depends-on "elscreen")
 (depends-on "emmet-mode")
 (depends-on "espuds")
