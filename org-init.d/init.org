@@ -119,6 +119,14 @@ ispell が動かなかった。ispell に限らんかもしれんが
                (file-directory-p (concat dir "/" file)))
       (add-to-list 'load-path (concat dir "/" file)))))
 #+END_SRC
+** Cygwinのパスを追加する
+Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環境変数にCygwinのパスを追加すると、他ツールと競合する場合があるのでEmacs内で明示的に追加する。
+#+BEGIN_SRC emacs-lisp
+(let ((cygwin-path "C:/tools/cygwin/"))
+  (when (file-exists-p cygwin-path)
+    (add-to-list 'exec-path (expand-file-name "bin" cygwin-path))
+    (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path))))
+#+END_SRC
 * 見た目の設定など
 ** カーソル色を設定
 =set-cursor-color= だと、フレームの背景色がlightとdarkの場合分けができないの
