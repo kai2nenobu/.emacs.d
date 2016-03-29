@@ -4139,6 +4139,11 @@ org-modeのexport機能を使って印刷する。
   )
 #+END_SRC
 
+*** org-habit
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'org
+  (use-package org-habit))
+#+END_SRC
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
