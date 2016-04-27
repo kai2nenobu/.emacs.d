@@ -2529,7 +2529,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 #+END_SRC
 ** anzu
 #+BEGIN_SRC emacs-lisp +n
-(use-package anzu
+(use-package anzu :defer t
+  :init
   :config
   (global-anzu-mode)
   (setq anzu-minimum-input-length 3)
