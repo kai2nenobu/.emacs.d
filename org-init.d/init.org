@@ -2117,6 +2117,12 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** autoit-mode
+[[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
+#+BEGIN_SRC emacs-lisp
+(use-package autoit-mode :defer t
+  :mode "\\.au3\\'")
+#+END_SRC
 ** js2-mode
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode :defer t
