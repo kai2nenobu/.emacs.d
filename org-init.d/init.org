@@ -1189,6 +1189,11 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 (my-measure-message-time "My original function.")
 #+END_SRC
 * その他一般的な動作設定
+** デフォルトのインデントコマンドを変更
+デフォルトのインデントコマンドは =indent-relative= だけど使いにくいので、タブ幅ごとにインデントする =tab-to-tab-stop= に変更する。
+#+BEGIN_SRC emacs-lisp +n
+(setq-default indent-line-function #'tab-to-tab-stop)
+#+END_SRC
 ** プロセスの文字コードを設定
 #+BEGIN_SRC emacs-lisp +n
 (cond ((winp)
