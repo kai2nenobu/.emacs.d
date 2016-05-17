@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Select current timestamp for logging
+# key: timestamp
+# --
+SELECT TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9TZH:TZM') START_TIME FROM DUAL;
+SELECT TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9TZH:TZM') END_TIME FROM DUAL;

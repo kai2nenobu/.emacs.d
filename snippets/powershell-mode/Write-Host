@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Write Host
+# key: wh
+# --
+Write-Host $0

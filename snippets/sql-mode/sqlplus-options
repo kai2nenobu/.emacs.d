@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Standard options in SQL*Plus script
+# key: sqlplus-options
+# --
+SET ECHO ON;
+SET TIME ON;
+SET SERVEROUTPUT ON SIZE 1000000;
+
+WHENEVER OSERROR EXIT FAILURE ROLLBACK;
+WHENEVER SQLERROR EXIT FAILURE ROLLBACK;
