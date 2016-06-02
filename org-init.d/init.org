@@ -2430,6 +2430,8 @@ Gradleタスクを実行するマイナーモード。
                    (spacing . 1)
                    (repeat . t)
                    (modes . '(groovy-mode)))))
+  ;; kotlinのソースをgroovy-modeで開く
+  (add-to-list 'auto-mode-alist '("\\.kts?\\'" . groovy-mode))
   )
 #+END_SRC
 ** flyckeck
