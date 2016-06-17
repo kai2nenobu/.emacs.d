@@ -298,6 +298,33 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** =fill-column= 付近の句読点の後ろに改行を挿入するコマンド
+分かち書きをしない日本語の文章で =fill-paragraph= コマンドを使うと、単語の途中に改行が入ってしまう。なので句読点の後ろに改行を挿入して =fill-column= を超えないようにするコマンドを定義した。
+
+理想的には段落に形態素解析をかけて、単語（or文節）の後ろに改行を入れるようにすればより実用的になるだろう。
+
+句読点を含まない長い行がある場合の考慮などがまだできてない。
+#+BEGIN_SRC emacs-lisp +n
+(defun fill-paragraph-jp ()
+  "Insert a line break at the back of punctuations around `fill-column'.
+This leads a line not to exceed `fill-collumn' (for Japanese)"
+  (interactive)
+  (save-excursion
+    (let ((end (progn (forward-paragraph) (point)))
+          (beg (progn (backward-paragraph) (point)))
+          (punctuations "[、,。．]")
+          (previous-column 0))
+      (message "%s - %s" beg end)
+      (goto-char beg)
+      (while (re-search-forward punctuations end t)
+        (if (> (current-column) fill-column)
+            (save-excursion
+              (goto-char previous-column)
+              (insert "\n")
+              (setq previous-column 0))
+          (setq previous-column (match-end 0))))
+      )))
+#+END_SRC
 ** バッファに紐づくファイルパスをコピーする
 #+BEGIN_SRC emacs-lisp +n
 (defun my-copy-file-path (&optional buffer)
