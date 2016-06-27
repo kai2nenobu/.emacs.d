@@ -3905,6 +3905,19 @@ If specify ARG, the subtree starts ARGth level headline."
   (define-key org-mode-map (kbd "C-c h") 'org-my-export-as-html-current-subtree)
 #+END_SRC
 *** 自作関数
+Excelライクに日付を挿入するコマンド。
+#+BEGIN_SRC emacs-lisp +n
+  (defun insert-today (&optional date)
+    "Insert a string representation of today.
+With prefix argument, you can choose a date instead of today."
+    (interactive (list
+                  (when current-prefix-arg
+                   (let ((date-string (org-read-date nil nil nil "Specify date: ")))
+                     (apply #'encode-time (org-parse-time-string  date-string))))))
+    (insert (format-time-string "%Y/%m/%d" (or date (current-time)))))
+  (bind-key "C-;" #'insert-today)
+#+END_SRC
+
 #+CAPTION: Windowsの場合は一時的にシェルの名前をnilにするアドバイス
 #+BEGIN_SRC emacs-lisp +n
   (defadvice org-open-file (around restore-shell activate)
