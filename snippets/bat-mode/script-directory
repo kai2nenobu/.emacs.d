@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Move current directory into the script directory
+# key: script-directory
+# --
+cd /d %~dp0

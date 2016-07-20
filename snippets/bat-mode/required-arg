@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Required argument
+# key: required-arg
+# --
+IF "%1" == "" (
+   echo ${1:message}
+   exit /b 1
+)
