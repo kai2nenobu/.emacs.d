@@ -1,0 +1,17 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Org-mode template
+# key: template
+# --
+#+TITLE:  ${1:}
+#+AUTHOR: `user-full-name`
+#+EMAIL:  `user-mail-address`
+
+#+DESCRIPTION: ${2:}
+#+KEYWORDS:
+#+LANGUAGE:  ja
+
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:{} -:t o:t *:t <:t
+#+OPTIONS:   TeX:nil LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="src-highlight-emacs.css" />
