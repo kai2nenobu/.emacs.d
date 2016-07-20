@@ -325,6 +325,22 @@ This leads a line not to exceed `fill-collumn' (for Japanese)"
           (setq previous-column (match-end 0))))
       )))
 #+END_SRC
+** =defcustom= で定義した変数一覧
+=setq= の代わりに =set-variable= を使うのに参考にする。
+#+BEGIN_SRC emacs-lisp +n
+(defun list-custom-variables ()
+  "List up variables which is defined by `defcustom'."
+  (let (symbols)
+    (mapatoms
+     (lambda (symbol)
+       (when (and (boundp symbol)
+                  (plist-member (symbol-plist symbol) 'standard-value)
+                  (with-current-buffer "init.org"
+                    (goto-char (point-min))
+                    (re-search-forward (symbol-name symbol) nil t)))
+         (add-to-list 'symbols symbol))))
+    symbols))
+#+END_SRC
 ** バッファに紐づくファイルパスをコピーする
 #+BEGIN_SRC emacs-lisp +n
 (defun my-copy-file-path (&optional buffer)
@@ -2149,6 +2165,13 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** typescript-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package typescript-mode :defer t
+  :config
+  (set-variable 'typescript-indent-level 2)
+  )
+#+END_SRC
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
 #+BEGIN_SRC emacs-lisp
