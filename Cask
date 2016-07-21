@@ -51,6 +51,7 @@
 (depends-on "irfc")
 (depends-on "js2-mode")
 (depends-on "key-chord")
+(depends-on "kotlin-mode")
 (depends-on "lispxmp")
 (depends-on "mag-menu")
 (depends-on "magit")

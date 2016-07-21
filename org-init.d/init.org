@@ -2165,6 +2165,14 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** kotlin-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package kotlin-mode :defer t
+  :mode "\\.kts?\\'"
+  :config
+  (set-variable 'kotlin-tab-width 2)
+  )
+#+END_SRC
 ** typescript-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package typescript-mode :defer t
@@ -2480,8 +2488,6 @@ Gradleタスクを実行するマイナーモード。
                    (spacing . 1)
                    (repeat . t)
                    (modes . '(groovy-mode)))))
-  ;; kotlinのソースをgroovy-modeで開く
-  (add-to-list 'auto-mode-alist '("\\.kts?\\'" . groovy-mode))
   )
 #+END_SRC
 ** flyckeck
