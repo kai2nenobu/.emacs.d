@@ -1607,6 +1607,12 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** js-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package js :defer t
+  :config
+  (set-variable 'js-indent-level 2))
+#+END_SRC
 ** sql
 #+BEGIN_SRC emacs-lisp
 (use-package sql :defer t
@@ -2179,6 +2185,10 @@ info を Emacs で読む．
   :config
   (set-variable 'typescript-indent-level 2)
   )
+#+END_SRC
+*** tss
+#+BEGIN_SRC emacs-lisp +n
+(use-package tss)
 #+END_SRC
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
