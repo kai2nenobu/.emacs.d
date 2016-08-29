@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Append UTF-8 BOM at the beginning of a file
+# key: bom_utf8
+# --
+sed '1s/^\(\xef\xbb\xbf\)\?/\xef\xbb\xbf/'
