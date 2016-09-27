@@ -2548,6 +2548,10 @@ Gradleタスクを実行するマイナーモード。
   :init
   (add-autoload isearch-forward ace-jump-mode)
   :config
+  (set-variable 'ace-jump-mode-move-keys
+                (list ?a ?s ?d ?f ?g ?h ?j ?j ?k ?l
+                      ?q ?w ?e ?r ?t ?y ?u ?i ?o ?p))
+
   (defun ace-jump-from-isearch ()
     "Invoke `ace-jump' from isearch."
     (interactive)
@@ -2559,7 +2563,7 @@ Gradleタスクを実行するマイナーモード。
   (define-key isearch-mode-map (kbd "C-M-s") 'ace-jump-from-isearch)
 
   (defvar isearch-ace-jump-mode-timer nil)
-  (defvar isearch-ace-jump-mode-interval 0.4)
+  (defvar isearch-ace-jump-mode-interval 0.2)
 
   (defun isearch-mode-hook--ace-jump-mode ()
     (when (and (not isearch-ace-jump-mode-timer)
