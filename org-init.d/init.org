@@ -2171,6 +2171,43 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** evil-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package evil
+  :config
+  ;; normal state key bindings
+  (bind-keys :map evil-normal-state-map
+             ("C-t" . nil)   ; `pop-tag-mark' の割り当て解除
+             ("f" . scroll-up)
+             ("b" . scroll-down))
+
+  ;; ステートごとにモードラインの色を変える
+  (defun evil-state-color ()
+    "Change mode-line color according to `evil-state'."
+    (let ((color (assoc-default evil-state
+                                '((emacs . "gray75")
+                                  (normal . "orange")
+                                  (insert . "purple")))))
+      (when color
+        (set-face-background 'mode-line color))))
+  (add-hook 'window-configuration-change-hook 'evil-state-color)
+
+  (defun evil-emacs-state-modeline ()
+    (set-face-background 'mode-line "gray75"))
+  (defun evil-normal-state-modeline ()
+    (set-face-background 'mode-line "orange"))
+  (defun evil-insert-state-modeline ()
+    (set-face-background 'mode-line "purple"))
+  (add-hook 'evil-emacs-state-entry-hook
+            'evil-emacs-state-modeline)
+  (add-hook 'evil-normal-state-entry-hook
+            'evil-normal-state-modeline)
+  (add-hook 'evil-insert-state-entry-hook
+            'evil-insert-state-modeline)
+
+  (evil-mode 1) ; enable `evil-mode' in all buffers
+  )
+#+END_SRC
 ** kotlin-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package kotlin-mode :defer t

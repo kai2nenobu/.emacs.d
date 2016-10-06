@@ -21,6 +21,7 @@
 (depends-on "elscreen")
 (depends-on "emmet-mode")
 (depends-on "espuds")
+(depends-on "evil")
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "f")
