@@ -2153,7 +2153,8 @@ info を Emacs で読む．
   ;; 保存しないファイルの正規表現
   (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
   ;; Emacs起動直後にリストアするファイル数。残りは遅延してリストアされる
-  (setq desktop-restore-eager 1)
+  (set-variable 'desktop-restore-eager 1)
+  (set-variable 'desktop-load-locked-desktop t) ;; load even if desktop file is locked
   (desktop-save-mode 1))
 #+END_SRC
 ** uniquify.el
