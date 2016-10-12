@@ -2171,9 +2171,19 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** god-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package god-mode :defer t
+  :bind ("<escape>" . god-local-mode)
+  :config
+  (bind-keys :map god-local-mode-map
+             ("z" . repeat)
+             ("i" . god-local-mode))
+  )
+#+END_SRC
 ** evil-mode
 #+BEGIN_SRC emacs-lisp +n
-(use-package evil
+(use-package evil :disabled t
   :config
   ;; normal state key bindings
   (bind-keys :map evil-normal-state-map
