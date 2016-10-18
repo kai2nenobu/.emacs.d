@@ -2258,6 +2258,11 @@ info を Emacs で読む．
     (js2-next-error -1 reset))
   )
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package json :defer t
+  :mode "\\.json\\'")
+#+END_SRC
 ** csv-mode
 #+BEGIN_SRC emacs-lisp
 (use-package csv-mode
