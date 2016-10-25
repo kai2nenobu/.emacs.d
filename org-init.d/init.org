@@ -273,6 +273,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
 (define-key my-original-map (kbd "C-w") 'delete-trailing-whitespace)
+(define-key my-original-map (kbd "DEL") 'horizontal-scroll-bar-mode)
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
@@ -1600,7 +1601,9 @@ shift+カーソルキー でウィンドウを移動する．
 (use-package scroll-bar
   :if window-system
   :config
-  (scroll-bar-mode 0))
+  (scroll-bar-mode -1)
+  (horizontal-scroll-bar-mode -1)
+  )
 #+END_SRC
 ** 時間測定ポイント
 #+BEGIN_SRC emacs-lisp +n
