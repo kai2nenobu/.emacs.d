@@ -3422,20 +3422,11 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 (use-package helm-config
   :config
   (helm-mode 1)
-  (use-package helm-migemo
-    :if (executable-find "cmigemo")
-    :config
-    ;; `candidates-in-buffer' でmigemoれるように再定義
-    (defun helm-compile-source--candidates-in-buffer (source)
-      (helm-aif (assoc 'candidates-in-buffer source)
-          (append source
-                  `((candidates . ,(or (cdr it)
-                                       (lambda ()
-                                         (helm-candidates-in-buffer
-                                          (helm-get-current-source)))))
-                    (volatile) (match identity)))
-        source))
-    )
+
+  ;; migemoを有効にする（helm-migemoは必要なくなった）
+  (when (executable-find "cmigemo")
+    (helm-migemo-mode 1))
+
   (use-package helm-descbinds
     :config
     (helm-descbinds-install))
@@ -3601,10 +3592,11 @@ helm-c-apropos は複数の関数による情報源でできているので，�
 *** helm-ring.el
 mark-ring が helm でたどれる．mark がよくわからなくなった時に使える．
 #+BEGIN_SRC emacs-lisp +n
-  (use-package helm-ring)
-  (push '(migemo) helm-c-source-mark-ring)
-  (push '(migemo) helm-c-source-global-mark-ring)
-  (define-key helm-command-map (kbd "SPC") 'helm-all-mark-rings)
+  (use-package helm-ring
+    :config
+    (push '(migemo) helm-source-mark-ring)
+    (push '(migemo) helm-source-global-mark-ring)
+    (define-key helm-command-map (kbd "SPC") 'helm-all-mark-rings))
 #+END_SRC
 *** helm-ag
 #+BEGIN_SRC emacs-lisp +n

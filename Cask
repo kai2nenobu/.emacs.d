@@ -41,7 +41,6 @@
 (depends-on "helm-descbinds")
 (depends-on "helm-git-grep")
 (depends-on "helm-ls-git")
-(depends-on "helm-migemo")
 (depends-on "helm-package")
 (depends-on "helm-swoop")
 (depends-on "highlight-symbol")
