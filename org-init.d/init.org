@@ -1912,6 +1912,19 @@ Works in Microsoft Windows, Mac OS X, Linux."
    (function dired-convert-coding-system) arg 'convert-coding-system t))
 (define-key dired-mode-map (kbd "F") 'dired-do-convert-coding-system)
 #+END_SRC
+*** パスをコピーする
+#+BEGIN_SRC emacs-lisp +n
+(defun dired-copy-path (&optional full)
+  "Copy a path of a file on current line.
+
+If FULL is non-nil, copy a path as full path.  Otherwise copy as
+relative path."
+  (interactive "P")
+  (let ((path (dired-get-filename (not full))))
+    (kill-new path)
+    (message "Copy \"%s\"" path)))
+(define-key dired-mode-map (kbd ";") 'dired-copy-path)
+#+END_SRC
 *** 最後のカッコ
 #+BEGIN_SRC emacs-lisp +n
   )
