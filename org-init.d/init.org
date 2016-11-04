@@ -2254,6 +2254,12 @@ info を Emacs で読む．
 #+BEGIN_SRC emacs-lisp +n
 (use-package tss)
 #+END_SRC
+
+tssは =json-mode= に依存しているのでここでロードしておく。
+#+BEGIN_SRC emacs-lisp +n
+(use-package json-mode :defer t
+  :mode "\\.json\\'")
+#+END_SRC
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
 #+BEGIN_SRC emacs-lisp
@@ -2273,11 +2279,6 @@ info を Emacs で読む．
     (interactive)
     (js2-next-error -1 reset))
   )
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp +n
-(use-package json :defer t
-  :mode "\\.json\\'")
 #+END_SRC
 ** csv-mode
 #+BEGIN_SRC emacs-lisp
