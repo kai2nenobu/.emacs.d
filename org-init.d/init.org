@@ -1669,7 +1669,7 @@ dired.el, dired-x.el, dired-aux.el の拡張
 (use-package dired+ :defer t
   :init
   (with-eval-after-load 'dired
-    (require 'dired+))
+    (require 'dired+ nil t))
   :config
   (bind-key "M-p" nil dired-mode-map)
   (bind-key "M-n" nil dired-mode-map)
