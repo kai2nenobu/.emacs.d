@@ -3437,10 +3437,6 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
   :config
   (helm-mode 1)
 
-  ;; migemoを有効にする（helm-migemoは必要なくなった）
-  (when (executable-find "cmigemo")
-    (helm-migemo-mode 1))
-
   (use-package helm-descbinds
     :config
     (helm-descbinds-install))
@@ -3461,8 +3457,6 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
   (with-eval-after-load 'key-chord
      (defalias 'helm-command-prefix helm-command-map)
      (key-chord-define-global (kbd ":h") 'helm-command-prefix))
-  (add-to-list 'helm-source-recentf '(migemo)) ; migemo 化
-  ;(add-to-list 'helm-source-buffers-list '(migemo))
 
   ;; agrep-goto でアウトラインを開くアドバイス
   ;(defadvice agrep-goto (after org-reveal activate)
@@ -4643,6 +4637,9 @@ do nothing. And suppress the output from `message' and
     (setq migemo-use-pattern-alist t)
     (setq migemo-use-frequent-pattern-alist t)
     (setq migemo-pattern-alist-length 1024)
+    ;; helmでmigemoを有効にする（helm-migemoは必要なくなった）
+    (with-eval-after-load 'helm
+      (helm-migemo-mode 1))
     ;; 起動時に初期化も行う
     (migemo-init))
 #+END_SRC
