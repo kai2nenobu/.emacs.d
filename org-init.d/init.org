@@ -1617,6 +1617,12 @@ shift+カーソルキー でウィンドウを移動する．
   :mode (("\\.[bB][aA][tT]$" . bat-mode)
          ("CONFIG\\."        . bat-mode)
          ("AUTOEXEC\\."      . bat-mode))
+  :config
+  (when (winp)
+    (add-hook 'bat-mode-hook
+              (lambda ()
+                (set (make-local-variable 'shell-file-name)
+                     (expand-file-name "cmdproxy.exe" exec-directory)))))
   )
 #+END_SRC
 ** js-mode
@@ -2197,6 +2203,16 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** dos-inent
+- [[https://www.emacswiki.org/emacs/dos-indent.el][dos-indent.el]]
+#+BEGIN_SRC emacs-lisp +n
+(use-package dos-indent :defer t
+  :commands dos-indent
+  :init
+  (with-eval-after-load 'bat-mode
+    (add-hook 'bat-mode-hook 'dos-indent))
+  )
+#+END_SRC
 ** god-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package god-mode :defer t
