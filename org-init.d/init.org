@@ -1610,6 +1610,15 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** bat-mode
+バッチファイル編集用のメジャーモード。[2016-11-17 Thu]時点でいつの間にか標準ライブラリに含まれていた。
+#+BEGIN_SRC emacs-lisp +n
+(use-package bat-mode :defer t
+  :mode (("\\.[bB][aA][tT]$" . bat-mode)
+         ("CONFIG\\."        . bat-mode)
+         ("AUTOEXEC\\."      . bat-mode))
+  )
+#+END_SRC
 ** js-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package js :defer t
@@ -2863,16 +2872,6 @@ package.el からインストール．
 org-mode で有効にするといろいろな動作で重くなる．折りたたみされているのが良く
 ない？ org-mode の html エクスポートで，ソースブロックの文末に変な文字が表示
 されるのはコレのせいだったようだ．
-** bat-mode
-バッチファイル編集用のメジャーモード．
-#+BEGIN_SRC emacs-lisp +n
-;; (auto-install-from-url "http://ftp.gnu.org/old-gnu/emacs/windows/contrib/bat-mode.el")
-(use-package bat-mode :defer t
-  :mode (("\\.[bB][aA][tT]$" . bat-mode)
-         ("CONFIG\\."        . bat-mode)
-         ("AUTOEXEC\\."      . bat-mode))
-  )
-#+END_SRC
 ** hiwin.el
 - [[http://d.hatena.ne.jp/ksugita0510/20111223][gnupackの開発メモ]]
 非アクティブなウィンドウの背景色を変更する．
