@@ -1,0 +1,20 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: batch file template
+# key: template
+# --
+@echo off
+setlocal${1: enabledelayedexpansion}
+
+rem
+rem ${2:このバッチの説明}
+rem
+
+rem 変数定義
+set ${3:HOGE="変数の値"}
+
+rem このバッチが存在するフォルダに移動する
+pushd %0\..
+
+$0
+
+endlocal
