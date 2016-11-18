@@ -32,7 +32,8 @@
   (defmacro use-package (&rest args)))
 
 ;;; org-babel を使って初期化ファイルをロード
-(defvar org-init-directory (locate-user-emacs-file "org-init.d"))
+(defvar org-init-directory (locate-user-emacs-file "org-init.d")
+  "Directory to locate configuration files written in `org-mode'")
 (require 'org)
 ;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
 (org-babel-load-file (expand-file-name "init.org" org-init-directory))
