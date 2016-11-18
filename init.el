@@ -7,6 +7,10 @@
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
+;;; custom設定を保存するファイルを別にする
+(setq custom-file (locate-user-emacs-file "init-custom.el"))
+(load custom-file)
+
 ;; package.el初期設定
 (when (require 'package nil t)
   ;; location to get package informations
