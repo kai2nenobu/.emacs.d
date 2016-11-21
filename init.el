@@ -9,7 +9,7 @@
 
 ;;; custom設定を保存するファイルを別にする
 (setq custom-file (locate-user-emacs-file "init-custom.el"))
-(load custom-file)
+(add-hook 'after-init-hook (lambda () (load custom-file)))
 
 ;; package.el初期設定
 (when (require 'package nil t)
