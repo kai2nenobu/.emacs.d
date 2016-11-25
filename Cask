@@ -82,6 +82,7 @@
 (depends-on "smartparens")
 (depends-on "smartrep")
 (depends-on "smex")
+(depends-on "sql-indent")
 (depends-on "stripe-buffer")
 (depends-on "typescript-mode")
 (depends-on "undo-tree")
