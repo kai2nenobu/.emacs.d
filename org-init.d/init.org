@@ -4167,6 +4167,18 @@ The html link is determined from `org-export-html-my-info-link-alist'."
   (add-to-list 'org-export-filter-link-functions 'org-export-html-relative-filter)
   )
 #+END_SRC
+**** プロパティでエクスポートを設定を変える
+=:html-table-use-header-tags-for-first-column= という変数を、特定のツリー以下で変えたかったので色々いじってみた。
+
+=org-export-backend= 型のoptionsを変えれば良さそうな感じだったけど、結局特定のツリー以下で変更する方法がわからなかった。試行錯誤の結果を残しておく。
+#+BEGIN_SRC emacs-lisp :tangle no
+(let* ((html-backend (--first (eq (org-export-backend-name it) 'html) org-export-registered-backends))
+       (html-options (org-export-backend-options html-backend))
+       (opt (alist-get :html-table-use-header-tags-for-first-column html-options)))
+  (setf (car opt) "FIRST_COLUMN")
+  opt
+  )
+#+END_SRC
 *** babel関連
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
 #+BEGIN_SRC emacs-lisp +n
