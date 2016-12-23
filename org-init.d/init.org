@@ -2719,14 +2719,13 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ** zoom-window
 ウィンドウを一時的に1ウィンドウにする。
 #+BEGIN_SRC emacs-lisp +n
-(with-eval-after-load 'elscreen
-  (use-package zoom-window :defer t
-     :init
-     (bind-key "C-z" 'zoom-window-zoom elscreen-map)
-     :config
-     (setq zoom-window-use-elscreen t)
-     (zoom-window-setup)
-     ))
+(use-package zoom-window :defer t
+  :init
+  (bind-key "C-1" 'zoom-window-zoom)
+  :config
+  (setq zoom-window-use-elscreen t)
+  (zoom-window-setup)
+  )
 #+END_SRC
 ** highlight-symbol-mode
 カーソル下のシンボルをハイライトする。highlight-symbol-mode は自動的にカーソ
