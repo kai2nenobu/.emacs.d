@@ -2215,7 +2215,7 @@ info を Emacs で読む．
 #+END_SRC
 ** god-mode
 #+BEGIN_SRC emacs-lisp +n
-(use-package god-mode :defer t
+(use-package god-mode :defer t :disabled t
   :bind ("<escape>" . god-local-mode)
   :config
   (bind-keys :map god-local-mode-map
