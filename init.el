@@ -32,6 +32,15 @@
   (defmacro use-package (&rest args)))
 
 ;;; org-babel を使って初期化ファイルをロード
+;; マークアップの前後とみなす文字を変更する
+(setq org-emphasis-regexp-components
+      (list
+       (concat " \t('\"{"           "[:nonascii:]") ; pre
+       (concat "- \t.,:!?;'\")}\\[" "[:nonascii:]") ; post
+       " \t\r\n" ; border
+       "." ; body
+       1   ; newline
+       ))
 (defvar org-init-directory (locate-user-emacs-file "org-init.d")
   "Directory to locate configuration files written in `org-mode'")
 (require 'org)
