@@ -2905,6 +2905,9 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
                     :background "gray90")
                    (((class color) (background dark))
                     :background "gray10")))
+  ;; magit関連のバッファは背景色を変えない
+  (setq hiwin-always-active-buffer-name-regexp
+        (concat hiwin-always-active-buffer-name-regexp "\\|^\\*magit"))
   (hiwin-activate)                            ;; hiwin-modeを有効化
   )
 #+END_SRC
