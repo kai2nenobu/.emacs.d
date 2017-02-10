@@ -1,12 +1,13 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: Get detailed timestamp
-# key: timestamp-detail
+# -*- mode: snippet -*-
+# name: timestamp (Locale dependent)
+# key: timestamp
 # --
-REM http://stackoverflow.com/a/18024049
-SETLOCAL enabledelayedexpansion
-for /F "tokens=2 delims==" %%i in ('wmic datafile where name^="%file:\=\\%" get LastModified /format:list') do (
-    REM timestamp is "YYYYMMDDhhmmss.<fraction>+/-<timedifference to UTC>"
-    set timestamp=%%i
-)
-echo %timestamp%
-ENDLOCAL
+set YYYY=%DATE:~0,4%
+set MM=%DATE:~5,2%
+set DD=%DATE:~8,2%
+
+set HH=%TIME: =0%
+set HH=%HH:~0,2%
+set MI=%TIME:~3,2%
+set SS=%TIME:~6,2%
+set FF=%TIME:~9,2%
