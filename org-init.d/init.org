@@ -121,7 +121,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 #+END_SRC
 ** Unixツールのパスを追加する
 Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環境変数にCygwinのパスを追加すると、他ツールと競合する場合があるのでEmacs内で明示的に追加する。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (defvar cygwinp nil "Whether this system has cygwin or not.")
 (let* ((choco-dir (getenv "ChocolateyToolsLocation"))
        (cmder-dir (expand-file-name "cmder" choco-dir))
@@ -1640,7 +1640,7 @@ shift+カーソルキー でウィンドウを移動する．
   (set-variable 'js-indent-level 2))
 #+END_SRC
 ** sql
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package sql :defer t
   :config
   (use-package sql-indent)
@@ -2313,12 +2313,12 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 #+END_SRC
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package autoit-mode :defer t
   :mode "\\.au3\\'")
 #+END_SRC
 ** js2-mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package js2-mode :defer t
   :mode "\\.js\\'"
   :config
@@ -2332,7 +2332,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
   )
 #+END_SRC
 ** csv-mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package csv-mode
   :config
   (bind-keys :map csv-mode-map
@@ -3034,7 +3034,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 #+END_SRC
 ** [[https://github.com/justbur/emacs-which-key][which-key]]
 guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (use-package which-key
   :config
   (which-key-setup-side-window-right)
@@ -4351,7 +4351,7 @@ org-modeのexport機能を使って印刷する。
 #+END_SRC
 
 *** org-habit
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'org
   (use-package org-habit))
 #+END_SRC
