@@ -2092,6 +2092,21 @@ file is a remote file (include directory)."
           (rename-buffer (concat (buffer-name) " <" user "@" host ">") t)))))
   (add-hook 'find-file-hook 'tramp-my-append-buffer-name-hint)
   (add-hook 'dired-mode-hook 'tramp-my-append-buffer-name-hint)
+  #+END_SRC
+*** モードラインの色を変える
+- [[http://emacs.stackexchange.com/questions/17984/how-to-change-mode-line-color-based-on-host][themes - How to change mode line color based on host? - Emacs Stack Exchange]]
+#+BEGIN_SRC emacs-lisp +n
+  (defvar tramp-my-modeline-color "medium purple" "modline color for tramp buffers")
+  (defun tramp-my-modeline-color ()
+    "Change a modeline color of TRAMP buffer."
+    (let ((name (or list-buffers-directory (buffer-file-name))))
+      (when (and name (tramp-tramp-file-p name))
+          (face-remap-add-relative 'mode-line (list :background tramp-my-modeline-color)))))
+  (add-hook 'find-file-hook 'tramp-my-modeline-color)
+  (add-hook 'dired-mode-hook 'tramp-my-modeline-color)
+#+END_SRC
+*** 最後のカッコ
+#+BEGIN_SRC emacs-lisp +n
   )
 #+END_SRC
 ** doc-view.el
