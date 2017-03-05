@@ -2058,7 +2058,7 @@ relative path."
 #+BEGIN_SRC emacs-lisp +n
 (use-package tramp :defer t
   :config
-  (setq tramp-default-method (cond ((winp) "sshx")
+  (setq tramp-default-method (cond ((winp) "plinkx")
                                    (t "ssh")))
 
   ;; config for using cygwin ssh on Windows. Please use "sshx" method.
