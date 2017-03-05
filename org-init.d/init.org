@@ -1943,9 +1943,12 @@ Works in Microsoft Windows, Mac OS X, Linux."
 If FULL is non-nil, copy a path as full path.  Otherwise copy as
 relative path."
   (interactive "P")
-  (let ((path (dired-get-filename (not full))))
-    (kill-new path)
-    (message "Copy \"%s\"" path)))
+  (let* ((path (dired-get-filename (not full)))
+         (standard-path (if (winp)
+                            (replace-regexp-in-string "/" "\\\\" path)
+                          path)))
+    (kill-new standard-path)
+    (message "Copy \"%s\"" standard-path)))
 (define-key dired-mode-map (kbd ";") 'dired-copy-path)
 #+END_SRC
 *** 最後のカッコ
