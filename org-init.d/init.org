@@ -123,17 +123,17 @@ ispell が動かなかった。ispell に限らんかもしれんが
 Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環境変数にCygwinのパスを追加すると、他ツールと競合する場合があるのでEmacs内で明示的に追加する。
 #+BEGIN_SRC emacs-lisp
 (defvar cygwinp nil "Whether this system has cygwin or not.")
-  (let* ((choco-dir (getenv "ChocolateyToolsLocation"))
-	 (cmder-dir (expand-file-name "cmder" choco-dir))
-	 (cygwin-path (expand-file-name "cygwin" choco-dir)))
-    (cond ((file-exists-p cmder-dir)
-           (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
-           (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
-          ((file-exists-p cygwin-path)
-           (add-to-list 'exec-path (expand-file-name "bin" cygwin-path))
-           (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path))
-           (setq cygwinp t))
-          (t (message "Not found Unix tools"))))
+(let* ((choco-dir (getenv "ChocolateyToolsLocation"))
+       (cmder-dir (expand-file-name "cmder" choco-dir))
+       (cygwin-path (expand-file-name "cygwin" choco-dir)))
+  (cond ((file-exists-p cmder-dir)
+         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
+         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
+        ((file-exists-p cygwin-path)
+         (add-to-list 'exec-path (expand-file-name "bin" cygwin-path))
+         (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path))
+         (setq cygwinp t))
+        (t (message "Not found Unix tools"))))
 #+END_SRC
 * 見た目の設定など
 ** カーソル色を設定
@@ -2097,7 +2097,7 @@ file is a remote file (include directory)."
           (rename-buffer (concat (buffer-name) " <" user "@" host ">") t)))))
   (add-hook 'find-file-hook 'tramp-my-append-buffer-name-hint)
   (add-hook 'dired-mode-hook 'tramp-my-append-buffer-name-hint)
-  #+END_SRC
+#+END_SRC
 *** モードラインの色を変える
 - [[http://emacs.stackexchange.com/questions/17984/how-to-change-mode-line-color-based-on-host][themes - How to change mode line color based on host? - Emacs Stack Exchange]]
 #+BEGIN_SRC emacs-lisp +n
@@ -4071,8 +4071,7 @@ With prefix argument, you can choose a date instead of today."
       (setq shell-file-name orig-shell-file-name)))
 #+END_SRC
 - [[http://stackoverflow.com/questions/11553123/linking-to-files-on-windows-network-share][emacs - Linking to files on Windows Network Share - Stack Overflow]]
-UNC Pathへリンクさ
-れているファイルを =org-open-at-point= で開こうとすると
+UNC Pathへリンクされているファイルを =org-open-at-point= で開こうとすると
 : eval: ShellExecute failed: 指定されたファイルが見つかりません。
 と怒られる問題への対策。
 
