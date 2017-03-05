@@ -122,6 +122,7 @@ ispell が動かなかった。ispell に限らんかもしれんが
 ** Unixツールのパスを追加する
 Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環境変数にCygwinのパスを追加すると、他ツールと競合する場合があるのでEmacs内で明示的に追加する。
 #+BEGIN_SRC emacs-lisp
+(defvar cygwinp nil "Whether this system has cygwin or not.")
   (let* ((choco-dir (getenv "ChocolateyToolsLocation"))
 	 (cmder-dir (expand-file-name "cmder" choco-dir))
 	 (cygwin-path (expand-file-name "cygwin" choco-dir)))
@@ -130,7 +131,8 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
            (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
           ((file-exists-p cygwin-path)
            (add-to-list 'exec-path (expand-file-name "bin" cygwin-path))
-           (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path)))
+           (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path))
+           (setq cygwinp t))
           (t (message "Not found Unix tools"))))
 #+END_SRC
 * 見た目の設定など
@@ -3405,7 +3407,7 @@ cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 (use-package cygwin-mount
-  :if (and (winp) (executable-find "mount"))
+  :if (and (winp) cygwinp)
   :config
   (cygwin-mount-activate))
 #+END_SRC
