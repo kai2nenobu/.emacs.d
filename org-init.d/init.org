@@ -4131,6 +4131,57 @@ git管理下のファイルのhelmソース。
           (replace-match "" t t org-html-style-default 1)))
   )
 #+END_SRC
+**** srcブロックのクラス名を =SyntaxHighlighter= 準拠のクラス名に変更する
+これでなんとかクラス名を変更できた。けど結局 =SyntaxHighlighter= が対応している言語も少なく（Lispがない！）、=SyntaxHighlighter= が対応してない言語のソースブロックがあると =SyntaxHighlighter.all()= の実行時にエラーが発生してしまう。
+
+またEmacsよりもハイライトのカラフルさがなかったのでやっぱりやめた。参考のためにコードは残しておく。
+
+=init.el= の記述は以下のとおり。
+#+BEGIN_SRC emacs-lisp +n :tangle no
+(with-eval-after-load 'ox-html
+  (defun org-html-my-src-syntaxhighlighter-class (data backend info)
+    "Replace class for SyntaxHighlighter.
+
+class=\"src src-java\" is replaced into class=\"brush:java\"."
+    (when (org-export-derived-backend-p backend 'html)
+      (replace-regexp-in-string "class=\"src src-\\([^\"]*\\)\"" "class=\"brush:\\1;\"" data)))
+  (add-to-list 'org-export-filter-src-block-functions #'org-html-my-src-syntaxhighlighter-class)
+  (setq org-html-htmlize-output-type nil) ; preタグの中身をプレーンテキストで出力するために必要な設定
+  )
+#+END_SRC
+
+あとはorgファイルの先頭でcssとjsを読み込み、
+#+BEGIN_SRC org
+#+HTML_HEAD: <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCoreDefault.min.css" rel="stylesheet" type="text/css" />
+#+HTML_HEAD: <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.min.css" rel="stylesheet" type="text/css" />
+#+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js" type="text/javascript"></script>
+#+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shAutoloader.min.js" type="text/javascript"></script>
+#+END_SRC
+
+orgファイルの末尾（bodyタグの最後らへんにエクスポートされる場所であれば良いと思われる）にハイライトを有効にするコードを差し込んでおく。
+#+BEGIN_SRC org
+#+BEGIN_EXPORT HTML
+<script type="text/javascript">
+  SyntaxHighlighter.autoloader(
+    ["bash", "shell", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushBash.min.js"],
+    ["c-sharp", "csharp", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushCSharp.min.js"],
+    ["cpp", "c", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushCpp.min.js"],
+    ["css", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushCss.min.js"],
+    ["php", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushPhp.min.js"],
+    ["html", "xml", "xhtml", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushXml.min.js"],
+    ["js", "jscript", "javascript", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJScript.min.js"],
+    ["java", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJava.min.js"],
+    ["plain", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushPlain.min.js"],
+    ["python", "py", "https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushPython.min.js"]
+  );
+  SyntaxHighlighter.all();
+</script>
+#+END_EXPORT
+#+END_SRC
+あとはうまく見えるようにcssを調整すればいい。
+
+- [[http://alexgorbatchev.com/SyntaxHighlighter/][SyntaxHighlighter]]
+- [[http://551sornwmc.blog109.fc2.com/blog-entry-380.html][FC2 BlogへSyntaxHighlighter（ソースコードを整形表示する機能）を導入する方法]]
 **** 見出しの数字の末尾にピリオドを追加する
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'ox-html
