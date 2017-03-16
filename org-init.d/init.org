@@ -4360,7 +4360,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
   :init
   (add-autoload org-export-dispatch ox-reveal)
   :config
-  (setq org-reveal-root (concat "file:///" (expand-file-name "reveal.js" org-directory))
+  (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/"
         org-reveal-slide-number t
         org-reveal-history t
         org-reveal-center nil
