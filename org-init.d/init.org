@@ -3989,6 +3989,9 @@ dynamic blockを利用すると動的に更新される文章が書ける。保�
                          (cons (upcase (nth 1 elm))
                                (cddr elm))))
                 org-structure-template-alist))
+  ;; テンプレートを追加する
+  (add-to-list 'org-structure-template-alist
+               '("C" "#+BEGIN_COMMENT\n?\n#+END_COMMENT"))
   ;; key bind
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c l") 'org-store-link)
