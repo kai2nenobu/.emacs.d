@@ -2466,6 +2466,7 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
     (add-hook 'after-save-hook #'my-orgtbl-to-mdtbl nil t)
     )
   (add-hook 'markdown-mode-hook #'my-markdown-mode-hook-function)
+  (add-hook 'markdown-mode-hook #'flycheck-mode)
   )
 #+END_SRC
 ** irfc
@@ -2636,6 +2637,30 @@ Gradleタスクを実行するマイナーモード。
     (setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages))
   )
 #+END_SRC
+*** textlintで文章校正
+事前にnpmで =textlint= と好きなルールをグローバルにインストールしておく。
+#+BEGIN_EXAMPLE
+$ npm install -g textlint textlint-rule-preset-jtf-style
+#+END_EXAMPLE
+
+textlintを使ったチェッカーを定義する
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'flycheck
+  (when (executable-find "textlint")
+    (flycheck-define-checker textlint
+      "A linter by textlint."
+      :command ("textlint" "--format" "unix" "--preset" "jtf-style" source-inplace)
+      :error-patterns
+      ((warning line-start (file-name) ":" line ":" column ": "
+                (id (one-or-more (not (any " "))))
+                (message (one-or-more not-newline)
+                         (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+                line-end))
+      :modes (text-mode markdown-mode gfm-mode))
+    (add-to-list 'flycheck-checkers 'textlint)
+    ))
+#+END_SRC
+チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。=--preset= とか =--rule= の部分は変数にしたいところ。
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp +n
 (use-package git-gutter-fringe :defer t
