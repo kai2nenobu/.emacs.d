@@ -1399,6 +1399,9 @@ Org-mode のデフォルトと揃えた．
 - [[https://github.com/chuntaro/NTEmacs64][chuntaro/NTEmacs64]] バージョン24.4からこちらのバイナリを利用中。感謝。
 IMEパッチを当てていると自動で =w32-ime.el= をロードするので、それでIMEパッチ
 の有無を判定する。
+
+- [[http://emacsbinw64.sourceforge.net/][emacs-w64 | 64-Bit GNU Emacs for MS Windows with optimization]]
+こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。=w32-ime= がロードされてないからかも？
 #+BEGIN_SRC emacs-lisp +n
 (when (and (winp) (featurep 'w32-ime))
   (setq default-input-method "W32-IME")         ;標準IMEの設定
