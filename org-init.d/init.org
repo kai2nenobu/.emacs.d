@@ -2605,7 +2605,6 @@ Gradleタスクを実行するマイナーモード。
   (add-to-list 'auto-mode-alist '("\\.gradle\\'" . gradle-major-mode))
   :config
   ;; gradle-mode sholud be major-mode
-  (define-key gradle-mode-map (kbd "TAB") 'c-indent-line-or-region)
   (define-derived-mode gradle-major-mode groovy-mode "GradleM"
     (use-local-map gradle-mode-map))
   )
@@ -2614,7 +2613,6 @@ Gradleタスクを実行するマイナーモード。
 #+BEGIN_SRC emacs-lisp +n
 (use-package groovy-mode :defer t
   :config
-  (add-hook 'groovy-mode-hook '(lambda () (c-set-style "java")))
   ;; spockのデータテーブルを桁揃えする設定
   (with-eval-after-load 'align
     (add-to-list 'align-rules-list
