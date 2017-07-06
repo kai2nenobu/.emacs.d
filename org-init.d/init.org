@@ -2451,7 +2451,8 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
          ("\\.mdown\\'"    . gfm-mode)
          ("\\.mkdn\\'"     . gfm-mode)
          ("\\.mkd\\'"      . gfm-mode)
-         ("\\.md\\'"       . gfm-mode))
+         ("\\.md\\'"       . gfm-mode)
+         ("\\.txt\\'"      . gfm-mode))
   :config
   (defun my-orgtbl-to-mdtbl (&optional beg end)
     "Convert a org-mode table into markdown one."
