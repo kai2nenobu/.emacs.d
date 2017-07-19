@@ -41,21 +41,31 @@
             (message "Not found a screen named \"%s\"" screen-name)))
       (message "The cursor is not on transition"))))
 
-(defun uiflow-forward-token ()
-  "Search a token to forward."
+(defun uiflow-search-token (&optional count)
+  "Search a token."
   (save-excursion
-    (goto-char (1+ (point)))  ; avoid to hit a current token
-    (re-search-forward (concat "\\(?:" uiflow-screen-regexp
-                               "\\|" uiflow-separator-regexp
-                               "\\|" uiflow-transition-regexp "\\)")
-                       nil t)))
+    (let ((count (or count 1))  ; defaults to 1
+          (regexp (concat "\\(?:" uiflow-screen-regexp
+                          "\\|" uiflow-separator-regexp
+                          "\\|" uiflow-transition-regexp "\\)")))
+      (when (> count 0)
+        (goto-char (1+ (point))))  ; avoid to hit a current token
+      (re-search-forward regexp nil t count))))
 
-(defun uiflow-next-token ()
+(defun uiflow-next-token (count)
   "Move cursor to a next token."
-  (interactive)
-  (if (uiflow-forward-token)
+  (interactive "p")
+  (if (uiflow-search-token count)
       (goto-char (match-beginning 0))
     (message "Not found a next token")))
+
+(defun uiflow-previous-token (count)
+  "Move cursor to a previous token."
+  (interactive "p")
+  (if (uiflow-search-token (- count))
+      (goto-char (match-beginning 0))
+    (message "Not found a previous token")))
+
 
 ;;;###autoload
 (define-derived-mode uiflow-mode prog-mode "UIFLOW"
@@ -68,6 +78,7 @@
 
 (define-key uiflow-mode-map (kbd "C-c C-j") 'uiflow-jump-to-screen-definition)
 (define-key uiflow-mode-map (kbd "C-c C-n") 'uiflow-next-token)
+(define-key uiflow-mode-map (kbd "C-c C-p") 'uiflow-previous-token)
 
 (provide 'uiflow-mode)
 ;;; uiflow-mode.el ends here
