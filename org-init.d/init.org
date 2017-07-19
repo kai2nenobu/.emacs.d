@@ -314,6 +314,19 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
   (when (file-exists-p loaddefs)
     (load loaddefs 'noerror 'nomsg)))
 #+END_SRC
+** uiflow向けのメジャーモード
+- [[https://github.com/hirokidaichi/uiflow][uiflow - the simplest way to write down your ui-flow diagram like markdown]]
+#+BEGIN_SRC emacs-lisp +n
+(use-package uiflow-mode :defer t
+  :load-path "my-lisp"
+  :config
+  (with-eval-after-load 'smartrep
+    (smartrep-define-key uiflow-mode-map "C-c"
+      '(("C-n" . uiflow-next-token)
+        ("C-p" . uiflow-previous-token)
+        )))
+  )
+#+END_SRC
 ** =fill-column= 付近の句読点の後ろに改行を挿入するコマンド
 分かち書きをしない日本語の文章で =fill-paragraph= コマンドを使うと、単語の途中に改行が入ってしまう。なので句読点の後ろに改行を挿入して =fill-column= を超えないようにするコマンドを定義した。
 
