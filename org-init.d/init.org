@@ -307,6 +307,13 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 自作ライブラリをautoloadする
+あらかじめ =my-lisp/loaddefs.el= に =;;;###autoload= トークンを抽出している前提です。
+#+BEGIN_SRC emacs-lisp +n
+(let ((loaddefs (locate-user-emacs-file "my-lisp/loaddefs.el")))
+  (when (file-exists-p loaddefs)
+    (load loaddefs 'noerror 'nomsg)))
+#+END_SRC
 ** =fill-column= 付近の句読点の後ろに改行を挿入するコマンド
 分かち書きをしない日本語の文章で =fill-paragraph= コマンドを使うと、単語の途中に改行が入ってしまう。なので句読点の後ろに改行を挿入して =fill-column= を超えないようにするコマンドを定義した。
 
