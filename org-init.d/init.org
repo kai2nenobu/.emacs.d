@@ -2483,7 +2483,25 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
       (goto-char beg)
       (while (re-search-forward "-\\+-" end t)
         (replace-match "-|-"))))
-
+  ;; smartrep keybindginds
+  (with-eval-after-load 'smartrep
+    (smartrep-define-key markdown-mode-map "C-c"
+      '(
+        ("C-n" . markdown-next-visible-heading)
+        ("C-p" . markdown-previous-visible-heading)
+        ("C-f" . markdown-forward-same-level)
+        ("C-b" . markdown-backward-same-level)
+        ("C-u" . markdown-up-heading)
+        )))
+  ;; wrpa-region integration
+  (with-eval-after-load 'wrap-region
+    (wrap-region-add-wrapper "`" "`" nil 'markdown-mode)  ; verbose
+    (wrap-region-add-wrapper "*" "*" nil 'markdown-mode)  ; em
+    (wrap-region-add-wrapper "_" "_" nil 'markdown-mode)  ; em
+    (wrap-region-add-wrapper "**" "**" ":" 'markdown-mode)   ; strong
+    (wrap-region-add-wrapper "__" "__" "\\" 'markdown-mode)  ; strong
+    (wrap-region-add-wrapper "~~" "~~" "~" 'markdown-mode)  ; strike
+    )
   (defun my-markdown-mode-hook-function ()
     (orgtbl-mode 1)
     ;; automatically convert org-mode table into markdown one
