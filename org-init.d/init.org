@@ -33,6 +33,15 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://ameblo.jp/concello/entry-10786074455.html][ORG-Babel + init.el = ??｜くらいまーず はい]]
 ** Emacs から解像度を調べる
 - [[http://d.hatena.ne.jp/zqwell-ss/20091123/1258989596][EmacsのFontがでかい - Secondary Storage]]
+** Windowsバイナリ
+- [[http://cha.la.coocan.jp/doc/NTEmacs.html#binary][NTEmacs / Emacs for Windows]]
+  - 各種画像系のDLLも入っているので、画像表示もできる。ただなぜかSVGだけは表示できない。
+  - 日本語IME向けにパッチを当ててあるので、Windows10でもIMEのウィンドウが出る。しかし未確定文字がうまく表示されず、下駄になってしまう。未解決。
+- [[https://github.com/chuntaro/NTEmacs64][chuntaro/NTEmacs64]]
+  - バージョン24.4からこちらのバイナリを利用中。感謝。IMEパッチを当てていると自動で =w32-ime.el= をロードするので、それでIMEパッチの有無を判定する。
+- [[http://emacsbinw64.sourceforge.net/][emacs-w64 | 64-Bit GNU Emacs for MS Windows with optimization]]
+  - こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。=w32-ime= がロードされてないからかも？
+  - Windows10ではIMEの変換やウィンドウが出ない。
 * 最初に必要な設定
 #+BEGIN_SRC emacs-lisp +n
 ;;; -*- coding: utf-8-unix -*-
@@ -1416,12 +1425,6 @@ Org-mode のデフォルトと揃えた．
 #+END_SRC
 ** IME
 *** Windows
-- [[https://github.com/chuntaro/NTEmacs64][chuntaro/NTEmacs64]] バージョン24.4からこちらのバイナリを利用中。感謝。
-IMEパッチを当てていると自動で =w32-ime.el= をロードするので、それでIMEパッチ
-の有無を判定する。
-
-- [[http://emacsbinw64.sourceforge.net/][emacs-w64 | 64-Bit GNU Emacs for MS Windows with optimization]]
-こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。=w32-ime= がロードされてないからかも？
 #+BEGIN_SRC emacs-lisp +n
 (when (and (winp) (featurep 'w32-ime))
   (setq default-input-method "W32-IME")         ;標準IMEの設定
