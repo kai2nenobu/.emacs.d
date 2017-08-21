@@ -4796,6 +4796,8 @@ do nothing. And suppress the output from `message' and
                in (list
                    (expand-file-name "utf-8/migemo-dict" "/usr/local/cmigemo")
                    (expand-file-name "utf-8/migemo-dict" "/usr/local/share/migemo")
+                   (expand-file-name "lib/cmigemo/bin/dict/utf-8/migemo-dict"
+                                     (getenv "chocolateyinstall"))
                    (expand-file-name "dict/utf-8/migemo-dict"
                                      (file-name-directory (executable-find "cmigemo"))))
                when (file-readable-p dict)
