@@ -3348,6 +3348,14 @@ Emacs から git を操作するライブラリ．
   ;; diffを表示しているときに文字単位での変更箇所も強調表示する
   (setq magit-diff-refine-hunk t)
   (setq magit-log-show-margin nil) ; ログの右マージンを表示しない
+  ;; 独自アクション
+  (defun magit-commit-amend-noedit (&optional args)
+    "Amend the last commit without changing a message.
+\n(git commit --amend --no-edit ARGS)"
+    (interactive (list (magit-commit-arguments)))
+    (magit-run-git-with-editor "commit" "--amend" "--no-edit" args))
+  (magit-define-popup-action 'magit-commit-popup
+    ?n "Amend --no-edit" 'magit-commit-amend-noedit)
 #+END_SRC
 *** キーバインド
 #+BEGIN_SRC emacs-lisp +n
