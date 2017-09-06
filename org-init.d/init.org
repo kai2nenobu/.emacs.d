@@ -582,7 +582,7 @@ lightとdarkを切り替えた後に、新しくフレームを作成する必�
 #+END_SRC
 ** フレーム透明度のトグル
 #+BEGIN_SRC emacs-lisp +n
-(defvar default-alpha 0.7)
+(defvar default-alpha 0.8)
 (defun toggle-frame-alpha ()
   "Toggle an alpha in the current frame."
   (interactive)
