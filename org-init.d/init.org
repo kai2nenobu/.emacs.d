@@ -2518,11 +2518,13 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
 EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package irfc :defer t
+  :init
+  (set-variable 'irfc-assoc-mode t) ; irfc-modeを自動で有効にする
   :config
-  (custom-set-variables '(irfc-assoc-mode t)) ; irfc-modeを自動で有効にする
   (bind-keys :map irfc-mode-map
              ("<backspace>" . scroll-down)
              ("S-SPC" . scroll-down))
+  (add-hook 'irfc-mode-hook #'read-only-mode)
   )
 #+END_SRC
 *** irfc-x
