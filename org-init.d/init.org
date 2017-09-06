@@ -294,6 +294,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer nil t t)
+  (vc-refresh-state)
   (message (format "Revert %S" (current-buffer))))
 (define-key my-original-map (kbd "C-r") 'my-revert-buffer-noconfirm)
 (defun my-kill-buffer-and-close-window ()
