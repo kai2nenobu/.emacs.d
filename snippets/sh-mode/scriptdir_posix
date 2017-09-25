@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Directory where this shell script exsits (POSIX way)
+# key: scriptdir_posix
+# refs. https://stackoverflow.com/a/29835459
+# --
+DIR=$(CDPATH= cd -- "$(dirname -- "\$0")" && pwd)
