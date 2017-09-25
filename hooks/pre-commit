@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+project_hooks=$DIR/pre-commit.d
+
+for hook in "$project_hooks"/*.sh; do
+  if [ -x "$hook" ]; then
+    "$hook"
+    ret=$?
+    if [ $ret -ne 0 ]; then
+      exit $ret
+    fi
+  fi
+done
