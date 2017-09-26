@@ -2510,7 +2510,7 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
   (defun my-markdown-mode-hook-function ()
     (orgtbl-mode 1)
     ;; automatically convert org-mode table into markdown one
-    (add-hook 'after-save-hook #'my-orgtbl-to-mdtbl nil t)
+    (add-hook 'before-save-hook #'my-orgtbl-to-mdtbl nil t)
     )
   (add-hook 'markdown-mode-hook #'my-markdown-mode-hook-function)
   (add-hook 'markdown-mode-hook #'flycheck-mode)
