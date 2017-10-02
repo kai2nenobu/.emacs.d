@@ -15,6 +15,8 @@
 (depends-on "dash")
 (depends-on "dired+")
 (depends-on "direx")
+(depends-on "docker")
+(depends-on "docker-tramp")
 (depends-on "dockerfile-mode")
 (depends-on "drag-stuff")
 (depends-on "ecukes")

@@ -2257,6 +2257,13 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** docker-tramp
+コンテナ内のファイルをTRAMPでいじれるライブラリ。=C-x C-f /docker:user@container:/path/to/file= でコンテナ内のファイルにアクセスできるようになる。
+
+バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、=docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
+#+BEGIN_SRC emacs-lisp +n
+(use-package docker-tramp-compat)
+#+END_SRC
 ** dos-inent
 - [[https://www.emacswiki.org/emacs/dos-indent.el][dos-indent.el]]
 #+BEGIN_SRC emacs-lisp +n
