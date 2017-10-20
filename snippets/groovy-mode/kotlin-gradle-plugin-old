@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Use Kotlin with Gradle (Old DSL)
+# key: kotlin-gradle-plugin-old
+# --
+buildscript {
+    ext.kotlin_version = '${1:1.1.51}'
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+}
