@@ -317,6 +317,43 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 管理者権限が必要なファイルを保存する in Windows
+=Start-Process= で =xcopy= コマンドを管理者権限で起動するだけです。UACのプロンプトが出るので、「はい」を押せば保存できる。コピーが何かしらの原因で失敗しても検知できないので注意。
+
+#+BEGIN_SRC emacs-lisp +n
+(defun uac-save-buffer ()
+  "Save a file owned by Administrator in Windows.
+
+When invoke this command, UAC prompt appears.
+"
+  (interactive)
+  (let ((cbuffer (current-buffer))
+        (visited-file (buffer-file-name))
+        (modp (buffer-modified-p)))
+    (if (not (and visited-file modp))
+        (message "(No changes need to be saved)")
+      (let* ((temp-file (make-temp-file "uac-save-buffer-"))
+             ;; Command run in powershell
+             (command (format "Start-Process 'xcopy' -Verb runas -Wait -ArgumentList '/Y','%s','%s'"
+                              ;; path separator must be a back slash
+                              (replace-regexp-in-string "/" "\\\\" temp-file)
+                              (replace-regexp-in-string "/" "\\\\" visited-file))))
+        (unwind-protect
+          (progn
+              (write-region nil nil temp-file nil 'nomsg)
+              ;; TODO: error handling when copy failed
+              (call-process "powershell" nil nil nil
+                            "-NoProfile" "-Command" command)
+              (set-buffer-modified-p nil)
+              (revert-buffer nil t t) ;; reopen file
+              )
+          (delete-file temp-file))))))
+#+END_SRC
+
+=copy= はcmdの組み込みコマンドなので =Start-Process= で呼び出せないことを学んだ。
+
+- [[http://d.hatena.ne.jp/kitokitoki/20110929/p1][<elisp> write-region() で *Messages* やエコーエリアにメッセージを表示させない]]
+=write-region= で =Wrote <filename>= とミニバッファに出るの抑制する方法はこちらで学んだ。
 ** 自作ライブラリをautoloadする
 あらかじめ =my-lisp/loaddefs.el= に =;;;###autoload= トークンを抽出している前提です。
 #+BEGIN_SRC emacs-lisp +n
