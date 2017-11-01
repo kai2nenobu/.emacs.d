@@ -3402,6 +3402,10 @@ Emacs から git を操作するライブラリ．
     (magit-run-git-with-editor "commit" "--amend" "--no-edit" args))
   (magit-define-popup-action 'magit-commit-popup
     ?n "Amend --no-edit" 'magit-commit-amend-noedit)
+  ;; git log に --first-parent オプションを指定できるようにする
+  (let ((switches (plist-get magit-log-popup :switches))
+        (new-switch (?f "Show only the first parent commit" "--first-parent")))
+    (plist-put magit-log-popup :switches (cons 'new-switch switches)))
 #+END_SRC
 *** キーバインド
 #+BEGIN_SRC emacs-lisp +n
