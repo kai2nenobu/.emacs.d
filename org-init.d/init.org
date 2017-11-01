@@ -136,6 +136,7 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
        (cmder-dir (expand-file-name "cmder" choco-dir))
        (cygwin-path (expand-file-name "cygwin" choco-dir)))
   (cond ((file-exists-p cmder-dir)
+         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/mingw32/bin" cmder-dir))
          (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
          (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
         ((file-exists-p cygwin-path)
