@@ -27,6 +27,12 @@
     (progn
       (require 'cask "~/.cask/cask.el")
       (defvar my-cask-bundle (cask-initialize) "My cask-bundle object")
+      (defun my-cask-install ()
+        (interactive)
+        (cask-install my-cask-bundle))
+      (defun my-cask-install ()
+        (interactive)
+        (cask-update my-cask-bundle))
       (require 'pallet nil t))
   (package-initialize))
 
