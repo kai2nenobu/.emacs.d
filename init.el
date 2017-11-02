@@ -1,3 +1,8 @@
+;;; init.el --- Initialize Emacs
+;;; Commentary:
+
+;;; Code:
+
 ;; ~/.emacs.d/ 外の場所から読み込めるようにする
 ;; http://blog.shibayu36.org/entry/2015/05/01/172215
 (when load-file-name
@@ -42,7 +47,10 @@
                1   ; newline
                ))
 (defvar org-init-directory (locate-user-emacs-file "org-init.d")
-  "Directory to locate configuration files written in `org-mode'")
+  "Directory to locate configuration files written in `org-mode'.")
 (require 'org)
 ;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
 (org-babel-load-file (expand-file-name "init.org" org-init-directory))
+
+(provide 'init)
+;;; init.el ends here
