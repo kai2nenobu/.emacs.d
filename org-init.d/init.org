@@ -4709,6 +4709,8 @@ sessionが保存するファイル(=~/.emacs.d/.session=)には以下のよう�
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-emacswiki recentf-ext.el)
 (use-package recentf-ext
+  :init
+  (set-variable 'recentf-auto-cleanup 'never)
   :config
   ;; 最近のファイル3000個を保存する
   (setq recentf-max-saved-items 3000)
@@ -4740,7 +4742,6 @@ do nothing. And suppress the output from `message' and
                     (eval `(format ,format-string ,@args))))
       ad-do-it))
 
-  (setq recentf-auto-cleanup 60)
   (run-with-idle-timer 60 t 'recentf-save-list)
   )
 #+END_SRC
