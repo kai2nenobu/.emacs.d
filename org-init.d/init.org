@@ -647,23 +647,6 @@ Quick JUnitぽく ~C-0~ でテストを走らせるコマンド。現在位置�
       (ert t))))
 (global-set-key (kbd "C-0") 'my-ert-run-dwim)
 #+END_SRC
-** スペースアルクで検索
-#+BEGIN_SRC emacs-lisp +n
-(defvar lookup-alc-history nil)
-(defun lookup-alc (query)
-  "Look up word in English/Japanese dictionaries of the SPACE ALC"
-  (interactive
-   (list (cond ((use-region-p)
-                (buffer-substring-no-properties (region-beginning) (region-end)))
-               (t
-                (let ((word (thing-at-point 'word)))
-                  (read-string "Look up word in ALC: "
-                               word lookup-alc-history nil t))))))
-  (let ((deactivate-mark t)
-        (search-url "http://eow.alc.co.jp/search?q=%s"))
-    (browse-url (url-encode-url (format search-url query)))))
-(define-key mode-specific-map (kbd "e") 'lookup-alc)
-#+END_SRC
 ** 行の入れ替え
 - [[http://qiita.com/ShingoFukuyama@github/items/fc51a32e84fd84261565][Emacs - 現在行をそのまま上下に連続移動させる - Qiita キータ]]
 #+BEGIN_SRC emacs-lisp +n
