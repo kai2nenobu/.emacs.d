@@ -2278,6 +2278,22 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** emoji-cheat-sheet-plus
+- [[https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus][Browse, insert and display Emoji emoticons in Emacs 💖]]
+
+Markdownなどで使える絵文字表記を一覧、挿入するライブラリ。また =emoji-cheat-sheet-plus-display-mode= というマイナーモードを有効にすると、絵文字表記を絵文字の画像で表示してくれる。Markdownのお供にどうぞって感じですね。
+
+例えば :+1: とか :family: をいい感じでみれるようになる。
+#+BEGIN_SRC emacs-lisp +n
+(use-package emoji-cheat-sheet-plus :defer t
+  :init
+  (add-hook 'markdown-mode-hook 'emoji-cheat-sheet-plus-display-mode)
+  :bind (:map mode-specific-map
+              ("e" . emoji-cheat-sheet-plus-insert))
+  )
+#+END_SRC
+
+なんか別のマイナーモードとかと競合してる感があり、うまく =emoji-cheat-sheet-plus-display-mode= で画像が表示されないケースがある。Windowsだからだろうか。
 ** docker-tramp
 コンテナ内のファイルをTRAMPでいじれるライブラリ。=C-x C-f /docker:user@container:/path/to/file= でコンテナ内のファイルにアクセスできるようになる。
 
