@@ -23,6 +23,7 @@
 (depends-on "editorconfig")
 (depends-on "elscreen")
 (depends-on "emmet-mode")
+(depends-on "emoji-cheat-sheet-plus")
 (depends-on "espuds")
 (depends-on "evil")
 (depends-on "exec-path-from-shell")
