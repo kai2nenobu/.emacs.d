@@ -133,9 +133,14 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
 #+BEGIN_SRC emacs-lisp +n
 (defvar cygwinp nil "Whether this system has cygwin or not.")
 (let* ((choco-dir (getenv "ChocolateyToolsLocation"))
+       (git-for-win-dir (expand-file-name "Git"
+                                         (or (getenv "ProgramW6432") (getenv "Program"))))
        (cmder-dir (expand-file-name "cmder" choco-dir))
        (cygwin-path (expand-file-name "cygwin" choco-dir)))
-  (cond ((file-exists-p cmder-dir)
+  (cond ((file-exists-p git-for-win-dir)
+         (add-to-list 'exec-path (expand-file-name "bin" git-for-win-dir))
+         (add-to-list 'exec-path (expand-file-name "usr/bin" git-for-win-dir)))
+        ((file-exists-p cmder-dir)
          (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/mingw32/bin" cmder-dir))
          (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
          (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
