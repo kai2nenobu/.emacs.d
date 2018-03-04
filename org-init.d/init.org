@@ -323,6 +323,35 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 色を前景色、背景色で組み合わせて表示する
+コマンドで呼び出すと利用できるすべての色を組み合わせる。引数を指定した場合は、その色の組み合わせを表示する。
+#+BEGIN_SRC emacs-lisp +n
+(defun list-color-combinations (&optional list)
+  "Combine all foreground colors and background colors, and display them."
+  (interactive)
+  (let* ((buffer-name "*Color Combinations*")
+         (text "sample text")
+         (colors (or list (defined-colors)))
+         (max-width (->> colors
+                         (-map #'length)
+                         (-max))))
+    (with-current-buffer (get-buffer-create buffer-name)
+      (setq buffer-read-only nil)
+      (erase-buffer)
+      (insert (s-pad-right (length text) " " "Text") "\t"
+              (s-pad-right max-width " " "Foreground") "\t"
+              (s-pad-right max-width " " "Background") "\n")
+      (dolist (fg colors)
+        (dolist (bg colors)
+          (insert (propertize (s-pad-right (length text) " " text) 'face `(:foreground ,fg :background ,bg)) "\t"
+                  (s-pad-right max-width " " fg) "\t"
+                  (s-pad-right max-width " " bg) "\n")))
+      (setq buffer-read-only t)
+      (goto-char (point-min)))
+    (pop-to-buffer buffer-name)))
+#+END_SRC
+
+引数を指定せずに定義済みの色すべての組み合わせを表示すると、60万通りぐらいあるので表示するのにそこそこ時間がかかる。
 ** モードラインの文字エンコーディング表示を詳細にする
 モードラインにはデフォルトで文字コードに応じた表示になるが、文字コードが一文字のアルファベットで表現されていたり、BOMのある無しがわからないものである。
 
