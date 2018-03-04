@@ -323,6 +323,14 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** shell-sesison-mode でシェルの実行の様子をハイライトする
+GitHubとかGitLabだとコードブロックに =shell-session= という言語名をつけるといい感じにシェルでのコマンド実行とその出力をシンタックスハイライトしてくれる。
+
+Emacsにいい感じのハイライトをしてくれるモードがなかったので自作した。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package shell-session-mode :defer t)
+#+END_SRC
 ** bom-mode でBOMの有無を明示する
 BOMの有無を視覚的に明示したかったので自作した。
 
