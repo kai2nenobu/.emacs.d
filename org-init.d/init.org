@@ -318,6 +318,72 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** モードラインの文字エンコーディング表示を詳細にする
+モードラインにはデフォルトで文字コードに応じた表示になるが、文字コードが一文字のアルファベットで表現されていたり、BOMのある無しがわからないものである。
+
+https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_in_modeline_eg/
+を参考に自分で実装してみた。
+
+改行文字によって表示される文字列（ニーモニック）は =eol-mnemonic-dos= などのカスタマイズ変数で変更できるので、それを変更するだけにしました。
+
+#+BEGIN_SRC emacs-lisp +n
+(set 'eol-mnemonic-dos "(CRLF)")
+(set 'eol-mnemonic-unix "(LF)")
+(set 'eol-mnemonic-mac "(CR)")
+(set 'eol-mnemonic-undecided "(?)")
+
+(defun my-coding-system-name-mnemonic (coding-system)
+  (let* ((base (coding-system-base coding-system))
+         (name (symbol-name base)))
+    (cond ((string-prefix-p "utf-8" name) "U8")
+          ((string-prefix-p "utf-16" name) "U16")
+          ((string-prefix-p "utf-7" name) "U7")
+          ((string-prefix-p "japanese-shift-jis" name) "SJIS")
+          ((string-prefix-p "euc" name) "EUC")
+          ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
+          (t "???")
+          )))
+
+(defun my-coding-system-bom-mnemonic (coding-system)
+  (let ((name (symbol-name coding-system)))
+    (cond ((string-match "be-with-signature" name) "[BE]")
+          ((string-match "le-with-signature" name) "[LE]")
+          ((string-match "-with-signature" name) "[BOM]")
+          (t ""))))
+
+(defvar my-mode-line-coding-format
+      '(:eval
+        (let* ((code buffer-file-coding-system)
+               (name (my-coding-system-name-mnemonic code))
+               (bom (my-coding-system-bom-mnemonic code))
+               (eol (coding-system-eol-type-mnemonic code)))
+          (format "%s%s%s" name bom eol))))
+
+(put 'my-mode-line-coding-format 'risky-local-variable t)
+
+(setq-default mode-line-format (substitute
+                                'my-mode-line-coding-format
+                                'mode-line-mule-info
+                                mode-line-format))
+#+END_SRC
+
+デフォルトのモードライン設定で文字コードに関する表示を担っているのが =mode-line-mule-info=  なので、それを自分で実装したものに置き換えることでモードラインの表示が変わる。
+
+以下のコードは文字エンコーディングに関する関数のテスト。
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(defun my-coding-system-test (coding-system)
+  (let* ((base (coding-system-base coding-system))
+         (type (coding-system-type coding-system))
+         (eol (coding-system-eol-type coding-system))
+         (eol-mnemonic (coding-system-eol-type-mnemonic coding-system))
+         (mnemonic (coding-system-mnemonic coding-system))
+         )
+    (format "Coding System:%s\nBase:%s\nType:%s\nEOL:%s\nEOL Mnemonic:%s\nMnemonic:%s"
+            coding-system base type eol eol-mnemonic mnemonic)))
+
+#+END_SRC
+
 ** 管理者権限が必要なファイルを保存する in Windows
 =Start-Process= で =xcopy= コマンドを管理者権限で起動するだけです。UACのプロンプトが出るので、「はい」を押せば保存できる。コピーが何かしらの原因で失敗しても検知できないので注意。
 
