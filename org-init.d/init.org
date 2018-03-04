@@ -323,6 +323,15 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** bom-mode でBOMの有無を明示する
+BOMの有無を視覚的に明示したかったので自作した。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package bom-mode :defer t
+  :init
+  (add-hook 'prog-mode-hook 'bom-mode)
+  (add-hook 'text-mode-hook 'bom-mode))
+#+END_SRC
 ** emoji-cheat-sheet++.el
 emoji-cheat-sheet-plus はhelmで絵文字を選べて便利だが、絵文字表記（ =:+1:= みたいなの）しか挿入できず、ユニコードの文字として挿入することができない。不便なのでユニコードを挿入する機能を追加する emoji-cheat-sheet++.el を自作した。
 
