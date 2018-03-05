@@ -1520,10 +1520,10 @@
         (insert unicode)))))
 
 (eval-after-load 'emoji-cheat-sheet-plus
-  (helm-add-action-to-source "Insert into buffer as Unicode"
-                             #'emoji-cheat-sheet++--insert-selection-as-unicode
-                             emoji-cheat-sheet-plus--helm-source
-                             emoji-cheat-sheet++-action-index))
+  '(helm-add-action-to-source "Insert into buffer as Unicode"
+                              #'emoji-cheat-sheet++--insert-selection-as-unicode
+                              emoji-cheat-sheet-plus--helm-source
+                              emoji-cheat-sheet++-action-index))
 
 (provide 'emoji-cheat-sheet++)
 ;;; emoji-cheat-sheet++.el ends here
