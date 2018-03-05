@@ -329,13 +329,16 @@ GitHubとかGitLabだとコードブロックに =shell-session= という言語
 Emacsにいい感じのハイライトをしてくれるモードがなかったので自作した。
 
 #+BEGIN_SRC emacs-lisp +n
-(use-package shell-session-mode :defer t)
+(use-package shell-session-mode :defer t
+  :load-path "my-lisp"
+  )
 #+END_SRC
 ** bom-mode でBOMの有無を明示する
 BOMの有無を視覚的に明示したかったので自作した。
 
 #+BEGIN_SRC emacs-lisp +n
 (use-package bom-mode :defer t
+  :load-path "my-lisp"
   :init
   (add-hook 'prog-mode-hook 'bom-mode)
   (add-hook 'text-mode-hook 'bom-mode))
@@ -344,7 +347,9 @@ BOMの有無を視覚的に明示したかったので自作した。
 emoji-cheat-sheet-plus はhelmで絵文字を選べて便利だが、絵文字表記（ =:+1:= みたいなの）しか挿入できず、ユニコードの文字として挿入することができない。不便なのでユニコードを挿入する機能を追加する emoji-cheat-sheet++.el を自作した。
 
 #+BEGIN_SRC emacs-lisp +n
-(use-package emoji-cheat-sheet++)
+(use-package emoji-cheat-sheet++
+  :load-path "my-lisp"
+  )
 #+END_SRC
 ** 色を前景色、背景色で組み合わせて表示する
 コマンドで呼び出すと利用できるすべての色を組み合わせる。引数を指定した場合は、その色の組み合わせを表示する。
