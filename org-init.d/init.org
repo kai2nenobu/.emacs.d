@@ -486,9 +486,9 @@ When invoke this command, UAC prompt appears.
 ** 自作ライブラリをautoloadする
 あらかじめ =my-lisp/loaddefs.el= に =;;;###autoload= トークンを抽出している前提です。
 #+BEGIN_SRC emacs-lisp +n
-(let ((loaddefs (locate-user-emacs-file "my-lisp/loaddefs.el")))
+(let ((loaddefs (locate-user-emacs-file "my-lisp/my-loaddefs.el")))
   (when (file-exists-p loaddefs)
-    (load loaddefs 'noerror 'nomsg)))
+    (require 'my-loaddefs loaddefs 'noerror)))
 #+END_SRC
 ** uiflow向けのメジャーモード
 - [[https://github.com/hirokidaichi/uiflow][uiflow - the simplest way to write down your ui-flow diagram like markdown]]
