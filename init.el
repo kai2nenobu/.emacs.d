@@ -30,7 +30,7 @@
       (defun my-cask-install ()
         (interactive)
         (cask-install my-cask-bundle))
-      (defun my-cask-install ()
+      (defun my-cask-update ()
         (interactive)
         (cask-update my-cask-bundle))
       (require 'pallet nil t))
