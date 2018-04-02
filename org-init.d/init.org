@@ -2516,7 +2516,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
 #+BEGIN_SRC emacs-lisp +n
-(use-package autoit-mode :defer t
+(use-package autoit-mode :defer t :disabled t
   :mode "\\.au3\\'")
 #+END_SRC
 ** js2-mode
@@ -3182,7 +3182,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 - [[http://d.hatena.ne.jp/CortYuming/20111224/p1][Pythonの補完をEmacsでシンプルに最小労力で手早く使えるようにする - 牌語備忘録 - pygo]]
 #+BEGIN_SRC emacs-lisp +n
 ;; (auto-install-from-url "http://chrispoole.com/downloads/ac-python.el")
-(use-package ac-python :defer t
+(use-package ac-python :defer t :disabled t
   :config
   (add-to-list 'ac-modes 'python-mode))
 #+END_SRC
@@ -4616,7 +4616,7 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
 - [[https://github.com/matburt/mobileorg-android/wiki][Android実装]]
 - [[http://mobileorg.ncogni.to/][iOS実装]]
 #+BEGIN_SRC emacs-lisp +n
-(use-package org-mobile :defer t
+(use-package org-mobile :defer t :disabled t
   :init
   (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
   :config
@@ -4659,7 +4659,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 *** org-printer
 org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
-(use-package org-printer :defer t
+(use-package org-printer :defer t :disabled t
   :config
   (setq org-printer-template-file (expand-file-name "template.org" org-directory))
   )
@@ -4767,7 +4767,7 @@ Emacs でMozcを使う．要 mozc-emacs-helper．
 - [[http://www11.atwiki.jp/s-irie/pages/21.html][irie @ ウィキ - ibus.el]]
 Emacsでibusを使えるようにする．これで mozc が使える．
 #+BEGIN_SRC emacs-lisp +n
-(use-package ibus :defer t
+(use-package ibus :defer t :disabled t
   :if (linuxp)
   :config
   ;; Turn on ibus-mode automatically after loading .emacs
