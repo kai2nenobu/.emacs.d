@@ -1867,6 +1867,7 @@ elscreenとの共存が難しそう。
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired+ :defer t
+  :ensure nil
   :init
   (with-eval-after-load 'dired
     (require 'dired+ nil t))
@@ -2435,6 +2436,7 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 - [[https://www.emacswiki.org/emacs/dos-indent.el][dos-indent.el]]
 #+BEGIN_SRC emacs-lisp +n
 (use-package dos-indent :defer t
+  :ensure nil
   :commands dos-indent
   :init
   (with-eval-after-load 'bat-mode
@@ -2694,6 +2696,7 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
 EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package irfc :defer t
+  :ensure nil
   :init
   (set-variable 'irfc-assoc-mode t) ; irfc-modeを自動で有効にする
   :config
@@ -2711,6 +2714,7 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 日本語を考慮して =fill-column= で仮想的に折り返す。
 #+BEGIN_SRC emacs-lisp +n
 (use-package longlines-jp :defer t
+  :ensure nil
   :commands longlines-jp-mode
   :init
   (bind-key "C-j" 'longlines-jp-mode my-original-map)
@@ -2747,6 +2751,7 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 VBの編集用メジャーモード。
 #+BEGIN_SRC emacs-lisp +n
 (use-package visual-basic-mode :defer t
+  :ensure nil
   :mode (("\\.vb\\'"  . visual-basic-mode)
          ("\\.vbs\\'" . visual-basic-mode)
          ("\\.dcm\\'" . visual-basic-mode)
@@ -3265,6 +3270,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 イの優先度を設定したり，アイドル時のみハイライトしたりできる．
 #+BEGIN_SRC emacs-lisp +n
 (use-package hl-line+ :defer t  ; hl-line is also loaded
+  :ensure nil
   :config
   (global-hl-line-mode 1)
   (defface my-hl-line-face
@@ -3620,6 +3626,7 @@ hilight current column.
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/vline.el")
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/col-highlight.el")
 (use-package col-highlight :defer t
+  :ensure nil
   :config
   ;(column-highlight-mode 1)
   ;; 常に on にしとくのはちょっと重すぎるのでコメントアウト
@@ -3676,6 +3683,7 @@ cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 (use-package cygwin-mount
+  :ensure nil
   :if (and (winp) cygwinp)
   :config
   (cygwin-mount-activate))
