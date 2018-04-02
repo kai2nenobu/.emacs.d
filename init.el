@@ -31,7 +31,9 @@
 
 ;; use-packageを利用する（存在しない場合は無視する）
 (if (require 'use-package nil t)
-    (set-variable 'use-package-verbose t)
+    (progn
+      (set-variable 'use-package-verbose t)
+      (set-variable 'use-package-always-ensure t))
   (message "Use-package is unavailable!")
   (defmacro use-package (&rest args)))
 
