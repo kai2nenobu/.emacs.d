@@ -16,6 +16,9 @@
 (setq custom-file (locate-user-emacs-file "init-custom.el"))
 (add-hook 'after-init-hook (lambda () (load custom-file)))
 
+;; プロキシ設定を読み込む refs. https://qiita.com/ytoda129/items/9252678c65187296b9a3
+(load (locate-user-emacs-file "proxy.el") t)
+
 ;; package.el初期設定
 (require 'package nil t)
 ;; location to get package informations

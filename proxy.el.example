@@ -1,0 +1,17 @@
+(require 'url-vars)
+(require 'url-http)
+
+(let ((proxy "proxy.example.com:8080"))
+  (setq url-proxy-services
+        `(("http" . ,proxy)
+          ("https" . ,proxy)))
+
+  ;;; If authentication is required
+  ;; (let ((auth (base64-encode-string (format "%s:%s" "user" "password"))))
+  ;;   (setq url-http-proxy-basic-auth-storage
+  ;;         `(("proxy.example.com:8080" ("Proxy" . ,auth)))))
+  )
+
+;; Local Variables:
+;; mode: emacs-lisp
+;; End:
