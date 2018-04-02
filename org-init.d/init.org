@@ -3038,7 +3038,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   :commands direx:my-jump
   :bind ("C-x C-d" . direx:my-jump)
   :config
-  (use-package direx-project)
   ;; アイコンに画像を使う
   ;(let ((dir (expand-file-name "images/tree-widget/folder/" data-directory)))
   ;  (setq direx:leaf-icon
@@ -3496,26 +3495,6 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
   (setq undo-tree-history-directory-alist
         `(("." . ,(locate-user-emacs-file "undo-hist"))))
   )
-#+END_SRC
-** e2wm.el
-- [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
-  （旧名称 ewm.el） - 技術日記＠kiwanami]]
-IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
-ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
-#+BEGIN_SRC emacs-lisp +n
-;; e2wm.el
-(use-package e2wm
-  :bind ("M-+" . e2wm:start-management)
-  :config
-  (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
-#+END_SRC
-どうも elscreen などのフレーム制御系のライブラリと相性が悪そう．
-*** e2wm-vcs.el
-- [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
-magit 用のパースペクティブ．
-#+BEGIN_SRC emacs-lisp +n
-  ;; e2wm-vcs.el
-  (use-package e2wm-vcs :defer t))
 #+END_SRC
 ** magit.el
 Emacs から git を操作するライブラリ．

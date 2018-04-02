@@ -2801,3 +2801,30 @@ Hit a Hint でカーソル移動するライブラリ．
 #+END_SRC
 
 
+
+** e2wm.el
+:PROPERTIES:
+:ARCHIVE_TIME: 2018-04-03 Tue 01:56
+:ARCHIVE_FILE: ~/.emacs.d/org-init.d/init.org
+:ARCHIVE_OLPATH: 非標準ライブラリ
+:ARCHIVE_CATEGORY: init
+:END:
+- [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
+  （旧名称 ewm.el） - 技術日記＠kiwanami]]
+IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
+ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
+#+BEGIN_SRC emacs-lisp +n
+;; e2wm.el
+(use-package e2wm
+  :bind ("M-+" . e2wm:start-management)
+  :config
+  (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
+#+END_SRC
+どうも elscreen などのフレーム制御系のライブラリと相性が悪そう．
+*** e2wm-vcs.el
+- [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
+magit 用のパースペクティブ．
+#+BEGIN_SRC emacs-lisp +n
+  ;; e2wm-vcs.el
+  (use-package e2wm-vcs :defer t))
+#+END_SRC
