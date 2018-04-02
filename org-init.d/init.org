@@ -4951,12 +4951,6 @@ do nothing. And suppress the output from `message' and
   ;; 情報源のデフォルト値にyasnippet情報源を加える
   (cl-pushnew 'ac-source-yasnippet (default-value 'ac-sources))
 
-  ;; camelCase 補完
-  (use-package ac-camel-case
-    :config
-    (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
-      (add-to-list source (cons 'match 'ac-camel-case-lisp-all-completion))))
-
   )
 
 (my-measure-message-time "Non-standard elisp setting.")
