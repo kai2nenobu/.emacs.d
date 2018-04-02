@@ -2708,7 +2708,7 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+END_SRC
 *** irfc-x
 #+BEGIN_SRC emacs-lisp +n
-(use-package irfc :defer t)
+(use-package irfc :defer t :disabled t)
 #+END_SRC
 ** longlines-jp
 日本語を考慮して =fill-column= で仮想的に折り返す。
