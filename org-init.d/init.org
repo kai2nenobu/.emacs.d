@@ -2427,7 +2427,9 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 
 バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、=docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
 #+BEGIN_SRC emacs-lisp +n
-(use-package docker-tramp-compat)
+(use-package docker-tramp-compat :defer t
+  :ensure docker-tramp
+  )
 #+END_SRC
 ** dos-inent
 - [[https://www.emacswiki.org/emacs/dos-indent.el][dos-indent.el]]
@@ -3532,8 +3534,8 @@ Emacs から git を操作するライブラリ．
     ?n "Amend --no-edit" 'magit-commit-amend-noedit)
   ;; git log に --first-parent オプションを指定できるようにする
   (let ((switches (plist-get magit-log-popup :switches))
-        (new-switch (?f "Show only the first parent commit" "--first-parent")))
-    (plist-put magit-log-popup :switches (cons 'new-switch switches)))
+        (new-switch '(?f "Show only the first parent commit" "--first-parent")))
+    (plist-put magit-log-popup :switches (cons new-switch switches)))
   ;; `markdown-mode' でコミットメッセージを編集する
   (when (locate-library "markdown-mode")
     (setq git-commit-major-mode 'markdown-mode))
@@ -3741,6 +3743,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-config
+  :ensure helm
   :config
   (helm-mode 1)
 
@@ -3908,6 +3911,7 @@ helm-c-apropos は複数の関数による情報源でできているので，�
 mark-ring が helm でたどれる．mark がよくわからなくなった時に使える．
 #+BEGIN_SRC emacs-lisp +n
   (use-package helm-ring
+    :ensure helm
     :config
     (push '(migemo) helm-source-mark-ring)
     (push '(migemo) helm-source-global-mark-ring)
@@ -3934,6 +3938,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 ** helm-locate
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-locate :defer t
+  :ensure helm
   :if (executable-find "locate")
   :config
   (setq helm-locate-command "locate %s -e -A %s"))
@@ -4361,6 +4366,7 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 *** helm-buffers
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-buffers :defer t
+  :ensure helm
   :config
   (setq helm-buffer-max-length nil) ; ファイル名の表示幅。nilなら一番長いファイル名に合わせる
   )
@@ -4389,6 +4395,7 @@ git管理下のファイルのhelmソース。
 *** ox-html
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-html :defer t
+  :ensure org
   :config
   (setq org-html-coding-system 'utf-8)
   (setq org-html-htmlize-output-type 'css)
@@ -4528,6 +4535,7 @@ The html link is determined from `org-export-html-my-info-link-alist'."
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package ob-core :defer t
+  :ensure org
   :config
   (defvar org-my-evaluatable-languages nil
     "Evaluatable languages in org src block without confirmation")
@@ -4542,6 +4550,7 @@ org-babelを利用するとorg文書中のプログラムを評価してごに�
 orgドキュメント内で様々なヒントをミニバッファに表示する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package org-eldoc :defer t
+  :ensure org-plus-contrib
   :init
   (add-hook 'org-mode-hook #'eldoc-mode)
   :config
@@ -4671,7 +4680,7 @@ org-modeのexport機能を使って印刷する。
 *** org-habit
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'org
-  (use-package org-habit))
+  (use-package org-habit :ensure org))
 #+END_SRC
 ** google-maps.el
 Google Map を表示する．
@@ -4921,6 +4930,7 @@ do nothing. And suppress the output from `message' and
 ポップアップメニューで自動補完．
 #+BEGIN_SRC emacs-lisp +n
 (use-package auto-complete-config
+  :ensure auto-complete
   :config
   (ac-config-default)
   ;; メジャーモードに関する辞書
