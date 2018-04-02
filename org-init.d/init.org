@@ -1784,6 +1784,7 @@ shift+カーソルキー でウィンドウを移動する．
 ロードさないので、 =windows-system= で条件分岐が必要。
 #+BEGIN_SRC emacs-lisp +n
 (use-package scroll-bar
+  :ensure nil
   :if window-system
   :config
   (scroll-bar-mode -1)
@@ -1834,6 +1835,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** lisp-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package lisp-mode :defer t
+  :ensure nil
   :config
   (defun emacs-lisp-configuration ()
      (setq tab-width 8))
@@ -1848,6 +1850,7 @@ elscreenとの共存が難しそう。
 ** dired.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired :defer t
+  :ensure nil
   :config
   (bind-key "M-p" nil dired-mode-map)
   (bind-key "M-n" nil dired-mode-map)
@@ -1867,6 +1870,7 @@ elscreenとの共存が難しそう。
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired+ :defer t
+  :ensure nil
   :init
   (with-eval-after-load 'dired
     (require 'dired+ nil t))
@@ -2396,6 +2400,7 @@ info を Emacs で読む．
 かぶったときわかり易くなる．
 #+BEGIN_SRC emacs-lisp +n
 (use-package uniquify
+  :ensure nil
   :config
   ;; filename<dir> 形式のバッファ名にする
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -2427,12 +2432,15 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 
 バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、=docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
 #+BEGIN_SRC emacs-lisp +n
-(use-package docker-tramp-compat)
+(use-package docker-tramp-compat :defer t
+  :ensure docker-tramp
+  )
 #+END_SRC
 ** dos-inent
 - [[https://www.emacswiki.org/emacs/dos-indent.el][dos-indent.el]]
 #+BEGIN_SRC emacs-lisp +n
 (use-package dos-indent :defer t
+  :ensure nil
   :commands dos-indent
   :init
   (with-eval-after-load 'bat-mode
@@ -2514,7 +2522,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 ** autoit-mode
 [[https://www.autoitscript.com/site/autoit/][AutoIt]]のスクリプトを編集するメジャーモード。
 #+BEGIN_SRC emacs-lisp +n
-(use-package autoit-mode :defer t
+(use-package autoit-mode :defer t :disabled t
   :mode "\\.au3\\'")
 #+END_SRC
 ** js2-mode
@@ -2692,6 +2700,7 @@ Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= 
 EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package irfc :defer t
+  :ensure nil
   :init
   (set-variable 'irfc-assoc-mode t) ; irfc-modeを自動で有効にする
   :config
@@ -2703,12 +2712,13 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 #+END_SRC
 *** irfc-x
 #+BEGIN_SRC emacs-lisp +n
-(use-package irfc :defer t)
+(use-package irfc :defer t :disabled t)
 #+END_SRC
 ** longlines-jp
 日本語を考慮して =fill-column= で仮想的に折り返す。
 #+BEGIN_SRC emacs-lisp +n
 (use-package longlines-jp :defer t
+  :ensure nil
   :commands longlines-jp-mode
   :init
   (bind-key "C-j" 'longlines-jp-mode my-original-map)
@@ -2745,6 +2755,7 @@ EmacsでRFCを閲覧する。RFCのダウンロードもしてくれる。
 VBの編集用メジャーモード。
 #+BEGIN_SRC emacs-lisp +n
 (use-package visual-basic-mode :defer t
+  :ensure nil
   :mode (("\\.vb\\'"  . visual-basic-mode)
          ("\\.vbs\\'" . visual-basic-mode)
          ("\\.dcm\\'" . visual-basic-mode)
@@ -2802,7 +2813,7 @@ VBの編集用メジャーモード。
 #+END_SRC
 ** zeal-at-point
 #+BEGIN_SRC emacs-lisp +n
-(use-package zeal :defer t
+(use-package zeal-at-point :defer t
   :init
   (bind-key "d" 'zeal-at-point mode-specific-map))
 #+END_SRC
@@ -3027,7 +3038,6 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   :commands direx:my-jump
   :bind ("C-x C-d" . direx:my-jump)
   :config
-  (use-package direx-project)
   ;; アイコンに画像を使う
   ;(let ((dir (expand-file-name "images/tree-widget/folder/" data-directory)))
   ;  (setq direx:leaf-icon
@@ -3180,7 +3190,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 - [[http://d.hatena.ne.jp/CortYuming/20111224/p1][Pythonの補完をEmacsでシンプルに最小労力で手早く使えるようにする - 牌語備忘録 - pygo]]
 #+BEGIN_SRC emacs-lisp +n
 ;; (auto-install-from-url "http://chrispoole.com/downloads/ac-python.el")
-(use-package ac-python :defer t
+(use-package ac-python :defer t :disabled t
   :config
   (add-to-list 'ac-modes 'python-mode))
 #+END_SRC
@@ -3263,6 +3273,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 イの優先度を設定したり，アイドル時のみハイライトしたりできる．
 #+BEGIN_SRC emacs-lisp +n
 (use-package hl-line+ :defer t  ; hl-line is also loaded
+  :ensure nil
   :config
   (global-hl-line-mode 1)
   (defface my-hl-line-face
@@ -3485,26 +3496,6 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
         `(("." . ,(locate-user-emacs-file "undo-hist"))))
   )
 #+END_SRC
-** e2wm.el
-- [[http://d.hatena.ne.jp/kiwanami/20100528/1275038929][広くなった画面を有効利用できる、Emacs内Window管理ツール e2wm.el を作ってみた。
-  （旧名称 ewm.el） - 技術日記＠kiwanami]]
-IDE的なウィンドウ管理をしてくれるライブラリ．設定されているレイアウトに従って
-ウィンドウが配置され，他のレイアウトにも簡単に切り替えたりできる．
-#+BEGIN_SRC emacs-lisp +n
-;; e2wm.el
-(use-package e2wm
-  :bind ("M-+" . e2wm:start-management)
-  :config
-  (setq e2wm:override-window-ext-managed t) ; elscreen とかを使っている場合は t とのこと
-#+END_SRC
-どうも elscreen などのフレーム制御系のライブラリと相性が悪そう．
-*** e2wm-vcs.el
-- [[http://d.hatena.ne.jp/kiwanami/20110702/1309592243][e2wm の magit パースペクティブ - 技術日記＠kiwanami]]
-magit 用のパースペクティブ．
-#+BEGIN_SRC emacs-lisp +n
-  ;; e2wm-vcs.el
-  (use-package e2wm-vcs :defer t))
-#+END_SRC
 ** magit.el
 Emacs から git を操作するライブラリ．
 #+BEGIN_SRC emacs-lisp +n
@@ -3532,8 +3523,8 @@ Emacs から git を操作するライブラリ．
     ?n "Amend --no-edit" 'magit-commit-amend-noedit)
   ;; git log に --first-parent オプションを指定できるようにする
   (let ((switches (plist-get magit-log-popup :switches))
-        (new-switch (?f "Show only the first parent commit" "--first-parent")))
-    (plist-put magit-log-popup :switches (cons 'new-switch switches)))
+        (new-switch '(?f "Show only the first parent commit" "--first-parent")))
+    (plist-put magit-log-popup :switches (cons new-switch switches)))
   ;; `markdown-mode' でコミットメッセージを編集する
   (when (locate-library "markdown-mode")
     (setq git-commit-major-mode 'markdown-mode))
@@ -3618,6 +3609,7 @@ hilight current column.
 ;;; (auto-install-from-url "http://www.emacswiki.org/cgi-bin/wiki/download/vline.el")
 ;;; (auto-install-from-url "http://www.emacswiki.org/emacs/download/col-highlight.el")
 (use-package col-highlight :defer t
+  :ensure nil
   :config
   ;(column-highlight-mode 1)
   ;; 常に on にしとくのはちょっと重すぎるのでコメントアウト
@@ -3674,6 +3666,7 @@ cygwin のパスを使えるようにする．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://home.avvanta.com/~offby1/cygwin-mount/cygwin-mount.el")
 (use-package cygwin-mount
+  :ensure nil
   :if (and (winp) cygwinp)
   :config
   (cygwin-mount-activate))
@@ -3741,6 +3734,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-config
+  :ensure helm
   :config
   (helm-mode 1)
 
@@ -3908,6 +3902,7 @@ helm-c-apropos は複数の関数による情報源でできているので，�
 mark-ring が helm でたどれる．mark がよくわからなくなった時に使える．
 #+BEGIN_SRC emacs-lisp +n
   (use-package helm-ring
+    :ensure helm
     :config
     (push '(migemo) helm-source-mark-ring)
     (push '(migemo) helm-source-global-mark-ring)
@@ -3934,6 +3929,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 ** helm-locate
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-locate :defer t
+  :ensure helm
   :if (executable-find "locate")
   :config
   (setq helm-locate-command "locate %s -e -A %s"))
@@ -4361,6 +4357,7 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 *** helm-buffers
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-buffers :defer t
+  :ensure helm
   :config
   (setq helm-buffer-max-length nil) ; ファイル名の表示幅。nilなら一番長いファイル名に合わせる
   )
@@ -4389,6 +4386,7 @@ git管理下のファイルのhelmソース。
 *** ox-html
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-html :defer t
+  :ensure org
   :config
   (setq org-html-coding-system 'utf-8)
   (setq org-html-htmlize-output-type 'css)
@@ -4528,6 +4526,7 @@ The html link is determined from `org-export-html-my-info-link-alist'."
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package ob-core :defer t
+  :ensure org
   :config
   (defvar org-my-evaluatable-languages nil
     "Evaluatable languages in org src block without confirmation")
@@ -4542,6 +4541,7 @@ org-babelを利用するとorg文書中のプログラムを評価してごに�
 orgドキュメント内で様々なヒントをミニバッファに表示する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package org-eldoc :defer t
+  :ensure org-plus-contrib
   :init
   (add-hook 'org-mode-hook #'eldoc-mode)
   :config
@@ -4607,7 +4607,7 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
 - [[https://github.com/matburt/mobileorg-android/wiki][Android実装]]
 - [[http://mobileorg.ncogni.to/][iOS実装]]
 #+BEGIN_SRC emacs-lisp +n
-(use-package org-mobile :defer t
+(use-package org-mobile :defer t :disabled t
   :init
   (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
   :config
@@ -4650,7 +4650,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 *** org-printer
 org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
-(use-package org-printer :defer t
+(use-package org-printer :defer t :disabled t
   :config
   (setq org-printer-template-file (expand-file-name "template.org" org-directory))
   )
@@ -4671,7 +4671,7 @@ org-modeのexport機能を使って印刷する。
 *** org-habit
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'org
-  (use-package org-habit))
+  (use-package org-habit :ensure org))
 #+END_SRC
 ** google-maps.el
 Google Map を表示する．
@@ -4758,7 +4758,7 @@ Emacs でMozcを使う．要 mozc-emacs-helper．
 - [[http://www11.atwiki.jp/s-irie/pages/21.html][irie @ ウィキ - ibus.el]]
 Emacsでibusを使えるようにする．これで mozc が使える．
 #+BEGIN_SRC emacs-lisp +n
-(use-package ibus :defer t
+(use-package ibus :defer t :disabled t
   :if (linuxp)
   :config
   ;; Turn on ibus-mode automatically after loading .emacs
@@ -4921,6 +4921,7 @@ do nothing. And suppress the output from `message' and
 ポップアップメニューで自動補完．
 #+BEGIN_SRC emacs-lisp +n
 (use-package auto-complete-config
+  :ensure auto-complete
   :config
   (ac-config-default)
   ;; メジャーモードに関する辞書
@@ -4950,12 +4951,6 @@ do nothing. And suppress the output from `message' and
 
   ;; 情報源のデフォルト値にyasnippet情報源を加える
   (cl-pushnew 'ac-source-yasnippet (default-value 'ac-sources))
-
-  ;; camelCase 補完
-  (use-package ac-camel-case
-    :config
-    (dolist (source '(ac-source-variables ac-source-features ac-source-functions ac-source-symbols))
-      (add-to-list source (cons 'match 'ac-camel-case-lisp-all-completion))))
 
   )
 

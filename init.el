@@ -16,29 +16,24 @@
 (setq custom-file (locate-user-emacs-file "init-custom.el"))
 (add-hook 'after-init-hook (lambda () (load custom-file)))
 
-;; package.el初期設定
-(when (require 'package nil t)
-  ;; location to get package informations
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
+;; プロキシ設定を読み込む refs. https://qiita.com/ytoda129/items/9252678c65187296b9a3
+(load (locate-user-emacs-file "proxy.el") t)
 
-;; caskかpackageのどちらかで初期化
-(if (file-exists-p "~/.cask/cask.el")
-    (progn
-      (require 'cask "~/.cask/cask.el")
-      (defvar my-cask-bundle (cask-initialize) "My cask-bundle object")
-      (defun my-cask-install ()
-        (interactive)
-        (cask-install my-cask-bundle))
-      (defun my-cask-update ()
-        (interactive)
-        (cask-update my-cask-bundle))
-      (require 'pallet nil t))
-  (package-initialize))
+;; package.el初期設定
+(require 'package nil t)
+;; location to get package informations
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+
+(package-initialize)
+(package-refresh-contents)
+(package-install 'use-package)
 
 ;; use-packageを利用する（存在しない場合は無視する）
 (if (require 'use-package nil t)
-    (set-variable 'use-package-verbose t)
+    (progn
+      (set-variable 'use-package-verbose t)
+      (set-variable 'use-package-always-ensure t))
   (message "Use-package is unavailable!")
   (defmacro use-package (&rest args)))
 
