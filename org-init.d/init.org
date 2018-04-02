@@ -2802,7 +2802,7 @@ VBの編集用メジャーモード。
 #+END_SRC
 ** zeal-at-point
 #+BEGIN_SRC emacs-lisp +n
-(use-package zeal :defer t
+(use-package zeal-at-point :defer t
   :init
   (bind-key "d" 'zeal-at-point mode-specific-map))
 #+END_SRC
