@@ -1784,6 +1784,7 @@ shift+カーソルキー でウィンドウを移動する．
 ロードさないので、 =windows-system= で条件分岐が必要。
 #+BEGIN_SRC emacs-lisp +n
 (use-package scroll-bar
+  :ensure nil
   :if window-system
   :config
   (scroll-bar-mode -1)
@@ -1834,6 +1835,7 @@ shift+カーソルキー でウィンドウを移動する．
 ** lisp-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package lisp-mode :defer t
+  :ensure nil
   :config
   (defun emacs-lisp-configuration ()
      (setq tab-width 8))
@@ -1848,6 +1850,7 @@ elscreenとの共存が難しそう。
 ** dired.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired :defer t
+  :ensure nil
   :config
   (bind-key "M-p" nil dired-mode-map)
   (bind-key "M-n" nil dired-mode-map)
@@ -2397,6 +2400,7 @@ info を Emacs で読む．
 かぶったときわかり易くなる．
 #+BEGIN_SRC emacs-lisp +n
 (use-package uniquify
+  :ensure nil
   :config
   ;; filename<dir> 形式のバッファ名にする
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
