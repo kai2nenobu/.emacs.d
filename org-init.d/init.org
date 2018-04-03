@@ -3468,7 +3468,7 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 括弧の対応を保持して編集．
 #+BEGIN_SRC emacs-lisp +n
 ;;; (auto-install-from-url "http://mumble.net/~campbell/emacs/paredit.el")
-(use-package paredit
+(use-package paredit :disabled t
   :config
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
