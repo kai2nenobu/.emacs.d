@@ -201,7 +201,7 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
   (defvar my-default-font nil "Default font family")
-  (defvar my-font-alist '(("Ricty" . 15) ("ＭＳ ゴシック" . 12) ("hoge" . 3))
+  (defvar my-font-alist '(("Ricty" . 15) ("Ricty Diminished" . 15) ("ＭＳ ゴシック" . 12) ("hoge" . 3))
     "Alist of a font family and size")
   (cl-loop for (font . size) in my-font-alist
            when (member font (font-family-list))
