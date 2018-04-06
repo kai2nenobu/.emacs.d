@@ -3,10 +3,10 @@
 
 * フォルダ構成
 
-| パス        | 役割                                                                                         |
-|-------------+----------------------------------------------------------------------------------------------|
-| [[file:init.el][init.el]]     | Emacs設定ファイル。基本的な設定のみを記述し、本格的な設定は [[file:org-init.d/init.org][org-init.d/init.org]] に記述する。 |
-| [[file:org-init.d/][org-init.d/]] | Org-modeで書いた設定ファイル                                                                 |
-| [[file:my-lisp/][my-lisp/]]    | 自作elisp                                                                                    |
-| [[file:site-lisp/][site-lisp/]]  | package.el ではダウンロードできない非標準ライブラリを配置                                    |
-| [[file:snippets/][snippets/]]   | yasnippetのスニペット                                                                        |
+| パス        | 役割                                                                                       |
+|-------------+--------------------------------------------------------------------------------------------|
+| [[file:init.el][init.el]]     | Emacs設定ファイル。基本的な設定のみを記述し、主要な設定は [[file:org-init.d/init.org][org-init.d/init.org]] に記述する。 |
+| [[file:org-init.d/][org-init.d/]] | Org-modeで書いた設定ファイル。主要な設定はこちらに配置する。                               |
+| [[file:my-lisp/][my-lisp/]]    | 自作elisp                                                                                  |
+| [[file:site-lisp/][site-lisp/]]  | package.el ではダウンロードできない非標準ライブラリ                                        |
+| [[file:snippets/][snippets/]]   | yasnippetのスニペット                                                                      |
