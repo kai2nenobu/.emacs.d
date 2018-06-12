@@ -24,10 +24,11 @@
 ;; location to get package informations
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-
 (package-initialize)
-(package-refresh-contents)
-(package-install 'use-package)
+
+;; use-packageをインストールする
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
 ;; use-packageを利用する（存在しない場合は無視する）
 (if (require 'use-package nil t)
