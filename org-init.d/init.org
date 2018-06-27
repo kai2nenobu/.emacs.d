@@ -212,7 +212,8 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
            until (member font (font-family-list)))
   (defvar my-current-font-size my-default-font-size "Current font size")
   (when my-default-font
-    (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t))
+    (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t)
+    (set-face-attribute 'fixed-pitch nil :family my-default-font))
   )
 
 ;;; list-faces-display 用の文字列
