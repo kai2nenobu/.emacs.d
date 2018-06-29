@@ -2392,6 +2392,8 @@ info を Emacs で読む．
   :config
   ;; 保存しないファイルの正規表現
   (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
+  ;; フレーム情報（フォントも含む）をリストアしない
+  (set-variable 'desktop-restore-frames nil)
   ;; Emacs起動直後にリストアするファイル数。残りは遅延してリストアされる
   (set-variable 'desktop-restore-eager 1)
   (set-variable 'desktop-load-locked-desktop t) ;; load even if desktop file is locked
