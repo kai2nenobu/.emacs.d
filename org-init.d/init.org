@@ -2431,7 +2431,16 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 #+END_SRC
 
 なんか別のマイナーモードとかと競合してる感があり、うまく =emoji-cheat-sheet-plus-display-mode= で画像が表示されないケースがある。Windowsだからだろうか。
-** docker-tramp
+** docker
+*** dockerfile-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package dockerfile-mode :defer t)
+#+END_SRC
+*** docker-compose-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package docker-compose-mode :defer t)
+#+END_SRC
+*** docker-tramp
 コンテナ内のファイルをTRAMPでいじれるライブラリ。=C-x C-f /docker:user@container:/path/to/file= でコンテナ内のファイルにアクセスできるようになる。
 
 バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、=docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
