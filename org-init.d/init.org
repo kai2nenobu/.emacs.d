@@ -2415,6 +2415,11 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** yaml-mode
+#+BEGIN_SRC emacs-lisp +n
+(use-package yaml-mode :defer t
+  :mode "\\.yml\\'")
+#+END_SRC
 ** emoji-cheat-sheet-plus
 - [[https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus][Browse, insert and display Emoji emoticons in Emacs 💖]]
 
@@ -3422,8 +3427,8 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 
   (with-eval-after-load 'org
     (smartrep-define-key
-        org-mode-map "C-c" '(("C-n" . outline-next-visible-heading)
-                             ("C-p" . outline-previous-visible-heading)
+        org-mode-map "C-c" '(("C-n" . org-next-visible-heading)
+                             ("C-p" . org-previous-visible-heading)
                              ("C-f" . (org-forward-heading-same-level 1))
                              ("C-b" . (org-backward-heading-same-level 1))
                              ("C-u" . outline-up-heading)))
