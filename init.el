@@ -28,6 +28,7 @@
 
 ;; use-packageをインストールする
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
 
 ;; use-packageを利用する（存在しない場合は無視する）
