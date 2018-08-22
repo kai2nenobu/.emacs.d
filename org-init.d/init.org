@@ -1799,6 +1799,43 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** browse-url
+Emacsとブラウザ連携のためのelisp。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package browse-url :defer t
+  :ensure nil  ; built-in
+  :init
+  (defun my-switch-browser ()
+    "Switch a browser to open a url from Emacs."
+    (interactive)
+    (let* ((browser-alist '(("default" . browse-url-default-browser)
+                            ("Firefox" . browse-url-firefox)
+                            ("Chrome" . browse-url-chrome)
+                            ;; TODO: no browser function for IE
+                            ("IE" . browse-url-*)
+                            ("W3" . browse-url-w3)))
+           (browser (completing-read "Select a browser: "
+                                     (mapcar #'car browser-alist)
+                                     nil t)))
+      (if browser
+          (progn
+            (message "Use %s browser in Emacs!" browser)
+            (set 'browse-url-browser-function (assoc-default browser browser-alist)))
+        (message "Nothing to do"))))
+  :config
+  ;; Search browser programs in Windows
+  (let* ((pf (or (getenv "PROGRAMFILES(x86)") (getenv "PROGRAMFILES")))
+         (firefox (expand-file-name "Mozilla Firefox/firefox.exe" pf))
+         (chrome (expand-file-name "Google/Chrome/Application/chrome.exe" pf)))
+    (when (file-exists-p firefox)
+      (message "Use Firefox at %s" firefox)
+      (set 'browse-url-firefox-program firefox))
+    (when (file-exists-p chrome)
+      (message "Use Chrome at %s" chrome)
+      (set 'browse-url-chrome-program chrome)))
+  )
+#+END_SRC
 ** bat-mode
 バッチファイル編集用のメジャーモード。[2016-11-17 Thu]時点でいつの間にか標準ライブラリに含まれていた。
 #+BEGIN_SRC emacs-lisp +n
