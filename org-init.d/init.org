@@ -294,6 +294,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
   "My original keymap binded to C-q.")
 (defalias 'my-original-prefix my-original-map)
 (global-set-key (kbd "C-q") 'my-original-prefix)
+(define-key my-original-map (kbd "a") 'toggle-frame-alpha)
 (define-key my-original-map (kbd "C-q") 'quoted-insert)
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
 (define-key my-original-map (kbd "C-l") 'linum-mode)
