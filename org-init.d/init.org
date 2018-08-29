@@ -404,8 +404,8 @@ https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_
           ((string-prefix-p "utf-16" name) "U16")
           ((string-prefix-p "utf-7" name) "U7")
           ((string-prefix-p "japanese-shift-jis" name) "SJIS")
-          ((string-prefix-p "euc" name) "EUC")
           ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
+          ((string-match "japanese-iso-8bit" name) "EUC")
           (t "???")
           )))
 
