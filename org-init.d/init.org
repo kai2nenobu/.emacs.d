@@ -297,7 +297,9 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (define-key my-original-map (kbd "a") 'toggle-frame-alpha)
 (define-key my-original-map (kbd "C-q") 'quoted-insert)
 (define-key my-original-map (kbd "C-t") 'toggle-truncate-lines)
-(define-key my-original-map (kbd "C-l") 'linum-mode)
+(define-key my-original-map (kbd "C-l") (if (>= emacs-major-version 26)
+                                            'display-line-numbers-mode
+                                          'linum-mode))
 (define-key my-original-map (kbd "C-w") 'delete-trailing-whitespace)
 (define-key my-original-map (kbd "DEL") 'horizontal-scroll-bar-mode)
 (defun my-revert-buffer-noconfirm ()
