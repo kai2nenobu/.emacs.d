@@ -2457,6 +2457,12 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** ahk-mode
+AutoHotkeyスクリプトのメジャーモード
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package ahk-mode :defer t)
+#+END_SRC
 ** yaml-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package yaml-mode :defer t
