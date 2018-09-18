@@ -1827,13 +1827,20 @@ Emacsとブラウザ連携のためのelisp。
         (message "Nothing to do"))))
   :config
   ;; Search browser programs in Windows
-  (let* ((pf (or (getenv "PROGRAMFILES(x86)") (getenv "PROGRAMFILES")))
-         (firefox (expand-file-name "Mozilla Firefox/firefox.exe" pf))
-         (chrome (expand-file-name "Google/Chrome/Application/chrome.exe" pf)))
-    (when (file-exists-p firefox)
+  (let* ((pfs (list (getenv "PROGRAMFILES") (getenv "PROGRAMFILES(x86)")))
+         (firefox (cl-loop for location
+                           in (mapcar (lambda (it) (expand-file-name "Mozilla Firefox/firefox.exe" it))
+                                      pfs)
+                           until (file-exists-p location)
+                           finally return location))
+         (chrome (cl-loop for location
+                          in (mapcar (lambda (it) (expand-file-name "Google/Chrome/Application/chrome.exe" it)) pfs)
+                          until (file-exists-p location)
+                          finally return location)))
+    (when firefox
       (message "Use Firefox at %s" firefox)
       (set 'browse-url-firefox-program firefox))
-    (when (file-exists-p chrome)
+    (when chrome
       (message "Use Chrome at %s" chrome)
       (set 'browse-url-chrome-program chrome)))
   )
