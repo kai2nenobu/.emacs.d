@@ -1808,14 +1808,28 @@ Emacsとブラウザ連携のためのelisp。
 (use-package browse-url :defer t
   :ensure nil  ; built-in
   :init
+  ;; My functions to open in IE
+  (defvar my-browse-url-ie-program "iexplore.exe")
+  (defvar my-browse-url-ie-arguments nil)
+  (defun my-browse-url-ie (url &optional new-window)
+    "Vist URL in IE. NEW-WINDOW is ignored."
+    (interactive (browse-url-interactive-arg "URL: "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply 'start-process
+             (concat "IE " url) nil
+             my-browse-url-ie-program
+             (append
+              my-browse-url-ie-arguments
+              (list url)))))
+  ;; Command to switch a browser
   (defun my-switch-browser ()
     "Switch a browser to open a url from Emacs."
     (interactive)
     (let* ((browser-alist '(("default" . browse-url-default-browser)
                             ("Firefox" . browse-url-firefox)
                             ("Chrome" . browse-url-chrome)
-                            ;; TODO: no browser function for IE
-                            ("IE" . browse-url-*)
+                            ("IE" . my-browse-url-ie)
                             ("W3" . browse-url-w3)))
            (browser (completing-read "Select a browser: "
                                      (mapcar #'car browser-alist)
@@ -1824,7 +1838,7 @@ Emacsとブラウザ連携のためのelisp。
           (progn
             (message "Use %s browser in Emacs!" browser)
             (set 'browse-url-browser-function (assoc-default browser browser-alist)))
-        (message "Nothing to do"))))
+            (message "Nothing to do"))))
   :config
   ;; Search browser programs in Windows
   (let* ((pfs (list (getenv "PROGRAMFILES") (getenv "PROGRAMFILES(x86)")))
@@ -1836,13 +1850,21 @@ Emacsとブラウザ連携のためのelisp。
          (chrome (cl-loop for location
                           in (mapcar (lambda (it) (expand-file-name "Google/Chrome/Application/chrome.exe" it)) pfs)
                           until (file-exists-p location)
-                          finally return location)))
+                          finally return location))
+         (ie (cl-loop for location
+                      in (mapcar (lambda (it) (expand-file-name "Internet Explorer/iexplore.exe" it))
+                                 pfs)
+                      until (file-exists-p location)
+                      finally return location)))
     (when firefox
       (message "Use Firefox at %s" firefox)
       (set 'browse-url-firefox-program firefox))
     (when chrome
       (message "Use Chrome at %s" chrome)
-      (set 'browse-url-chrome-program chrome)))
+      (set 'browse-url-chrome-program chrome))
+    (when ie
+      (message "Use Internet Explorer at %s" ie)
+      (set 'my-browse-url-ie-program ie)))
   )
 #+END_SRC
 ** bat-mode
