@@ -2399,6 +2399,8 @@ info を Emacs で読む．
   (define-key Info-mode-map (kbd "B") 'Info-history-back)
   (define-key Info-mode-map (kbd "j") 'next-line)
   (define-key Info-mode-map (kbd "k") 'previous-line)
+  (define-key Info-mode-map (kbd "<f3>") 'Info-search-next)
+  (define-key Info-mode-map (kbd "s-<f3>") 'Info-search-previous)
   (add-to-list 'Info-default-directory-list "/usr/share/info/" t)
 #+END_SRC
 *** info で Hit a Hint
