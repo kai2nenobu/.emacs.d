@@ -1807,7 +1807,7 @@ Emacsとブラウザ連携のためのelisp。
 #+BEGIN_SRC emacs-lisp +n
 (use-package browse-url :defer t
   :ensure nil  ; built-in
-  :init
+  :config
   ;; My functions to open in IE
   (defvar my-browse-url-ie-program "iexplore.exe")
   (defvar my-browse-url-ie-arguments nil)
@@ -1838,8 +1838,7 @@ Emacsとブラウザ連携のためのelisp。
           (progn
             (message "Use %s browser in Emacs!" browser)
             (set 'browse-url-browser-function (assoc-default browser browser-alist)))
-            (message "Nothing to do"))))
-  :config
+        (message "Nothing to do"))))
   ;; Search browser programs in Windows
   (let* ((pfs (list (getenv "PROGRAMFILES") (getenv "PROGRAMFILES(x86)")))
          (firefox (cl-loop for location
