@@ -328,6 +328,26 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** JSON文字列として正しくエスケープする
+#+BEGIN_SRC emacs-lisp +n
+(defun my-json-escape ()
+  "Escape string as a valid JSON string."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\\\" nil :noerror)
+      (replace-match "\\\\" nil t)))
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\"" nil :noerror)
+      (replace-match "\\\"" nil t)))
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\n" nil :noerror)
+      (replace-match "\\n" nil t)))
+  )
+#+END_SRC
+
 ** shell-sesison-mode でシェルの実行の様子をハイライトする
 GitHubとかGitLabだとコードブロックに =shell-session= という言語名をつけるといい感じにシェルでのコマンド実行とその出力をシンタックスハイライトしてくれる。
 
