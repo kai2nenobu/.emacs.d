@@ -2695,13 +2695,13 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 なぜかplantuml.jarでUMLテキストを画像ファイルに変換するコマンドが定義されていないので =plantuml-execute= コマンドを自前で定義した。
 #+BEGIN_SRC emacs-lisp +n
 (use-package plantuml-mode :defer t
-  :if (file-readable-p (expand-file-name "~/bin/plantuml.jar"))
+  :if (file-readable-p "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
   :mode (("\\.plu\\'" . plantuml-mode)
          ("\\.uml\\'" . plantuml-mode))
   :init
   ;; 本来は :config 中に書きたいところだけど `plantuml-jar-path' と `plantuml-mode-map' が
   ;; 設定されていないと plantuml-mode.el のロードに失敗するので、あらかじめここで設定しておく
-  (setq plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
+  (setq plantuml-jar-path "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
   (setq plantuml-mode-map (make-sparse-keymap))
   :config
   (defun plantuml-execute ()
