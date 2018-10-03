@@ -2697,11 +2697,8 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 (use-package plantuml-mode :defer t
   :if (file-readable-p "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
   :mode (("\\.uml\\'" . plantuml-mode))
-  :init
-  ;; 本来は :config 中に書きたいところだけど `plantuml-jar-path' と `plantuml-mode-map' が
-  ;; 設定されていないと plantuml-mode.el のロードに失敗するので、あらかじめここで設定しておく
-  (setq plantuml-jar-path "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
   :config
+  (set-variable 'plantuml-jar-path "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
   ;; org-babelと連携
   (with-eval-after-load 'org
     ;; plantumlソースブロックを評価可能にする
