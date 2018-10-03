@@ -4644,6 +4644,11 @@ org-babelを利用するとorg文書中のプログラムを評価してごに�
   (defun org-my-confirmation-function (lang body)
     (not (member lang org-my-evaluatable-languages)))
   (setq org-confirm-babel-evaluate #'org-my-confirmation-function)
+  ;; babelで評価した後にインライン画像を再描画する。plantumlで画像を生成したときとかね
+  (defun my-redisplay-org-inline-images ()
+    (when org-inline-image-overlays
+      (org-redisplay-inline-images)))
+  (add-hook 'org-babel-after-execute-hook #'my-redisplay-org-inline-images)
   )
 #+END_SRC
 *** org-eldoc
