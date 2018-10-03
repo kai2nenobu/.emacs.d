@@ -2706,6 +2706,8 @@ tssは =json-mode= に依存しているのでここでロードしておく。
                                  (cons '(plantuml . t) org-babel-load-languages)))
   (with-eval-after-load 'ob-plantuml
     (setq org-plantuml-jar-path plantuml-jar-path)
+    (add-to-list 'org-babel-default-header-args:plantuml
+                 (cons :cmdline "-charset UTF-8"))
     (add-to-list 'org-my-evaluatable-languages "plantuml"))
   )
 #+END_SRC
