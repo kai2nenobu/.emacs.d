@@ -2710,7 +2710,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
                  (cons :cmdline "-charset UTF-8"))
     (add-to-list 'org-my-evaluatable-languages "plantuml"))
     ;; @startuml～@enduml で囲まないように `org-babel-plantuml-make-body' を上書きする
-    (defalias org-bable-plantuml-make-body-original #'org-babel-plantuml-make-body)
+    (defalias 'org-bable-plantuml-make-body-original #'org-babel-plantuml-make-body)
     (defun org-babel-plantuml-make-body (body params)
       "Not surround with @startuml/@enduml"
       (org-babel-expand-body:generic
