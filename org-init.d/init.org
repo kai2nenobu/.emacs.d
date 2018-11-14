@@ -2535,7 +2535,11 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 ** docker
 *** dockerfile-mode
 #+BEGIN_SRC emacs-lisp +n
-(use-package dockerfile-mode :defer t)
+(use-package dockerfile-mode :defer t
+  :init
+  ;; Open "*.dockerfile" with `dockerfile-mode'
+  (add-to-list 'auto-mode-alist '("\\.[Dd]ockerfile\\'" . dockerfile-mode))
+  )
 #+END_SRC
 *** docker-compose-mode
 #+BEGIN_SRC emacs-lisp +n
