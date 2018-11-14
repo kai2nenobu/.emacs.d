@@ -3452,6 +3452,9 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
   (add-hook 'text-mode-hook 'wrap-region-mode)
   :config
   (wrap-region-add-wrapper "`" "'" nil 'lisp-mode)
+  (wrap-region-add-wrapper "`" "`" nil 'markdown-mode)
+  (wrap-region-add-wrapper "`" "`" nil 'gfm-mode)
+  
   )
 #+END_SRC
 ** expand-region.el
