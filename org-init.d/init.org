@@ -414,11 +414,13 @@ https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_
 改行文字によって表示される文字列（ニーモニック）は =eol-mnemonic-dos= などのカスタマイズ変数で変更できるので、それを変更するだけにしました。
 
 #+BEGIN_SRC emacs-lisp +n
+;; 改行文字のニーモニック設定
 (set 'eol-mnemonic-dos "(CRLF)")
 (set 'eol-mnemonic-unix "(LF)")
 (set 'eol-mnemonic-mac "(CR)")
 (set 'eol-mnemonic-undecided "(?)")
 
+;; 文字エンコーディングのニーモニック
 (defun my-coding-system-name-mnemonic (coding-system)
   (let* ((base (coding-system-base coding-system))
          (name (symbol-name base)))
@@ -438,20 +440,23 @@ https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_
           ((string-match "-with-signature" name) "[BOM]")
           (t ""))))
 
-(defvar my-mode-line-coding-format
-      '(:eval
-        (let* ((code buffer-file-coding-system)
-               (name (my-coding-system-name-mnemonic code))
-               (bom (my-coding-system-bom-mnemonic code))
-               (eol (coding-system-eol-type-mnemonic code)))
-          (format "%s%s%s" name bom eol))))
+(defun my-buffer-coding-system-mnemonic ()
+  "Return a mnemonic for `buffer-file-coding-system'."
+  (let* ((code buffer-file-coding-system)
+         (name (my-coding-system-name-mnemonic code))
+         (bom (my-coding-system-bom-mnemonic code)))
+    (format "%s%s" name bom)))
 
-(put 'my-mode-line-coding-format 'risky-local-variable t)
+;; `mode-line-mule-info' をコピーして文字エンコーディングの
+;; ニーモニック部分を差し替える（リストの3番目）
+(defvar my-mode-line-mule-info (copy-sequence mode-line-mule-info)
+  "Modified version of `mode-line-mule-info'")
+(put 'my-mode-line-mule-info 'risky-local-variable t)
+(setf (nth 2 my-mode-line-mule-info) '(:eval (my-buffer-coding-system-mnemonic)))
 
-(setq-default mode-line-format (substitute
-                                'my-mode-line-coding-format
-                                'mode-line-mule-info
-                                mode-line-format))
+;; `mode-line-format' の `mode-line-mule-info' を独自のものに差し替える
+(setq-default mode-line-format
+              (substitute 'my-mode-line-mule-info 'mode-line-mule-info mode-line-format))
 #+END_SRC
 
 デフォルトのモードライン設定で文字コードに関する表示を担っているのが =mode-line-mule-info=  なので、それを自分で実装したものに置き換えることでモードラインの表示が変わる。
