@@ -359,7 +359,7 @@ Emacsにいい感じのハイライトをしてくれるモードがなかった
   :config
   (with-eval-after-load 'org-src
     ;; "console" を `shell-session-mode' で解釈する
-    (add-to-list 'org-src-lang-modes '("console" . shell-session))
+    (add-to-list 'org-src-lang-modes '("console" . shell-session)))
   )
 #+END_SRC
 ** bom-mode でBOMの有無を明示する
