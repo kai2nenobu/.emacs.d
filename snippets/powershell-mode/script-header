@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Script Header
+# key: script-header
+# --
+Set-StrictMode -Version Latest
+\$ErrorActionPreference = "Stop"
