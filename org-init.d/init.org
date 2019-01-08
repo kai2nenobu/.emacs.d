@@ -412,7 +412,7 @@ emoji-cheat-sheet-plus はhelmで絵文字を選べて便利だが、絵文字�
 ** モードラインの文字エンコーディング表示を詳細にする
 モードラインにはデフォルトで文字コードに応じた表示になるが、文字コードが一文字のアルファベットで表現されていたり、BOMのある無しがわからないものである。
 
-https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_in_modeline_eg/
+[[https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_in_modeline_eg/]]
 を参考に自分で実装してみた。
 
 改行文字によって表示される文字列（ニーモニック）は =eol-mnemonic-dos= などのカスタマイズ変数で変更できるので、それを変更するだけにしました。
