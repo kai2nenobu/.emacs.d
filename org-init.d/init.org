@@ -451,16 +451,11 @@ https://www.reddit.com/r/emacs/comments/1nihkt/how_to_display_full_charset_name_
          (bom (my-coding-system-bom-mnemonic code)))
     (format "%s%s" name bom)))
 
-;; `mode-line-mule-info' をコピーして文字エンコーディングの
-;; ニーモニック部分を差し替える（リストの3番目）
-(defvar my-mode-line-mule-info (copy-sequence mode-line-mule-info)
-  "Modified version of `mode-line-mule-info'")
-(put 'my-mode-line-mule-info 'risky-local-variable t)
-(setf (nth 2 my-mode-line-mule-info) '(:eval (my-buffer-coding-system-mnemonic)))
-
-;; `mode-line-format' の `mode-line-mule-info' を独自のものに差し替える
-(setq-default mode-line-format
-              (substitute 'my-mode-line-mule-info 'mode-line-mule-info mode-line-format))
+;; `mode-line-mule-info' の文字エンコーディングのニーモニック部分を差し替える
+;; （"%z" の部分を差し替え）
+(setq-default mode-line-mule-info
+              (cl-substitute '(:eval (my-buffer-coding-system-mnemonic))
+                             "%z" mode-line-mule-info :test 'equal))
 #+END_SRC
 
 デフォルトのモードライン設定で文字コードに関する表示を担っているのが =mode-line-mule-info=  なので、それを自分で実装したものに置き換えることでモードラインの表示が変わる。
