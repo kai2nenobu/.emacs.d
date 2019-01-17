@@ -2998,7 +2998,7 @@ textlintを使ったチェッカーを定義する
   (when (executable-find "textlint")
     (flycheck-define-checker textlint
       "A linter by textlint."
-      :command ("textlint" "--format" "unix" "--preset" "jtf-style" source-inplace)
+      :command ("textlint" "--config" (eval (expand-file-name ".textlintrc" "~")) "--format" "unix" source-inplace)
       :error-patterns
       ((warning line-start (file-name) ":" line ":" column ": "
                 (id (one-or-more (not (any " "))))
