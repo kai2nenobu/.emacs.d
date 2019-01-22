@@ -2972,6 +2972,10 @@ Gradleタスクを実行するマイナーモード。
   )
 #+END_SRC
 ** flyckeck
+- [[https://www.flycheck.org/en/latest/][Flycheck — Syntax checking for GNU Emacs — Flycheck 32-cvs documentation]]
+
+オンザフライのシンタックスチェッカー。とはいいつつ ~flycheck~ 自体はチェッカーのためのフレームワークといったほうが良さそう。シンタックスのチェック自体は言語に応じた外部ツールにお任せして、そのツールの出力を ~flycheck~ が解釈してバッファにチェック結果を表示できる仕組みになっている。
+
 #+BEGIN_SRC emacs-lisp +n
 (use-package flycheck :defer t
   :init
@@ -2981,9 +2985,6 @@ Gradleタスクを実行するマイナーモード。
   :config
   (setq flycheck-idle-change-delay 0.5)
   (setq flycheck-display-errors-delay 0.1)
-  (use-package flycheck-pos-tip
-    :config
-    (setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages))
   )
 #+END_SRC
 *** textlintで文章校正
@@ -3001,6 +3002,28 @@ textlintを使ったチェッカーを定義する
     ))
 #+END_SRC
 チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。=--preset= とか =--rule= の部分は変数にしたいところ。
+*** エラーのインライン表示
+~flycheck~ でデフォルトのエラー表示方法は ~flycheck-display-error-messages~ であり、これはミニバッファにメッセージを表示する。が、ミニバッファにいちいち視線を移動するより、エラー箇所のすぐそばにメッセージを表示してくれたほうがありがたい。
+
+それを実現するのが [[https://github.com/flycheck/flycheck-inline][flycheck/flycheck-inline: Display Flycheck errors inline]] である。
+
+#+BEGIN_SRC emacs-lisp +n
+(with-eval-after-load 'flycheck
+  (use-package flycheck-inline
+    :init (add-hook 'flycheck-mode-hook #'flycheck-inline-mode)
+    :config
+    ;; 本文と区別がつくように背景色を灰色にする
+    (cl-loop for face
+         in (list 'flycheck-inline-error 'flycheck-inline-warning 'flycheck-inline-info)
+         do
+         (face-spec-set face
+                        '((((class color) (background light))
+                           :background "gray90")
+                          (((class color) (background dark))
+                           :background "gray25")))
+         )
+    ))
+#+END_SRC
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp +n
 (use-package git-gutter-fringe :defer t
