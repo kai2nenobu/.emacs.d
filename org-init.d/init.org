@@ -2988,20 +2988,9 @@ Gradleタスクを実行するマイナーモード。
   )
 #+END_SRC
 *** textlintで文章校正
-事前にnpmで =textlint= と好きなルールをグローバルにインストールしておく。
-#+BEGIN_EXAMPLE
-$ npm install -g textlint textlint-rule-preset-jtf-style
-#+END_EXAMPLE
++チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。=--preset= とか =--rule= の部分は変数にしたいところ。+
 
-textlintを使ったチェッカーを定義する
-#+BEGIN_SRC emacs-lisp +n
-(with-eval-after-load 'flycheck
-  (use-package flycheck-textlint
-    :load-path "my-lisp"
-    :if (executable-find "textlint")
-    ))
-#+END_SRC
-チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。=--preset= とか =--rule= の部分は変数にしたいところ。
+[[https://github.com/flycheck/flycheck/pull/1534][Add textlint checker by kisaragi-hiu · Pull Request #1534 · flycheck/flycheck]] で ~flycheck~ の組み込みのtextlintチェッカーが追加されたので、独自に定義する必要はなくなったよ。
 *** エラーのインライン表示
 ~flycheck~ でデフォルトのエラー表示方法は ~flycheck-display-error-messages~ であり、これはミニバッファにメッセージを表示する。が、ミニバッファにいちいち視線を移動するより、エラー箇所のすぐそばにメッセージを表示してくれたほうがありがたい。
 
