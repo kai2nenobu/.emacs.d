@@ -2985,6 +2985,23 @@ Gradleタスクを実行するマイナーモード。
   :config
   (setq flycheck-idle-change-delay 0.5)
   (setq flycheck-display-errors-delay 0.1)
+  ;; Configuration for textlint checker
+  (set-variable 'flycheck-textlint-config ".textlintrc")
+  (defun flycheck-textlint-my-project-executable-find ()
+    "Find textlint executable for a node project."
+    (let ((root (locate-dominating-file
+                 (or (buffer-file-name) default-directory)
+                 (lambda (dir)
+                   (let ((textlint (expand-file-name "node_modules/textlint/bin/textlint.js" dir)))
+                     (and textlint (file-exists-p textlint)))))))
+      (when root
+        (let ((textlint (expand-file-name "node_modules/.bin/textlint" root)))
+          (setq-local flycheck-textlint-executable textlint)
+          ;; project textlint automatically searches a .textlintrc.{json,yml,js}
+          ;; when `flycheck-textlint-config' is nil.
+          (setq-local flycheck-textlint-config nil)))
+      ))
+  (add-hook 'flycheck-mode-hook #'flycheck-textlint-my-project-executable-find)
   )
 #+END_SRC
 *** textlintで文章校正
