@@ -3028,6 +3028,15 @@ Gradleタスクを実行するマイナーモード。
                           (((class color) (background dark))
                            :background "gray25")))
          )
+    ;; メッセージをインデントしないように再定義する
+    (defun flycheck-inline-indent-message (offset msg)
+      "Modified version of `flycheck-inline-indent-message'.
+
+OFFSET is simply ignored."
+      (let* ((pad (make-string 0 ?\s))  ; force indent width to 0
+             (rep (concat "\n" pad)))
+        (concat pad
+                (replace-regexp-in-string "\n" rep (string-trim msg)))))
     ))
 #+END_SRC
 ** git-gutter-fringe
