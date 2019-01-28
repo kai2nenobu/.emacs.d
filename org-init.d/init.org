@@ -2515,6 +2515,20 @@ AutoHotkeyスクリプトのメジャーモード
 #+BEGIN_SRC emacs-lisp +n
 (use-package ahk-mode :defer t)
 #+END_SRC
+** [[https://github.com/alpha22jp/atomic-chrome][atomic-chrome]]
+ブラウザのテキストエリアをEmacsで編集できるようにするパッケージ。Firefox側に [[https://addons.mozilla.org/en-US/firefox/addon/ghosttext/][GhostText]] というアドオンが必要なことに注意。WebSocketで通信しているみたいで、双方向に変更が同期できる。超イカしてる！
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package atomic-chrome :defer 5
+  :config
+  (with-eval-after-load 'markdown-mode
+    ;; `markdown-mode' を読み込んでたらメジャーモードを `gfm-mode' にする
+    (setq atomic-chrome-default-major-mode 'gfm-mode))
+  (atomic-chrome-start-server)
+  )
+#+END_SRC
+
+- [[https://gordiustears.net/using-ghosttext-for-firefox-quantum/][Firefox アドオン It’s All Text の代わりは GhostText が良さそう | ゴルディアスの涙目]]
 ** yaml-mode
 #+BEGIN_SRC emacs-lisp +n
 (use-package yaml-mode :defer t
