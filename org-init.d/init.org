@@ -4400,9 +4400,6 @@ dynamic blockを利用すると動的に更新される文章が書ける。保�
                          (cons (upcase (nth 1 elm))
                                (cddr elm))))
                 org-structure-template-alist))
-  ;; テンプレートを追加する
-  (add-to-list 'org-structure-template-alist
-               '("C" "#+BEGIN_COMMENT\n?\n#+END_COMMENT"))
   ;; key bind
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c l") 'org-store-link)
@@ -4781,6 +4778,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-reveal :defer t
   :init
+  (setq org-reveal-note-key-char nil)  ; BEGIN_NOTES のショートカットを追加しない
   (add-autoload org-export-dispatch ox-reveal)
   :config
   (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/"
@@ -4828,6 +4826,16 @@ org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'org
   (use-package org-habit :ensure org))
+#+END_SRC
+*** org-tempo
+Org文書で簡単にテンプレートを展開する機能を提供するライブラリ。例えば ~<e~ と入力してTABを押下すると ~#+BEGIN_EXAMPLE～～#+END_EXAMPLE~ に展開できる。高速に入力するのに必要不可欠。
+
+もともとは ~org.el~ に組み込みだった機能が、Orgのバージョン9.2から ~org-tempo.el~ に分離された([[https://orgmode.org/Changes.html][Org mode for Emacs – Release notes]])。同時に ~org-structure-template-alist~ の形式が変わったので、独自にテンプレートを追加していた場合は新しい形式に移行する必要がある。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package org-tempo
+  :ensure org
+  :after org)
 #+END_SRC
 ** google-maps.el
 Google Map を表示する．
