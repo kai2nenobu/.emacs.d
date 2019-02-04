@@ -1964,6 +1964,7 @@ elscreenとの共存が難しそう。
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired+ :defer t
+  :quelpa (dired+ :fetcher github :repo "emacsmirror/dired-plus")
   :ensure nil
   :init
   (with-eval-after-load 'dired

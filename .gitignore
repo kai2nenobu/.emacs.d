@@ -2,6 +2,7 @@
 *-autoloads.el
 
 /.cask/
+/quelpa/
 /auto-save-list/
 /elpa/
 /server/

@@ -26,10 +26,12 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
-;; use-packageをインストールする
-(unless (package-installed-p 'use-package)
+;; use-package、quelpa-use-packageをインストールする
+(unless (and (package-installed-p 'use-package)
+             (package-installed-p 'quelpa-use-package))
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  (package-install 'quelpa-use-package))
 
 ;; use-packageを利用する（存在しない場合は無視する）
 (if (require 'use-package nil t)
@@ -38,6 +40,14 @@
       (set-variable 'use-package-always-ensure t))
   (message "Use-package is unavailable!")
   (defmacro use-package (&rest args)))
+
+;; Quelpaを利用してパッケージをインストールする
+(when (require 'quelpa-use-package nil t)
+  (custom-set-variables
+   '(quelpa-upgrade-p nil nil nil "パッケージを自動アップデートしない")
+   '(quelpa-checkout-melpa-p nil nil nil "MELPAリポジトリをクローンしない")
+   '(quelpa-update-melpa-p nil nil nil "MELPAリポジトリをアップデートしない")
+   '(quelpa-melpa-recipe-stores nil nil nil "MELPAレシピの配置場所")))
 
 ;;; org-babel を使って初期化ファイルをロード
 ;; マークアップの前後とみなす文字を変更する
