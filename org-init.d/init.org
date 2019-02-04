@@ -4837,6 +4837,12 @@ Org文書で簡単にテンプレートを展開する機能を提供するラ�
   :ensure org
   :after org)
 #+END_SRC
+
+ただし [2019-01-28 Mon] 時点では ~<e~ を展開すると ~#+begin_example～～#+end_example~ という小文字で展開される。Org文書の予約語は大文字を推奨されているし、個人的にも大文字のほうが見やすい。が、現状では大文字に展開するようにはできないようだ。
+
+- [[https://www.mail-archive.com/emacs-orgmode@gnu.org/msg122356.html][org-tempo violating org-mode conventions since 9.2]]
+
+上記で議論されていて、大文字、小文字を選ぶオプションを追加しようという話みたいなので、そのうち対応してくれるものと思う。
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
