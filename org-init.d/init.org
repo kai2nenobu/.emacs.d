@@ -48,6 +48,17 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 (eval-when-compile
   (require 'cl))
 #+END_SRC
+** ユーティリティ
+#+BEGIN_SRC emacs-lisp +n
+(defun my-add-to-path (path)
+  "Add a PATH to \"PATH\" environment variable and `exec-path'."
+  (let* ((env-path (getenv "PATH"))
+         (normalized-path (expand-file-name path)))
+    (unless (string-match-p (regexp-quote normalized-path) env-path)
+      (setenv "PATH" (concat env-path path-separator normalized-path)))
+    (add-to-list 'exec-path normalized-path t)
+    ))
+#+END_SRC
 ** 起動時間を測定する
 - [[http://aikotobaha.blogspot.jp/2010/08/gnupack-ntemacs23-dotemacs.html][OSSはアルミニウムの翼で飛ぶ: gnupack + NTEmacs23 のdot.emacs]]
 - [[http://ubulog.blogspot.jp/2009/08/emacs.html][ubulog: Emacsの起動時間を調べる]]
@@ -138,16 +149,16 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
        (cmder-dir (expand-file-name "cmder" choco-dir))
        (cygwin-path (expand-file-name "cygwin" choco-dir)))
        (cond ((file-exists-p git-for-win-dir)
-         (add-to-list 'exec-path (expand-file-name "mingw64/bin" git-for-win-dir))
-         (add-to-list 'exec-path (expand-file-name "bin" git-for-win-dir))
-         (add-to-list 'exec-path (expand-file-name "usr/bin" git-for-win-dir)))
+         (my-add-to-path (expand-file-name "mingw64/bin" git-for-win-dir))
+         (my-add-to-path (expand-file-name "bin" git-for-win-dir))
+         (my-add-to-path (expand-file-name "usr/bin" git-for-win-dir)))
         ((file-exists-p cmder-dir)
-         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/mingw32/bin" cmder-dir))
-         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
-         (add-to-list 'exec-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
+         (my-add-to-path (expand-file-name "vendor/git-for-windows/mingw32/bin" cmder-dir))
+         (my-add-to-path (expand-file-name "vendor/git-for-windows/cmd" cmder-dir))
+         (my-add-to-path (expand-file-name "vendor/git-for-windows/usr/bin" cmder-dir)))
         ((file-exists-p cygwin-path)
-         (add-to-list 'exec-path (expand-file-name "bin" cygwin-path))
-         (add-to-list 'exec-path (expand-file-name "usr/bin" cygwin-path))
+         (my-add-to-path (expand-file-name "bin" cygwin-path))
+         (my-add-to-path (expand-file-name "usr/bin" cygwin-path))
          (setq cygwinp t))
         (t (message "Not found Unix tools"))))
 #+END_SRC
