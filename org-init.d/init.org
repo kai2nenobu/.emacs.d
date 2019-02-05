@@ -1936,11 +1936,21 @@ Emacsとブラウザ連携のためのelisp。
   (add-hook 'emacs-lisp-mode-hook #'emacs-lisp-configuration))
 #+END_SRC
 ** ediff
-elscreenとの共存が難しそう。
+ファイルのマージをサポートするライブラリ。もちろん3-wayマージもできる。
+
 #+BEGIN_SRC emacs-lisp +n
-;(with-eval-after-load 'ediff
-;  (setq ediff-split-window-function 'split-window-horizontally))
+(use-package ediff :defer t
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain
+                               "コントロールパネルを同一フレームに表示する")
+  (ediff-split-window-function 'split-window-horizontally
+                               "Diffウィンドウを左右に分割する")
+  )
 #+END_SRC
+
++elscreenとの共存が難しそう。+ よく試してみると ~elscreen~ と共存できないというわけでもないらしい。 ~elscreen~ を有効にしても ~ediff~ による3-wayマージの画面にできたし、コントロールパネルでの操作もできた。 ~init.el~ のどこかの設定と競合してそうな感じだ。
+
+ひとまずコントロールパネルを同一フレームに表示すれば、現状のままでも動作するので気にしないことにする。
 ** dired.el
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired :defer t
