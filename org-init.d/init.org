@@ -2634,7 +2634,7 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 #+END_SRC
 *** tss
 #+BEGIN_SRC emacs-lisp +n
-(use-package tss)
+(use-package tss :defer t)
 #+END_SRC
 
 tssは =json-mode= に依存しているのでここでロードしておく。
@@ -2664,7 +2664,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 #+END_SRC
 ** csv-mode
 #+BEGIN_SRC emacs-lisp +n
-(use-package csv-mode
+(use-package csv-mode :defer t
   :config
   (bind-keys :map csv-mode-map
              ("TAB" . csv-forward-field)
@@ -3881,7 +3881,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 ** helm.el
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-config
+(use-package helm-config :defer 3
   :ensure helm
   :config
   (helm-mode 1)
