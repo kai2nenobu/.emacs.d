@@ -367,7 +367,7 @@ Emacsにいい感じのハイライトをしてくれるモードがなかった
 #+BEGIN_SRC emacs-lisp +n
 (use-package shell-session-mode :defer t
   :load-path "my-lisp"
-  :config
+  :init
   (with-eval-after-load 'org-src
     ;; "console" を `shell-session-mode' で解釈する
     (add-to-list 'org-src-lang-modes '("console" . shell-session)))
