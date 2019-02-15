@@ -1612,7 +1612,7 @@ Org-mode のデフォルトと揃えた．
 #+END_SRC
 ** null-device
 #+BEGIN_SRC emacs-lisp +n
-(setq-default null-device "/dev/null")
+(setq-default null-device (if (winp) "nul" "/dev/null"))
 #+END_SRC
 ** IME
 *** Windows
