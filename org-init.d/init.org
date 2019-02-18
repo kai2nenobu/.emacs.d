@@ -2511,6 +2511,14 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/editorconfig/editorconfig-emacs][editorconfig]]
+~.editorconfig~ を読み取って、バッファのローカル変数を設定する。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+END_SRC
 ** ahk-mode
 AutoHotkeyスクリプトのメジャーモード
 
