@@ -1770,16 +1770,6 @@ shift+カーソルキー でウィンドウを移動する．
 #+BEGIN_SRC emacs-lisp +n
 (transient-mark-mode t)
 #+END_SRC
-** シェルの設定
-#+BEGIN_SRC emacs-lisp +n
-(cond ((executable-find "bash")
-       (setq shell-file-name (executable-find "bash")
-             explisit-shell-file-name (executable-find "bash")))
-      ((and (winp)
-            (file-executable-p (expand-file-name "cmdproxy.exe" exec-directory)))
-       (setq explicit-shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))
-       (setq shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))))
-#+END_SRC
 ** hide inputting password
 #+BEGIN_SRC emacs-lisp +n
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
