@@ -1,2 +1,2 @@
 *.sh	eol=lf
-hooks/*	eol=lf
+.githooks/*	eol=lf
