@@ -26,6 +26,7 @@
 !/org-init.d/init.org
 
 # Automatically created files (like cache)
+/tmp/
 /.org-id-locations
 /.org-timestamps/
 /url/
