@@ -337,6 +337,8 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 ** emacsclient を使う
 #+BEGIN_SRC emacs-lisp +n
 (use-package server
+  :custom
+  (server-auth-dir (my-locate-user-tmp-file "server/") "サーバ認証ファイル置き場")
   :config
   (cond ((not (server-running-p))
          (server-start))
@@ -1835,6 +1837,36 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** startup.el
+起動時に自動で読み込まれるelisp？
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package startup :defer t
+  :ensure nil
+  :custom
+  (auto-save-list-file-prefix (my-locate-user-tmp-file "auto-save-list.saves-")
+                              "自動保存ファイル情報を保存する場所")
+  )
+#+END_SRC
+** abbrev.el
+略語展開機能。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package abbrev
+  :ensure nil
+  :custom
+  (abbrev-file-name (my-locate-user-tmp-file "abbrev_defs")
+                    "略語を記録したファイル置き場"))
+#+END_SRC
+** url.el
+HTTPアクセス機能。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package url
+  :ensure nil
+  :custom
+  (url-configuration-directory (my-locate-user-tmp-file "url/")))
+#+END_SRC
 ** browse-url
 Emacsとブラウザ連携のためのelisp。
 
@@ -2344,6 +2376,8 @@ relative path."
 リモートにあるサーバのファイルを編集する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package tramp :defer t
+  :custom
+  (tramp-persistency-file-name (my-locate-user-tmp-file "tramp"))
   :config
   (setq tramp-default-method (cond ((winp) "plinkx")
                                    (t "ssh")))
@@ -2494,14 +2528,17 @@ info を Emacs で読む．
 セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)．
 #+BEGIN_SRC emacs-lisp +n
 (use-package desktop
-  :config
+  :custom
+  (desktop-dirname (my-locate-user-tmp-file "./"))
   ;; 保存しないファイルの正規表現
-  (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
+  (desktop-files-not-to-save "\\(^/[^/:]*:\\|\\.diary\\'\\)")
   ;; フレーム情報（フォントも含む）をリストアしない
-  (set-variable 'desktop-restore-frames nil)
-  ;; Emacs起動直後にリストアするファイル数。残りは遅延してリストアされる
-  (set-variable 'desktop-restore-eager 1)
-  (set-variable 'desktop-load-locked-desktop t) ;; load even if desktop file is locked
+  (desktop-restore-frames nil)
+  ;; Emacs起動直後にリストアするファイル数。残りは遅延してリストアする
+  (desktop-restore-eager 1)
+  ;; ロックファイルがあってもロードする
+  (desktop-load-locked-desktop t)
+  :config
   (desktop-save-mode 1))
 #+END_SRC
 ** uniquify.el
@@ -2520,6 +2557,15 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/magit/transient][transient.el]]
+なんかよくわからん。magitのポップアップで使ってるっぽい。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package transient :defer t
+  :custom
+  (transient-history-file (my-locate-user-tmp-file "transient/history.el"))
+  )
+#+END_SRC
 ** [[https://github.com/editorconfig/editorconfig-emacs][editorconfig]]
 ~.editorconfig~ を読み取って、バッファのローカル変数を設定する。
 
@@ -3287,6 +3333,8 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("M-R" . mc/mark-all-dwim))
+  :custom
+  (mc/list-file (my-locate-user-tmp-file ".mc-lists.el"))
   )
 #+END_SRC
 ** web-mode.el
@@ -4984,6 +5032,8 @@ Emacsでibusを使えるようにする．これで mozc が使える．
 Emacsが終了した時のミニバッファ履歴やカーソル位置を保存する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package session
+  :custom
+  (session-save-file (my-locate-user-tmp-file ".session"))
   :config
   (add-hook 'after-init-hook 'session-initialize)
   (setq session-globals-include '((kill-ring 50)
@@ -5041,11 +5091,13 @@ sessionが保存するファイル(=~/.emacs.d/.session=)には以下のよう�
 (use-package recentf-ext
   :init
   (set-variable 'recentf-auto-cleanup 'never)
-  :config
+  :custom
+  (recentf-save-file (my-locate-user-tmp-file "recentf"))
   ;; 最近のファイル3000個を保存する
-  (setq recentf-max-saved-items 3000)
+  (recentf-max-saved-items 3000)
   ;; 最近使ったファイルに加えないファイルを正規表現で指定する
-  (setq recentf-exclude '("/TAGS$" "/var/tmp/" "Temp_ExternalEditor"))
+  (recentf-exclude '("/TAGS$" "/var/tmp/" "Temp_ExternalEditor"))
+  :config
   ;; automatically save recentf file and supress messages
   ;; http://masutaka.net/chalow/2011-10-30-2.html
   (defvar my-recentf-list-prev nil)
@@ -5121,6 +5173,8 @@ do nothing. And suppress the output from `message' and
 #+BEGIN_SRC emacs-lisp +n
 (use-package auto-complete-config
   :ensure auto-complete
+  :custom
+  (ac-comphist-file (my-locate-user-tmp-file "ac-comphist.dat"))
   :config
   (ac-config-default)
   ;; メジャーモードに関する辞書
@@ -5189,19 +5243,20 @@ do nothing. And suppress the output from `message' and
                                      (file-name-directory (executable-find "cmigemo"))))
                when (file-readable-p dict)
                return dict))
+    :custom
+    (migemo-pattern-alist-file (my-locate-user-tmp-file "migemo-pattern"))
+    (migemo-command "cmigemo")
+    (migemo-options '("-q" "--emacs")); "-i" "\a"))
+    (migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
+    (migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
+    (migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
+    ;; キャッシュ機能を利用する
+    (migemo-use-pattern-alist t)
+    (migemo-use-frequent-pattern-alist t)
+    (migemo-pattern-alist-length 1024)
     :config
-    (setq migemo-command "cmigemo")
-    (setq migemo-options '("-q" "--emacs")); "-i" "\a"))
     ;; migemo-dict のパスを指定
     (setq migemo-dictionary (migemo-dict-find))
-    (setq migemo-coding-system 'utf-8-unix)  ; 辞書の文字コードを指定
-    (setq migemo-pattern-alist-file (locate-user-emacs-file ".migemo-pattern"))
-    (setq migemo-user-dictionary (expand-file-name "~/migemo/user-dict"))
-    (setq migemo-regex-dictionary (expand-file-name "~/migemo/regex-dict"))
-    ;; キャッシュ機能を利用する
-    (setq migemo-use-pattern-alist t)
-    (setq migemo-use-frequent-pattern-alist t)
-    (setq migemo-pattern-alist-length 1024)
     ;; helmでmigemoを有効にする（helm-migemoは必要なくなった）
     (with-eval-after-load 'helm
       (helm-migemo-mode 1))
