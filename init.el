@@ -62,6 +62,12 @@
 (defvar org-init-directory (locate-user-emacs-file "org-init.d")
   "Directory to locate configuration files written in `org-mode'.")
 (require 'org)
+;; 不要なモジュールをとりのぞく
+(when (boundp 'org-modules)
+  (setq org-modules
+        (cl-delete-if (lambda (it)
+                        (member it '(org-w3m org-bbdb org-bibtex org-gnus org-irc org-mhe org-rmail org-eww)))
+                      org-modules)))
 ;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
 (org-babel-load-file (expand-file-name "init.org" org-init-directory))
 
