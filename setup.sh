@@ -10,7 +10,7 @@
 DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
 # フックスクリプトの場所を変更する
-git config core.hooksPath 'hooks'
+git config core.hooksPath '.githooks'
 
 # シンボリックリンクを有効にする
 git config core.symlinks true
