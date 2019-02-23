@@ -2586,7 +2586,7 @@ AutoHotkeyスクリプトのメジャーモード
 #+BEGIN_SRC emacs-lisp +n
 (use-package atomic-chrome :defer 5
   :config
-  (with-eval-after-load 'markdown-mode
+  (when (require 'markdown-mode nil t)
     ;; `markdown-mode' を読み込んでたらメジャーモードを `gfm-mode' にする
     (setq atomic-chrome-default-major-mode 'gfm-mode))
   (atomic-chrome-start-server)
