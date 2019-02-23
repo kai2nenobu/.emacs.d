@@ -3748,8 +3748,12 @@ Emacs から git を操作するライブラリ．
     (interactive (list (magit-commit-arguments)))
     (magit-commit-amend-assert)
     (magit-run-git-with-editor "commit" "--amend" "--no-edit" args))
-  (magit-define-popup-action 'magit-commit-popup
-    ?n "Amend --no-edit" 'magit-commit-amend-noedit)
+  (if (featurep 'transient)  ; transient or magit-popup
+      (transient-append-suffix 'magit-commit 'magit-commit-amend ; Amendの後ろに追加
+        '("n" "Amend --no-edit" magit-commit-amend-noedit))
+    (magit-define-popup-action 'magit-commit-popup
+                               ?n "Amend --no-edit" 'magit-commit-amend-noedit)
+    )
   ;; git log に --first-parent オプションを指定できるようにする
   (let ((switches (plist-get magit-log-popup :switches))
         (new-switch '(?f "Show only the first parent commit" "--first-parent")))
