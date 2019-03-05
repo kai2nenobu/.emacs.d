@@ -4921,6 +4921,15 @@ Org文書で簡単にテンプレートを展開する機能を提供するラ�
 - [[https://www.mail-archive.com/emacs-orgmode@gnu.org/msg122356.html][org-tempo violating org-mode conventions since 9.2]]
 
 上記で議論されていて、大文字、小文字を選ぶオプションを追加しようという話みたいなので、そのうち対応してくれるものと思う。
+*** [[https://ox-hugo.scripter.co/][ox-hugo]]
+Org文書を[[https://gohugo.io/][Hugo]]形式のMarkdownにエクスポートできる。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package ox-hugo :defer t
+  :init
+  (add-autoload org-export-dispatch ox-hugo)
+  )
+#+END_SRC
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
