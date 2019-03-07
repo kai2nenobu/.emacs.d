@@ -337,8 +337,6 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 ** emacsclient を使う
 #+BEGIN_SRC emacs-lisp +n
 (use-package server
-  :custom
-  (server-auth-dir (my-locate-user-tmp-file "server/") "サーバ認証ファイル置き場")
   :config
   (cond ((not (server-running-p))
          (server-start))
