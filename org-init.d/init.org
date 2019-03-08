@@ -348,6 +348,22 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** prettierでフォーマット修正
+prettierを呼び出すだけの関数。yamlとか書いてるときに便利。
+
+#+BEGIN_SRC emacs-lisp +n
+(defun my-prettier-write ()
+  "Fix bad formats in current buffer by prettier."
+  (interactive)
+  (let (exit-status
+        (file (buffer-file-name)))
+    (with-temp-buffer
+      (setq exit-status (call-process "npx" nil t t "prettier" "--write" file))
+      (goto-char (point-max))
+      (insert (format "prettier exited with %d" exit-status))
+      (message "%s" (buffer-string)))))
+(define-key my-original-map (kbd "p") #'my-prettier-write)
+#+END_SRC
 ** JSON文字列として正しくエスケープする
 #+BEGIN_SRC emacs-lisp +n
 (defun my-json-escape ()
