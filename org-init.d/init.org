@@ -1493,7 +1493,7 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 ** Windowsのプロセスの文字コードを設定
 [[https://www49.atwiki.jp/ntemacs/pages/16.html][UTF-8 をベースとして利用するための設定 - NTEmacs @ ウィキ - アットウィキ]] から必要なところを拝借して利用。
 
-#+BEGIN_SRC emacs-lisp +n
+#+BEGIN_SRC emacs-lisp +n :tangle no
 (when (winp)
   (set-file-name-coding-system 'cp932)
   (setq locale-coding-system 'utf-8)
