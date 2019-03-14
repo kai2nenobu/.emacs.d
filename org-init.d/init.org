@@ -2631,6 +2631,12 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/dryman/toml-mode.el][toml-mode.el]]
+Emacs Mojor mode for editing TOML files。よく設定ファイルに使われてるやつですね。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package toml-mode :defer t)
+#+END_SRC
 ** [[http://emacs.rubikitch.com/beacon/][beacon.el]]
 カーソル移動時に一時的に明滅させて、カーソル位置を見失わないようにできる。ウィンドウを移動したりバッファを移動したタイミングで明滅する。
 
