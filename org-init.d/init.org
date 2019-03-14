@@ -2631,6 +2631,14 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[http://emacs.rubikitch.com/beacon/][beacon.el]]
+カーソル移動時に一時的に明滅させて、カーソル位置を見失わないようにできる。ウィンドウを移動したりバッファを移動したタイミングで明滅する。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package beacon :defer 10
+  :custom
+  (beacon-size 100))
+#+END_SRC
 ** [[https://github.com/magit/transient][transient.el]]
 なんかよくわからん。magitのポップアップで使ってるっぽい。
 
