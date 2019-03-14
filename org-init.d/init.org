@@ -2010,9 +2010,6 @@ Emacsとブラウザ連携のためのelisp。
 バッチファイル編集用のメジャーモード。[2016-11-17 Thu]時点でいつの間にか標準ライブラリに含まれていた。
 #+BEGIN_SRC emacs-lisp +n
 (use-package bat-mode :defer t
-  :mode (("\\.[bB][aA][tT]$" . bat-mode)
-         ("CONFIG\\."        . bat-mode)
-         ("AUTOEXEC\\."      . bat-mode))
   :config
   (when (winp)
     (add-hook 'bat-mode-hook
