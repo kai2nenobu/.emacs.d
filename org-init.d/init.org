@@ -4331,6 +4331,12 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 *** 一般的設定
 #+BEGIN_SRC emacs-lisp +n
   :config
+  ;; 不必要なモジュールを取り除く
+  (when (boundp 'org-modules)
+    (setq org-modules
+          (cl-delete-if (lambda (it)
+                          (member it '(org-w3m org-bbdb org-bibtex org-gnus org-irc org-mhe org-rmail org-eww)))
+                        org-modules)))
   (define-key org-mode-map (kbd "C-,") nil) ; available cycle-buffer
   (bind-key "M-o M-o" 'org-src-fontify-block org-mode-map)
   (setq org-startup-folded 'content)

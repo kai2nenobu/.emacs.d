@@ -49,27 +49,20 @@
    '(quelpa-update-melpa-p nil nil nil "MELPAリポジトリをアップデートしない")
    '(quelpa-melpa-recipe-stores nil nil nil "MELPAレシピの配置場所")))
 
-;;; org-babel を使って初期化ファイルをロード
-;; マークアップの前後とみなす文字を変更する
-(set-variable 'org-emphasis-regexp-components
-              (list
-               (concat " \t('\"{"           "[:nonascii:]") ; pre
-               (concat "- \t.,:!?;'\")}\\[" "[:nonascii:]") ; post
-               " \t\r\n" ; border
-               "." ; body
-               1   ; newline
-               ))
 (defvar org-init-directory (locate-user-emacs-file "org-init.d")
   "Directory to locate configuration files written in `org-mode'.")
-(require 'org)
-;; 不要なモジュールをとりのぞく
-(when (boundp 'org-modules)
-  (setq org-modules
-        (cl-delete-if (lambda (it)
-                        (member it '(org-w3m org-bbdb org-bibtex org-gnus org-irc org-mhe org-rmail org-eww)))
-                      org-modules)))
-;(setq org-src-preserve-indentation t)   ; エクスポートでインデントを保持する
-(org-babel-load-file (expand-file-name "init.org" org-init-directory))
+
+;; org-init.d/init.orgのほうが新しければbabelでelを出力してからロードする
+;; org-init.d/init.elのほうが新しければそのままロードする
+(let* ((el (expand-file-name "init.el" org-init-directory))
+       (el-mod (file-attribute-modification-time (file-attributes el)))
+       (org (expand-file-name "init.org" org-init-directory))
+       (org-mod (file-attribute-modification-time (file-attributes org))))
+  (if (and (file-exists-p el) (time-less-p org-mod el-mod))
+      (load-file el)
+    (require 'org)
+    (message "Babel loading %s..." org)
+    (org-babel-load-file org)))
 
 (provide 'init)
 ;;; init.el ends here
