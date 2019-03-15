@@ -4340,6 +4340,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
 #+BEGIN_SRC emacs-lisp +n
 (use-package org :defer t
+  :ensure org-plus-contrib
 #+END_SRC
 *** 一般的設定
 #+BEGIN_SRC emacs-lisp +n
@@ -4932,6 +4933,7 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
 - [[http://mobileorg.ncogni.to/][iOS実装]]
 #+BEGIN_SRC emacs-lisp +n
 (use-package org-mobile :defer t :disabled t
+  :ensure org-plus-contrib
   :init
   (run-at-time t (* 60 60) 'org-mobile-push)  ; 60分ごとに org-mobile-push を自動実行
   :config
@@ -4996,7 +4998,7 @@ org-modeのexport機能を使って印刷する。
 *** org-habit
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'org
-  (use-package org-habit :ensure org))
+  (use-package org-habit :ensure org-plus-contrib))
 #+END_SRC
 *** org-tempo
 Org文書で簡単にテンプレートを展開する機能を提供するライブラリ。例えば ~<e~ と入力してTABを押下すると ~#+BEGIN_EXAMPLE～～#+END_EXAMPLE~ に展開できる。高速に入力するのに必要不可欠。
@@ -5005,7 +5007,7 @@ Org文書で簡単にテンプレートを展開する機能を提供するラ�
 
 #+BEGIN_SRC emacs-lisp +n
 (use-package org-tempo
-  :ensure org
+  :ensure org-plus-contrib
   :after org)
 #+END_SRC
 
