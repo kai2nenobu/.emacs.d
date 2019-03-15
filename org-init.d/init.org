@@ -2640,7 +2640,9 @@ Emacs Mojor mode for editing TOML files。よく設定ファイルに使われ�
 #+BEGIN_SRC emacs-lisp +n
 (use-package beacon :defer 10
   :custom
-  (beacon-size 100))
+  (beacon-size 60)
+  :config
+  (beacon-mode 1))
 #+END_SRC
 ** [[https://github.com/magit/transient][transient.el]]
 なんかよくわからん。magitのポップアップで使ってるっぽい。
