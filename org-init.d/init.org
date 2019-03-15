@@ -2819,7 +2819,7 @@ tssは =json-mode= に依存しているのでここでロードしておく。
   :mode "\\.js\\'"
   :config
   (setq js2-basic-offset 2)
-  (bind-keys :mode js2-mode-map
+  (bind-keys :map js2-mode-map
              ("C-." . js2-next-error)
              ("C-," . js2-previous-error))
   (defun js2-previous-error (&optional reset)
