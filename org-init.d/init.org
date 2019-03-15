@@ -4234,7 +4234,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-swoop :defer t
   :init
-  (with-eval-after-load 'helm
+  (with-eval-after-load 'helm-config
     (bind-key "s" 'helm-swoop helm-command-map))
   :config
   (setq helm-swoop-split-direction 'split-window-horizontally) ; ウィンドウ分割方向
