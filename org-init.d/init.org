@@ -4565,13 +4565,6 @@ dynamic blockを利用すると動的に更新される文章が書ける。保�
 \\setbeamertemplate{footline}[frame number]"
                  org-beamer-sectioning
                  ))
-  ;; Because completion string of template alist is lower case, upcase it.
-  (setq org-structure-template-alist
-        (mapcar '(lambda (elm)
-                   (cons (car elm)
-                         (cons (upcase (nth 1 elm))
-                               (cddr elm))))
-                org-structure-template-alist))
   ;; key bind
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c l") 'org-store-link)
