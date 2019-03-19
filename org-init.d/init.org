@@ -5333,7 +5333,7 @@ do nothing. And suppress the output from `message' and
       "Find a migemo dictionary"
       (cl-loop for dict
                in (list
-                   (expand-file-name "utf-8/migemo-dict" "/usr/local/cmigemo")
+                   (expand-file-name "utf-8/migemo-dict" "/usr/share/cmigemo")
                    (expand-file-name "utf-8/migemo-dict" "/usr/local/share/migemo")
                    (expand-file-name "lib/cmigemo/bin/dict/utf-8/migemo-dict"
                                      (getenv "chocolateyinstall"))
