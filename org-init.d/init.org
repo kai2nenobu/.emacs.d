@@ -5095,11 +5095,42 @@ Emacs 内から sudo をつかう．
 (use-package sudo-ext :defer t)
 #+END_SRC
 ** mozc.el
-Emacs でMozcを使う．要 mozc-emacs-helper．
-#+BEGIN_SRC emacs-lisp +n
-;; (use-package mozc)
-;; (setq default-input-method "japanese-mozc")
-#+END_SRC
+Mozcを使って日本語入力するためのパッケージ。基本的にはWSLのEmacsをVcXsrvで表示して、そこからWindowsのGoogle日本語入力を使用するための設定。
+
+#+begin_src emacs-lisp +n
+(when (linuxp)
+  (use-package mozc
+    :config
+    (setq mozc-helper-program-name "mozc_emacs_helper.exe")
+    (setq mozc-helper-process-timeout-sec 10)
+    ;; Windows の mozc では、セッション接続直後 directモード になるので hiraganaモード にする
+    (advice-add 'mozc-session-execute-command
+                :after (lambda (&rest args)
+                         (when (eq (nth 0 args) 'CreateSession)
+                           ;; (mozc-session-sendkey '(hiragana)))))
+                           (mozc-session-sendkey '(Hankaku/Zenkaku))))))
+  (use-package mozc-im
+    :config
+    (bind-key "<zenkaku-hankaku>" #'toggle-input-method)
+    (setq default-input-method "japanese-mozc-im"))
+  (use-package mozc-popup
+    :config
+    ;; 変換候補をポップアップで表示する
+    (setq mozc-candidate-style 'popup))
+  )
+#+end_src
+
+- [[https://www49.atwiki.jp/ntemacs/pages/48.html][emacs-mozc を動かすための設定（emacs 設定編） - NTEmacs @ ウィキ - アットウィキ]]
+- [[https://www49.atwiki.jp/ntemacs/pages/61.html][emacs-mozc を動かすための設定（WSL 設定編） - NTEmacs @ ウィキ - アットウィキ]]
+
+から必要な設定を抜粋している。具体的な作業としては
+
+- [[https://github.com/smzht/mozc_emacs_helper]] から ~mozc_emacs_helper.exe~ をダウンロードしてきて、Windows側のPATHが通ったところへ配置する。
+- 上記の設定を有効にする。
+
+でOKなはず。Windows側のGoogle日本語入力の設定や辞書が有効になり、変換はうまくできていそうだ。。ただ ~全角半角~ キーでのトグル時に何回もトグルが起こってしまうようで、うまくトグルできないときもある。上記のNTEmacs@ウィキに半角全角キーをうまく使えるようにするpythonスクリプトあるのでそれを入れれば改善するかも。
+
+他にもいくつか問題がある。IMを使っているので同じくIMを使っている ~key-chord~ の同時押しキーバインドが使えない。まあこれはWindowsでも日本語入力時は ~key-chord~ の同時押しできてなかったので、まあ同じようなもんか。
 ** ibus.el
 - [[http://www11.atwiki.jp/s-irie/pages/21.html][irie @ ウィキ - ibus.el]]
 Emacsでibusを使えるようにする．これで mozc が使える．
