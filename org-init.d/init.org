@@ -2087,7 +2087,7 @@ Emacsとブラウザ連携のためのelisp。
 dired.el, dired-x.el, dired-aux.el の拡張
 #+BEGIN_SRC emacs-lisp +n
 (use-package dired+ :defer t
-  :quelpa (dired+ :fetcher github :repo "emacsmirror/dired-plus")
+  :quelpa (dired+ :fetcher wiki)
   :ensure nil
   :init
   (with-eval-after-load 'dired
