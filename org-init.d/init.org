@@ -4052,6 +4052,8 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-config :defer 3
   :ensure helm
+  :bind (:map mode-specific-map
+              ("r" . 'helm-for-files))
   :config
   (helm-mode 1)
 
@@ -4087,14 +4089,6 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
   ;; prefix で候補を選択可能にする
   (setq helm-enable-shortcuts t)   ; t だと C-number で選択
   ;(define-key helm-map "@" 'helm-select-with-prefix-shortcut)
-
-  ;; for filelist
-  ;; (when (linuxp)
-  ;;   (setq helm-grep-candidates-fast-directory-regexp "^/tmp")
-  ;;   (setq helm-c-filelist-file-name "/tmp/all.filelist"))
-  ;; どうも grep 上手くいかない．all.filelist が大きすぎか？
-  ;; よし，linux なら locate 使えるので helm-for-files でいいか．current-dir+ も候補に入るし
-  (define-key mode-specific-map (kbd "r") 'helm-for-files) ; recentfile 的に使いたい
 
   ;; helm-show-kill-ring
   (global-set-key (kbd "M-y") 'helm-show-kill-ring)
