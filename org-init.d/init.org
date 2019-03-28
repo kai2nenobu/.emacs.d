@@ -131,6 +131,9 @@ PRE time needs to be before CUR time."
   (eq system-type 'gnu/kfreebsd))
 (defun winp ()
   (eq system-type 'windows-nt))
+(defun wslp ()
+  (and (eq system-type 'gnu/linux)
+       (file-exists-p "/proc/sys/fs/binfmt_misc/WSLInterop")))
 #+END_SRC
 ** debian-emacs-flavor
 なんか最新版をビルドしたやつはこれをつけたほうがいいらしい？これがないと
