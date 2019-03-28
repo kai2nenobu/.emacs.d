@@ -2007,6 +2007,10 @@ Emacsとブラウザ連携のためのelisp。
     (when ie
       (message "Use Internet Explorer at %s" ie)
       (set 'my-browse-url-ie-program ie)))
+  ;; WSL内ではwslviewを使用する
+  (when (and (wslp) (executable-find "wslview"))
+    (setq browse-url-generic-program "wslview"
+          browse-url-browser-function 'browse-url-generic))
   )
 #+END_SRC
 ** bat-mode
