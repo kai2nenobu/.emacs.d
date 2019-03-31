@@ -42,6 +42,8 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[http://emacsbinw64.sourceforge.net/][emacs-w64 | 64-Bit GNU Emacs for MS Windows with optimization]]
   - こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。=w32-ime= がロードされてないからかも？
   - Windows10ではIMEの変換やウィンドウが出ない。
+- [[https://chocolatey.org/packages/Emacs][Chocolatey Gallery | Emacs 26.1.0.20180701]]
+  - 公式バイナリをインストールするパッケージ。chocolateyでインストールできるので楽ちん。バージョン26.1の公式バイナリならほぼ emacs-w64 と機能的に差はなさそう。
 * 最初に必要な設定
 #+BEGIN_SRC emacs-lisp +n
 ;;; -*- coding: utf-8-unix -*-
