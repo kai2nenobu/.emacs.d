@@ -2,6 +2,8 @@
 (require 'url-http)
 
 (let ((proxy "proxy.example.com:8080"))
+  (setenv "http_proxy" (concat "http://" proxy))
+  (setenv "https_proxy" (concat "http://" proxy))
   (setq url-proxy-services
         `(("http" . ,proxy)
           ("https" . ,proxy)))
