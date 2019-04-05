@@ -4703,7 +4703,7 @@ git管理下のファイルのhelmソース。
 *** ox-html
 #+BEGIN_SRC emacs-lisp +n
 (use-package ox-html :defer t
-  :ensure org
+  :ensure org-plus-contrib
   :config
   (setq org-html-coding-system 'utf-8)
   (setq org-html-htmlize-output-type 'css)
@@ -4843,7 +4843,7 @@ The html link is determined from `org-export-html-my-info-link-alist'."
 org-babelを利用するとorg文書中のプログラムを評価してごにょごにょできる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package ob-core :defer t
-  :ensure org
+  :ensure org-plus-contrib
   :config
   (defvar org-my-evaluatable-languages nil
     "Evaluatable languages in org src block without confirmation")
