@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Redmine thumbnail macro
+# key: redmine_thumbnail_macro
+# --
+{{thumbnail(${1:image_name}, size=${2:size})}}
