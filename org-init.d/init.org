@@ -4966,7 +4966,7 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 
   (defun org-reveal-open-new-link-filter (data backend info)
     "Add 'target=\"_blank\"' to <a> tag when exported by `ox-reveal'"
-    (when (eq backend 'reveal)
+    (when (memq backend '(reveal re-reveal))
       (replace-regexp-in-string "^<a " "<a target=\"_blank\" " data)))
   (add-to-list 'org-export-filter-link-functions 'org-reveal-open-new-link-filter)
   )
