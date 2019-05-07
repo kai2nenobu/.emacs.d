@@ -4764,16 +4764,6 @@ orgファイルの末尾（bodyタグの最後らへんにエクスポートさ�
 
 - [[http://alexgorbatchev.com/SyntaxHighlighter/][SyntaxHighlighter]]
 - [[http://551sornwmc.blog109.fc2.com/blog-entry-380.html][FC2 BlogへSyntaxHighlighter（ソースコードを整形表示する機能）を導入する方法]]
-**** 見出しの数字の末尾にピリオドを追加する
-#+BEGIN_SRC emacs-lisp +n
-(with-eval-after-load 'ox-html
-  (defun org-html-headline-period (data backend info)
-    "Add a period to the end of headline number."
-    (when (org-export-derived-backend-p backend 'html)
-      (replace-regexp-in-string "<span class=\"section-number-.*\">.*</span>" "\\&." data)))
-  (add-to-list 'org-export-filter-headline-functions #'org-html-headline-period)
-  )
-#+END_SRC
 **** Twitter Bootstrap連携
 エクスポートしたHTMLのCSSにTwitter Bootstrapを使うようにしたので、フィルタを使って色んな要素にBootstrapのクラスを付加する。
 #+BEGIN_SRC emacs-lisp +n
