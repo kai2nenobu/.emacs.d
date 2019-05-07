@@ -4961,6 +4961,16 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
   (add-to-list 'org-export-filter-link-functions 'org-reveal-open-new-link-filter)
   )
 #+END_SRC
+*** [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]]
+org-revealのフォーク。こちらのほうが活発そうなので、こちらを使っていこう。
+
+#+begin_src emacs-lisp +n
+(use-package org-re-reveal
+  :config
+  (setq org-re-reveal-title-slide "<h1 class=\"title\">%t</h1>
+<h2 class=\"author\">%a</h2>
+<h2 class=\"date\">%d</h2>"))
+#+end_src
 *** org-printer
 org-modeのexport機能を使って印刷する。
 #+BEGIN_SRC emacs-lisp +n
