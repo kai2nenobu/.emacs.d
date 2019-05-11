@@ -2637,6 +2637,25 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/DarthFennec/highlight-indent-guides][highlight-indent-guides]]
+インデント位置をハイライトするマイナーモード。インデント位置はカラムのfaceやcharacterで表現される。yamlなんかで特に便利。
+
+#+begin_src emacs-lisp +n
+(use-package highlight-indent-guides
+  :hook
+  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
+  (add-hook 'yaml-mode-hook #'highlight-indent-guides-mode)
+  :config
+  (set-variable 'highlight-indent-guides-auto-enabled t)
+  (set-variable 'highlight-indent-guides-responsive 'stack)
+  (set-variable 'highlight-indent-guides-method 'character)
+  (set-variable 'highlight-indent-guides-character ?|)
+  (set-variable 'highlight-indent-guides-auto-odd-face-perc 40)
+  (set-variable 'highlight-indent-guides-auto-even-face-perc 40)
+  (set-variable 'highlight-indent-guides-auto-character-face-perc 40))
+#+end_src
+
+~highlight-indent-guides-character~ でインデント位置に表示する文字を設定できる。デフォルトは ~│~ なのだが、これがRictyフォントだと2文字幅になってしまう。そのためインデントがずれてしまって糞の役にも立たなくなる。仕方ないので ~|~ に設定して1文字幅になるようにしている。文字として入力した ~|~ 見分けがつきにくいのが玉に瑕。
 ** [[https://github.com/dryman/toml-mode.el][toml-mode.el]]
 Emacs Mojor mode for editing TOML files。よく設定ファイルに使われてるやつですね。
 
