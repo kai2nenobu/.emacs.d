@@ -2641,10 +2641,9 @@ info を Emacs で読む．
 インデント位置をハイライトするマイナーモード。インデント位置はカラムのfaceやcharacterで表現される。yamlなんかで特に便利。
 
 #+begin_src emacs-lisp +n
-(use-package highlight-indent-guides
+(use-package highlight-indent-guides :defer t
   :hook
-  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-  (add-hook 'yaml-mode-hook #'highlight-indent-guides-mode)
+  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :config
   (set-variable 'highlight-indent-guides-auto-enabled t)
   (set-variable 'highlight-indent-guides-responsive 'stack)
