@@ -5133,6 +5133,7 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
   (use-package mozc-im
     :config
     (bind-key "<zenkaku-hankaku>" #'toggle-input-method)
+    (setq mozc-leim-title "[あ]")
     (setq default-input-method "japanese-mozc-im"))
   (use-package mozc-popup
     :config
