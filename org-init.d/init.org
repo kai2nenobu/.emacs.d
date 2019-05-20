@@ -5136,9 +5136,9 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
     ;; `current-input-method-title' のテキストプロパティを有効にする
     (put 'current-input-method-title 'risky-local-variable t)
     ;; IME有効時のタイトル設定
-    (let ((icon (expand-file-name "images/mozc-ui-hiragana.png" user-emacs-directory)))
+    (let ((icon (expand-file-name "images/mozc-icon-32.png" user-emacs-directory)))
       (if (and (image-type-available-p 'png) (file-exists-p icon))
-          (setq mozc-leim-title (propertize "あ" 'display `(image :type png :file ,icon :ascent center :margin (2 . 0))))
+          (setq mozc-leim-title (propertize "あ" 'display `(image :type png :file ,icon :ascent center :mask heuristic :margin (2 . 0))))
         (setq mozc-leim-title "[あ]")))
     (setq default-input-method "japanese-mozc-im"))
   (use-package mozc-popup
