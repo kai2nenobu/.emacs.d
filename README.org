@@ -10,3 +10,7 @@
 | [[file:my-lisp/][my-lisp/]]    | 自作elisp                                                                                  |
 | [[file:site-lisp/][site-lisp/]]  | package.el ではダウンロードできない非標準ライブラリ                                        |
 | [[file:snippets/][snippets/]]   | yasnippetのスニペット                                                                      |
+
+* その他の資源
+
+[[file:images/mozc-ui-hiragana.png][images/mozc-ui-hiragana.png]] は [[https://github.com/google/mozc/blob/afb03ddfe72dde4cf2409863a3bfea160f7a66d8/src/data/images/unix/ui-hiragana.png][google/mozc]] から取得したものです。ライセンスは [[https://github.com/google/mozc/blob/afb03ddfe72dde4cf2409863a3bfea160f7a66d8/LICENSE][Mozcのライセンス]] に従います。
