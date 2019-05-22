@@ -5133,13 +5133,22 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
   (use-package mozc-im
     :config
     (bind-key "<zenkaku-hankaku>" #'toggle-input-method)
-    ;; `current-input-method-title' のテキストプロパティを有効にする
-    (put 'current-input-method-title 'risky-local-variable t)
     ;; IME有効時のタイトル設定
-    (let ((icon (expand-file-name "images/mozc-icon-32.png" user-emacs-directory)))
-      (if (and (image-type-available-p 'png) (file-exists-p icon))
-          (setq mozc-leim-title (propertize "あ" 'display `(image :type png :file ,icon :ascent center :mask heuristic :margin (2 . 0))))
-        (setq mozc-leim-title "[あ]")))
+    (defun my-mozc-leim-title ()
+      "Return a title string (with image icon) when mozc IM is enabled."
+      (let ((icon (expand-file-name
+                   ;; 解像度に応じてアイコンの大きさを変える
+                   (format "images/mozc-icon-%d.png"
+                           (if (> (display-pixel-height) 2000) 32 16))
+                   user-emacs-directory)))
+        (if (and (image-type-available-p 'png) (file-exists-p icon))
+            (progn
+              ;; 画像表示のために `current-input-method-title' のテキストプロパティを有効にする
+              (put 'current-input-method-title 'risky-local-variable t)
+              (propertize "あ" 'display `(image :type png :file ,icon :ascent center
+                                                :mask heuristic :margin (2 . 0))))
+          "[あ]")))
+    (setq mozc-leim-title (my-mozc-leim-title))
     (setq default-input-method "japanese-mozc-im"))
   (use-package mozc-popup
     :config
