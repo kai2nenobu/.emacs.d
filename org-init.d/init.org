@@ -348,6 +348,24 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
         ((eq (server-running-p) :other)
          (server-start))))
 #+END_SRC
+
+*** WSLのemacslientで開いたウィンドウにフォーカスを当てる
+~emacsclient~ でファイルを開いたときに発火するフックが ~server-visit-hook~ になるので、このタイミングで ~AutoHotkey~ を使ってX Serverのウィンドウにフォーカスを当てるようにする。この方法ならコンソールから ~emacsclient~ を起動した場合でも、右クリックで ~emacsclient~ を起動した場合でもフォーカスが当てられる。
+
+#+begin_src emacs-lisp +n
+(when (and (wslp) (executable-find "AutoHotkey.exe"))
+  (defun my-focus-xwindow-by-ahk ()
+    "Focus to a X Server Window by AutoHotkey."
+    (when (and (wslp) (executable-find "AutoHotkey.exe"))
+      (let* ((userprofile (string-trim (shell-command-to-string "cmd.exe /c echo %USERPROFILE%")))
+             (ahk-script (concat userprofile "\\utils\\focus-wsl-emacs.ahk")))
+        (when (file-exists-p ahk-script)
+          ;; Execute an autohotkey script
+          (call-process "AutoHotkey.exe" nil nil nil ahk-script)))))
+  (add-hook 'server-visit-hook #'my-focus-server-window)
+  )
+#+end_src
+
 ** 時間測定ポイント
 #+BEGIN_SRC emacs-lisp +n
 (my-measure-message-time "Looks and key bind.")
