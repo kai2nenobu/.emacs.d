@@ -362,7 +362,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
         (when (file-exists-p ahk-script)
           ;; Execute an autohotkey script
           (call-process "AutoHotkey.exe" nil nil nil ahk-script)))))
-  (add-hook 'server-visit-hook #'my-focus-server-window)
+  (add-hook 'server-visit-hook #'my-focus-xwindow-by-ahk)
   )
 #+end_src
 
