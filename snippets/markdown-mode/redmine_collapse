@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Collapse block in redmine
+# key: redmine_collapse
+# --
+{{collapse(${1:summary})
+${2:content}$0
+}}
