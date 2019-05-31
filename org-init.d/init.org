@@ -359,9 +359,8 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
     (when (and (wslp) (executable-find "AutoHotkey.exe"))
       (let* ((userprofile (string-trim (shell-command-to-string "cmd.exe /c echo %USERPROFILE%")))
              (ahk-script (concat userprofile "\\utils\\focus-wsl-emacs.ahk")))
-        (when (file-exists-p ahk-script)
-          ;; Execute an autohotkey script
-          (call-process "AutoHotkey.exe" nil nil nil ahk-script)))))
+        ;; Execute an autohotkey script
+        (call-process "AutoHotkey.exe" nil nil nil ahk-script))))
   (add-hook 'server-visit-hook #'my-focus-xwindow-by-ahk)
   )
 #+end_src
