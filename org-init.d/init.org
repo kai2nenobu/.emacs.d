@@ -3888,7 +3888,7 @@ Emacs から git を操作するライブラリ．
     (magit-run-git-with-editor "commit" "--amend" "--no-edit" args))
   (if (featurep 'transient)  ; transient or magit-popup
       (transient-append-suffix 'magit-commit 'magit-commit-amend ; Amendの後ろに追加
-        '("n" "Amend --no-edit" magit-commit-amend-noedit))
+        '("N" "Amend --no-edit" magit-commit-amend-noedit))
     (magit-define-popup-action 'magit-commit-popup
                                ?n "Amend --no-edit" 'magit-commit-amend-noedit)
     )
