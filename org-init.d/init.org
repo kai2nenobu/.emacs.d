@@ -3818,6 +3818,12 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 #+BEGIN_SRC emacs-lisp +n
 (use-package open-junk-file :defer t
   :bind ("C-c j" . open-junk-file)
+  :config
+  ;; WSLでもWindows側にジャンクファイルを保存する
+  (when (and (wslp) (executable-find "wslvar"))
+    (let ((username (string-trim (shell-command-to-string "wslvar USERNAME"))))
+      (setq open-junk-file-directory
+            (concat "/mnt/c/Users/" username "/junk/%Y/%m/%d-%H%M%S."))))
   )
 #+END_SRC
 ** lispxmp.el
