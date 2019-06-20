@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Powershell script embdded in bat file
+# key: powershell-embedded
+# ref. https://martin77s.wordpress.com/2018/01/25/embed-powershell-code-in-a-batch-file/
+# --
+@@echo off
+@@setlocal enabledelayedexpansion
+@@set LF=^
+
+@@set command=#
+@@for /f "tokens=*" %%i in ('findstr -bv @@ "%~f0"') do set command=!command!!LF!%%i
+@@powershell -NoProfile -NoExit -Command !command! & goto:eof
+
+# *** POWERSHELL CODE STARTS HERE *** #
+Write-Host 'This is PowerShell code being run from inside a batch file!' -Fore red
+$PSVersionTable
+Get-Process -Id $PID | Format-Table
