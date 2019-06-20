@@ -177,6 +177,16 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
         (t (message "Not found Unix tools"))))
 #+END_SRC
 * 見た目の設定など
+** 行番号の設定
+#+begin_src emacs-lisp +n
+(when (facep 'line-number-current-line)
+  ;; 現在行の色を変える
+  (face-spec-set 'line-number-current-line
+               '((((class color) (background light))
+                  :foreground "magenta")
+                 (((class color) (background dark))
+                  :foreground "yellow"))))
+#+end_src
 ** カーソル色を設定
 =set-cursor-color= だと、フレームの背景色がlightとdarkの場合分けができないの
 で、cursorフェイスを直接変更する。
