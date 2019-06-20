@@ -7,6 +7,8 @@
 @@setlocal enabledelayedexpansion
 @@set LF=^
 
+
+@@: Make sure you have two empty lines after "@@set LF=^"
 @@set command=#
 @@for /f "tokens=*" %%i in ('findstr -bv @@ "%~f0"') do set command=!command!!LF!%%i
 @@powershell -NoProfile -NoExit -Command !command! & goto:eof
