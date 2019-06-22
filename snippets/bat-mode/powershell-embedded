@@ -17,3 +17,7 @@
 Write-Host 'This is PowerShell code being run from inside a batch file!' -Fore red
 $PSVersionTable
 Get-Process -Id $PID | Format-Table
+
+# Local Variables:
+# mode: powershell
+# End:
