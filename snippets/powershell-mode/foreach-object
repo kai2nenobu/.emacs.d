@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Loop by ForEach-Object
+# key: foreach-object
+# --
+% { ${1:$_.Property}$0 }

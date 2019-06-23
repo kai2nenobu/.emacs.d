@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Filter by Where-Object Cmdlet
+# key: where-object
+# --
+? { ${1:$_.Property -eq 'something'}$0 }
