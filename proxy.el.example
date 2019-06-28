@@ -4,9 +4,11 @@
 (let ((proxy "proxy.example.com:8080"))
   (setenv "http_proxy" (concat "http://" proxy))
   (setenv "https_proxy" (concat "http://" proxy))
+  (setenv "no_proxy" "localhost")
   (setq url-proxy-services
         `(("http" . ,proxy)
-          ("https" . ,proxy)))
+          ("https" . ,proxy)
+          ("no_proxy" . "localhost")))
 
   ;;; If authentication is required
   ;; (let ((auth (base64-encode-string (format "%s:%s" "user" "password"))))
