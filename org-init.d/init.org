@@ -2736,6 +2736,9 @@ AutoHotkeyスクリプトのメジャーモード
     ;; `markdown-mode' を読み込んでたらメジャーモードを `gfm-mode' にする
     (setq atomic-chrome-default-major-mode 'gfm-mode))
   (atomic-chrome-start-server)
+  (when (fboundp #'my-focus-xwindow-by-ahk)
+    ;; WSLのEmacsフレーム（X Server）に自動でフォーカスを当てる
+    (add-hook 'atomic-chrome-edit-mode-hook #'my-focus-xwindow-by-ahk))
   )
 #+END_SRC
 
