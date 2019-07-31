@@ -382,6 +382,32 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** wslpathラッパー
+#+begin_src emacs-lisp +n
+(defun wslpath (path &optional absolute type)
+  "Translate PATH with `wslpath' command.
+
+If ABSOLUTE is non-nil, translate to absolute path format.
+TYPE is a type of path format. TYPE must be one of the following symbols.
+  unix - translate from a Windows path to a WSL path (default)
+  windows - translate from a WSL path to a Windows path
+  mixed - translate from a WSL path to a Windows path, with '/' instead of '\\'
+"
+  (unless path (error "`path' must not be nil."))
+  (unless type (setq type 'unix))
+  (unless (member type '(unix windows mixed)) (error "Invalid `type'."))
+  (let ((type-alist '((unix . "-u")
+                      (windows . "-w")
+                      (mixed . "-m")))
+        (args (list path)))
+    (add-to-list 'args (alist-get type type-alist))
+    (when absolute (add-to-list 'args "-a"))
+    (string-trim-right (with-temp-buffer
+                         (apply 'call-process "wslpath" nil t nil args)
+                         (buffer-string))
+                       "\r?\n" ; trim a trailing newline
+                       )))
+#+end_src
 ** prettierでフォーマット修正
 prettierを呼び出すだけの関数。yamlとか書いてるときに便利。
 
@@ -2269,11 +2295,21 @@ dired でファイルのリネームをする．最近は =dired-mode= で
 *** Dired で関連付けられたファイルを起動する
 - [[http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html][Emacs Dired: Opening Files in External Apps]]
 #+BEGIN_SRC emacs-lisp +n
+(defun dired-my-open-wslview (file)
+  "Try to run `wslview' to open FILE."
+  (interactive)
+  (if (executable-find "wslview")
+      (let ((winpath (wslpath file t 'windows)))
+        (call-process "bash" nil nil nil "wslview" winpath))
+    nil))
+
 (defun my-external-open-file  (file)
   "Open FILE with an appropriate application.
 Works in Microsoft Windows, Mac OS X, Linux."
   (interactive "fOpen file with external application: ")
-  (cond ((string-equal system-type "windows-nt")
+  (cond ((and (wslp) (executable-find "wslview"))
+         (dired-my-open-wslview file))
+        ((string-equal system-type "windows-nt")
          (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" file t t)))
         ((string-equal system-type "darwin")
          (let ((process-connection-type nil))
@@ -2281,6 +2317,7 @@ Works in Microsoft Windows, Mac OS X, Linux."
         ((string-equal system-type "gnu/linux")
          (let ((process-connection-type nil))
            (start-process "" nil "xdg-open" file)))))
+
 (defun my-external-open-file-dwim ()
   "Open the current file or dired marked files in external application."
   (interactive)
