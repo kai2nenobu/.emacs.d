@@ -2717,7 +2717,7 @@ info を Emacs で読む．
   (set-variable 'highlight-indent-guides-auto-enabled t)
   (set-variable 'highlight-indent-guides-responsive 'stack)
   (set-variable 'highlight-indent-guides-method 'character)
-  (set-variable 'highlight-indent-guides-character ?|)
+  (set-variable 'highlight-indent-guides-character #x23b8) ; Left Vertical Box Line
   (set-variable 'highlight-indent-guides-auto-odd-face-perc 40)
   (set-variable 'highlight-indent-guides-auto-even-face-perc 40)
   (set-variable 'highlight-indent-guides-auto-character-face-perc 40))
