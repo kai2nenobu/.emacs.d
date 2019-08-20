@@ -5228,10 +5228,16 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
           "[あ]")))
     (setq mozc-leim-title (my-mozc-leim-title))
     (setq default-input-method "japanese-mozc-im"))
-  (use-package mozc-popup
+  (use-package mozc-popup :disabled t
     :config
     ;; 変換候補をポップアップで表示する
     (setq mozc-candidate-style 'popup))
+
+  ;; 変換候補をposframeで表示する
+  (use-package mozc-posframe
+    :quelpa (mozc-posframe :repo "derui/mozc-posframe" :fetcher github)
+    :config
+    (setq mozc-candidate-style 'posframe))
   )
 #+end_src
 
