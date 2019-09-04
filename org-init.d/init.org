@@ -251,6 +251,8 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
   (when my-default-font
     (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t)
     (set-face-attribute 'fixed-pitch nil :family my-default-font))
+  ;; 個別設定
+  (set-fontset-font t #x32ff "IPAexGothic") ; 令和合成文字
   )
 
 ;;; list-faces-display 用の文字列
