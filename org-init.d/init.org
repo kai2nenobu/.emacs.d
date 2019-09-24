@@ -2500,8 +2500,7 @@ relative path."
 #+BEGIN_SRC emacs-lisp +n
 (use-package flyspell :defer t
   :init
-  (add-hook 'text-mode-hook #'flyspell-mode)
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+  (add-hook 'text-mode-hook #'flyspell-mode))
 #+END_SRC
 ** outline.el
 アウトラインを確認しながら編集するモード．主な目的は `outline-minor-mode' を
