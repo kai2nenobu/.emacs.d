@@ -2716,10 +2716,13 @@ Emacs26時点だとカラー絵文字に対応していないので、Symbolaフ
 
 #+begin_src emacs-lisp +n
 (use-package emojify :defer t
+  :bind (:map mode-specific-map
+              ("e" . emojify-insert-emoji))
   :hook
   (text-mode . emojify-mode)
   :config
   (set-variable 'emojify-emoji-styles '(unicode github))
+  (set-variable 'emojify-emoji-set "twemoji-v2")
   )
 #+end_src
 
@@ -2815,8 +2818,6 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 (use-package emoji-cheat-sheet-plus :defer t
   :init
   (add-hook 'markdown-mode-hook 'emoji-cheat-sheet-plus-display-mode)
-  :bind (:map mode-specific-map
-              ("e" . emoji-cheat-sheet-plus-insert))
   )
 #+END_SRC
 
