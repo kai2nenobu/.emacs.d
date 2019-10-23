@@ -2715,7 +2715,7 @@ Emacs26時点だとカラー絵文字に対応していないので、Symbolaフ
 というわけで絵文字に相当する文字を画像で表示するのがこのライブラリの機能である。 ~絵文字に相当する文字~ として ~:)~ のようなアスキーアート、ユニコードにおける絵文字、 ~:smile:~ のようなGithub形式の絵文字を扱うことができる。
 
 #+begin_src emacs-lisp +n
-(use-package emojify
+(use-package emojify :defer t
   :hook
   (text-mode . emojify-mode)
   :config
