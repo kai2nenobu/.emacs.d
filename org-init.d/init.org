@@ -2707,6 +2707,23 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/iqbalansari/emacs-emojify][emojify]]
+テキスト中の絵文字を画像で表示するライブラリ。
+
+Emacs26時点だとカラー絵文字に対応していないので、Symbolaフォントなどで描画した単色の絵文字しか表示できない。これだとせっかくの絵文字のみやすさが損なわれてあんまり嬉しくない。
+
+というわけで絵文字に相当する文字を画像で表示するのがこのライブラリの機能である。 ~絵文字に相当する文字~ として ~:)~ のようなアスキーアート、ユニコードにおける絵文字、 ~:smile:~ のようなGithub形式の絵文字を扱うことができる。
+
+#+begin_src emacs-lisp +n
+(use-package emojify
+  :hook
+  (text-mode . emojify-mode)
+  :config
+  (set-variable 'emojify-emoji-styles '(unicode github))
+  )
+#+end_src
+
+~emojify-insert-emoji~ でGithub形式の絵文字を挿入することもできるので、コミットメッセージの入力などでも使えて便利です。
 ** [[https://github.com/DarthFennec/highlight-indent-guides][highlight-indent-guides]]
 インデント位置をハイライトするマイナーモード。インデント位置はカラムのfaceやcharacterで表現される。yamlなんかで特に便利。
 
