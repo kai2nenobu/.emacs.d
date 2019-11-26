@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: details
+# key: disclosure widget by a details tag
+# --
+<details>
+<summary>${1:summary note}</summary>
+$0
+</details>
