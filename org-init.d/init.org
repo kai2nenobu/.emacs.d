@@ -4934,6 +4934,40 @@ The html link is determined from `org-export-html-my-info-link-alist'."
   (add-to-list 'org-export-filter-link-functions 'org-export-html-relative-filter)
   )
 #+END_SRC
+**** 見出しのIDをランダムではなくパスに基づく値にする
+デフォルトはランダムなので、生成するたびに異なるIDになってしまう。見出しのタイトルや深さにから算出したチェックサムをIDにすることで、複数回生成しても同じIDになるようにする。
+
+#+begin_src emacs-lisp +n
+(with-eval-after-load 'ox-html
+  (defun my-org-element-headline-path (element)
+    "Return a path of headline if ELEMENT type is headline."
+    (when (eq (org-element-type element) 'headline)
+      (let* ((current-head element)
+             (path (concat "/" (org-element-property :raw-value current-head))))
+        (while (org-export-get-parent-headline current-head)
+          (setq current-head (org-export-get-parent-headline current-head))
+          (setq path (concat "/" (org-element-property :raw-value current-head) path)))
+        path)))
+  (defun my-org-headline-reference (datum info)
+    ""
+    (let ((cache (plist-get info :internal-references))
+          (ast (plist-get info :parse-tree))
+          new-cache)
+                                        ;(cl-loop for (key value) on info by 'cddr
+                                        ;         do (message "%s" key))
+      (unless cache
+        (message "[BEFORE ADVICE] Cache not found")
+        (org-element-map ast 'headline
+          (lambda (headline)
+            (let* ((path (my-org-element-headline-path headline))
+                   (headline-ref (md5 path)))
+              ;; put a headline refernce into cache
+              (push (cons headline-ref headline) new-cache))))
+        (plist-put info :internal-references new-cache))))
+  (advice-add #'org-export-get-reference :before #'my-org-headline-reference)
+  )
+#+end_src
+
 **** プロパティでエクスポートを設定を変える
 =:html-table-use-header-tags-for-first-column= という変数を、特定のツリー以下で変えたかったので色々いじってみた。
 
