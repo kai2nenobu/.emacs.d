@@ -4949,18 +4949,20 @@ The html link is determined from `org-export-html-my-info-link-alist'."
           (setq path (concat "/" (org-element-property :raw-value current-head) path)))
         path)))
   (defun my-org-headline-reference (datum info)
-    ""
     (let ((cache (plist-get info :internal-references))
           (ast (plist-get info :parse-tree))
           new-cache)
                                         ;(cl-loop for (key value) on info by 'cddr
                                         ;         do (message "%s" key))
       (unless cache
-        (message "[BEFORE ADVICE] Cache not found")
+        (message "`my-org-headline-reference': Cache not found")
         (org-element-map ast 'headline
           (lambda (headline)
-            (let* ((path (my-org-element-headline-path headline))
-                   (headline-ref (md5 path)))
+            (let* ((custom-id (org-element-property :CUSTOM_ID headline))
+                   headline-ref)
+              (setq headline-ref
+                    (or custom-id
+                        (format "org-%s" (md5 (my-org-element-headline-path headline)))))
               ;; put a headline refernce into cache
               (push (cons headline-ref headline) new-cache))))
         (plist-put info :internal-references new-cache))))
