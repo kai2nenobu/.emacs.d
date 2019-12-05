@@ -4952,8 +4952,6 @@ The html link is determined from `org-export-html-my-info-link-alist'."
     (let ((cache (plist-get info :internal-references))
           (ast (plist-get info :parse-tree))
           new-cache)
-                                        ;(cl-loop for (key value) on info by 'cddr
-                                        ;         do (message "%s" key))
       (unless cache
         (message "`my-org-headline-reference': Cache not found")
         (org-element-map ast 'headline
