@@ -3288,6 +3288,9 @@ Gradleタスクを実行するマイナーモード。
           (setq-local flycheck-textlint-config nil)))
       ))
   (add-hook 'flycheck-mode-hook #'flycheck-textlint-my-project-executable-find)
+  ;; Use python3
+  (when (executable-find "python3")
+    (setq flycheck-python-pycompile-executable "python3"))
   )
 #+END_SRC
 *** textlintで文章校正
