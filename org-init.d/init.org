@@ -5295,7 +5295,7 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
   (use-package mozc-posframe
     :quelpa (mozc-posframe :repo "derui/mozc-posframe" :fetcher github)
     :config
-    (setq mozc-candidate-style 'posframe))
+    (mozc-posframe-register))
   )
 #+end_src
 
