@@ -2707,6 +2707,12 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** helm-ghq
+ghqで管理下のリポジトリにかんたんにアクセスできるようになる。
+
+#+begin_src emacs-lisp +n
+(use-package helm-ghq :defer t)
+#+end_src
 ** [[https://github.com/iqbalansari/emacs-emojify][emojify]]
 テキスト中の絵文字を画像で表示するライブラリ。
 
