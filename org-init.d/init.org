@@ -4055,6 +4055,15 @@ Emacs から git を操作するライブラリ．
               (set-fill-column 72)))
   )
 #+END_SRC
+*** [[https://github.com/dandavison/magit-delta][magit-delta.el]]
+magitのdiffを[[https://github.com/dandavison/delta][delta]]で表示できるパッケージ。diffの可読性がめちゃんこ上がる。
+
+#+begin_src emacs-lisp +n
+(use-package magit-delta
+  :after (magit)
+  :config
+  (magit-delta-mode 1))
+#+end_src
 ** col-highlight.el
 hilight current column.
 #+BEGIN_SRC emacs-lisp +n
