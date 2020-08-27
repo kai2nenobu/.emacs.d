@@ -371,8 +371,8 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
   (defun my-focus-xwindow-by-ahk ()
     "Focus to a X Server Window by AutoHotkey."
     (when (and (wslp) (executable-find "AutoHotkey.exe"))
-      (let* ((userprofile (string-trim (shell-command-to-string "cmd.exe /c echo %USERPROFILE%")))
-             (ahk-script (concat userprofile "\\utils\\focus-wsl-emacs.ahk")))
+      (let* ((userprofile (getenv "USERPROFILE"))
+             (ahk-script (wslpath (expand-file-name "utils/focus-wsl-emacs.ahk" userprofile) t 'windows)))
         ;; Execute an autohotkey script
         (call-process "AutoHotkey.exe" nil nil nil ahk-script))))
   (add-hook 'server-visit-hook #'my-focus-xwindow-by-ahk)
