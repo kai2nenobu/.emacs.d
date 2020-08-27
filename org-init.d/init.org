@@ -5328,12 +5328,6 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
     :config
     ;; 変換候補をポップアップで表示する
     (setq mozc-candidate-style 'popup))
-
-  ;; 変換候補をposframeで表示する
-  (use-package mozc-posframe
-    :quelpa (mozc-posframe :repo "derui/mozc-posframe" :fetcher github)
-    :config
-    (mozc-posframe-register))
   )
 #+end_src
 
@@ -5348,6 +5342,17 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
 でOKなはず。Windows側のGoogle日本語入力の設定や辞書が有効になり、変換はうまくできていそうだ。。ただ ~全角半角~ キーでのトグル時に何回もトグルが起こってしまうようで、うまくトグルできないときもある。上記のNTEmacs@ウィキに半角全角キーをうまく使えるようにするpythonスクリプトあるのでそれを入れれば改善するかも。
 
 他にもいくつか問題がある。IMを使っているので同じくIMを使っている ~key-chord~ の同時押しキーバインドが使えない。まあこれはWindowsでも日本語入力時は ~key-chord~ の同時押しできてなかったので、まあ同じようなもんか。
+*** mozc-posframe
+mozcの変換候補をposframeで表示する。
+
+#+begin_src emacs-lisp +n
+(use-package mozc-posframe
+  :quelpa (mozc-posframe :repo "derui/mozc-posframe" :fetcher github)
+  :after mozc
+  :config
+  (mozc-posframe-register)
+  (setq mozc-candidate-style 'posframe))
+#+end_src
 ** ibus.el
 - [[http://www11.atwiki.jp/s-irie/pages/21.html][irie @ ウィキ - ibus.el]]
 Emacsでibusを使えるようにする．これで mozc が使える．
