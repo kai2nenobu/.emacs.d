@@ -5342,7 +5342,7 @@ Mozcを使って日本語入力するためのパッケージ。基本的にはW
 でOKなはず。Windows側のGoogle日本語入力の設定や辞書が有効になり、変換はうまくできていそうだ。。ただ ~全角半角~ キーでのトグル時に何回もトグルが起こってしまうようで、うまくトグルできないときもある。上記のNTEmacs@ウィキに半角全角キーをうまく使えるようにするpythonスクリプトあるのでそれを入れれば改善するかも。
 
 他にもいくつか問題がある。IMを使っているので同じくIMを使っている ~key-chord~ の同時押しキーバインドが使えない。まあこれはWindowsでも日本語入力時は ~key-chord~ の同時押しできてなかったので、まあ同じようなもんか。
-*** mozc-posframe
+*** [[https://github.com/derui/mozc-posframe][mozc-posframe]].el
 mozcの変換候補をposframeで表示する。
 
 #+begin_src emacs-lisp +n
