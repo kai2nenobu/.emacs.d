@@ -384,6 +384,34 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** 新規作成ファイルのエンコーディングを変更する
+新規作成ファイルのデフォルトの文字コードはUTF-8、改行文字はプラットフォーム依存にしてあるが、特定のファイルは固定のエンコーディングにしたい場合がある。たとえばps1とかbatなどである。
+
+~file-coding-system-alist~ がそういう用途に使えるかと思ったけど、これを設定するとファイルの新規作成時だけではなく、既存のファイルを開いた際にも強制的に設定したエンコーディングになってしまう。そうすると共同プロジェクトでは不都合な場合もある。
+
+今回はあくまでファイル新規作成時のみ設定したエンコーディングにしたいので自作してみた。 ~find-file-not-found-functions~ が存在しないファイルを開いたときに実行されるフックである。
+
+#+begin_src emacs-lisp +n
+(defun my-new-file-encoding ()
+  "Change the file encoding system according to `buffer-file-name'. Always return nil."
+  (when buffer-file-name
+    (let ((coding-alist '(("\\.ps1\\'" . utf-8-with-signature-dos)
+                          ("\\.bat\\'" . cp932-dos)))
+          (match nil)
+          (new-cs buffer-file-coding-system))
+      (while (and (not match) coding-alist)
+        (let ((pair (pop coding-alist)))
+          ;; Find a first match pair
+          (when (string-match (car pair) buffer-file-name)
+            (setq match pair)
+            (set-buffer-file-coding-system (cdr pair) nil t)))))))
+(add-hook 'find-file-not-found-functions #'my-new-file-encoding)
+#+end_src
+
+参考
+
+- [[http://yohshiy.blog.fc2.com/blog-entry-273.html?sp][Emacs における日本語文字コードの設定]]
+- [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html][22.6 Recognizing Coding Systems]]
 ** フォントプレビュー
 フォントを
 
