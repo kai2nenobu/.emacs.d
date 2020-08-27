@@ -384,6 +384,29 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** フォントプレビュー
+フォントを
+
+- [[https://emacs.stackexchange.com/a/15137]]
+
+をパクりました。
+
+#+begin_src emacs-lisp +n
+(defun my-font-preview (str)
+  "List STR with available fonts."
+  (interactive "MInput: ")
+  (let ((buffer-name "*font families*"))
+    (with-current-buffer (get-buffer-create buffer-name)
+      (font-lock-mode 0)
+      (erase-buffer)
+      (dolist (font-family (-uniq (font-family-list)))
+        (insert (propertize str 'face `(:family ,font-family))
+                "\t"
+                font-family
+                "\n"))
+      (goto-char (point-min)))
+    (pop-to-buffer-same-window buffer-name)))
+#+end_src
 ** wslpathラッパー
 #+begin_src emacs-lisp +n
 (defun wslpath (path &optional absolute type)
