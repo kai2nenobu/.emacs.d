@@ -2060,6 +2060,7 @@ shift+カーソルキー でウィンドウを移動する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package abbrev
   :ensure nil
+  :delight
   :custom
   (abbrev-file-name (my-locate-user-tmp-file "abbrev_defs")
                     "略語を記録したファイル置き場"))
