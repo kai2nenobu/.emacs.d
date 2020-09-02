@@ -524,6 +524,7 @@ BOMの有無を視覚的に明示したかったので自作した。
 #+BEGIN_SRC emacs-lisp +n
 (use-package bom-mode :defer t
   :load-path "my-lisp"
+  :delight
   :init
   (add-hook 'prog-mode-hook 'bom-mode)
   (add-hook 'text-mode-hook 'bom-mode))
@@ -1726,8 +1727,7 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 #+BEGIN_SRC emacs-lisp +n
 (loop for (mode file lighter)
       in '((isearch-mode "isearch" "")
-           (ibus-mode "ibus" "")
-           (undo-tree-mode "undo-tree" " Utree"))
+           (ibus-mode "ibus" ""))
       do  (eval-after-load file
             `(setcar (cdr (assq (quote ,mode) minor-mode-alist)) ,lighter)))
 #+END_SRC
@@ -2515,6 +2515,7 @@ relative path."
 空白文字類を明示する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package whitespace
+  :delight global-whitespace-mode
   :config
   (setq whitespace-style '(face spaces space-mark tabs tab-mark trailing))
   (setq whitespace-display-mappings
@@ -2805,6 +2806,7 @@ Emacs26時点だとカラー絵文字に対応していないので、Symbolaフ
 
 #+begin_src emacs-lisp +n
 (use-package highlight-indent-guides :defer t
+  :delight
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :config
@@ -2828,6 +2830,7 @@ Emacs Mojor mode for editing TOML files。よく設定ファイルに使われ�
 
 #+BEGIN_SRC emacs-lisp +n
 (use-package beacon :defer 10
+  :delight
   :custom
   (beacon-size 60)
   :config
@@ -2847,6 +2850,7 @@ Emacs Mojor mode for editing TOML files。よく設定ファイルに使われ�
 
 #+BEGIN_SRC emacs-lisp +n
 (use-package editorconfig
+  :delight (editorconfig-mode " EC")
   :config
   (editorconfig-mode 1))
 #+END_SRC
@@ -3420,6 +3424,7 @@ OFFSET is simply ignored."
 スマートに改行を入れる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package smart-newline :defer t
+  :delight
   :init
   (add-hook 'prog-mode-hook 'smart-newline-mode)
   (add-hook 'text-mode-hook 'smart-newline-mode))
@@ -3496,6 +3501,7 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ** anzu
 #+BEGIN_SRC emacs-lisp +n
 (use-package anzu :defer t
+  :delight
   :init
   (add-autoload isearch-forward anzu)
   :config
@@ -3521,6 +3527,7 @@ outline-modeでorg-cycle風にアウトラインを開閉する。
 ル下のシンボルをハイライトするようになる。
 #+BEGIN_SRC emacs-lisp +n
 (use-package highlight-symbol :defer t
+  :delight
   :init
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   :config
@@ -3801,6 +3808,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 #+BEGIN_SRC emacs-lisp +n
 (use-package which-key
+  :delight
   :config
   (which-key-setup-side-window-right)
   (setq which-key-idle-delay 0.5
@@ -3846,6 +3854,7 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
 リージョンを特定文字で囲む
 #+BEGIN_SRC emacs-lisp +n
 (use-package wrap-region :defer t
+  :delight
   :init
   (add-hook 'prog-mode-hook 'wrap-region-mode)
   (add-hook 'text-mode-hook 'wrap-region-mode)
@@ -4001,6 +4010,7 @@ paredit.el をつけておくとファイルを開くときにメジャーモー
 編集履歴を木構造で視覚的に表示しアンドゥできる．
 #+BEGIN_SRC emacs-lisp +n
 (use-package undo-tree
+  :delight
   :config
   (global-undo-tree-mode)
   (setq-default undo-tree-visualizer-timestamps t) ; display timestamp in visualizer
@@ -4123,6 +4133,7 @@ magitのdiffを[[https://github.com/dandavison/delta][delta]]で表示できる�
 
 #+begin_src emacs-lisp +n
 (use-package magit-delta
+  :delight
   :after (magit)
   :config
   (magit-delta-mode 1))
@@ -4149,6 +4160,7 @@ hilight current column.
 #+BEGIN_SRC emacs-lisp +n
 ;;;; yasnippet.el
 (use-package yasnippet :defer t
+  :delight yas-minor-mode
   :commands (yas-expand yas-minor-mode helm-c-yas-complete)
   :mode "\\.\\(ya\\)?snippet\\'"
   :init
@@ -4259,6 +4271,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-config :defer 3
   :ensure helm
+  :delight helm-mode
   :bind (:map mode-specific-map
               ("r" . 'helm-for-files))
   :config
