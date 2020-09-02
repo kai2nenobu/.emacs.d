@@ -3853,7 +3853,6 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
   (wrap-region-add-wrapper "`" "'" nil 'lisp-mode)
   (wrap-region-add-wrapper "`" "`" nil 'markdown-mode)
   (wrap-region-add-wrapper "`" "`" nil 'gfm-mode)
-  
   )
 #+END_SRC
 ** expand-region.el
