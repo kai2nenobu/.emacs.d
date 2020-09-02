@@ -2765,6 +2765,15 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** [[https://github.com/k-talo/volatile-highlights.el][volatile-highlights.el]]
+ペーストやアンドゥした領域をハイライトしてくれる。大きい文字をペーストするとカーソルが迷子になったりするので、視覚的に貼り付けた領域がわかるとミスが起きにくい。
+
+#+begin_src emacs-lisp +n
+(use-package volatile-highlights :defer t
+  :delight
+  :hook
+  (after-init . volatile-highlights-mode))
+#+end_src
 ** helm-ghq
 ghqで管理下のリポジトリにかんたんにアクセスできるようになる。
 
