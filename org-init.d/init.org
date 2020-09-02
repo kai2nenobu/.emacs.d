@@ -235,11 +235,14 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
 にすると XLFD 表現で表示される．
 
 #+BEGIN_SRC emacs-lisp +n
+;; 記号類にデフォルトフォントを使わない（fontsetの設定を尊重する）
+(setq use-default-font-for-symbols nil)
+
 ;;; 端末でフォント設定の意味はないので，条件分岐しておこう．
 (when window-system
   (defvar my-default-font-size 15 "Default font size")
   (defvar my-default-font nil "Default font family")
-  (defvar my-font-alist '(("HackGen Console" . 14) ("Ricty" . 15) ("Ricty Diminished" . 15) ("ＭＳ ゴシック" . 12) ("hoge" . 3))
+  (defvar my-font-alist '(("HackGen" . 14) ("Ricty" . 15) ("Ricty Diminished" . 15) ("ＭＳ ゴシック" . 12) ("hoge" . 3))
     "Alist of a font family and size")
   (cl-loop for (font . size) in my-font-alist
            when (member font (font-family-list))
@@ -253,6 +256,7 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
     (set-face-attribute 'fixed-pitch nil :family my-default-font))
   ;; 個別設定
   (set-fontset-font t #x32ff "IPAexGothic") ; 令和合成文字
+  (set-fontset-font t (cons #x2500 #x257f) "HackGen Console") ; 罫線類を半角にする
   )
 
 ;;; list-faces-display 用の文字列
@@ -262,6 +266,9 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
 "フォント幅テスト用の文字列．|
 1234567890!\"#$%&'()~-^\\@=~`?|")
 #+END_SRC
+
+- [[http://misohena.jp/blog/2017-09-26-symbol-font-settings-for-emacs25.html][Emacs 25.2以降でASCIIと日本語のフォントを別々に設定する(一部の記号のフォントが変更できない場合)]]
+  - ~use-default-font-for-symbols~ を ~nil~ に設定しないと記号のフォントが変わらない話。
 ** default-major-mode
 該当しない拡張子のメジャーモード。バージョン23.2以前は =default-major-mode=
 を利用していたようだが、それ以降は =major-mode= のグローバル値がみられるよう
