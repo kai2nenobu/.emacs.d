@@ -2795,9 +2795,6 @@ Emacs26時点だとカラー絵文字に対応していないので、Symbolaフ
   (set-variable 'highlight-indent-guides-auto-enabled t)
   (set-variable 'highlight-indent-guides-responsive 'stack)
   (set-variable 'highlight-indent-guides-method 'character)
-  (set-variable 'highlight-indent-guides-character (if (char-displayable-p #x23b8)
-                                                       #x23b8 ; Left Vertical Box Line
-                                                     ?|))
   (set-variable 'highlight-indent-guides-auto-odd-face-perc 40)
   (set-variable 'highlight-indent-guides-auto-even-face-perc 40)
   (set-variable 'highlight-indent-guides-auto-character-face-perc 40))
