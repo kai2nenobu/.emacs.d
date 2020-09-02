@@ -3346,6 +3346,8 @@ Gradleタスクを実行するマイナーモード。
   :config
   (setq flycheck-idle-change-delay 0.5)
   (setq flycheck-display-errors-delay 0.1)
+  (when (char-displayable-p ?)
+    (setq flycheck-mode-line-prefix ""))
   ;; Configuration for textlint checker
   (set-variable 'flycheck-textlint-config ".textlintrc")
   (defun flycheck-textlint-my-project-executable-find ()
