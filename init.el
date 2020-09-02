@@ -31,6 +31,7 @@
              (package-installed-p 'quelpa-use-package))
   (package-refresh-contents)
   (package-install 'use-package)
+  (package-install 'delight)
   (package-install 'quelpa-use-package))
 
 ;; use-packageを利用する（存在しない場合は無視する）
