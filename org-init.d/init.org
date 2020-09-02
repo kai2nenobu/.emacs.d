@@ -1727,8 +1727,7 @@ Emacs テクニックバイブルより．アスペクト比によってどう�
 *** マイナーモード
 #+BEGIN_SRC emacs-lisp +n
 (loop for (mode file lighter)
-      in '((isearch-mode "isearch" "")
-           (ibus-mode "ibus" ""))
+      in '((ibus-mode "ibus" ""))
       do  (eval-after-load file
             `(setcar (cdr (assq (quote ,mode) minor-mode-alist)) ,lighter)))
 #+END_SRC
@@ -2032,6 +2031,12 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** isearch.el
+#+begin_src emacs-lisp +n
+(use-package isearch :defer t
+  :ensure nil
+  :delight (isearch-mode " "))
+#+end_src
 ** autorevert.el
 #+begin_src emacs-lisp +n
 (use-package autorevert :defer t
