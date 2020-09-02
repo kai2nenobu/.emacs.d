@@ -2032,6 +2032,12 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** autorevert.el
+#+begin_src emacs-lisp +n
+(use-package autorevert :defer t
+  :ensure nil
+  :delight (auto-revert-mode " "))
+#+end_src
 ** startup.el
 起動時に自動で読み込まれるelisp？
 
