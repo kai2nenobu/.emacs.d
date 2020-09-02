@@ -2570,6 +2570,7 @@ relative path."
 編集中にリアルタイムにスペルチェックする．
 #+BEGIN_SRC emacs-lisp +n
 (use-package flyspell :defer t
+  :delight (flyspell-mode " ")
   :init
   (add-hook 'text-mode-hook #'flyspell-mode))
 #+END_SRC
