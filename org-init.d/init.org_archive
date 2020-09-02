@@ -1,8 +1,5 @@
 #    -*- mode: org -*-
 
-
-Archived entries from file c:/Users/70340930/.emacs.d/org-init.d/init.org
-
 * 最初に必要な設定
 ** 安全な require, load, autoload マクロ
 :PROPERTIES:
