@@ -2813,6 +2813,8 @@ Emacs26時点だとカラー絵文字に対応していないので、Symbolaフ
 
 #+begin_src emacs-lisp +n
 (use-package emojify :defer t
+  :init
+  (add-to-list 'minor-mode-alist '(emojify-mode " ☺"))
   :bind (:map mode-specific-map
               ("e" . emojify-insert-emoji))
   :hook
