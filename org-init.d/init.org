@@ -3993,10 +3993,10 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
   :bind ("C-c j" . open-junk-file)
   :config
   ;; WSLでもWindows側にジャンクファイルを保存する
-  (when (and (wslp) (executable-find "wslvar"))
-    (let ((username (string-trim (shell-command-to-string "wslvar USERNAME"))))
+  (when (wslp)
+    (let ((home (or (getenv "USERPROFILE") (getenv "HOME"))))
       (setq open-junk-file-directory
-            (concat "/mnt/c/Users/" username "/junk/%Y/%m/%d-%H%M%S."))))
+            (expand-file-name "junk/%Y/%m/%d-%H%M%S." home))))
   )
 #+END_SRC
 ** lispxmp.el
