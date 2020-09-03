@@ -2789,6 +2789,21 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** all-the-icons.el
+アイコンフォントをAll in Oneでまとめてくれるパッケージ。必要なフォントも一発でダウンロードできる。
+
+#+begin_src emacs-lisp +n
+(use-package all-the-icons :defer 2
+  :config
+  ;(setq inhibit-compacting-font-caches t)
+  (set-fontset-font t 'unicode (font-spec :family "all-the-icons") nil 'append)
+  (set-fontset-font t 'unicode (font-spec :family "file-icons") nil 'append)
+  (set-fontset-font t 'unicode (font-spec :family "Material Icons") nil 'append)
+  (set-fontset-font t 'unicode (font-spec :family "github-octicons") nil 'append)
+  (set-fontset-font t 'unicode (font-spec :family "FontAwesome") nil 'append)
+  (set-fontset-font t 'unicode (font-spec :family "Weather Icons") nil 'append)
+  )
+#+end_src
 ** [[https://github.com/k-talo/volatile-highlights.el][volatile-highlights.el]]
 ペーストやアンドゥした領域をハイライトしてくれる。大きい文字をペーストするとカーソルが迷子になったりするので、視覚的に貼り付けた領域がわかるとミスが起きにくい。
 
