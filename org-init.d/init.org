@@ -3403,7 +3403,7 @@ Gradleタスクを実行するマイナーモード。
 
 #+BEGIN_SRC emacs-lisp +n
 (with-eval-after-load 'flycheck
-  (use-package flycheck-inline
+  (use-package flycheck-inline :disabled t
     :init (add-hook 'flycheck-mode-hook #'flycheck-inline-mode)
     :config
     ;; 本文と区別がつくように背景色を灰色にする
@@ -3427,6 +3427,16 @@ OFFSET is simply ignored."
                 (replace-regexp-in-string "\n" rep (string-trim msg)))))
     ))
 #+END_SRC
+*** [[https://github.com/alexmurray/flycheck-posframe][flycheck-posframe.el]]
+posframeを使ってメッセージを表示する。
+
+#+begin_src emacs-lisp +n
+(use-package flycheck-posframe
+  :after flycheck
+  :hook (flycheck-mode . flycheck-posframe-mode)
+  :config
+  (set-face-background 'flycheck-posframe-background-face "#333333"))
+#+end_src
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp +n
 (use-package git-gutter-fringe :defer t
