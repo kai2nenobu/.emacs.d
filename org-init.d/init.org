@@ -2750,7 +2750,15 @@ info を Emacs で読む．
 ** desktop.el
 セッションのバッファの状態を保存する(次回起動時に勝手にファイルを開いてくれる)．
 #+BEGIN_SRC emacs-lisp +n
-(use-package desktop
+(use-package desktop :defer t
+  :ensure nil
+  :init
+  (defun my-turn-on-desktop ()
+    "Turn on `desktop-save-mode' and restore buffers."
+    (interactive)
+    (desktop-save-mode 1)
+    (desktop-read))
+  :bind ("<f2>" . my-turn-on-desktop)
   :custom
   (desktop-dirname (my-locate-user-tmp-file "./"))
   ;; 保存しないファイルの正規表現
@@ -2762,7 +2770,8 @@ info を Emacs で読む．
   ;; ロックファイルがあってもロードする
   (desktop-load-locked-desktop t)
   :config
-  (desktop-save-mode 1))
+  (add-to-list 'desktop-path (my-locate-user-tmp-file "."))
+  )
 #+END_SRC
 ** uniquify.el
 同じ名前のファイルを開く際にバッファ名にディレクトリ名を付加する．ファイル名が
