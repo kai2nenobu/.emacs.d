@@ -534,7 +534,7 @@ BOMの有無を視覚的に明示したかったので自作した。
 emoji-cheat-sheet-plus はhelmで絵文字を選べて便利だが、絵文字表記（ =:+1:= みたいなの）しか挿入できず、ユニコードの文字として挿入することができない。不便なのでユニコードを挿入する機能を追加する emoji-cheat-sheet++.el を自作した。
 
 #+BEGIN_SRC emacs-lisp +n
-(use-package emoji-cheat-sheet++
+(use-package emoji-cheat-sheet++ :disabled t
   :load-path "my-lisp"
   )
 #+END_SRC
@@ -2912,7 +2912,7 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 
 例えば :+1: とか :family: をいい感じでみれるようになる。
 #+BEGIN_SRC emacs-lisp +n
-(use-package emoji-cheat-sheet-plus :defer t
+(use-package emoji-cheat-sheet-plus :defer t :disabled t
   :init
   (add-hook 'markdown-mode-hook 'emoji-cheat-sheet-plus-display-mode)
   )
