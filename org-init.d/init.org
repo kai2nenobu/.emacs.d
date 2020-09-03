@@ -5197,7 +5197,7 @@ orgドキュメント内で様々なヒントをミニバッファに表示す�
 *** org-reveal
 orgファイルをreveal.jsのプレゼンテーションにエクスポートする。
 #+BEGIN_SRC emacs-lisp +n
-(use-package ox-reveal :defer t
+(use-package ox-reveal :defer t :disabled t
   :init
   (setq org-reveal-note-key-char nil)  ; BEGIN_NOTES のショートカットを追加しない
   (add-autoload org-export-dispatch ox-reveal)
@@ -5226,7 +5226,9 @@ orgファイルをreveal.jsのプレゼンテーションにエクスポート�
 org-revealのフォーク。こちらのほうが活発そうなので、こちらを使っていこう。
 
 #+begin_src emacs-lisp +n
-(use-package org-re-reveal
+(use-package org-re-reveal :defer t
+  :init
+  (add-autoload org-export-dispatch ox-re-reveal)
   :config
   (setq org-re-reveal-title-slide "<h1 class=\"title\">%t</h1>
 <h2 class=\"author\">%a</h2>
