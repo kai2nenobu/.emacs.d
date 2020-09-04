@@ -2890,7 +2890,9 @@ Emacs Mojor mode for editing TOML files。よく設定ファイルに使われ�
 
 #+BEGIN_SRC emacs-lisp +n
 (use-package editorconfig
-  :delight (editorconfig-mode " EC")
+  :delight (editorconfig-mode (if (member "file-icons" (font-family-list))
+                                  " "
+                                " EC"))
   :config
   (editorconfig-mode 1))
 #+END_SRC
