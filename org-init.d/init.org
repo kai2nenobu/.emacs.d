@@ -4323,7 +4323,9 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 #+BEGIN_SRC emacs-lisp +n
 (use-package helm-config :defer 3
   :ensure helm
-  :delight helm-mode
+  :delight
+  (helm-mode)
+  (helm-migemo-mode)
   :bind (:map mode-specific-map
               ("r" . 'helm-for-files))
   :config
