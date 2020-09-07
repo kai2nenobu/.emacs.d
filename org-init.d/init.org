@@ -392,6 +392,33 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** org-codeを分かち書きする関数
+#+begin_src emacs-lisp +n
+(defun my-wakati-org-code ()
+  "Divide words for `org-code' syntax.
+
+FIXME: コード部に日本語が含まれる場合に誤ってスペースを入れてしまう問題あり。
+"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    ;; front =
+    (while (re-search-forward "\\([[:multibyte:]]\\)\\(=[^=\n]*=\\)" nil t)
+      (replace-match "\\1 \\2"))
+    (goto-char (point-min))
+    ;; back =
+    (while (re-search-forward "\\(=[^=\n]*=\\)\\([[:multibyte:]]\\)" nil t)
+      (replace-match "\\1 \\2"))
+    (goto-char (point-min))
+    ;; front ~
+    (while (re-search-forward "\\([[:multibyte:]]\\)\\(~[^~\n]*~\\)" nil t)
+      (replace-match "\\1 \\2"))
+    (goto-char (point-min))
+    ;; back ~
+    (while (re-search-forward "\\(~[^~\n]*~\\)\\([[:multibyte:]]\\)" nil t)
+      (replace-match "\\1 \\2"))
+    ))
+#+end_src
 ** 新規作成ファイルのエンコーディングを変更する
 新規作成ファイルのデフォルトの文字コードはUTF-8、改行文字はプラットフォーム依存にしてあるが、特定のファイルは固定のエンコーディングにしたい場合がある。たとえばps1とかbatなどである。
 
@@ -421,7 +448,7 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 - [[http://yohshiy.blog.fc2.com/blog-entry-273.html?sp][Emacs における日本語文字コードの設定]]
 - [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html][22.6 Recognizing Coding Systems]]
 ** フォントプレビュー
-フォントを
+様々なフォントファミリーで指定した文字列をプレビューするコマンド。
 
 - [[https://emacs.stackexchange.com/a/15137]]
 
