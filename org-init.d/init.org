@@ -40,7 +40,7 @@ org-babel を使って init.el を書く際に参考にしたサイト．
 - [[https://github.com/chuntaro/NTEmacs64][chuntaro/NTEmacs64]]
   - バージョン24.4からこちらのバイナリを利用中。感謝。IMEパッチを当てていると自動で =w32-ime.el= をロードするので、それでIMEパッチの有無を判定する。
 - [[http://emacsbinw64.sourceforge.net/][emacs-w64 | 64-Bit GNU Emacs for MS Windows with optimization]]
-  - こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。=w32-ime= がロードされてないからかも？
+  - こちらはSVGのDLLも同梱されていて、さらにWindowsに対する最適化もしているらしい。確かにキビキビ動いてるようにみえる。 =w32-ime= がロードされてないからかも？
   - Windows10ではIMEの変換やウィンドウが出ない。
 - [[https://chocolatey.org/packages/Emacs][Chocolatey Gallery | Emacs 26.1.0.20180701]]
   - 公式バイナリをインストールするパッケージ。chocolateyでインストールできるので楽ちん。バージョン26.1の公式バイナリならほぼ emacs-w64 と機能的に差はなさそう。
@@ -2952,9 +2952,9 @@ Markdownなどで使える絵文字表記を一覧、挿入するライブラリ
 (use-package docker-compose-mode :defer t)
 #+END_SRC
 *** docker-tramp
-コンテナ内のファイルをTRAMPでいじれるライブラリ。=C-x C-f /docker:user@container:/path/to/file= でコンテナ内のファイルにアクセスできるようになる。
+コンテナ内のファイルをTRAMPでいじれるライブラリ。 =C-x C-f /docker:user@container:/path/to/file= でコンテナ内のファイルにアクセスできるようになる。
 
-バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、=docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
+バージョン2.3より前のtrampはalpineコンテナでうまく動作しないバグ（[[https://lists.gnu.org/archive/html/tramp-devel/2016-05/msg00000.html][Bug when connecting to busybox sh]]）があるので、 =docker-tramp-compat= を使用する。trampのバージョンが上がったら =docker-tramp= に変更する。
 #+BEGIN_SRC emacs-lisp +n
 (use-package docker-tramp-compat :defer t
   :ensure docker-tramp
@@ -3412,7 +3412,7 @@ Gradleタスクを実行するマイナーモード。
   )
 #+END_SRC
 *** textlintで文章校正
-+チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。=--preset= とか =--rule= の部分は変数にしたいところ。+
++チェッカーの作り方は[[https://gist.github.com/PharaohKJ/cc849ad12ca613fec9604e5e91012ffc][こちら]]を参考にした。 =--preset= とか =--rule= の部分は変数にしたいところ。+
 
 [[https://github.com/flycheck/flycheck/pull/1534][Add textlint checker by kisaragi-hiu · Pull Request #1534 · flycheck/flycheck]] で ~flycheck~ の組み込みのtextlintチェッカーが追加されたので、独自に定義する必要はなくなったよ。
 *** エラーのインライン表示
@@ -4981,7 +4981,7 @@ git管理下のファイルのhelmソース。
   )
 #+END_SRC
 **** srcブロックのクラス名を =SyntaxHighlighter= 準拠のクラス名に変更する
-これでなんとかクラス名を変更できた。けど結局 =SyntaxHighlighter= が対応している言語も少なく（Lispがない！）、=SyntaxHighlighter= が対応してない言語のソースブロックがあると =SyntaxHighlighter.all()= の実行時にエラーが発生してしまう。
+これでなんとかクラス名を変更できた。けど結局 =SyntaxHighlighter= が対応している言語も少なく（Lispがない！）、 =SyntaxHighlighter= が対応してない言語のソースブロックがあると =SyntaxHighlighter.all()= の実行時にエラーが発生してしまう。
 
 またEmacsよりもハイライトのカラフルさがなかったのでやっぱりやめた。参考のためにコードは残しておく。
 
