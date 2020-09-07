@@ -22,8 +22,8 @@
 ;; package.el初期設定
 (require 'package nil t)
 ;; location to get package informations
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
 ;; use-package、quelpa-use-packageをインストールする
