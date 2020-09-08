@@ -601,3 +601,66 @@
   color: #ff0000;
   font-weight: bold;
 }
+.org-diff-added {
+    /* diff-added */
+    background-color: #ddffdd;
+}
+.org-diff-changed {
+}
+.org-diff-context {
+    /* diff-context */
+    color: #333333;
+}
+.org-diff-file-header {
+    /* diff-file-header */
+    background-color: #b3b3b3;
+    font-weight: bold;
+}
+.org-diff-function {
+    /* diff-function */
+    background-color: #cccccc;
+}
+.org-diff-header {
+    /* diff-header */
+    background-color: #cccccc;
+}
+.org-diff-hunk-header {
+    /* diff-hunk-header */
+    background-color: #cccccc;
+}
+.org-diff-index {
+    /* diff-index */
+    background-color: #b3b3b3;
+    font-weight: bold;
+}
+.org-diff-indicator-added {
+    /* diff-indicator-added */
+    background-color: #ddffdd;
+}
+.org-diff-indicator-changed {
+}
+.org-diff-indicator-removed {
+    /* diff-indicator-removed */
+    background-color: #ffdddd;
+}
+.org-diff-nonexistent {
+    /* diff-nonexistent */
+    background-color: #b3b3b3;
+    font-weight: bold;
+}
+.org-diff-refine-added {
+    /* diff-refine-added */
+    background-color: #aaffaa;
+}
+.org-diff-refine-changed {
+    /* diff-refine-changed */
+    background-color: #ffff55;
+}
+.org-diff-refine-removed {
+    /* diff-refine-removed */
+    background-color: #ffbbbb;
+}
+.org-diff-removed {
+    /* diff-removed */
+    background-color: #ffdddd;
+}
