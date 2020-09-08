@@ -5431,42 +5431,47 @@ Emacs 内から sudo をつかう．
 Mozcを使って日本語入力するためのパッケージ。基本的にはWSLのEmacsをVcXsrvで表示して、そこからWindowsのGoogle日本語入力を使用するための設定。
 
 #+begin_src emacs-lisp +n
-(when (linuxp)
-  (use-package mozc
-    :config
-    (setq mozc-helper-program-name "mozc_emacs_helper.exe")
-    (setq mozc-helper-process-timeout-sec 10)
-    ;; Windows の mozc では、セッション接続直後 directモード になるので hiraganaモード にする
-    (advice-add 'mozc-session-execute-command
-                :after (lambda (&rest args)
-                         (when (eq (nth 0 args) 'CreateSession)
-                           ;; (mozc-session-sendkey '(hiragana)))))
-                           (mozc-session-sendkey '(Hankaku/Zenkaku))))))
-  (use-package mozc-im
-    :config
-    (bind-key "<zenkaku-hankaku>" #'toggle-input-method)
-    ;; IME有効時のタイトル設定
-    (defun my-mozc-leim-title ()
-      "Return a title string (with image icon) when mozc IM is enabled."
-      (let ((icon (expand-file-name
-                   ;; 解像度に応じてアイコンの大きさを変える
-                   (format "images/mozc-icon-%d.png"
-                           (if (> (display-pixel-height) 2000) 32 16))
-                   user-emacs-directory)))
-        (if (and (image-type-available-p 'png) (file-exists-p icon))
-            (progn
-              ;; 画像表示のために `current-input-method-title' のテキストプロパティを有効にする
-              (put 'current-input-method-title 'risky-local-variable t)
-              (propertize "あ" 'display `(image :type png :file ,icon :ascent center
-                                                :mask heuristic :margin (2 . 0))))
-          "[あ]")))
-    (setq mozc-leim-title (my-mozc-leim-title))
-    (setq default-input-method "japanese-mozc-im"))
-  (use-package mozc-popup :disabled t
-    :config
-    ;; 変換候補をポップアップで表示する
-    (setq mozc-candidate-style 'popup))
-  )
+(use-package mozc
+  :if (linuxp)
+  :config
+  (setq mozc-helper-program-name "mozc_emacs_helper.exe")
+  (setq mozc-helper-process-timeout-sec 10)
+  ;; Windows の mozc では、セッション接続直後 directモード になるので hiraganaモード にする
+  (advice-add 'mozc-session-execute-command
+              :after (lambda (&rest args)
+                       (when (eq (nth 0 args) 'CreateSession)
+                         ;; (mozc-session-sendkey '(hiragana)))))
+                         (mozc-session-sendkey '(Hankaku/Zenkaku))))))
+
+(use-package mozc-im
+  :if (linuxp)
+  :after mozc
+  :config
+  (bind-key "<zenkaku-hankaku>" #'toggle-input-method)
+  ;; IME有効時のタイトル設定
+  (defun my-mozc-leim-title ()
+    "Return a title string (with image icon) when mozc IM is enabled."
+    (let ((icon (expand-file-name
+                 ;; 解像度に応じてアイコンの大きさを変える
+                 (format "images/mozc-icon-%d.png"
+                         (if (> (display-pixel-height) 2000) 32 16))
+                 user-emacs-directory)))
+      (if (and (image-type-available-p 'png) (file-exists-p icon))
+          (progn
+            ;; 画像表示のために `current-input-method-title' のテキストプロパティを有効にする
+            (put 'current-input-method-title 'risky-local-variable t)
+            (propertize "あ" 'display `(image :type png :file ,icon :ascent center
+                                              :mask heuristic :margin (2 . 0))))
+        "[あ]")))
+  (setq mozc-leim-title (my-mozc-leim-title))
+  (setq default-input-method "japanese-mozc-im"))
+
+(use-package mozc-popup :disabled t
+  :if (linuxp)
+  :after mozc
+  :config
+  ;; 変換候補をポップアップで表示する
+  (setq mozc-candidate-style 'popup))
 #+end_src
 
 - [[https://www49.atwiki.jp/ntemacs/pages/48.html][emacs-mozc を動かすための設定（emacs 設定編） - NTEmacs @ ウィキ - アットウィキ]]
@@ -5486,6 +5491,7 @@ mozcの変換候補をposframeで表示する。
 #+begin_src emacs-lisp +n
 (use-package mozc-posframe
   :quelpa (mozc-posframe :repo "derui/mozc-posframe" :fetcher github)
+  :if (linuxp)
   :after mozc
   :config
   (mozc-posframe-register)
