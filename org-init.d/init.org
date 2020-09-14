@@ -4636,6 +4636,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+END_SRC
 ** org-mode.el
 org-mode 自体は標準であるが非標準elispも必要そうなのでここに書いておく．
+
 #+BEGIN_SRC emacs-lisp +n
 (use-package org :defer t
   :ensure org-plus-contrib
@@ -5352,6 +5353,12 @@ Org文書を[[https://gohugo.io/][Hugo]]形式のMarkdownにエクスポート�
   (add-autoload org-export-dispatch ox-hugo)
   )
 #+END_SRC
+*** org-table
+#+begin_src emacs-lisp +n
+(use-package org-table :defer t
+  :ensure org-plus-contrib
+  :delight (orgtbl-mode " "))
+#+end_src
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
