@@ -2058,6 +2058,16 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** elisp-mode
+Emacs Lispの中心地。
+
+#+BEGIN_SRC emacs-lisp +n
+(use-package elisp-mode :defer t
+  :ensure nil
+  :delight (emacs-lisp-mode "")
+           (lisp-interaction-mode "")
+  )
+#+END_SRC
 ** isearch.el
 #+begin_src emacs-lisp +n
 (use-package isearch :defer t
@@ -2829,6 +2839,9 @@ info を Emacs で読む．
   (set-fontset-font t 'unicode (font-spec :family "github-octicons") nil 'append)
   (set-fontset-font t 'unicode (font-spec :family "FontAwesome") nil 'append)
   (set-fontset-font t 'unicode (font-spec :family "Weather Icons") nil 'append)
+  ;; individual icons
+  (set-fontset-font t #xe917 "file-icons" nil) ; org icon
+  (set-fontset-font t #xe926 "file-icons" nil) ; elisp icon
   )
 #+end_src
 ** [[https://github.com/k-talo/volatile-highlights.el][volatile-highlights.el]]
@@ -4640,6 +4653,7 @@ org-mode 自体は標準であるが非標準elispも必要そうなのでここ
 #+BEGIN_SRC emacs-lisp +n
 (use-package org :defer t
   :ensure org-plus-contrib
+  :delight (org-mode "")
 #+END_SRC
 *** 一般的設定
 #+BEGIN_SRC emacs-lisp +n
