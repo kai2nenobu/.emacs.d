@@ -2058,6 +2058,27 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** tab-bar
+#+begin_src emacs-lisp +n
+(use-package tab-bar
+  :ensure nil
+  :when (>= emacs-major-version 27)
+  :init
+  (defvar my-screen-map (make-sparse-keymap) "Keymap for screen key bindings.")
+  (defalias 'my-screen-prefix my-screen-map)
+  (global-set-key (kbd "C-z") 'my-screen-prefix)
+  :bind (("M-n" . tab-next)
+         ("M-p" . tab-previous)
+         :map my-screen-map
+         ("C-c" . tab-new)
+         ("C-n" . tab-next)
+         ("C-p" . tab-previous))
+  :config
+  (setq tab-bar-close-button-show nil) ; 閉じるボタン非表示
+  (setq tab-bar-tab-name-function #'tab-bar-tab-name-truncated) ; 長いタブ名を切り取る
+  (tab-bar-mode 1)
+  )
+#+end_src
 ** elisp-mode
 Emacs Lispの中心地。
 
@@ -5382,6 +5403,7 @@ Google Map を表示する．
 ウィンドウの分割情報を保持しておく．
 #+BEGIN_SRC emacs-lisp +n
 (use-package "elscreen"
+  :when (<= emacs-major-version 26)
   :config
   (setq elscreen-display-tab 10)
   (setq elscreen-tab-display-kill-screen nil) ; タブのXを非表示
