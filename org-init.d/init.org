@@ -255,7 +255,6 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
     (set-frame-font (format "%s %d" my-default-font my-default-font-size) nil t)
     (set-face-attribute 'fixed-pitch nil :family my-default-font))
   ;; 個別設定
-  (set-fontset-font t #x32ff "IPAexGothic") ; 令和合成文字
   (set-fontset-font t (cons #x2500 #x257f) "HackGen Console") ; 罫線類を半角にする
   (set-fontset-font t (cons #xe000 #xf8ff) "HackGenNerd") ; Nerd Font（私用領域）
   )
