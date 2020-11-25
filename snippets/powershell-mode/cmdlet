@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: Define Cmdlet
+# key: cmdlet
+# --
+function ${1:Cmdlet-Name} {
+  <#
+  .SYNOPSIS
+  ${2:Synoposis for Cmdlet}
+  #>
+  [CmdletBinding()]
+  Param(
+    [Parameter(Mandatory=$true)]
+    [string]$MandatoryParam,
+    [switch]$SwitchParam
+  )
+  # 関数本体
+  $0
+}
