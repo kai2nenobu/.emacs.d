@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: URL link for GitHub repository but not auto-link
+# key: github-issue-link
+# --
+https://github.com/${1:user/repo}/issues/<i></i>${2:number}$0
