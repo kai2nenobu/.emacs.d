@@ -2849,6 +2849,11 @@ info を Emacs で読む．
 ** ivy
 #+begin_src emacs-lisp +n
 (use-package ivy :defer
+  :init
+  (defun ivy-my-height-ratio (ratio)
+    "Return a lambda to multiply a frame height by RATIO"
+    (lambda (_caller)
+      (floor (* (frame-height) ratio))))
   :config
   ;; M-o を ivy-hydra-read-action に割り当てる．
   (when (require 'ivy-hydra nil t)
@@ -2904,8 +2909,9 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   ;; yankの候補間にセパレーターを入れる
   (setq counsel-yank-pop-separator "\n--------------------------------\n")
   ;; 高さ設定
-  (add-to-list 'ivy-height-alist '(swiper . 30))
-  (add-to-list 'ivy-height-alist '(counsel-yank-pop . 10))
+  (add-to-list 'ivy-height-alist (cons 'swiper (ivy-my-height-ratio 0.6)))
+  (add-to-list 'ivy-height-alist (cons 'counsel-recentf (ivy-my-height-ratio 0.5)))
+  (add-to-list 'ivy-height-alist (cons 'counsel-yank-pop (ivy-my-height-ratio 0.5)))
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
