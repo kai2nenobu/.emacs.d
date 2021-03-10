@@ -2883,6 +2883,8 @@ info を Emacs で読む．
   :config
   ;; `counsel-M-x'の初期入力の "^" が邪魔なので空文字に変更する
   (ivy-configure 'counsel-M-x :initial-input "")
+  ;; yankの候補間にセパレーターを入れる
+  (setq counsel-yank-pop-separator "\n--------------------------------\n")
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
