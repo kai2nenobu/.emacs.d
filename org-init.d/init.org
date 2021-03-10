@@ -2864,8 +2864,6 @@ info を Emacs で読む．
   (setq ivy-truncate-lines nil)
   ;; リスト先頭で `C-p' するとき，リストの最後に移動する
   (setq ivy-wrap t)
-  ;; 高さ設定
-  (add-to-list 'ivy-height-alist '(swiper . 30))
   ;; アクティベート
   (ivy-mode 1)
   )
@@ -2885,6 +2883,9 @@ info を Emacs で読む．
   (ivy-configure 'counsel-M-x :initial-input "")
   ;; yankの候補間にセパレーターを入れる
   (setq counsel-yank-pop-separator "\n--------------------------------\n")
+  ;; 高さ設定
+  (add-to-list 'ivy-height-alist '(swiper . 30))
+  (add-to-list 'ivy-height-alist '(counsel-yank-pop . 10))
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
