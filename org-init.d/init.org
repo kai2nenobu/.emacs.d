@@ -2877,7 +2877,7 @@ info を Emacs で読む．
 ghqで管理下のリポジトリにかんたんにアクセスできるようになる。
 
 #+begin_src emacs-lisp +n
-(use-package helm-ghq :defer t)
+(use-package helm-ghq :defer t :disabled t)
 #+end_src
 ** [[https://github.com/iqbalansari/emacs-emojify][emojify]]
 テキスト中の絵文字を画像で表示するライブラリ。
@@ -4275,7 +4275,7 @@ hilight current column.
 ;;;; yasnippet.el
 (use-package yasnippet :defer t
   :delight yas-minor-mode
-  :commands (yas-expand yas-minor-mode helm-c-yas-complete)
+  :commands (yas-expand yas-minor-mode)
   :mode "\\.\\(ya\\)?snippet\\'"
   :init
   (bind-key "C-e" 'yas-expand my-original-map)
@@ -4302,12 +4302,12 @@ hilight current column.
             (setq result (concat result ", "))))
         result)))
 ;;; yasnippet を helm で操作
-  (with-eval-after-load 'helm
-     (use-package helm-c-yasnippet
-       :config
-       (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
-       (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
-       ))
+  ;(with-eval-after-load 'helm
+  ;   (use-package helm-c-yasnippet
+  ;     :config
+  ;     (setq helm-c-yas-space-match-any-greedy t) ; スペース区切りで絞り込めるようにする デフォルトは nil
+  ;     (define-key mode-specific-map (kbd "y") 'helm-yas-complete)
+  ;     ))
   (yas-global-mode 1)
   )
 #+END_SRC
@@ -4383,7 +4383,7 @@ mozreplを使ったコマンドもろもろを定義しているライブラリ�
 ** helm.el
 インクリメンタルな絞り込みインターフェース．
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-config :defer 3
+(use-package helm-config :defer 3 :disabled true
   :ensure helm
   :delight
   (helm-mode)
@@ -4565,7 +4565,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+END_SRC
 *** helm-swoop
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-swoop :defer t
+(use-package helm-swoop :defer t :disabled t
   :init
   (with-eval-after-load 'helm-config
     (bind-key "s" 'helm-swoop helm-command-map))
@@ -4575,7 +4575,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
 #+END_SRC
 ** helm-locate
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-locate :defer t
+(use-package helm-locate :defer t :disabled t
   :ensure helm
   :if (executable-find "locate")
   :config
@@ -4611,14 +4611,14 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (setq key-chord-two-keys-delay 0.05)
   (setq key-chord-one-keys-delay 0.05)
   (key-chord-mode 1)
-  (key-chord-define global-map "nb" 'helm-buffers-list)
+  ;(key-chord-define global-map "nb" 'helm-buffers-list)
   (key-chord-define global-map "jk" 'view-mode)
   (key-chord-define global-map "df" 'describe-function)
   (key-chord-define global-map "dv" 'describe-variable)
   (key-chord-define global-map "dk" 'describe-key)
   (key-chord-define global-map "db" 'describe-bindings)
   (key-chord-define global-map "dm" 'describe-mode)
-  (key-chord-define global-map "AA" 'helm-apropos)
+  ;(key-chord-define global-map "AA" 'helm-apropos)
   (key-chord-define global-map ":c" 'org-capture)
   (key-chord-define global-map "hl" 'global-hl-line-mode)
   (key-chord-define global-map "gs" 'magit-status)
@@ -4930,18 +4930,18 @@ dynamic blockを利用すると動的に更新される文章が書ける。保�
     )
 
   ;; helm source for src block
-  (defvar org-src-my-lang-candidates
-    '("asymptote" "awk" "calc" "c" "c++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
-      "gnuplot" "haskell" "java" "js" "latex" "ledger" "lisp" "lilypond" "matlab"
-      "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
-      "sass" "scheme" "screen" "sh" "sql" "sqlite")
-    "Helm command source for Org-mode src block")
-  (defvar helm-c-source-org-src-lang
-    '((name . "Available language in Org-mode src block")
-      (candidates . org-src-my-lang-candidates)
-      (action ("Return as string" . eval)
-              ("Return as symbol" . intern)
-              ("Insert string" . insert))))
+  ;(defvar org-src-my-lang-candidates
+  ;  '("asymptote" "awk" "calc" "c" "c++" "clojure" "css" "ditaa" "dot" "emacs-lisp"
+  ;    "gnuplot" "haskell" "java" "js" "latex" "ledger" "lisp" "lilypond" "matlab"
+  ;    "mscgen" "ocaml" "octave" "org" "oz" "perl" "plantuml" "python" "R" "ruby"
+  ;    "sass" "scheme" "screen" "sh" "sql" "sqlite")
+  ;  "Helm command source for Org-mode src block")
+  ;(defvar helm-c-source-org-src-lang
+  ;  '((name . "Available language in Org-mode src block")
+  ;    (candidates . org-src-my-lang-candidates)
+  ;    (action ("Return as string" . eval)
+  ;            ("Return as symbol" . intern)
+  ;            ("Insert string" . insert))))
 
   ;; カーソルのあるサブツリーをエクスポートする
   (defun org-my-export-as-html-current-subtree (&optional arg)
@@ -5002,7 +5002,7 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 #+END_SRC
 *** helm-buffers
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-buffers :defer t
+(use-package helm-buffers :defer t :disabled t
   :ensure helm
   :config
   (setq helm-buffer-max-length nil) ; ファイル名の表示幅。nilなら一番長いファイル名に合わせる
@@ -5011,7 +5011,7 @@ wrap-regionを使って、リージョンを各種markup文字を囲めるよう
 *** helm-ls-git
 git管理下のファイルのhelmソース。
 #+BEGIN_SRC emacs-lisp +n
-(use-package helm-ls-git :defer t
+(use-package helm-ls-git :defer t :disabled t
   :if (executable-find "git")
   :init
   (add-autoload helm-for-files helm-ls-git)
@@ -5588,10 +5588,10 @@ Emacsが終了した時のミニバッファ履歴やカーソル位置を保存
 #+END_SRC
 *** helmのソースを保存するリストから除外する
 #+BEGIN_SRC emacs-lisp +n
-  (defadvice session-save-session (before exclude-helm-sources activate)
-    "Add helm sources to `session-globals-exclude'."
-    (mapc #'(lambda (source) (add-to-list 'session-globals-exclude source))
-          (apropos-internal "^helm-\\(?:c-\\)?source-" 'boundp)))
+;  (defadvice session-save-session (before exclude-helm-sources activate)
+;    "Add helm sources to `session-globals-exclude'."
+;    (mapc #'(lambda (source) (add-to-list 'session-globals-exclude source))
+;          (apropos-internal "^helm-\\(?:c-\\)?source-" 'boundp)))
 #+END_SRC
 
 =helm-show-kill-ring= を実行しようとすると
@@ -5796,8 +5796,8 @@ do nothing. And suppress the output from `message' and
     ;; migemo-dict のパスを指定
     (setq migemo-dictionary (migemo-dict-find))
     ;; helmでmigemoを有効にする（helm-migemoは必要なくなった）
-    (with-eval-after-load 'helm
-      (helm-migemo-mode 1))
+    ;(with-eval-after-load 'helm
+    ;  (helm-migemo-mode 1))
     ;; 起動時に初期化も行う
     (migemo-init))
 #+END_SRC
