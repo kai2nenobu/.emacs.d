@@ -2888,7 +2888,8 @@ info を Emacs で読む．
   :config
   ;; display at `ivy-posframe-style'
   (setq ivy-posframe-display-functions-alist
-        '((counsel-ibuffer . ivy-display-function-fallback)
+        '((swiper . ivy-display-function-fallback)
+          (counsel-ibuffer . ivy-display-function-fallback)
           (t . ivy-posframe-display-at-frame-top-center)))
   (setq ivy-posframe-height-alist '((t . 40)))
   (ivy-posframe-mode 1))
