@@ -2864,6 +2864,8 @@ info を Emacs で読む．
   (setq ivy-truncate-lines nil)
   ;; リスト先頭で `C-p' するとき，リストの最後に移動する
   (setq ivy-wrap t)
+  ;; 高さ設定
+  (add-to-list 'ivy-height-alist '(swiper . 30))
   ;; アクティベート
   (ivy-mode 1)
   )
