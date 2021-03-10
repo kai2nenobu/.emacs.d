@@ -2853,6 +2853,8 @@ info を Emacs で読む．
   ;; M-o を ivy-hydra-read-action に割り当てる．
   (when (require 'ivy-hydra nil t)
     (setq ivy-read-action-function #'ivy-hydra-read-action))
+  ;; デフォルトの表示高さを変更
+  (setq ivy-height 20)
   ;; `ivy-switch-buffer' (C-x b) のリストに recent files と bookmark を含める．
   (setq ivy-use-virtual-buffers t)
   ;; ミニバッファでコマンド発行を認める
