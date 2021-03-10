@@ -2876,11 +2876,14 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   :after ivy
   :config
   (setq inhibit-compacting-font-caches t)
-  (all-the-icons-ivy-rich-mode 1)
   (use-package ivy-rich
     :config
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+  ;; 遅延ありでall-the-icons-ivy-rich-mode/ivy-rich-modeを有効にする
+  (defun ivy-my-enrich ()
+    (all-the-icons-ivy-rich-mode 1)
     (ivy-rich-mode 1))
+  (run-with-idle-timer 3 nil #'ivy-my-enrich)
   )
 #+end_src
 *** counsel
