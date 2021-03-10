@@ -2873,13 +2873,12 @@ info を Emacs で読む．
 (use-package counsel :defer t
   :bind   (("M-x" . counsel-M-x)
            ("M-y" . counsel-yank-pop)
+           ("C-M-s" . swiper)
            ("C-M-z" . counsel-fzf)
            ("C-M-r" . counsel-recentf)
            ("C-x C-b" . counsel-ibuffer)
            ("C-M-f" . counsel-ag))
   :config
-  ;; キーバインドは一例です．好みに変えましょう．
-  ;; アクティベート
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
