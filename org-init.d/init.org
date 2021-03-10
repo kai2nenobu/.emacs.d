@@ -4215,6 +4215,8 @@ Emacs から git を操作するライブラリ．
   ;; `markdown-mode' でコミットメッセージを編集する
   (when (locate-library "markdown-mode")
     (setq git-commit-major-mode 'markdown-mode))
+  (with-eval-after-load 'ivy
+    (setq magit-completing-read-function 'ivy-completing-read))
 #+END_SRC
 *** キーバインド
 #+BEGIN_SRC emacs-lisp +n
