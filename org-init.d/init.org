@@ -2882,6 +2882,8 @@ info を Emacs で読む．
            ("C-x C-b" . counsel-ibuffer)
            ("C-M-f" . counsel-ag))
   :config
+  ;; `counsel-M-x'の初期入力の "^" が邪魔なので空文字に変更する
+  (ivy-configure 'counsel-M-x :initial-input "")
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
