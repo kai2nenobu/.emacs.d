@@ -2868,6 +2868,20 @@ info を Emacs で読む．
   (ivy-mode 1)
   )
 #+end_src
+*** [[https://github.com/seagle0128/all-the-icons-ivy-rich][all-the-icons-ivy-rich]]
+ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携してくれる。特にファイルを選択するときに視認性が上がってよろしい。ただしivy-rich-modeは絞り込みやカーソル移動のパフォーマンスが落ちたりするし、アイコンのサイズも完全に揃えようとすると沼るのに注意。
+
+#+begin_src emacs-lisp +n
+(use-package all-the-icons-ivy-rich
+  :after ivy
+  :config
+  (setq inhibit-compacting-font-caches t)
+  (all-the-icons-ivy-rich-mode 1)
+  (use-package ivy-rich
+    :config
+    (ivy-rich-mode 1))
+  )
+#+end_src
 *** counsel
 #+begin_src emacs-lisp +n
 (use-package counsel :defer t
