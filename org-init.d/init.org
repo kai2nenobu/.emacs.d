@@ -2896,6 +2896,11 @@ info を Emacs で読む．
   (setq ivy-posframe-height-alist '((t . 40)))
   (ivy-posframe-mode 1))
 #+end_src
+*** counsel-rg
+#+begin_src emacs-lisp +n
+(use-package counsel-rg :defer t
+  :bind ("C-M-g" . counsel-rg))
+#+end_src
 ** all-the-icons.el
 アイコンフォントをAll in Oneでまとめてくれるパッケージ。必要なフォントも一発でダウンロードできる。
 
