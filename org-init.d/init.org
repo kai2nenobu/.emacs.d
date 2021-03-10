@@ -2899,6 +2899,7 @@ info を Emacs で読む．
           (counsel-ibuffer . ivy-display-function-fallback)
           (t . ivy-posframe-display-at-frame-top-center)))
   (setq ivy-posframe-height-alist '((t . 40)))
+  (setq ivy-posframe-border-width 2) ; ボーダーを太くする
   (ivy-posframe-mode 1))
 #+end_src
 ** all-the-icons.el
