@@ -46,7 +46,7 @@ org-babel を使って init.el を書く際に参考にしたサイト．
   - 公式バイナリをインストールするパッケージ。chocolateyでインストールできるので楽ちん。バージョン26.1の公式バイナリならほぼ emacs-w64 と機能的に差はなさそう。
 * 最初に必要な設定
 #+BEGIN_SRC emacs-lisp +n
-;;; -*- coding: utf-8-unix -*-
+;;; -*- coding: utf-8-unix; lexical-binding: t -*-
 (eval-when-compile
   (require 'cl))
 #+END_SRC
@@ -2852,7 +2852,7 @@ info を Emacs で読む．
   :init
   (defun ivy-my-height-ratio (ratio)
     "Return a lambda to multiply a frame height by RATIO"
-    (lambda (_caller)
+    (lambda (&optional _caller)
       (floor (* (frame-height) ratio))))
   :config
   ;; M-o を ivy-hydra-read-action に割り当てる．
