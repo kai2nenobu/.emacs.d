@@ -2901,8 +2901,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
            ("C-M-g" . counsel-rg)
            ("C-M-s" . swiper)
            ("C-M-z" . counsel-fzf)
-           ("C-M-r" . counsel-recentf)
-           ("C-x C-b" . counsel-ibuffer))
+           ("C-M-r" . counsel-recentf))
   :config
   ;; `counsel-M-x'の初期入力の "^" が邪魔なので空文字に変更する
   (ivy-configure 'counsel-M-x :initial-input "")
@@ -4695,7 +4694,7 @@ mark-ring が helm でたどれる．mark がよくわからなくなった時�
   (setq key-chord-two-keys-delay 0.05)
   (setq key-chord-one-keys-delay 0.05)
   (key-chord-mode 1)
-  ;(key-chord-define global-map "nb" 'helm-buffers-list)
+  (key-chord-define global-map "nb" 'ivy-switch-buffer)
   (key-chord-define global-map "jk" 'view-mode)
   (key-chord-define global-map "df" 'describe-function)
   (key-chord-define global-map "dv" 'describe-variable)
