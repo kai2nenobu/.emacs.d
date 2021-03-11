@@ -2926,6 +2926,17 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
           (setq counsel-rg-base-command (delete opt counsel-rg-base-command))
         (add-to-list 'counsel-rg-base-command opt :append))
       (counsel-rg ivy-text default-directory nil (format "rg [%s]: " prompt))))
+  (defun counsel-my-rg-toggle-ignore (_arg)
+    "Call `counsel-rg' again after toggling \"--ignore\" option."
+    (interactive)
+    (let* ((opt "--no-ignore")
+           (no-ignore (member opt counsel-rg-base-command))
+           (prompt (if no-ignore "--ignore" "--no-ignore")))
+      ;; Toggle --no-ignore option
+      (if no-ignore
+          (setq counsel-rg-base-command (delete opt counsel-rg-base-command))
+        (add-to-list 'counsel-rg-base-command opt :append))
+      (counsel-rg ivy-text default-directory nil (format "rg [%s]: " prompt))))
   (defun counsel-my-rg-up-directory (_arg)
     "Call `counsel-rg' again after moving up a directory."
     (interactive)
@@ -2934,6 +2945,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   (ivy-set-actions
    'counsel-rg
    '(("h" counsel-my-rg-toggle-hidden "Toggle hidden")
+     ("i" counsel-my-rg-toggle-ignore "Toggle ignore")
      ("u" counsel-my-rg-up-directory "Up directory")))
   (counsel-mode 1))
 #+end_src
