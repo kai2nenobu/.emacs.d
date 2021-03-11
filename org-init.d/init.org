@@ -2920,7 +2920,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
     (interactive)
     (let* ((opt "--hidden")
            (hidden-on (member opt counsel-rg-base-command))
-           (prompt (if hidden-on "w/o hidden" "with hidden")))
+           (prompt (if hidden-on "--no-hidden" "--hidden")))
       ;; Toggle --hidden option
       (if hidden-on
           (setq counsel-rg-base-command (delete opt counsel-rg-base-command))
