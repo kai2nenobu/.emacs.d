@@ -2911,6 +2911,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   (cl-loop for (command . height)
            in '((swiper . 0.6)
                 (counsel-recentf . 0.5)
+                (counsel-rg . 0.6)
                 (counsel-yank-pop . 0.5))
            do (add-to-list 'ivy-height-alist (cons command (ivy-my-height-ratio height))))
   ;; counsel-rg関連
