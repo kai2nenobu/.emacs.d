@@ -2873,6 +2873,8 @@ info を Emacs で読む．
   (setq ivy-wrap t)
   ;; デフォルトの正規表現構築方法を `ivy--regex-ignore-order' にする（順序を無視してマッチする）
   (setcdr (assq t ivy-re-builders-alist) #'ivy--regex-ignore-order)
+  ;; プロンプトの先頭でDEL (C-h)してもivyを終了させない
+  (setq ivy-on-del-error-function #'ignore)
   ;; アクティベート
   (ivy-mode 1)
   )
