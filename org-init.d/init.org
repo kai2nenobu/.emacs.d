@@ -2908,9 +2908,11 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   ;; yankの候補間にセパレーターを入れる
   (setq counsel-yank-pop-separator "\n--------------------------------\n")
   ;; 高さ設定
-  (add-to-list 'ivy-height-alist (cons 'swiper (ivy-my-height-ratio 0.6)))
-  (add-to-list 'ivy-height-alist (cons 'counsel-recentf (ivy-my-height-ratio 0.5)))
-  (add-to-list 'ivy-height-alist (cons 'counsel-yank-pop (ivy-my-height-ratio 0.5)))
+  (cl-loop for (command . height)
+           in '((swiper . 0.6)
+                (counsel-recentf . 0.5)
+                (counsel-yank-pop . 0.5))
+           do (add-to-list 'ivy-height-alist (cons command (ivy-my-height-ratio height))))
   ;; counsel-rg関連
   (defun counsel-my-rg-toggle-hidden (_arg)
     "Call `counsel-rg' again after toggling \"--hidden\" option."
