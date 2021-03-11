@@ -2911,6 +2911,27 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   (add-to-list 'ivy-height-alist (cons 'swiper (ivy-my-height-ratio 0.6)))
   (add-to-list 'ivy-height-alist (cons 'counsel-recentf (ivy-my-height-ratio 0.5)))
   (add-to-list 'ivy-height-alist (cons 'counsel-yank-pop (ivy-my-height-ratio 0.5)))
+  ;; counsel-rg関連
+  (defun counsel-my-rg-toggle-hidden (_arg)
+    "Call `counsel-rg' again after toggling \"--hidden\" option."
+    (interactive)
+    (let* ((opt "--hidden")
+           (hidden-on (member opt counsel-rg-base-command))
+           (prompt (if hidden-on "w/o hidden" "with hidden")))
+      ;; Toggle --hidden option
+      (if hidden-on
+          (setq counsel-rg-base-command (delete opt counsel-rg-base-command))
+        (add-to-list 'counsel-rg-base-command opt :append))
+      (counsel-rg ivy-text default-directory nil (format "rg [%s]: " prompt))))
+  (defun counsel-my-rg-up-directory (_arg)
+    "Call `counsel-rg' again after moving up a directory."
+    (interactive)
+    (let ((dir (ivy--parent-dir default-directory)))
+      (counsel-rg ivy-text dir nil (format "rg [%s]: " dir))))
+  (ivy-set-actions
+   'counsel-rg
+   '(("h" counsel-my-rg-toggle-hidden "Toggle hidden")
+     ("u" counsel-my-rg-up-directory "Up directory")))
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
