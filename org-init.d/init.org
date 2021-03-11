@@ -2936,7 +2936,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
 #+end_src
 *** ivy-posframe
 #+begin_src emacs-lisp +n
-(use-package ivy-posframe
+(use-package ivy-posframe :disabled t
   :after ivy
   :config
   ;; display at `ivy-posframe-style'
