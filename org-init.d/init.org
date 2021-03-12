@@ -2849,6 +2849,7 @@ info を Emacs で読む．
 ** ivy
 #+begin_src emacs-lisp +n
 (use-package ivy :defer t
+  :delight
   :init
   (defun ivy-my-height-ratio (ratio)
     "Return a lambda to multiply a frame height by RATIO"
@@ -2900,6 +2901,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
 *** counsel
 #+begin_src emacs-lisp +n
 (use-package counsel :defer t
+  :delight
   :bind   (("M-x" . counsel-M-x)
            ("M-y" . counsel-yank-pop)
            ("C-M-g" . counsel-rg)
@@ -2956,6 +2958,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
 *** ivy-posframe
 #+begin_src emacs-lisp +n
 (use-package ivy-posframe :disabled t
+  :delight
   :after ivy
   :config
   ;; display at `ivy-posframe-style'
