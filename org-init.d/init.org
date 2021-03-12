@@ -2874,6 +2874,8 @@ info を Emacs で読む．
   (setq ivy-height 20)
   ;; `ivy-switch-buffer' (C-x b) のリストに recent files と bookmark を含める．
   (setq ivy-use-virtual-buffers t)
+  ;; `ivy-switch-buffer' のファイル名表示を省略表記にする
+  (setq ivy-virtual-abbreviate 'abbreviate)
   ;; ミニバッファでコマンド発行を認める
   (when (setq enable-recursive-minibuffers t)
     (minibuffer-depth-indicate-mode 1)) ;; 何回層入ったかプロンプトに表示．
