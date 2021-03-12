@@ -2966,6 +2966,13 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
    '(("h" counsel-my-rg-toggle-hidden "Toggle hidden")
      ("i" counsel-my-rg-toggle-ignore "Toggle ignore")
      ("u" counsel-my-rg-up-directory "Up directory")))
+  ;; counsel-recentfの候補のうちHOME以下のファイルを ~/ で始める
+  (defun my-counsel-abbreviate-files (files)
+    "Return FILES which name is abbreviated.
+
+This function is supposed to use with :filter-return advice."
+    (mapcar #'abbreviate-file-name files))
+  (advice-add 'counsel-recentf-candidates :filter-return #'my-counsel-abbreviate-files)
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
