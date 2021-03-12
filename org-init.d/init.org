@@ -2057,6 +2057,17 @@ shift+カーソルキー でウィンドウを移動する．
 (my-measure-message-time "Customize variable.")
 #+END_SRC
 * 標準ライブラリ
+** display-fill-column-indicator
+~fill-column~ の桁数にインジケーターを表示するマイナーモード。サードパーティライブラリとして ~fill-column-indicator.el~ が存在していたが、Emacs 27から標準ライブラリに入ったようだ。
+
+#+begin_src emacs-lisp +n
+(use-package display-fill-column-indicator :defer t
+  :ensure nil
+  :when (>= emacs-major-version 27)
+  :hook ((markdown-mode yaml-mode git-commit-mode)
+         . display-fill-column-indicator-mode)
+  )
+#+end_src
 ** tab-bar
 #+begin_src emacs-lisp +n
 (use-package tab-bar
@@ -3913,7 +3924,7 @@ package.el からインストール．
 トール
 #+BEGIN_SRC emacs-lisp +n
 ;; fill-column-indicator.el
-(use-package fill-column-indicator :defer t
+(use-package fill-column-indicator :defer t :disabled t
   :config
   (setq fci-rule-color "gray")
   (define-globalized-minor-mode global-fci-mode fci-mode turn-on-fci-mode)
