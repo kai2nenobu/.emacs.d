@@ -2981,6 +2981,18 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   (setq ivy-posframe-border-width 2) ; ボーダーを太くする
   (ivy-posframe-mode 1))
 #+end_src
+*** amx
+~ido~ ライクな ~M-x~ を提供するライブラリ。だけどamxを単体で使うんじゃなくて、counselと一緒に使うと ~counsel-M-x~ で入力履歴をいい感じに保持しておいてくれる。マニュアルに書いておいておくれ。
+
+- [[https://github.com/abo-abo/swiper/issues/1530]]
+  - amxはsmexのフォークみたいです。
+
+#+begin_src emacs-lisp +n
+(use-package amx :defer t
+  :config
+  (setq amx-save-file (my-locate-user-tmp-file "amx-items"))
+  (setq amx-history-length 100))
+#+end_src
 ** all-the-icons.el
 アイコンフォントをAll in Oneでまとめてくれるパッケージ。必要なフォントも一発でダウンロードできる。
 
