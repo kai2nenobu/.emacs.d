@@ -2848,7 +2848,7 @@ info を Emacs で読む．
 * 非標準ライブラリ
 ** ivy
 #+begin_src emacs-lisp +n
-(use-package ivy :defer
+(use-package ivy :defer t
   :init
   (defun ivy-my-height-ratio (ratio)
     "Return a lambda to multiply a frame height by RATIO"
@@ -2931,7 +2931,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
         (add-to-list 'counsel-rg-base-command opt :append))
       (counsel-rg ivy-text default-directory nil (format "rg [%s]: " prompt))))
   (defun counsel-my-rg-toggle-ignore (_arg)
-    "Call `counsel-rg' again after toggling \"--ignore\" option."
+    "Call `counsel-rg' again after toggling \"--no-ignore\" option."
     (interactive)
     (let* ((opt "--no-ignore")
            (no-ignore (member opt counsel-rg-base-command))
