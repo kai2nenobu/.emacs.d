@@ -5752,7 +5752,11 @@ Emacsが終了した時のミニバッファ履歴やカーソル位置を保存
                                   (file-name-history 3000))
         session-globals-max-string 100000000
         history-length t)     ; ミニバッファ履歴リストの長さ制限を無くす
-  ;; 最後に保存した位置ではなく，閉じた時の位置を復元する
+  ;; git-commitバッファでカーソル位置を復元しない
+  (setq session-name-disable-regexp
+        (rx (or (regexp session-name-disable-regexp)
+                (regexp "/COMMIT_EDITMSG$"))))
+    ;; 最後に保存した位置ではなく，閉じた時の位置を復元する
   (setq session-undo-check -1)
   ;; If you want to use both desktop and session, use:
   (setq desktop-globals-to-save '(desktop-missing-file-warning))
