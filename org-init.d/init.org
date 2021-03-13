@@ -2858,6 +2858,8 @@ info を Emacs で読む．
 #+END_SRC
 * 非標準ライブラリ
 ** ivy
+現代的なミニバッファの補完インタフェース。helmと違って候補の選択画面に通常のバッファを使わず、ミニバッファなのが良いところでもあり悪いところでもある。
+
 #+begin_src emacs-lisp +n
 (use-package ivy :defer t
   :delight
@@ -2903,6 +2905,33 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   (setq inhibit-compacting-font-caches t)
   (use-package ivy-rich
     :config
+    ;; ivy-switch-bufferが遅い問題のワークアラウンド
+    ;; ref. https://github.com/Yevgnen/ivy-rich/issues/87#issuecomment-740440509
+    (progn
+      (defvar my-ivy-rich-cache
+        (make-hash-table :test 'equal))
+
+      (defun my-ivy-rich-cache-lookup (delegate candidate)
+        (let ((result (gethash candidate my-ivy-rich-cache)))
+          (unless result
+            (setq result (funcall delegate candidate))
+            (puthash candidate result my-ivy-rich-cache))
+          result))
+
+      (defun my-ivy-rich-cache-reset ()
+        (clrhash my-ivy-rich-cache))
+
+      (defun my-ivy-rich-cache-rebuild ()
+        (mapc (lambda (buffer)
+                (ivy-rich--ivy-switch-buffer-transformer (buffer-name buffer)))
+              (buffer-list)))
+
+      (defun my-ivy-rich-cache-rebuild-trigger ()
+        (my-ivy-rich-cache-reset)
+        (run-with-idle-timer 1 nil 'my-ivy-rich-cache-rebuild))
+
+      (advice-add 'ivy-rich--ivy-switch-buffer-transformer :around #'my-ivy-rich-cache-lookup)
+      (advice-add 'ivy-switch-buffer :after #'my-ivy-rich-cache-rebuild-trigger))
     (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
   ;; 遅延ありでall-the-icons-ivy-rich-mode/ivy-rich-modeを有効にする
   (defun ivy-my-enrich ()
@@ -2912,6 +2941,8 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
   )
 #+end_src
 *** counsel
+ivy関連の便利コマンド集。
+
 #+begin_src emacs-lisp +n
 (use-package counsel :defer t
   :delight
@@ -2976,6 +3007,7 @@ This function is supposed to use with :filter-return advice."
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
+
 #+begin_src emacs-lisp +n
 (use-package ivy-posframe :disabled t
   :delight
