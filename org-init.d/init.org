@@ -2959,7 +2959,7 @@ ivy関連の便利コマンド集。
   (ivy-configure 'counsel-M-x :initial-input "")
   ;; `counsel-find-file'でカーソル下の単語を拾う
   (setq counsel-find-file-at-point t)
-  ;; yankの候補間にセパレーターを入れる
+  ;; `counsel-yank-pop'の候補間にセパレーターを入れる
   (setq counsel-yank-pop-separator "\n--------------------------------\n")
   ;; 高さ設定
   (cl-loop for (command . height)
