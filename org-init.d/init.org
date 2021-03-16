@@ -3703,9 +3703,6 @@ posframeを使ってメッセージを表示する。
   :hook (flycheck-mode . flycheck-posframe-mode)
   :config
   (set-face-background 'flycheck-posframe-background-face "#333333")
-  ;; workaround for https://github.com/alexmurray/flycheck-posframe/issues/27
-  (advice-add 'next-line :before (lambda (&rest args) (flycheck-posframe-hide-posframe)))
-  (advice-add 'previous-line :before (lambda (&rest args) (flycheck-posframe-hide-posframe)))
   )
 #+end_src
 ** git-gutter-fringe
