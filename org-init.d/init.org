@@ -2148,6 +2148,8 @@ Emacsとブラウザ連携のためのelisp。
 #+BEGIN_SRC emacs-lisp +n
 (use-package browse-url :defer t
   :ensure nil  ; built-in
+  :bind (:map mode-specific-map
+              ("C-o" . browse-url-at-point))
   :config
   ;; My functions to open in IE
   (defvar my-browse-url-ie-program "iexplore.exe")
