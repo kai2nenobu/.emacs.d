@@ -391,6 +391,16 @@ Emacs起動時に =--reverse-video= (=-r=) オプションを付けなくても�
 (my-measure-message-time "Looks and key bind.")
 #+END_SRC
 * 自作関数
+** ファイル名のHOME部分を ~/ で省略する関数
+何かしらのファイルリストを返す関数に対して ~:filter-return~ アドバイスすると便利です。
+
+#+begin_src emacs-lisp +n
+(defun my-abbreviate-files (files)
+  "Return FILES which name is abbreviated.
+
+This function is supposed to use with :filter-return advice."
+  (mapcar #'abbreviate-file-name files))
+#+end_src
 ** org-codeを分かち書きする関数
 #+begin_src emacs-lisp +n
 (defun my-wakati-org-code ()
@@ -3002,12 +3012,7 @@ ivy関連の便利コマンド集。
      ("i" counsel-my-rg-toggle-ignore "Toggle ignore")
      ("u" counsel-my-rg-up-directory "Up directory")))
   ;; counsel-recentfの候補のうちHOME以下のファイルを ~/ で始める
-  (defun my-counsel-abbreviate-files (files)
-    "Return FILES which name is abbreviated.
-
-This function is supposed to use with :filter-return advice."
-    (mapcar #'abbreviate-file-name files))
-  (advice-add 'counsel-recentf-candidates :filter-return #'my-counsel-abbreviate-files)
+  (advice-add 'counsel-recentf-candidates :filter-return #'my-abbreviate-files)
   (counsel-mode 1))
 #+end_src
 *** ivy-posframe
