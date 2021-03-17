@@ -3043,6 +3043,16 @@ ivy関連の便利コマンド集。
   (setq amx-save-file (my-locate-user-tmp-file "amx-items"))
   (setq amx-history-length 100))
 #+end_src
+*** consel-ghq
+ghqo管理下のリポジトリを開く。なぜかMELPAで公開されていない。
+
+#+begin_src emacs-lisp +n
+(use-package counsel-ghq
+  :quelpa (counsel-ghq :repo "windymelt/counsel-ghq" :fetcher github)
+  :config
+  ;; HOMEを ~/ で省略する
+  (advice-add 'counsel-ghq--list-candidates :filter-return #'my-abbreviate-files))
+#+end_src
 ** all-the-icons.el
 アイコンフォントをAll in Oneでまとめてくれるパッケージ。必要なフォントも一発でダウンロードできる。
 
