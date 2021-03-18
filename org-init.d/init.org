@@ -4256,6 +4256,10 @@ guide-keyよりだいぶ高機能かつ柔軟になっている。いいね。
                         ("g" . (beginning-of-buffer-other-window 0))
                         ("G" . (end-of-buffer-other-window 0))))
 
+  (smartrep-define-key global-map
+      "M-g" '(("n" . next-error)
+              ("p" . previous-error)))
+
   (with-eval-after-load 'org
     (smartrep-define-key
         org-mode-map "C-c" '(("C-n" . org-next-visible-heading)
