@@ -21,6 +21,7 @@
 /init_time
 /internal.el
 /srecode-map.el
+/custom.el
 
 # Init file
 /org-init.d/init.*

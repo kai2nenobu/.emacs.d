@@ -12,9 +12,13 @@
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
-;;; custom設定を保存するファイルを別にする
-(setq custom-file (locate-user-emacs-file "init-custom.el"))
-(add-hook 'after-init-hook (lambda () (load custom-file)))
+;;; custom設定を保存するファイルを別にしてGitで追跡しない
+(when (require 'cus-edit nil t)
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  ;; Emacs終了時に書き出されたcustom設定を削除する
+  (add-hook 'kill-emacs-hook
+            (lambda () (when (file-exists-p custom-file) (delete-file custom-file))))
+  )
 
 ;; プロキシ設定を読み込む refs. https://qiita.com/ytoda129/items/9252678c65187296b9a3
 (load (locate-user-emacs-file "proxy.el") t)
