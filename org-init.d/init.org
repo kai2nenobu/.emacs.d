@@ -3070,6 +3070,8 @@ ghqo管理下のリポジトリを開く。なぜかMELPAで公開されてい�
   ;; individual icons
   (set-fontset-font t #xe917 "file-icons" nil) ; org icon
   (set-fontset-font t #xe926 "file-icons" nil) ; elisp icon
+  (set-fontset-font t #xf00a "github-octicons" nil) ; mark-github icon
+  (set-fontset-font t #xf0c9 "github-octicons" nil) ; markdown icon
   )
 #+end_src
 ** [[https://github.com/k-talo/volatile-highlights.el][volatile-highlights.el]]
@@ -3440,6 +3442,9 @@ tssは =json-mode= に依存しているのでここでロードしておく。
 Markdown編集用メジャーモード。Git Flavored Markdown用の =gfm-mode= も定義されている。
 #+BEGIN_SRC emacs-lisp +n
 (use-package markdown-mode :defer t
+  :delight
+  (markdown-mode "")
+  (gfm-mode "")
   ;; Use `gfm-mode' instead of `markdown-mode'
   :mode (("\\.markdown\\'" . gfm-mode)
          ("\\.mdown\\'"    . gfm-mode)
