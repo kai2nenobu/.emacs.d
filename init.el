@@ -44,7 +44,7 @@
       (set-variable 'use-package-verbose t)
       (set-variable 'use-package-always-ensure t))
   (message "Use-package is unavailable!")
-  (defmacro use-package (&rest args)))
+  (defmacro use-package (&rest _args)))
 
 ;; Quelpaを利用してパッケージをインストールする
 (when (require 'quelpa-use-package nil t)
