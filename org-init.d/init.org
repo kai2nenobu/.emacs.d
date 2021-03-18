@@ -2312,6 +2312,7 @@ dired.el, dired-x.el, dired-aux.el の拡張
   :config
   (bind-key "M-p" nil dired-mode-map)
   (bind-key "M-n" nil dired-mode-map)
+  (bind-key "C-M-g" nil dired-mode-map)
   )
 
 (setq ls-lisp-dirs-first t)
