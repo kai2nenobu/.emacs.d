@@ -1068,7 +1068,7 @@ text-scale-adjust のパクリ．
                 (t
                  (setq ev nil))))
         (when ev
-          (set-frame-font (format "Ricty %d" my-current-font-size) nil t)
+          (set-frame-font (format "%s %d" my-default-font my-current-font-size) nil t)
           (setq ev (read-event (format "Font size %d: Press +,-,0" my-current-font-size)))))
       (message "Quit")))
   (define-key my-original-map (kbd "C-+") 'my-resize-frame-font)
