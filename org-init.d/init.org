@@ -2901,7 +2901,7 @@ info を Emacs で読む．
   ;; リスト先頭で `C-p' するとき，リストの最後に移動する
   (setq ivy-wrap t)
   ;; デフォルトの正規表現構築方法を `ivy--regex-ignore-order' にする（順序を無視してマッチする）
-  (setcdr (assq t ivy-re-builders-alist) #'ivy--regex-ignore-order)
+  (ivy--alist-set 'ivy-re-builders-alist t #'ivy--regex-ignore-order)
   ;; プロンプトの先頭でDEL (C-h)してもivyを終了させない
   (setq ivy-on-del-error-function #'ignore)
   ;; アクティベート
@@ -2945,7 +2945,7 @@ ivyの候補にall-the-iconsのアイコンをつけてivy-rich-modeと連携し
 
       (advice-add 'ivy-rich--ivy-switch-buffer-transformer :around #'my-ivy-rich-cache-lookup)
       (advice-add 'ivy-switch-buffer :after #'my-ivy-rich-cache-rebuild-trigger))
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+    (ivy--alist-set 'ivy-format-functions-alist t #'ivy-format-function-line)
   ;; 遅延ありでall-the-icons-ivy-rich-mode/ivy-rich-modeを有効にする
   (defun ivy-my-enrich ()
     (all-the-icons-ivy-rich-mode 1)
@@ -2978,7 +2978,7 @@ ivy関連の便利コマンド集。
                 (counsel-recentf . 0.5)
                 (counsel-rg . 0.6)
                 (counsel-yank-pop . 0.5))
-           do (add-to-list 'ivy-height-alist (cons command (ivy-my-height-ratio height))))
+           do (ivy--alist-set 'ivy-height-alist command (ivy-my-height-ratio height)))
   ;; counsel-rg関連
   (defun counsel-my-rg-toggle-hidden (_arg)
     "Call `counsel-rg' again after toggling \"--hidden\" option."
@@ -3028,7 +3028,7 @@ ivy関連の便利コマンド集。
         '((swiper . ivy-display-function-fallback)
           (counsel-ibuffer . ivy-display-function-fallback)
           (t . ivy-posframe-display-at-frame-top-center)))
-  (setq ivy-posframe-height-alist '((t . 40)))
+  (ivy--alist-set 'ivy-posframe-height-alist t 40)
   (setq ivy-posframe-border-width 2) ; ボーダーを太くする
   (ivy-posframe-mode 1))
 #+end_src
