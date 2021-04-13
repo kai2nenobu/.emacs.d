@@ -4489,6 +4489,15 @@ magitのdiffを[[https://github.com/dandavison/delta][delta]]で表示できる�
   ;; fill-columnを80に設定して本文が80文字を超えないようにする
   (add-hook 'git-commit-mode-hook (lambda () (set-fill-column 80))))
 #+end_src
+*** magit-process
+#+begin_src emacs-lisp +n
+(use-package magit-process :defer t
+  :ensure magit
+  :config
+  (with-eval-after-load 'emojify
+    ;; emojify-modeで絵文字を表示できるようにする
+    (add-hook 'magit-process-mode-hook #'emojify-mode)))
+#+end_src
 ** col-highlight.el
 hilight current column.
 #+BEGIN_SRC emacs-lisp +n
