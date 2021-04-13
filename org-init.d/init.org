@@ -178,6 +178,12 @@ Cygwinが存在する場合のみパスを追加する。Windowsの =PATH= 環�
          (setq cygwinp t))
         (t (message "Not found Unix tools"))))
 #+END_SRC
+** デフォルト無効のコマンドを有効にする
+使用頻度の低いコマンドはデフォルトで無効になっているものがある。例えば ~narrow-to-region~ などである。自分的には使いたいコマンドを有効にする。
+
+#+begin_src emacs-lisp +n
+(put 'narrow-to-region 'disabled nil)
+#+end_src
 * 見た目の設定など
 ** 行番号の設定
 #+begin_src emacs-lisp +n
