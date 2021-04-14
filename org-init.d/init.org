@@ -2791,8 +2791,7 @@ Emacs で pdf 閲覧する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package sh-script :defer t
   :config
-  (setq-default sh-basic-offset 2)
-  (setq-default sh-indentation 2))
+  (setq-default sh-basic-offset 2))
 #+END_SRC
 ** info.el
 info を Emacs で読む．
