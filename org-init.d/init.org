@@ -5642,6 +5642,17 @@ Org文書を[[https://gohugo.io/][Hugo]]形式のMarkdownにエクスポート�
   :ensure org-plus-contrib
   :delight (orgtbl-mode " "))
 #+end_src
+*** ox-gfm
+#+BEGIN_SRC emacs-lisp +n
+(use-package ox-gfm :defer t
+  :init
+  (add-autoload org-export-dispatch ox-gfm)
+  :config
+  (setq org-pandoc-options-for-revealjs '((variable . "theme:default"))) ; reveal.jsのデフォルトテーマを利用
+  )
+#+END_SRC
+
+
 ** google-maps.el
 Google Map を表示する．
 #+BEGIN_SRC emacs-lisp +n
