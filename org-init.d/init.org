@@ -2875,6 +2875,10 @@ info を Emacs で読む．
 (my-measure-message-time "Standard elisp setting.")
 #+END_SRC
 * 非標準ライブラリ
+** terraform-mode
+#+begin_src emacs-lisp +n
+(use-package terraform-mode :defer t)
+#+end_src
 ** ivy
 現代的なミニバッファの補完インタフェース。helmと違って候補の選択画面に通常のバッファを使わず、ミニバッファなのが良いところでもあり悪いところでもある。
 
