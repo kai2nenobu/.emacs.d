@@ -2791,7 +2791,33 @@ Emacs で pdf 閲覧する．
 #+BEGIN_SRC emacs-lisp +n
 (use-package sh-script :defer t
   :config
-  (setq-default sh-basic-offset 2))
+  (setq sh-styles-alist
+      '(("shfmt"
+         (sh-basic-offset . 4)
+         (sh-first-lines-indent . 0)
+         (sh-indent-after-case . +)
+         (sh-indent-after-do . +)
+         (sh-indent-after-done . 0)
+         (sh-indent-after-else . +)
+         (sh-indent-after-if . +)
+         (sh-indent-after-loop-construct . +)
+         (sh-indent-after-open . +)
+         (sh-indent-comment . t)
+         (sh-indent-for-case-alt . +)
+         (sh-indent-for-case-label . 0)
+         (sh-indent-for-continuation . +)
+         (sh-indent-for-do . 0)
+         (sh-indent-for-done . 0)
+         (sh-indent-for-else . 0)
+         (sh-indent-for-fi . 0)
+         (sh-indent-for-then . 0))))
+  (setq-default sh-basic-offset 2)
+  (defun my-shfmt-indentation ()
+    "shfmtのフォーマットと合うインデント設定にする。"
+    (interactive)
+    (indent-tabs-mode 1)
+    (sh-load-style "shfmt"))
+  )
 #+END_SRC
 ** info.el
 info を Emacs で読む．
