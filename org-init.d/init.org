@@ -4063,7 +4063,7 @@ org-mode で有効にするといろいろな動作で重くなる．折りた�
 *** RSense
 - 公式 [[http://cx4a.org/software/rsense/index.ja.html][RSense - EmacsやVimなどに特化したRubyのための優れた開発援助ツール]]
 コード補完，型検査，定義元ジャンプなどができる Ruby のための開発援助ツール．
-#+BEGIN_SRC emacs-lisp +n
+#+BEGIN_SRC emacs-lisp +n :tangle no
   ;; rsense.el
   (setq rsense-home (locate-user-emacs-file "site-lisp/rsense-0.3"))
   (setq rsense-rurema-home (expand-file-name "doc/ruby-refm-1.9.2" rsense-home))
