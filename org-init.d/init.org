@@ -3057,7 +3057,7 @@ ivy関連の便利コマンド集。
 ghqo管理下のリポジトリを開く。なぜかMELPAで公開されていない。
 
 #+begin_src emacs-lisp +n
-(use-package counsel-ghq
+(use-package counsel-ghq :defer t
   :quelpa (counsel-ghq :repo "windymelt/counsel-ghq" :fetcher github)
   :config
   ;; HOMEを ~/ で省略する
